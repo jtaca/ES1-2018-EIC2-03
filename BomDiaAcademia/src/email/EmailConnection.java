@@ -91,7 +91,7 @@ public class EmailConnection {
 				
 				//ReadAndWriteFile.writeOnFileAsNewFile("" + (messages.length - i), informationEntry);
 				
-				System.out.println("" + (messages.length - i));
+				//System.out.println("" + (messages.length - i));
 			}
 			
 			/*
@@ -116,7 +116,7 @@ public class EmailConnection {
 		}
 		
 		try {
-			if(information_entry_list.isEmpty()) {
+			if(information_entry_list.isEmpty() ) {
 				information_entry_list = ReadAndWriteFile.loadList(EMAIL_FILE_NAME);
 				//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
 				System.out.println("Loaded the Information Entrys from the file.");
@@ -132,10 +132,10 @@ public class EmailConnection {
 		
 		for(int i = 0 ; i < information_entry_list.size() ; i++) { // should return this array instead for it to be displayed on the UI
 			System.out.println("Email Number " + (i+1) + ".");
-			System.out.println("From: " + ((EmailEntry)information_entry_list.get(i)).getWriterName());
-			System.out.println("Sent date: " + information_entry_list.get(i).getDate());
-			System.out.println("Subject: " + ((EmailEntry)information_entry_list.get(i)).getSubject());
-			System.out.println("Message: " + ((EmailEntry)information_entry_list.get(i)).getContent());
+			//System.out.println("From: " + ((EmailEntry)information_entry_list.get(i)).getWriterName());
+			//System.out.println("Sent date: " + information_entry_list.get(i).getDate());
+			//System.out.println("Subject: " + ((EmailEntry)information_entry_list.get(i)).getSubject());
+			//System.out.println("Message: " + ((EmailEntry)information_entry_list.get(i)).getContent());
 		}
 		
 		return information_entry_list;
@@ -155,7 +155,7 @@ public class EmailConnection {
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.starttls.required", "true");
 			
-			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar é algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
+			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
 			
 			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);

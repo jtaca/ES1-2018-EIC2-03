@@ -7,8 +7,11 @@ import java.util.Scanner;
 
 import email.EmailConnection;
 import files.ReadAndWriteXMLFile;
+import jUnitTests.EmailTesting;
 
 public class Main {
+	
+	
 	
 	public static void main(String[] args) {
 		// Starts the GUI where it promps the user for credentials for the email and for the facebook and twitter as optional. (email is required)
@@ -61,9 +64,10 @@ public class Main {
 			//System.out.println(user.getPassword());
 			//System.out.println(user.isInformationSaved());
 			EmailConnection outlook = new EmailConnection(user.getUsername(), user.getPassword());
-			//EmailConnection outlook = new EmailConnection("afcms1111@iscte-iul.pt", "password"); // require file with credentials!
-			outlook.receiveMail(); //
-			//outlook.sendEmail("afcms1111@iscte-iul.pt", "Testing", "Hi this is a test!"); // working finaly!
+			//EmailTesting test = new EmailTesting(outlook);
+			//test.jUnitTests();
+			System.out.println("I Was here");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
