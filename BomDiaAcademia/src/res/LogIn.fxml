@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#unfocus" prefHeight="450.0" prefWidth="350.0" stylesheets="@LogIn.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LogInController">
+   <children>
+      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo0.png" />
+         </image>
+      </ImageView>
+      <Label text="Iniciar Sessão">
+         <font>
+            <Font size="32.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </Label>
+      <Label fx:id="errorMessage" textAlignment="JUSTIFY" textFill="RED" />
+      <HBox alignment="BOTTOM_CENTER">
+         <children>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
+               <children>
+                  <FontAwesomeIconView glyphName="USER" size="20" />
+               </children>
+            </HBox>
+            <JFXTextField fx:id="username" focusColor="#ff3000" labelFloat="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="nome de utilizador/email" unFocusColor="#c6c6c6">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </HBox.margin>
+            </JFXTextField>
+            <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" />
+         </children>
+      </HBox>
+      <HBox alignment="BOTTOM_CENTER">
+         <children>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0">
+               <children>
+                  <MaterialDesignIconView glyphName="KEY_VARIANT" size="20" />
+               </children>
+            </HBox>
+            <JFXPasswordField fx:id="password" focusColor="#ff3000" labelFloat="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="palavra-passe" unFocusColor="#c6c6c6">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </HBox.margin>
+            </JFXPasswordField>
+            <Region maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="20.0" />
+         </children>
+      </HBox>
+      <JFXCheckBox fx:id="rememberMe" checkedColor="#ff3000" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Lembrar-me" unCheckedColor="#c6c6c6">
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </JFXCheckBox>
+      <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#logIn" prefHeight="30.0" prefWidth="200.0" text="Entrar" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </JFXButton>
+   </children>
+</VBox>
