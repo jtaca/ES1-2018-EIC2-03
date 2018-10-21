@@ -13,4 +13,6 @@ public interface InformationEntry extends Serializable {
 	
 	public String toString();
 	
+	
+	
 }
