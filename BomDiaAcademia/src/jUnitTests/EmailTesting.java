@@ -35,8 +35,6 @@ public class EmailTesting {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	@Test

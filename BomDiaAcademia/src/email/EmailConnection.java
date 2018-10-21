@@ -186,7 +186,6 @@ public class EmailConnection {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 }
