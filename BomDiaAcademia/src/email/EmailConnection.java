@@ -21,6 +21,7 @@ public class EmailConnection {
 	
 	private String username;
 	private String password;
+	private boolean connected = false;
 	
 	private static final String EMAIL_FILE_NAME = "emailEntrys.dat";
 	
@@ -67,6 +68,7 @@ public class EmailConnection {
 			Session emailSession = Session.getDefaultInstance(properties);
 			Store emailStore = emailSession.getStore("imaps");
 			emailStore.connect("outlook.office365.com", username, password); // outlook.office365.com // imap.gmail.com
+			connected = true;
 			// getting the inbox folder
 			Folder emailFolder = emailStore.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
@@ -109,10 +111,15 @@ public class EmailConnection {
 			emailStore.close();
 		} catch(NoSuchProviderException nspe) {
 			nspe.printStackTrace();
+			connected = false;
 		} catch(MessagingException me) {
 			me.printStackTrace();
+			connected = false;
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+			connected = false;
 		}
 		
 		try {
@@ -142,6 +149,10 @@ public class EmailConnection {
 		
 	}
 	
+	public boolean isConnected() {
+		return connected;
+	}
+
 	public void sendEmail(String sendEmailTo, String subject, String message) {
 		try {
 			String host = "smtp.office365.com"; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com

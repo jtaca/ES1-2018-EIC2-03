@@ -2,9 +2,12 @@
 package jUnitTests;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.AuthenticationFailedException;
 
 import email.EmailConnection;
 import entry_objects.EmailEntry;
@@ -14,6 +17,8 @@ import other.XMLUserConfiguration;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
 public class EmailTesting {
 	
@@ -49,15 +54,19 @@ public class EmailTesting {
 		assertTrue(((EmailEntry)recievedEmails.get(0)).getSubject().contains("test"));
 		assertTrue(((EmailEntry)recievedEmails.get(0)).getContent().contains("test"));
 		//assertEquals("test",((EmailEntry)recievedEmails.get(0)).getContent());
-		System.out.println(((EmailEntry)recievedEmails.get(0)).getWriterName());
+		//System.out.println(((EmailEntry)recievedEmails.get(0)).getWriterName());
 		
 	}
 
 
 	@Test
 	public void testIncorrectCredetials() {
-		
-		
+		EmailConnection emailTest = new EmailConnection(user.getUsername(), "notThePassword");
+		List<InformationEntry> recievedEmails = emailTest.receiveMail();
+		assertFalse(emailTest.isConnected());
+		emailTest = new EmailConnection("dummy@iscte-iul.pt", "notThePassword");
+		recievedEmails = emailTest.receiveMail();
+		assertFalse(emailTest.isConnected());
 	}
 
 
