@@ -62,15 +62,17 @@ public class EmailConnection {
 	public List<InformationEntry> receiveMail() {
 		List<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
+		Store emailStore = null;
+		Folder emailFolder = null;
 		try {
 			Properties properties = new Properties();
 			properties.setProperty("mail.store.protocol", "imaps");
 			Session emailSession = Session.getDefaultInstance(properties);
-			Store emailStore = emailSession.getStore("imaps");
+			emailStore = emailSession.getStore("imaps");
 			emailStore.connect("outlook.office365.com", username, password); // outlook.office365.com // imap.gmail.com
 			connected = true;
 			// getting the inbox folder
-			Folder emailFolder = emailStore.getFolder("INBOX");
+			emailFolder = emailStore.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
 			Message messages[] = emailFolder.getMessages();
 			//System.out.println(emailFolder.getMessageCount());
@@ -106,20 +108,27 @@ public class EmailConnection {
 			}
 			*/
 			
-			// closing emailFolder and emailStore
-			emailFolder.close(false);
-			emailStore.close();
+			
 		} catch(NoSuchProviderException nspe) {
 			nspe.printStackTrace();
-			connected = false;
-		} catch(MessagingException me) {
-			me.printStackTrace();
 			connected = false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 			connected = false;
+		} finally {
+			// closing emailFolder and emailStore
+			try {
+				if(emailFolder != null)
+					emailFolder.close(false);
+				if(emailStore != null)
+					emailStore.close();
+			} catch (MessagingException me) {
+				me.printStackTrace();
+				connected = false;
+			}
+			
 		}
 		
 		try {
