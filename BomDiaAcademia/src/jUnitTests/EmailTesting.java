@@ -3,10 +3,8 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.AuthenticationFailedException;
 
 import email.EmailConnection;
 import entry_objects.EmailEntry;
@@ -17,14 +15,23 @@ import other.XMLUserConfiguration;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
+/**
+ * The Class EmailTesting.
+ */
 public class EmailTesting {
 	
+	/** The email. */
 	private static EmailConnection email;
+	
+	/** The user. */
 	private static XMLUserConfiguration user = null;
-	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
+	
+	/** The user configuration list. */
 
+	/**
+	 * Start instance.
+	 */
 	@BeforeClass
 	public static void startInstance() {
 		try {
@@ -36,6 +43,9 @@ public class EmailTesting {
 		}
 	}
 
+	/**
+	 * Test received email.
+	 */
 	@Test
 	public void testRecievedEmail() {
 		List<InformationEntry> recievedEmails = email.receiveMail();
@@ -44,6 +54,9 @@ public class EmailTesting {
 		
 	}
 
+	/**
+	 * Test send email.
+	 */
 	@Test
 	public void testSendEmail() {
 		email.sendEmail(user.getUsername(), "test", "test");
@@ -56,6 +69,9 @@ public class EmailTesting {
 	}
 
 
+	/**
+	 * Test incorrect credentials.
+	 */
 	@Test
 	public void testIncorrectCredetials() {
 		EmailConnection emailTest = new EmailConnection(user.getUsername(), "notThePassword");
