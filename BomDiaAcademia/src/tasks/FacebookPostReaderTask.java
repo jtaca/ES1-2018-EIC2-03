@@ -5,6 +5,9 @@ import java.util.List;
 import entry_objects.InformationEntry;
 import threads.InformationEntryGatherer;
 
+/**
+ * The Class FacebookPostReaderTask.
+ */
 public class FacebookPostReaderTask implements ServiceReadTask {
 	
 	/*
@@ -16,6 +19,9 @@ public class FacebookPostReaderTask implements ServiceReadTask {
 		this.barrier = barrier;
 	}*/
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		List<InformationEntry> information_entry_list; // Where the results should go to.

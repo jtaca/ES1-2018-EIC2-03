@@ -19,12 +19,23 @@ import org.junit.Test;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
+/**
+ * The Class EmailTesting.
+ */
 public class EmailTesting {
 	
+	/** The email. */
 	private static EmailConnection email;
+	
+	/** The user. */
 	private static XMLUserConfiguration user = null;
+	
+	/** The user config list. */
 	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 
+	/**
+	 * Start instance.
+	 */
 	@BeforeClass
 	public static void startInstance() {
 		try {
@@ -36,6 +47,9 @@ public class EmailTesting {
 		}
 	}
 
+	/**
+	 * Test recieved email.
+	 */
 	@Test
 	public void testRecievedEmail() {
 		List<InformationEntry> recievedEmails = email.receiveMail();
@@ -44,6 +58,9 @@ public class EmailTesting {
 		
 	}
 
+	/**
+	 * Test send email.
+	 */
 	@Test
 	public void testSendEmail() {
 		email.sendEmail(user.getUsername(), "test", "test");
@@ -56,6 +73,9 @@ public class EmailTesting {
 	}
 
 
+	/**
+	 * Test incorrect credetials.
+	 */
 	@Test
 	public void testIncorrectCredetials() {
 		EmailConnection emailTest = new EmailConnection(user.getUsername(), "notThePassword");

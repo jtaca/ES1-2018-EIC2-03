@@ -5,16 +5,30 @@ import java.util.List;
 import threads.InformationEntryGatherer;
 import threads.TaskTable;
 
+/**
+ * The Class GetPostTask.
+ */
 public class GetPostTask implements Task {
 	
+	/** The tasks. */
 	private List<ServiceReadTask> tasks;
+	
+	/** The information entry gatherer. */
 	private InformationEntryGatherer information_entry_gatherer;
 	
+	/**
+	 * Instantiates a new gets the post task.
+	 *
+	 * @param tasks the tasks
+	 */
 	public GetPostTask(List<ServiceReadTask> tasks) {
 		this.tasks = tasks;
 		information_entry_gatherer = new InformationEntryGatherer(tasks.size());
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		for(ServiceReadTask t : tasks) {

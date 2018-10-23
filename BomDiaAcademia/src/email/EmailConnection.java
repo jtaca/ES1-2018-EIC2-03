@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package email;
 
 import java.io.*;
@@ -17,19 +20,42 @@ import files.ReadAndWriteFile;
 import files.ReadAndWriteXMLFile;
 import other.Service;
 
+/**
+ * The Class EmailConnection.
+ */
 public class EmailConnection {
 	
+	/** The username. */
 	private String username;
+	
+	/** The password. */
 	private String password;
+	
+	/** The connected. */
 	private boolean connected = false;
 	
+	/** The Constant EMAIL_FILE_NAME. */
 	private static final String EMAIL_FILE_NAME = "emailEntrys.dat";
 	
+	/**
+	 * Instantiates a new email connection.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 */
 	public EmailConnection(String username, String password) { // Constructor
 		this.username = username;
 		this.password = password;
 	} // Fim do Constructor
 	
+	/**
+	 * Gets the text from message.
+	 *
+	 * @param message the message
+	 * @return the text from message
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private String getTextFromMessage(Message message) throws MessagingException, IOException {
 	    String result = "";
 	    if (message.isMimeType("text/plain")) {
@@ -41,6 +67,14 @@ public class EmailConnection {
 	    return result;
 	}
 
+	/**
+	 * Gets the text from mime multipart.
+	 *
+	 * @param mimeMultipart the mime multipart
+	 * @return the text from mime multipart
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private String getTextFromMimeMultipart(MimeMultipart mimeMultipart)  throws MessagingException, IOException {
 	    String result = "";
 	    int count = mimeMultipart.getCount();
@@ -59,6 +93,11 @@ public class EmailConnection {
 	    return result;
 	}
 	
+	/**
+	 * Receive mail.
+	 *
+	 * @return the list
+	 */
 	public List<InformationEntry> receiveMail() {
 		List<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
@@ -133,13 +172,13 @@ public class EmailConnection {
 		
 		try {
 			if(information_entry_list.isEmpty() ) {
-				information_entry_list = ReadAndWriteFile.loadList(EMAIL_FILE_NAME);
+				information_entry_list = ReadAndWriteFile.loadListOfInformationEntry(EMAIL_FILE_NAME);
 				//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
 				System.out.println("Loaded the Information Entrys from the file.");
 				//System.out.println(information_entry_list);
 			} else {
 				information_entry_list.sort(new DateComparator());
-				ReadAndWriteFile.saveList(EMAIL_FILE_NAME, information_entry_list);
+				ReadAndWriteFile.saveListOfInformationEntry(EMAIL_FILE_NAME, information_entry_list);
 				System.out.println("Emails saved.");
 			}
 		} catch (Exception e) {
@@ -158,10 +197,22 @@ public class EmailConnection {
 		
 	}
 	
+	/**
+	 * Checks if is connected.
+	 *
+	 * @return true, if is connected
+	 */
 	public boolean isConnected() {
 		return connected;
 	}
 
+	/**
+	 * Send email.
+	 *
+	 * @param sendEmailTo the send email to
+	 * @param subject the subject
+	 * @param message the message
+	 */
 	public void sendEmail(String sendEmailTo, String subject, String message) {
 		try {
 			String host = "smtp.office365.com"; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com

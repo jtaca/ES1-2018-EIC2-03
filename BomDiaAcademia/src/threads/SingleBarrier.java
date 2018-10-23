@@ -1,35 +1,71 @@
 package threads;
 
+/**
+ * The Class SingleBarrier.
+ */
 public class SingleBarrier {
 	
+	/** The current posters. */
 	int currentPosters = 0;
+	
+	/** The total posters. */
 	int totalPosters = 0;
 	
+	/** The passed waiters. */
 	int passedWaiters = 0;
+	
+	/** The total waiters. */
 	int totalWaiters = 1;
 	
+	/**
+	 * Instantiates a new single barrier.
+	 *
+	 * @param i the i
+	 */
 	public SingleBarrier(int i) {
 		totalPosters = i;
 	}
 	
+	/**
+	 * Instantiates a new single barrier.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 */
 	public SingleBarrier(int i, int j) {
 		totalPosters = i;
 		totalWaiters = j;
 	}
 	
+	/**
+	 * Instantiates a new single barrier.
+	 */
 	public SingleBarrier() {
 	}
 	
+	/**
+	 * Inits the.
+	 *
+	 * @param i the i
+	 */
 	public synchronized void init(int i) {
 		totalPosters = i;
 		currentPosters = 0;
 	}
 	
+	/**
+	 * Barrier set.
+	 *
+	 * @param i the i
+	 */
 	public synchronized void barrierSet(int i) {
 		totalPosters = i;
 		currentPosters = 0;
 	}
 	
+	/**
+	 * Barrier wait.
+	 */
 	public synchronized void barrierWait() {
 		boolean interrupted = false;
 		while (currentPosters != totalPosters) {
@@ -50,6 +86,9 @@ public class SingleBarrier {
 		}
 	}
 	
+	/**
+	 * Barrier post.
+	 */
 	public synchronized void barrierPost() {
 		boolean interrupted = false;
 		// In case a poster thread beats barrierWait,
