@@ -6,16 +6,31 @@ import email.EmailConnection;
 import entry_objects.InformationEntry;
 import threads.InformationEntryGatherer;
 
+/**
+ * The Class EmailReaderTask.
+ */
 public class EmailReaderTask implements ServiceReadTask {
 	
+	/** The barrier. */
 	private InformationEntryGatherer barrier;
+	
+	/** The email connection. */
 	private EmailConnection emailConnection;
 	
+	/**
+	 * Instantiates a new email reader task.
+	 *
+	 * @param barrier the barrier
+	 * @param emailConnection the email connection
+	 */
 	public EmailReaderTask(InformationEntryGatherer barrier, EmailConnection emailConnection) {
 		this.barrier = barrier;
 		this.emailConnection = emailConnection;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		List<InformationEntry> information_entry_list; // Where the results should go to.

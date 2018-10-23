@@ -23,10 +23,20 @@ import other.Service;
 import other.XMLUserConfiguration;
 
 
+/**
+ * The Class ReadAndWriteXMLFile.
+ */
 public class ReadAndWriteXMLFile {
 	
+	/** The Constant CONFIG_FILE_NAME. */
 	private final static String CONFIG_FILE_NAME = "config.xml";
 	
+	/**
+	 * Creates the config XML file.
+	 *
+	 * @param user_config_list the user config list
+	 * @throws Exception the exception
+	 */
 	public static void CreateConfigXMLFile(List<XMLUserConfiguration> user_config_list) throws Exception {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -68,6 +78,7 @@ public class ReadAndWriteXMLFile {
 		
 	}
 	
+	/*
 	public static void CreateInformationEntryXMLFile(List<InformationEntry> information_entry_list) throws Exception { // ainda não foi testado
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -97,11 +108,11 @@ public class ReadAndWriteXMLFile {
 			
 			Element subject = document.createElement("Subject");
 			subject.appendChild(document.createTextNode(information_entry_list.get(i).getSubject()));
-			element.appendChild(subject);*/
+			element.appendChild(subject);
 			
 			/*Element content = document.createElement("Content");
 			content.appendChild(document.createTextNode(information_entry_list.get(i).getContent()));
-			element.appendChild(content);*/
+			element.appendChild(content);
 			
 		}
 		
@@ -114,7 +125,14 @@ public class ReadAndWriteXMLFile {
 		transformer.transform(source, streamResult);
 		
 	}
+	*/
 	
+	/**
+	 * Read config XML file.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
+	 */
 	public static List<XMLUserConfiguration> ReadConfigXMLFile() throws Exception {
 		File xmlFile = new File(CONFIG_FILE_NAME);
 		List<XMLUserConfiguration> xml_user_config_array = new ArrayList<XMLUserConfiguration>();
