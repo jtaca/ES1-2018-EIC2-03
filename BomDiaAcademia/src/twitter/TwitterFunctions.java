@@ -35,7 +35,7 @@ public class TwitterFunctions {
 		twitter = tf.getInstance();
 	}
 
-	
+
 
 
 	public static List<Status> getTweetsForUser(int ammount, String user) {
@@ -70,4 +70,31 @@ public class TwitterFunctions {
 
 		return statuses;
 	}
+
+	public List<InformationEntry> requestTwitter() {
+		List<InformationEntry> list = new ArrayList<>();
+
+		if (twitter == null)
+			init();
+
+		try {
+			Query query = new Query("ISCTE");
+			QueryResult result;
+			do {
+				result = twitter.search(query);
+				List<Status> tweets = result.getTweets();
+				tweets.sort(Comparator.comparing(Status::getCreatedAt).reversed());
+				for (Status tweet : tweets) {
+					list.add(new TwitterEntry(tweet));
+					System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getCreatedAt() + " - "
+							+ tweet.getText());
+				}
+			} while ((query = result.nextQuery()) != null);
+			return list;
+		} catch (TwitterException te) {
+			te.printStackTrace();
+			System.out.println("Failed to search tweets: " + te.getMessage());
+			return null;
+		}
+    }
 }
