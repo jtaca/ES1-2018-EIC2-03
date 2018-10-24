@@ -1,6 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -9,6 +11,8 @@ import com.jfoenix.controls.JFXListView;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import email.EmailConnection;
+import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.fxml.Initializable;
@@ -44,10 +48,14 @@ public class MainController implements Initializable {
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
 
-		List<InformationEntry> tweets = TwitterFunctions.getTweetsForUsers(20, "iscteiul");
+		List<InformationEntry> entries = new ArrayList<>();
+		entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+//		entries.addAll(new EmailConnection("email", "password").receiveMail());
 
-		for (InformationEntry i : tweets)
-			posts.getItems().add(loadPost(i));
+		entries.sort(Comparator.comparing(InformationEntry::getDate).reversed());
+
+		for (InformationEntry entry : entries)
+			posts.getItems().add(loadPost(entry));
 	}
 
 	public void setTheme() {
@@ -69,15 +77,17 @@ public class MainController implements Initializable {
 
 	}
 
-	private PostBox loadPost(InformationEntry info) {
-		if (info instanceof TwitterEntry) {
-			Status s = ((TwitterEntry) info).getStatus();
-			return s.isRetweet() ? loadPost(s.getRetweetedStatus(), s.getUser().getName()) : loadPost(s, null);
-		}
-		return null;
+	private PostBox loadPost(InformationEntry entry) {
+		if (entry instanceof TwitterEntry) {
+			Status s = ((TwitterEntry) entry).getStatus();
+			return s.isRetweet() ? loadTweet(s.getRetweetedStatus(), s.getUser().getName()) : loadTweet(s, null);
+		} else if (entry instanceof EmailEntry)
+			return loadMail((EmailEntry) entry);
+		else
+			return null;
 	}
 
-	private PostBox loadPost(Status status, String retweeter) {
+	private PostBox loadTweet(Status status, String retweeter) {
 		PostBox post = new PostBox(status);
 		HBox tweetAuthor = new HBox();
 		VBox tweetInfo = new VBox();
@@ -113,6 +123,30 @@ public class MainController implements Initializable {
 		tweetAuthor.setAlignment(Pos.BASELINE_LEFT);
 		tweetInfo.getChildren().addAll(tweetAuthor, tweet);
 		post.getChildren().addAll(icon, pic, tweetInfo);
+		post.setSpacing(10);
+		post.prefWidthProperty().bind(posts.widthProperty().subtract(110));
+		post.setAlignment(Pos.CENTER_LEFT);
+
+		return post;
+	}
+
+	private PostBox loadMail(EmailEntry email) {
+		PostBox post = new PostBox(null);
+		HBox tweetAuthor = new HBox();
+		VBox tweetInfo = new VBox();
+
+		FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.ENVELOPE);
+		icon.setSize("50");
+		icon.setStyle("-fx-fill: #3cbffc");
+
+		Label name = new Label(email.getWriterName()), subject = new Label(email.getSubject());
+
+		subject.setWrapText(true);
+
+		tweetAuthor.getChildren().addAll(name);
+		tweetAuthor.setAlignment(Pos.BASELINE_LEFT);
+		tweetInfo.getChildren().addAll(tweetAuthor, subject);
+		post.getChildren().addAll(icon, tweetInfo);
 		post.setSpacing(10);
 		post.prefWidthProperty().bind(posts.widthProperty().subtract(110));
 		post.setAlignment(Pos.CENTER_LEFT);
