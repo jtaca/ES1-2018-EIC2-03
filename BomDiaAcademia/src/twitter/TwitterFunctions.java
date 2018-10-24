@@ -53,7 +53,7 @@ public class TwitterFunctions {
 				List<Status> tweets = result.getTweets();
 				tweets.sort(Comparator.comparing(Status::getCreatedAt).reversed());
 				for (Status tweet : tweets) {
-					list.add(new TwitterEntry(tweet));
+					list.add(new TwitterEntry());
 					System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getCreatedAt() + " - "
 							+ tweet.getText());
 				}
@@ -98,34 +98,4 @@ public class TwitterFunctions {
 
 		return statuses;
 	}
-<<<<<<< HEAD
-
-	public List<InformationEntry> requestTwitter() {
-		List<InformationEntry> list = new ArrayList<>();
-
-		if (twitter == null)
-			init();
-
-		try {
-			Query query = new Query("ISCTE");
-			QueryResult result;
-			do {
-				result = twitter.search(query);
-				List<Status> tweets = result.getTweets();
-				tweets.sort(Comparator.comparing(Status::getCreatedAt).reversed());
-				for (Status tweet : tweets) {
-					list.add(new TwitterEntry());
-					System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getCreatedAt() + " - "
-							+ tweet.getText());
-				}
-			} while ((query = result.nextQuery()) != null);
-			return list;
-		} catch (TwitterException te) {
-			te.printStackTrace();
-			System.out.println("Failed to search tweets: " + te.getMessage());
-			return null;
-		}
-    }
-=======
->>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03
 }
