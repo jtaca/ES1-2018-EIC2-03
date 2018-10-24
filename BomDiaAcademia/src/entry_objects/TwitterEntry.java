@@ -14,10 +14,13 @@ public class TwitterEntry implements InformationEntry {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private Status status;
+	private Date date;
 
 	public TwitterEntry(Status status) {
 		this.status = status;
+		date = status.getCreatedAt();
 	}
 
 	public Status getStatus() {
@@ -31,8 +34,7 @@ public class TwitterEntry implements InformationEntry {
 	 */
 	@Override
 	public Date getDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return date;
 	}
 
 	/*
