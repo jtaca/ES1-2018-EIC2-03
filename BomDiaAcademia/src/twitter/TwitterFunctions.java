@@ -66,36 +66,29 @@ public class TwitterFunctions {
 		}
 	}
 
-	public static List<Status> getTweetsForUser(int ammount, String user) {
-		List<Status> statuses = null;
+	public static List<InformationEntry> getTweetsForUser(int ammount, String user) {
+		List<InformationEntry> tweets = new ArrayList<>();
 
 		if (twitter == null)
 			init();
 
-		Paging paging = new Paging(1, ammount);
-
 		try {
-			statuses = twitter.getUserTimeline(user, paging);
+			twitter.getUserTimeline(user, new Paging(1, ammount)).forEach(s -> tweets.add(new TwitterEntry(s)));
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
 
-		return statuses;
+		return tweets;
 	}
 
-	public static List<Status> getTweetsForUsers(int ammount, String... users) {
-		List<Status> statuses = null, temp;
+	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) {
+		List<InformationEntry> tweets = new ArrayList<>();
 
 		for (String user : users)
-			if ((temp = getTweetsForUser(ammount, user)) != null)
-				if (statuses == null)
-					statuses = temp;
-				else
-					statuses.addAll(temp);
+			tweets.addAll(getTweetsForUser(ammount, user));
 
-		if (statuses != null)
-			statuses.sort(Comparator.comparing(Status::getCreatedAt).reversed());
+		tweets.sort(Comparator.comparing(InformationEntry::getDate).reversed());
 
-		return statuses;
+		return tweets;
 	}
 }
