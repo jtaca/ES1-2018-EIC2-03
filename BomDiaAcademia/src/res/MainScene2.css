@@ -1,0 +1,45 @@
+#sideBar {
+	-fx-background-color: ffffff
+}
+
+#sideBar {
+	-fx-background-color: #0078ff
+}
+
+#usernameBox {
+	-fx-background-color: #0054b3
+}
+
+#logo {
+	-fx-image: url("logo2.png")
+}
+
+.radio-button .radio {
+	-fx-background-color: transparent 
+}
+
+.radio-button .dot {
+	-fx-background-color: transparent 
+}
+
+.radio-button {
+	-fx-background-color: #0078ff;
+	-fx-text-fill: ffffff
+}
+
+.radio-button .glyph-icon {
+	-fx-fill: ffffff
+}
+
+.radio-button:hover {
+	-fx-background-color: #3c96fc
+}
+
+.radio-button:selected {
+	-fx-background-color: #026be2;
+	-fx-text-fill: ffffff;
+}
+
+.radio-button:selected .glyph-icon {
+	-fx-fill: ffffff
+}
