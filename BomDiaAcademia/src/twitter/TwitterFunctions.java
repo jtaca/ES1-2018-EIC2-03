@@ -53,7 +53,7 @@ public class TwitterFunctions {
 				List<Status> tweets = result.getTweets();
 				tweets.sort(Comparator.comparing(Status::getCreatedAt).reversed());
 				for (Status tweet : tweets) {
-					list.add(new TwitterEntry());
+					list.add(new TwitterEntry(tweet));
 					System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getCreatedAt() + " - "
 							+ tweet.getText());
 				}
