@@ -3,6 +3,7 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +29,7 @@ public class EmailTesting {
 	private static XMLUserConfiguration user = null;
 	
 	/** The user configuration list. */
+	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 
 	/**
 	 * Start instance.
