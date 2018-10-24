@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXListView;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import entry_objects.InformationEntry;
+import entry_objects.TwitterEntry;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -42,14 +44,10 @@ public class MainController implements Initializable {
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
 
-		List<Status> tweets = TwitterFunctions.getTweetsForUsers(20, "iscteiul");
+		List<InformationEntry> tweets = TwitterFunctions.getTweetsForUsers(20, "iscteiul");
 
-		if (tweets != null)
-			for (Status s : tweets)
-				if (s.isRetweet())
-					posts.getItems().add(loadPost(s.getRetweetedStatus(), s.getUser().getName()));
-				else
-					posts.getItems().add(loadPost(s, null));
+		for (InformationEntry i : tweets)
+			posts.getItems().add(loadPost(i));
 	}
 
 	public void setTheme() {
@@ -69,6 +67,14 @@ public class MainController implements Initializable {
 
 	public void logOut() {
 
+	}
+
+	private PostBox loadPost(InformationEntry info) {
+		if (info instanceof TwitterEntry) {
+			Status s = ((TwitterEntry) info).getStatus();
+			return s.isRetweet() ? loadPost(s.getRetweetedStatus(), s.getUser().getName()) : loadPost(s, null);
+		}
+		return null;
 	}
 
 	private PostBox loadPost(Status status, String retweeter) {
