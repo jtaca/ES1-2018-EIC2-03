@@ -24,14 +24,28 @@ import entry_objects.InformationEntry;
 import other.Service;
 import other.XMLUserConfiguration;
 
+/**
+ * The Class ReadAndWriteFile.
+ */
 public class ReadAndWriteFile {
 	
+	/** The Constant FOLDER. */
 	private static final String FOLDER = "Posts/";
 	
+	/**
+	 * Instantiates a new read and write file.
+	 */
 	public ReadAndWriteFile() {	
 	}
 	
-	public static void saveList(String fileName, List<InformationEntry> information_entry_list) {
+	
+	/**
+	 * Save list of information entry.
+	 *
+	 * @param fileName the file name
+	 * @param information_entry_list the information entry list
+	 */
+	public static void saveListOfInformationEntry(String fileName, List<InformationEntry> information_entry_list) {
 		
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FOLDER + fileName));) {
 			out.writeObject(information_entry_list);
@@ -44,7 +58,14 @@ public class ReadAndWriteFile {
 		
 	}
 	
-	public static List<InformationEntry> loadList(String fileName) {
+
+	/**
+	 * Load list of information entry.
+	 *
+	 * @param fileName the file name
+	 * @return the list
+	 */
+	public static List<InformationEntry> loadListOfInformationEntry(String fileName) {
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FOLDER + fileName));) {
