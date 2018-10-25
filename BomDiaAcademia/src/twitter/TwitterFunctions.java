@@ -15,8 +15,15 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * @author DElfim
+ *
+ */
 public class TwitterFunctions {
 
+	/**
+	 * 
+	 */
 	private static final String TWITTER_CONSUMER_KEY = "MMhfibuBOYCRvcSYhu7CGm8eE";
 	private static final String TWITTER_SECRET_KEY = "K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs";
 	private static final String TWITTER_ACCESS_TOKEN = "2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw";
@@ -24,6 +31,9 @@ public class TwitterFunctions {
 
 	private static Twitter twitter;
 
+	/**
+	 * 
+	 */
 	private static void init() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
@@ -35,10 +45,17 @@ public class TwitterFunctions {
 		twitter = tf.getInstance();
 	}
 
+	/**
+	 * @param tweet
+	 * @throws TwitterException
+	 */
 	public void retweet(Status tweet) throws TwitterException {
 		Logger.authenticatedInstance().retweetStatus(tweet.getId());
 	}
 
+	/**
+	 * @return
+	 */
 	public List<InformationEntry> requestTwitter() {
 		List<InformationEntry> list = new ArrayList<>();
 
@@ -66,6 +83,11 @@ public class TwitterFunctions {
 		}
 	}
 
+	/**
+	 * @param ammount
+	 * @param user
+	 * @return List<InformationEntry>
+	 */
 	public static List<InformationEntry> getTweetsForUser(int ammount, String user) {
 		List<InformationEntry> tweets = new ArrayList<>();
 
@@ -81,6 +103,11 @@ public class TwitterFunctions {
 		return tweets;
 	}
 
+	/**
+	 * @param ammount
+	 * @param users
+	 * @return List<InformationEntry>
+	 */
 	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) {
 		List<InformationEntry> tweets = new ArrayList<>();
 

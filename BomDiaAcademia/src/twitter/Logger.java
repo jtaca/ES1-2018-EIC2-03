@@ -10,7 +10,14 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * @author DElfim
+ *
+ */
 public class Logger {
+	/**
+	 * 
+	 */
 	static final String TWITTER_CONSUMER_KEY = "MMhfibuBOYCRvcSYhu7CGm8eE";
 	static final String TWITTER_SECRET_KEY = "K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs";
 	static final String TWITTER_ACCESS_TOKEN = "2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw";
@@ -20,6 +27,9 @@ public class Logger {
 
 
 
+	/**
+	 * 
+	 */
 	public void getAuthUrl() {
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -47,6 +57,9 @@ public class Logger {
 
 	}
 
+	/**
+	 * @return Twitter
+	 */
 	public static Twitter authenticatedInstance(){
 		if (twitter==null){
 		ConfigurationBuilder builder = new ConfigurationBuilder();
