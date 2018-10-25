@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * The Class ThreadPool.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class ThreadPool {
 	

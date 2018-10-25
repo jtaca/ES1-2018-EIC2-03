@@ -2,6 +2,8 @@ package other;
 
 /**
  * The Enum Service.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public enum Service {
 	

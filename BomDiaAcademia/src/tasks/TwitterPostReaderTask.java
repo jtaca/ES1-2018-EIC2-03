@@ -7,6 +7,8 @@ import threads.InformationEntryGatherer;
 
 /**
  * The Class TwitterPostReaderTask.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class TwitterPostReaderTask implements ServiceReadTask {
 	

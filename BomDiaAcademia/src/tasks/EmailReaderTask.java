@@ -8,6 +8,8 @@ import threads.InformationEntryGatherer;
 
 /**
  * The Class EmailReaderTask.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class EmailReaderTask implements ServiceReadTask {
 	

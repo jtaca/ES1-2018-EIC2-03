@@ -2,6 +2,8 @@ package threads;
 
 /**
  * The Class SingleBarrier.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class SingleBarrier {
 	

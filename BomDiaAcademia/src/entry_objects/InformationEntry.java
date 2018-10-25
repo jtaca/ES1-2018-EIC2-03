@@ -7,6 +7,8 @@ import other.Service;
 
 /**
  * The Interface InformationEntry.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public interface InformationEntry extends Serializable {
 	

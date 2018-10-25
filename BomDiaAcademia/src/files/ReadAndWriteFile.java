@@ -26,6 +26,8 @@ import other.XMLUserConfiguration;
 
 /**
  * The Class ReadAndWriteFile.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class ReadAndWriteFile {
 	

@@ -7,6 +7,8 @@ import threads.TaskTable;
 
 /**
  * The Class GetPostTask.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class GetPostTask implements Task {
 	

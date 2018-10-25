@@ -6,6 +6,8 @@ import other.Service;
 
 /**
  * The Class FacebookEntry.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class FacebookEntry implements InformationEntry {
 

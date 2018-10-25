@@ -4,6 +4,8 @@ import tasks.Task;
 
 /**
  * The Class Worker.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class Worker extends Thread {
 	

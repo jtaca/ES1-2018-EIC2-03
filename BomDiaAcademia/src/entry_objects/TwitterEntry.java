@@ -6,6 +6,8 @@ import other.Service;
 
 /**
  * The Class TwitterEntry.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class TwitterEntry implements InformationEntry {
 

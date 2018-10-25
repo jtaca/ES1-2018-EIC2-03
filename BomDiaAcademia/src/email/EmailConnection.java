@@ -22,6 +22,8 @@ import other.Service;
 
 /**
  * The Class EmailConnection.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class EmailConnection {
 	

@@ -7,6 +7,8 @@ import tasks.Task;
 
 /**
  * The Class TaskTable.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class TaskTable {
 	

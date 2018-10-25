@@ -6,6 +6,8 @@ import other.Service;
 
 /**
  * The Class EmailEntry.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class EmailEntry implements InformationEntry {
 	

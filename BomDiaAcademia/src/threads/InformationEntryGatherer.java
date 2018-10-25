@@ -9,6 +9,8 @@ import entry_objects.InformationEntry;
 
 /**
  * The Class InformationEntryGatherer.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class InformationEntryGatherer {
 

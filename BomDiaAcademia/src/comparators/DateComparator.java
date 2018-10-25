@@ -6,6 +6,8 @@ import entry_objects.InformationEntry;
 
 /**
  * The Class DateComparator.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class DateComparator implements Comparator<InformationEntry> {
 

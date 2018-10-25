@@ -4,6 +4,8 @@ import java.io.IOException;
 
 /**
  * The Class XMLUserConfiguration.
+ * @author Alexandre Mendes
+ * @version 1.0
  */
 public class XMLUserConfiguration {
 	
