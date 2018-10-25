@@ -8,7 +8,7 @@ import java.util.List;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class ThreadPool {
+public class ThreadPool { //
 	
 	/** The threads working. */
 	private boolean threadsWorking = false;

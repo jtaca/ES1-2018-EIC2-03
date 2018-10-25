@@ -11,7 +11,7 @@ import threads.InformationEntryGatherer;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class EmailReaderTask implements ServiceReadTask {
+public class EmailReaderTask implements ServiceReadTask { //
 	
 	/** The barrier. */
 	private InformationEntryGatherer barrier;

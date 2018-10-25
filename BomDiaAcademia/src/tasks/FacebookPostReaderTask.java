@@ -10,7 +10,7 @@ import threads.InformationEntryGatherer;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class FacebookPostReaderTask implements ServiceReadTask {
+public class FacebookPostReaderTask implements ServiceReadTask { //
 	
 	/*
 	private InformationEntryGatherer barrier;

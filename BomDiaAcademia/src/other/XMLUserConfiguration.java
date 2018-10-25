@@ -7,7 +7,7 @@ import java.io.IOException;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class XMLUserConfiguration {
+public class XMLUserConfiguration { //
 	
 	/** The save information. */
 	private boolean saveInformation = false;

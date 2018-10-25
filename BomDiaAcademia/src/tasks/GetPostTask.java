@@ -10,7 +10,7 @@ import threads.TaskTable;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class GetPostTask implements Task {
+public class GetPostTask implements Task { //
 	
 	/** The tasks. */
 	private List<ServiceReadTask> tasks;

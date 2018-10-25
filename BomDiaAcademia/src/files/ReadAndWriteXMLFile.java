@@ -28,7 +28,7 @@ import other.XMLUserConfiguration;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class ReadAndWriteXMLFile {
+public class ReadAndWriteXMLFile { //
 	
 	/** The Constant CONFIG_FILE_NAME. */
 	private final static String CONFIG_FILE_NAME = "config.xml";

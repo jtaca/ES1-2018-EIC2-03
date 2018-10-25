@@ -10,7 +10,7 @@ import other.Service;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public interface InformationEntry extends Serializable {
+public interface InformationEntry extends Serializable { //
 	
 	/**
 	 * Gets the date.

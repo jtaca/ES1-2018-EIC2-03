@@ -5,6 +5,6 @@ package tasks;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public interface Task extends Runnable {
+public interface Task extends Runnable { //
 
 }

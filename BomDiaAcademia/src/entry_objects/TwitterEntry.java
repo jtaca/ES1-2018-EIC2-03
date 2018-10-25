@@ -10,7 +10,7 @@ import twitter4j.Status;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class TwitterEntry implements InformationEntry {
+public class TwitterEntry implements InformationEntry { //
 
 	/**
 	 * 

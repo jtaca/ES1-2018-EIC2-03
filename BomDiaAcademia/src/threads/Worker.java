@@ -7,7 +7,7 @@ import tasks.Task;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class Worker extends Thread {
+public class Worker extends Thread { //
 	
 	/** The stop. */
 	private boolean stop;

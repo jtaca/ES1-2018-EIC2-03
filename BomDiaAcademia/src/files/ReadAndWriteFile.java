@@ -29,7 +29,7 @@ import other.XMLUserConfiguration;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class ReadAndWriteFile {
+public class ReadAndWriteFile { // 
 	
 	/** The Constant FOLDER. */
 	private static final String FOLDER = "Posts/";

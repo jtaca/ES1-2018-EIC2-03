@@ -12,7 +12,7 @@ import entry_objects.InformationEntry;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class InformationEntryGatherer {
+public class InformationEntryGatherer { //
 
 	/** The list. */
 	private List<InformationEntry> list;

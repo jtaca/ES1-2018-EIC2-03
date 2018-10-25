@@ -5,7 +5,7 @@ package other;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public enum Service {
+public enum Service { //
 	
 	/** The email. */
 	EMAIL(0), 

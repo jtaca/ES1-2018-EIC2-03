@@ -5,7 +5,7 @@ package threads;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class SingleBarrier {
+public class SingleBarrier { //
 	
 	/** The current posters. */
 	int currentPosters = 0;

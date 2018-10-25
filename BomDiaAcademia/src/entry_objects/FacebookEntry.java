@@ -9,7 +9,7 @@ import other.Service;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class FacebookEntry implements InformationEntry {
+public class FacebookEntry implements InformationEntry { //
 
 	/* (non-Javadoc)
 	 * @see entry_objects.InformationEntry#getDate()

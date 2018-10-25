@@ -10,7 +10,7 @@ import tasks.Task;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class TaskTable {
+public class TaskTable { //
 	
 	/** The tasks. */
 	private List<Task> tasks = new ArrayList<Task>(); // Blocking Queue

@@ -9,7 +9,7 @@ import other.Service;
  * @author Alexandre Mendes
  * @version 1.0
  */
-public class EmailEntry implements InformationEntry {
+public class EmailEntry implements InformationEntry { //
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

@@ -159,7 +159,7 @@ public class EmailConnection {
 			e.printStackTrace();
 			connected = false;
 		} finally {
-			// closing emailFolder and emailStore
+			// closing emailFolder and emailStore.
 			try {
 				if(emailFolder != null)
 					emailFolder.close(false);
