@@ -26,29 +26,30 @@ public class TwitterFunctions {
 	/**
 	 * 
 	 */
-	private static String TWITTER_CONSUMER_KEY = null;
-	private static String TWITTER_SECRET_KEY = null;
-	private static String TWITTER_ACCESS_TOKEN = null;
-	private static String TWITTER_ACCESS_TOKEN_SECRET = null;
+	private static String TWITTER_CONSUMER_KEY = "XJzCh7dEaxQbQYw9PGBHMKmEv";
+	private static String TWITTER_SECRET_KEY = "qEShgz5Cfi0pEhtB58CDaCLB5AluNv2o19e0w3PMmQiWFshz8L";
+	private static String TWITTER_ACCESS_TOKEN = "2389545732-jXqsWzajtytv4mYMEBdoEmemT3h8uCikoQ6ab21";
+	private static String TWITTER_ACCESS_TOKEN_SECRET = "v36TUdNGSq8U2qn260Z5tB1cW6orYuZOWldlWT8YA1ss5";
 
 	private static Twitter twitter;
 	private static XMLUserConfiguration twitterKeys = null;
+
 	/**
 	 * 
 	 * 
 	 */
 	private static void init() {
-		try {
-			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
-		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
-		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
-		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
-		
+//		try {
+//			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
+//		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
+//		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
+//		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
+
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
 		cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -69,7 +70,7 @@ public class TwitterFunctions {
 
 	/**
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
@@ -102,7 +103,7 @@ public class TwitterFunctions {
 	 * @param ammount
 	 * @param user
 	 * @return List<InformationEntry>
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static List<InformationEntry> getTweetsForUser(int ammount, String user) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
@@ -123,7 +124,7 @@ public class TwitterFunctions {
 	 * @param ammount
 	 * @param users
 	 * @return List<InformationEntry>
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
