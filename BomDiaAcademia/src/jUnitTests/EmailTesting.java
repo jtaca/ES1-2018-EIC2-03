@@ -3,10 +3,8 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.AuthenticationFailedException;
 
 import email.EmailConnection;
 import entry_objects.EmailEntry;
@@ -17,7 +15,6 @@ import other.XMLUserConfiguration;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
 /**
  * The Class EmailTesting.
@@ -30,8 +27,7 @@ public class EmailTesting {
 	/** The user. */
 	private static XMLUserConfiguration user = null;
 	
-	/** The user config list. */
-	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
+	/** The user configuration list. */
 
 	/**
 	 * Start instance.
@@ -48,7 +44,7 @@ public class EmailTesting {
 	}
 
 	/**
-	 * Test recieved email.
+	 * Test received email.
 	 */
 	@Test
 	public void testRecievedEmail() {
@@ -74,7 +70,7 @@ public class EmailTesting {
 
 
 	/**
-	 * Test incorrect credetials.
+	 * Test incorrect credentials.
 	 */
 	@Test
 	public void testIncorrectCredetials() {

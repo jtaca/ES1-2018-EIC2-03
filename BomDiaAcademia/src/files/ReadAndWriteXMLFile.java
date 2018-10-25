@@ -81,7 +81,7 @@ public class ReadAndWriteXMLFile {
 	}
 	
 	/*
-	public static void CreateInformationEntryXMLFile(List<InformationEntry> information_entry_list) throws Exception { // ainda não foi testado
+	public static void CreateInformationEntryXMLFile(List<InformationEntry> information_entry_list) throws Exception { // ainda nï¿½o foi testado
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		
@@ -90,7 +90,7 @@ public class ReadAndWriteXMLFile {
 		for(int i = 0 ; i < information_entry_list.size() ; i++) {
 			//Element element = document.createElement("XMLUserConfiguration");
 			Element element = document.createElement("InformationEntry");
-			document.appendChild(element); // contem um problema que não sei resolver
+			document.appendChild(element); // contem um problema que nï¿½o sei resolver
 			
 			Attr attr = document.createAttribute("Id");
 			attr.setValue("" + i);
@@ -171,7 +171,7 @@ public class ReadAndWriteXMLFile {
 	}
 	
 	/*
-	public static List<InformationEntry> ReadInformationEntryXMLFile() throws Exception { // ainda não foi testado // acho que não vai ser usado
+	public static List<InformationEntry> ReadInformationEntryXMLFile() throws Exception { // ainda nï¿½o foi testado // acho que nï¿½o vai ser usado
 		File xmlFile = new File("posts.xml");
 		List<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		

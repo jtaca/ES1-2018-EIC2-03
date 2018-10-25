@@ -66,7 +66,7 @@ public class Main {
 			EmailConnection outlook = new EmailConnection(user.getUsername(), user.getPassword());
 			//EmailTesting test = new EmailTesting(outlook);
 			//test.jUnitTests();
-			System.out.println("I Was here");
+			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
