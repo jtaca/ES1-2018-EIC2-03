@@ -37,10 +37,15 @@ public class MainController implements Initializable {
 	public VBox settings, mainPostBox, postContent;
 	public StackPane centerPane, postOverlay;
 	public ImageView postProfilePic;
-	public Label postAuthorName, postAuthorScreenName;
+	public Label postAuthorName, postAuthorScreenName, username;
 	public JFXButton closePost, prevPost, nextPost, comment, retweet, favourite;
 
 	public ToggleGroup sideMenu, theme;
+	private EmailConnection emailConnection;
+
+	public MainController(EmailConnection emailConnection) {
+		this.emailConnection = emailConnection;
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -48,14 +53,16 @@ public class MainController implements Initializable {
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
 
+		username.setText(emailConnection.getUsername().split("@")[0]);
+
 		List<InformationEntry> entries = new ArrayList<>();
 		try {
 			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //		entries.addAll(new EmailConnection("email", "password").receiveMail());
+		entries.addAll(emailConnection.receiveMail());
 
 		entries.sort(Comparator.comparing(InformationEntry::getDate).reversed());
 
