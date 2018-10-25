@@ -199,6 +199,10 @@ public class EmailConnection {
 		
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+	
 	/**
 	 * Checks if is connected.
 	 *
