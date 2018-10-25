@@ -136,4 +136,9 @@ public class TwitterFunctions {
 
 		return tweets;
 	}
+
+	public static String[] getKeys() {
+		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
+				TWITTER_ACCESS_TOKEN_SECRET };
+	}
 }
