@@ -6,6 +6,8 @@ import java.util.List;
 
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
+import files.ReadAndWriteXMLFile;
+import other.XMLUserConfiguration;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -24,17 +26,29 @@ public class TwitterFunctions {
 	/**
 	 * 
 	 */
-	private static final String TWITTER_CONSUMER_KEY = "MMhfibuBOYCRvcSYhu7CGm8eE";
-	private static final String TWITTER_SECRET_KEY = "K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs";
-	private static final String TWITTER_ACCESS_TOKEN = "2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw";
-	private static final String TWITTER_ACCESS_TOKEN_SECRET = "RNfBwVLc7aqTiNZfv2PAWByf7w6QigG43Ni89BRZVrbs4";
+	private static String TWITTER_CONSUMER_KEY = null;
+	private static String TWITTER_SECRET_KEY = null;
+	private static String TWITTER_ACCESS_TOKEN = null;
+	private static String TWITTER_ACCESS_TOKEN_SECRET = null;
 
 	private static Twitter twitter;
-
+	private static XMLUserConfiguration twitterKeys = null;
 	/**
+	 * 
 	 * 
 	 */
 	private static void init() {
+		try {
+			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
+		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
+		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
+		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
+		
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true);
 		cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -55,8 +69,9 @@ public class TwitterFunctions {
 
 	/**
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<InformationEntry> requestTwitter() {
+	public List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
 
 		if (twitter == null)
@@ -87,8 +102,9 @@ public class TwitterFunctions {
 	 * @param ammount
 	 * @param user
 	 * @return List<InformationEntry>
+	 * @throws Exception 
 	 */
-	public static List<InformationEntry> getTweetsForUser(int ammount, String user) {
+	public static List<InformationEntry> getTweetsForUser(int ammount, String user) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
 
 		if (twitter == null)
@@ -107,8 +123,9 @@ public class TwitterFunctions {
 	 * @param ammount
 	 * @param users
 	 * @return List<InformationEntry>
+	 * @throws Exception 
 	 */
-	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) {
+	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
 
 		for (String user : users)

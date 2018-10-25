@@ -25,7 +25,7 @@ import other.XMLUserConfiguration;
 
 /**
  * The Class ReadAndWriteXMLFile.
- * @author Alexandre Mendes
+ * @author Nobody
  * @version 1.0
  */
 public class ReadAndWriteXMLFile { //
@@ -44,10 +44,22 @@ public class ReadAndWriteXMLFile { //
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		
 		Document document = documentBuilder.newDocument();
+		Element lastElement = null;
 		
-		for(int i = 0 ; i < user_config_list.size() ; i++) {
+		for(int i = 0 ; i < user_config_list.size() ; i++) { 
 			Element element = document.createElement("XMLUserConfiguration");
-			document.appendChild(element);
+			
+			
+			if(lastElement == null) { 
+				document.appendChild(element);
+				
+			}else {
+				//document.insertBefore(element, lastElement);
+				
+				document.getParentNode().insertBefore(element, document.getFirstChild());
+			}
+			
+			
 			
 			Attr attr = document.createAttribute("Id");
 			attr.setValue("" + i);
@@ -68,6 +80,25 @@ public class ReadAndWriteXMLFile { //
 			Element password = document.createElement("Password");
 			password.appendChild(document.createTextNode(user_config_list.get(i).getPassword()));
 			element.appendChild(password);
+			
+			Element TWITTER_CONSUMER_KEY = document.createElement("TWITTER_CONSUMER_KEY");
+			username.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_CONSUMER_KEY()));
+			element.appendChild(TWITTER_CONSUMER_KEY);
+			
+			Element TWITTER_SECRET_KEY = document.createElement("TWITTER_SECRET_KEY");
+			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_SECRET_KEY()));
+			element.appendChild(TWITTER_SECRET_KEY);
+			Element TWITTER_ACCESS_TOKEN = document.createElement("TWITTER_ACCESS_TOKEN");
+			username.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN()));
+			element.appendChild(TWITTER_ACCESS_TOKEN);
+			
+			Element TWITTER_ACCESS_TOKEN_SECRET = document.createElement("TWITTER_ACCESS_TOKEN_SECRET");
+			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN_SECRET()));
+			element.appendChild(TWITTER_ACCESS_TOKEN_SECRET);
+			
+			lastElement = element;
+			System.out.println(lastElement.toString());
+			
 		}
 		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

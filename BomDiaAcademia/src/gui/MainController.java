@@ -49,7 +49,12 @@ public class MainController implements Initializable {
 		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
 
 		List<InformationEntry> entries = new ArrayList<>();
-		entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+		try {
+			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		entries.addAll(new EmailConnection("email", "password").receiveMail());
 
 		entries.sort(Comparator.comparing(InformationEntry::getDate).reversed());

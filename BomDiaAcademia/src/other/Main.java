@@ -25,17 +25,19 @@ public class Main {
 		int saveInformationOfUser;
 		boolean saveInformationOfUserBool = false;
 		XMLUserConfiguration user = null;
-		
+		XMLUserConfiguration twitter = null;
 		List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 		
 		try {
 			//user = ReadAndWriteFile.readUserXMLFile(fileName);
+			
 			user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		try {
+		try { 
 			if(user == null || (user != null && user.isInformationSaved() == false)) {
 				System.out.println("Please insert your email address:");
 				username = sc.nextLine();
@@ -49,16 +51,27 @@ public class Main {
 					System.out.println(saveInformationOfUserBool);
 				}
 				user = new XMLUserConfiguration(saveInformationOfUserBool, Service.EMAIL, username, password);
-				if(saveInformationOfUserBool) {
-					//user_config_list = new ArrayList<XMLUserConfiguration>();
-					user_config_list.add(user);
-					ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-					//ReadAndWriteFile.writeOnXMLFileAsNewFile(fileName, user); // its not creating the file?
-				}
+				
+				
+				
 				sc.close();
 			
 			}
-		
+			if(saveInformationOfUserBool) {
+				//user_config_list = new ArrayList<XMLUserConfiguration>();
+				twitter =  new XMLUserConfiguration(saveInformationOfUserBool, Service.TWITTER, "MMhfibuBOYCRvcSYhu7CGm8eE", 
+						"K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs","2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw",
+						"RNfBwVLc7aqTiNZfv2PAWByf7w6QigG43Ni89BRZVrbs4"); ;
+				user_config_list.add(user);
+				user_config_list.add(twitter);
+				System.out.println(user_config_list.toString());
+				ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
+				//ReadAndWriteFile.writeOnXMLFileAsNewFile(fileName, user); // its not creating the file?
+			}
+			
+			twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+			
+			
 			// Ja tenho o user (XMLUserConfiguration) neste ponto
 			//System.out.println(user.getUsername());
 			//System.out.println(user.getPassword());

@@ -21,6 +21,12 @@ public class XMLUserConfiguration { //
 	/** The password. */
 	private String password = "";
 	
+	
+	private String TWITTER_CONSUMER_KEY = "";
+	private String TWITTER_SECRET_KEY = "";
+	private String TWITTER_ACCESS_TOKEN = "";
+	private String TWITTER_ACCESS_TOKEN_SECRET = "";
+	
 	/**
 	 * Instantiates a new XML user configuration.
 	 *
@@ -38,7 +44,25 @@ public class XMLUserConfiguration { //
 		this.service = service;
 		this.username = username;
 		this.password = password;
+		this.TWITTER_CONSUMER_KEY = "";
+		this.TWITTER_SECRET_KEY = "";
+		this.TWITTER_ACCESS_TOKEN = "";
+		this.TWITTER_ACCESS_TOKEN_SECRET = "";
+		
+		
 	}
+	
+	public XMLUserConfiguration(boolean saveInformation, Service service, String TWITTER_CONSUMER_KEY, String TWITTER_SECRET_KEY, String TWITTER_ACCESS_TOKEN, String TWITTER_ACCESS_TOKEN_SECRET) throws Exception {
+
+		this(saveInformation, service, "", "");
+		this.TWITTER_CONSUMER_KEY = TWITTER_CONSUMER_KEY;
+		this.TWITTER_SECRET_KEY = TWITTER_SECRET_KEY;
+		this.TWITTER_ACCESS_TOKEN = TWITTER_ACCESS_TOKEN;
+		this.TWITTER_ACCESS_TOKEN_SECRET = TWITTER_ACCESS_TOKEN_SECRET;
+		
+	}
+	
+	
 	
 	/**
 	 * Instantiates a new XML user configuration.
@@ -111,15 +135,35 @@ public class XMLUserConfiguration { //
 		return password;
 	}
 	
+	
+	
+	public String getTWITTER_CONSUMER_KEY() {
+		return TWITTER_CONSUMER_KEY;
+	}
+
+	public String getTWITTER_SECRET_KEY() {
+		return TWITTER_SECRET_KEY;
+	}
+
+	public String getTWITTER_ACCESS_TOKEN() {
+		return TWITTER_ACCESS_TOKEN;
+	}
+
+	public String getTWITTER_ACCESS_TOKEN_SECRET() {
+		return TWITTER_ACCESS_TOKEN_SECRET;
+	}
+
+	@Override
+	public String toString() {
+		return "XMLUserConfiguration [service=" + service + ", username=" + username + ", password=" + password
+				+ ", TWITTER_CONSUMER_KEY=" + TWITTER_CONSUMER_KEY + ", TWITTER_SECRET_KEY=" + TWITTER_SECRET_KEY
+				+ ", TWITTER_ACCESS_TOKEN=" + TWITTER_ACCESS_TOKEN + ", TWITTER_ACCESS_TOKEN_SECRET="
+				+ TWITTER_ACCESS_TOKEN_SECRET + "]";
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
-	public String toString() {
-		return "Save Information: " + informationSavedAsInt() + System.getProperty("line.separator") 
-		+ "Type of Service: " + getTypeOfServiceInString() + System.getProperty("line.separator")
-		+ "Username: " + getUsername() + System.getProperty("line.separator")
-		+ "Password: " + getPassword() + System.getProperty("line.separator");
-	}
+
 
 }

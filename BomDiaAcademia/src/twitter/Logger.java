@@ -2,6 +2,8 @@ package twitter;
 
 import java.util.Scanner;
 
+import files.ReadAndWriteXMLFile;
+import other.XMLUserConfiguration;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -18,12 +20,11 @@ public class Logger {
 	/**
 	 * 
 	 */
-	static final String TWITTER_CONSUMER_KEY = "MMhfibuBOYCRvcSYhu7CGm8eE";
-	static final String TWITTER_SECRET_KEY = "K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs";
-	static final String TWITTER_ACCESS_TOKEN = "2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw";
-	static final String TWITTER_ACCESS_TOKEN_SECRET = "RNfBwVLc7aqTiNZfv2PAWByf7w6QigG43Ni89BRZVrbs4";
+	private static String TWITTER_CONSUMER_KEY = null;
+	private static String TWITTER_SECRET_KEY = null;
 	private static AccessToken userToken = null;
 	private static Twitter twitter;
+	private static XMLUserConfiguration twitterKeys = null;
 
 
 
@@ -31,6 +32,16 @@ public class Logger {
 	 * 
 	 */
 	public void getAuthUrl() {
+		
+		try {
+			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
+		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
+		
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
 		builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
