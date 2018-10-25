@@ -42,24 +42,14 @@ public class ReadAndWriteXMLFile { //
 	public static void CreateConfigXMLFile(List<XMLUserConfiguration> user_config_list) throws Exception {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		
 		Document document = documentBuilder.newDocument();
-		Element lastElement = null;
+		
+		Element configurationList = document.createElement("XMLUserConfigurationList");
+		document.appendChild(configurationList);
 		
 		for(int i = 0 ; i < user_config_list.size() ; i++) { 
 			Element element = document.createElement("XMLUserConfiguration");
-			
-			
-			if(lastElement == null) { 
-				document.appendChild(element);
-				
-			}else {
-				//document.insertBefore(element, lastElement);
-				
-				document.getParentNode().insertBefore(element, document.getFirstChild());
-			}
-			
-			
+			configurationList.appendChild(element);
 			
 			Attr attr = document.createAttribute("Id");
 			attr.setValue("" + i);
@@ -88,17 +78,14 @@ public class ReadAndWriteXMLFile { //
 			Element TWITTER_SECRET_KEY = document.createElement("TWITTER_SECRET_KEY");
 			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_SECRET_KEY()));
 			element.appendChild(TWITTER_SECRET_KEY);
+			
 			Element TWITTER_ACCESS_TOKEN = document.createElement("TWITTER_ACCESS_TOKEN");
 			username.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN()));
 			element.appendChild(TWITTER_ACCESS_TOKEN);
 			
 			Element TWITTER_ACCESS_TOKEN_SECRET = document.createElement("TWITTER_ACCESS_TOKEN_SECRET");
 			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN_SECRET()));
-			element.appendChild(TWITTER_ACCESS_TOKEN_SECRET);
-			
-			lastElement = element;
-			System.out.println(lastElement.toString());
-			
+			element.appendChild(TWITTER_ACCESS_TOKEN_SECRET);	
 		}
 		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -108,7 +95,6 @@ public class ReadAndWriteXMLFile { //
 		StreamResult streamResult = new StreamResult(new File(CONFIG_FILE_NAME));
 		
 		transformer.transform(source, streamResult);
-		
 	}
 	
 	/*
