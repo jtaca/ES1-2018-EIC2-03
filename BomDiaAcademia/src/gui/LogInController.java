@@ -1,14 +1,21 @@
 package gui;
 
+import java.io.IOException;
+
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LogInController {
@@ -22,7 +29,7 @@ public class LogInController {
 		((Node) e.getSource()).getScene().getRoot().requestFocus();
 	}
 
-	public void logIn(ActionEvent e) {
+	public void logIn(ActionEvent e) throws IOException {
 		FadeTransition errorFade = new FadeTransition(Duration.seconds(1), errorMessage);
 		String oldMessage = errorMessage.getText();
 
@@ -37,8 +44,22 @@ public class LogInController {
 				/*
 				 * Verificação do nome de utilizador e palavra-passe
 				 */
-			} else
-				errorMessage.setText("A palavra-passe introduzida é incorreta");
+			} else {
+//				errorMessage.setText("A palavra-passe introduzida é incorreta");
+				Stage stage = new Stage();
+				Parent root = FXMLLoader.load(getClass().getResource("/res/MainScene.fxml"));
+				Image icon = new Image(getClass().getResource("/res/logo2.png").toString());
+
+				stage.getIcons().add(icon);
+				stage.setTitle("Bom Dia Academia");
+				stage.setMinHeight(540);
+				stage.setMinWidth(820);
+
+				stage.setScene(new Scene(root));
+				((Stage) ((Node) e.getSource()).getScene().getWindow()).close();
+				stage.show();
+				root.requestFocus();
+			}
 		}
 
 		if (!errorMessage.getText().equals(oldMessage))
