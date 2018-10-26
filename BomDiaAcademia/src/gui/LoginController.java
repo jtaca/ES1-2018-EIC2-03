@@ -43,7 +43,7 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if (user != null) {
+		if (user != null && user.isInformationSaved()) {
 			username.setText(user.getUsername());
 			password.setText(user.getPassword());
 		}
@@ -74,28 +74,33 @@ public class LoginController implements Initializable {
 				EmailConnection outlook = null;
 				XMLUserConfiguration twitter = null;
 				List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
-
-//				try {
-//					user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
+				
+				
+				
+				try {
+					twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 				try {
 					if (user == null || (user != null && user.isInformationSaved() == false))
 						user = new XMLUserConfiguration(rememberMe.isSelected(), Service.EMAIL, username.getText(),
 								password.getText());
 
-//					if (rememberMe.isSelected()) {}
-					twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
-							TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1], TwitterFunctions.getKeys()[2],
-							TwitterFunctions.getKeys()[3]);
-
-					user_config_list.add(user);
-					user_config_list.add(twitter);
-					ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-
-					twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+//						if (rememberMe.isSelected()) {}
+					if(twitter == null)
+						twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
+								TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1], TwitterFunctions.getKeys()[2],
+								TwitterFunctions.getKeys()[3]);
+					
+					if(rememberMe.isSelected()) {
+						user_config_list.add(user);
+						user_config_list.add(twitter);
+						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
+					}
+					
+					//twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 					outlook = new EmailConnection(user.getUsername(), user.getPassword());
 				} catch (IOException e) {
 					e.printStackTrace();

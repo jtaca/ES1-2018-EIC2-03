@@ -73,14 +73,14 @@ public class Logger {
 	 */
 	public static Twitter authenticatedInstance(){
 		if (twitter==null){
-		ConfigurationBuilder builder = new ConfigurationBuilder();
-		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-		builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
-		Configuration configuration = builder.build();
-
-		TwitterFactory factory = new TwitterFactory(configuration);
-		twitter = factory.getInstance();
-		twitter.setOAuthAccessToken(userToken);
+			ConfigurationBuilder builder = new ConfigurationBuilder();
+			builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+			builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
+			Configuration configuration = builder.build();
+	
+			TwitterFactory factory = new TwitterFactory(configuration);
+			twitter = factory.getInstance();
+			twitter.setOAuthAccessToken(userToken);
 
 		}
 		return twitter;

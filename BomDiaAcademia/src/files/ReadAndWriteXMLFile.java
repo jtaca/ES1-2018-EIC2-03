@@ -216,9 +216,6 @@ public class ReadAndWriteXMLFile { //
 						}
 						//System.out.println(xml_user_config_array);
 					}
-				
-					
-				
 				}
 			}
 		}
