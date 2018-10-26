@@ -22,12 +22,32 @@ public class XMLUserConfiguration { //
 	private String password = "";
 	
 	
+	/** The twitter consumer key. */
 	private String twitterConsumerKey = "";
+	
+	/** The twitter secret key. */
 	private String twitterSecretKey = "";
+	
+	/** The twitter access token. */
 	private String twitterAccessToken = "";
+	
+	/** The twitter access token secret. */
 	private String twitterAccessTokenSecret = "";
 	
 	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param username the username
+	 * @param password the password
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
 		if (service == null) {
 			throw new Exception("Please insert a valid Service.");
@@ -42,10 +62,30 @@ public class XMLUserConfiguration { //
 		this.twitterAccessTokenSecret = twitterAccessTokenSecret;
 	}
 	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
 		this(saveInformation, service, "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
 	}
 	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param username the username
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password) throws Exception {
 		this(saveInformation, service, username, password, "", "", "", "");
 	}
@@ -66,6 +106,17 @@ public class XMLUserConfiguration { //
 		this(saveInformation, Service.values()[service_number], username, password);
 	}
 	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service_number the service number
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
 	public XMLUserConfiguration(boolean saveInformation, int service_number, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
 		this(saveInformation, Service.values()[service_number], "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
 	}
@@ -130,22 +181,45 @@ public class XMLUserConfiguration { //
 	
 	
 	
+	/**
+	 * Gets the twitter consumer key.
+	 *
+	 * @return the twitter consumer key
+	 */
 	public String getTwitterConsumerKey() {
 		return twitterConsumerKey;
 	}
 
+	/**
+	 * Gets the twitter secret key.
+	 *
+	 * @return the twitter secret key
+	 */
 	public String getTwitterSecretKey() {
 		return twitterSecretKey;
 	}
 
+	/**
+	 * Gets the twitter access token.
+	 *
+	 * @return the twitter access token
+	 */
 	public String getTwitterAccessToken() {
 		return twitterAccessToken;
 	}
 
+	/**
+	 * Gets the twitter access token secret.
+	 *
+	 * @return the twitter access token secret
+	 */
 	public String getTwitterAccessTokenSecret() {
 		return twitterAccessTokenSecret;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "XMLUserConfiguration [service=" + service + ", username=" + username + ", password=" + password
