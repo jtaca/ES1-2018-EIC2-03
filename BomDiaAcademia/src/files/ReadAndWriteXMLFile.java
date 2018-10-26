@@ -158,7 +158,7 @@ public class ReadAndWriteXMLFile { //
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(xmlFile);
+		Document document = documentBuilder.parse(xmlFile.toURI().toString());
 		
 		NodeList list = document.getElementsByTagName("XMLUserConfiguration");
 		
