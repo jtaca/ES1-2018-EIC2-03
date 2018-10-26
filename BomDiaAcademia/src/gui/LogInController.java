@@ -1,8 +1,10 @@
 package gui;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
@@ -13,6 +15,7 @@ import files.ReadAndWriteXMLFile;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,12 +28,26 @@ import other.Service;
 import other.XMLUserConfiguration;
 import twitter.TwitterFunctions;
 
-public class LogInController {
+public class LogInController implements Initializable {
 
 	public Label errorMessage;
 	public JFXTextField username;
 	public JFXPasswordField password;
 	public JFXCheckBox rememberMe;
+
+	private XMLUserConfiguration user;
+
+	public LogInController(XMLUserConfiguration user) {
+		this.user = user;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		if (user != null) {
+			username.setText(user.getUsername());
+			password.setText(user.getPassword());
+		}
+	}
 
 	public void unfocus(MouseEvent e) {
 		((Node) e.getSource()).getScene().getRoot().requestFocus();
@@ -55,30 +72,28 @@ public class LogInController {
 //				errorMessage.setText("A palavra-passe introduzida é incorreta");
 
 				EmailConnection outlook = null;
-				XMLUserConfiguration user = null;
 				XMLUserConfiguration twitter = null;
 				List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 
-				try {
-					user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+//				try {
+//					user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 
 				try {
 					if (user == null || (user != null && user.isInformationSaved() == false))
 						user = new XMLUserConfiguration(rememberMe.isSelected(), Service.EMAIL, username.getText(),
 								password.getText());
 
-					if (rememberMe.isSelected()) {
-						twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
-								TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1],
-								TwitterFunctions.getKeys()[2], TwitterFunctions.getKeys()[3]);
+//					if (rememberMe.isSelected()) {}
+					twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
+							TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1], TwitterFunctions.getKeys()[2],
+							TwitterFunctions.getKeys()[3]);
 
-						user_config_list.add(user);
-						user_config_list.add(twitter);
-						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-					}
+					user_config_list.add(user);
+					user_config_list.add(twitter);
+					ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 
 					twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 					outlook = new EmailConnection(user.getUsername(), user.getPassword());
