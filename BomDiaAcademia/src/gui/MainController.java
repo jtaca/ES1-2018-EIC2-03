@@ -56,13 +56,13 @@ public class MainController implements Initializable {
 		username.setText(emailConnection.getUsername().split("@")[0]);
 
 		List<InformationEntry> entries = new ArrayList<>();
+		
 		try {
 			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+			entries.addAll(emailConnection.receiveMail());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		entries.addAll(new EmailConnection("email", "password").receiveMail());
-		entries.addAll(emailConnection.receiveMail());
 
 		entries.sort(Comparator.comparing(InformationEntry::getDate).reversed());
 
