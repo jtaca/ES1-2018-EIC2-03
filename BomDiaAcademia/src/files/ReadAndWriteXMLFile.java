@@ -156,34 +156,36 @@ public class ReadAndWriteXMLFile { //
 		File xmlFile = new File(CONFIG_FILE_NAME);
 		List<XMLUserConfiguration> xml_user_config_array = new ArrayList<XMLUserConfiguration>();
 		
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(xmlFile.toURI().toString());
+		if(xmlFile.exists()) {
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(xmlFile.toURI().toString());
 		
-		NodeList list = document.getElementsByTagName("XMLUserConfiguration");
+			NodeList list = document.getElementsByTagName("XMLUserConfiguration");
 		
-		boolean saveInformation;
-		int typeOfService;
-		String username;
-		String password;
+			boolean saveInformation;
+			int typeOfService;
+			String username, password;
 		
-		for(int i = 0 ; i < list.getLength() ; i++) {
-			Node node = list.item(i);
+			for(int i = 0 ; i < list.getLength() ; i++) {
+				Node node = list.item(i);
 			
-			if(node.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) node;
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
 				
-				saveInformation = Boolean.parseBoolean(element.getElementsByTagName("SaveInformation").item(0).getTextContent());
-				typeOfService = Integer.parseInt(element.getElementsByTagName("TypeOfService").item(0).getTextContent());
-				username = element.getElementsByTagName("Username").item(0).getTextContent();
-				password = element.getElementsByTagName("Password").item(0).getTextContent();
+					saveInformation = Boolean.parseBoolean(element.getElementsByTagName("SaveInformation").item(0).getTextContent());
+					typeOfService = Integer.parseInt(element.getElementsByTagName("TypeOfService").item(0).getTextContent());
+					username = element.getElementsByTagName("Username").item(0).getTextContent();
+					password = element.getElementsByTagName("Password").item(0).getTextContent();
 				
-				System.out.println("ID: " + element.getAttribute("Id"));
+//					System.out.println("ID: " + element.getAttribute("Id"));
 				
-				xml_user_config_array.add(new XMLUserConfiguration(saveInformation, typeOfService, username, password));
+					xml_user_config_array.add(new XMLUserConfiguration(saveInformation, typeOfService, username, password));
 				
+				}
 			}
 		}
+		
 		return xml_user_config_array;
 	}
 	
