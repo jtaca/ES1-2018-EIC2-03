@@ -80,7 +80,7 @@ public class LoginController implements Initializable {
 				try {
 					twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("Ficheiro sem informacao");
 				}
 
 				try {

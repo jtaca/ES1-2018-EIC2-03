@@ -155,6 +155,9 @@ public class EmailConnection {
 			connected = false;
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (AuthenticationFailedException e) {
+			System.out.println("Failed authentication (Receive mail)");
+			connected = false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			connected = false;
