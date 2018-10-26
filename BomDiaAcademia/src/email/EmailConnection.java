@@ -124,7 +124,7 @@ public class EmailConnection {
 			String content;
 			InformationEntry informationEntry;
 			
-			for(int i = messages.length - 1 ; i > messages.length - 4 ; i--) {
+			for(int i = messages.length - 1 ; i > messages.length - 6 ; i--) {
 				date = messages[i].getSentDate();
 				writerName = messages[i].getFrom()[0].toString();
 				subject = messages[i].getSubject();
