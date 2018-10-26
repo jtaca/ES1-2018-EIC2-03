@@ -90,7 +90,7 @@ public class LogInController {
 
 				Stage stage = new Stage();
 				FXMLLoader loader = new FXMLLoader();
-				loader.setController(new MainController(new EmailConnection(username.getText(), password.getText())));
+				loader.setController(new MainController(outlook));
 				loader.setLocation(getClass().getResource("/res/MainScene.fxml"));
 				Parent root = loader.load();
 				Image icon = new Image(getClass().getResource("/res/logo0.png").toString());
