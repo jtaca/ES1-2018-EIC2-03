@@ -25,7 +25,7 @@ import other.XMLUserConfiguration;
 
 /**
  * The Class ReadAndWriteXMLFile.
- * @author Nobody
+ * @author Alexandre Mendes
  * @version 1.0
  */
 public class ReadAndWriteXMLFile { //
@@ -71,21 +71,21 @@ public class ReadAndWriteXMLFile { //
 			password.appendChild(document.createTextNode(user_config_list.get(i).getPassword()));
 			element.appendChild(password);
 			
-			Element TWITTER_CONSUMER_KEY = document.createElement("TWITTER_CONSUMER_KEY");
-			username.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_CONSUMER_KEY()));
-			element.appendChild(TWITTER_CONSUMER_KEY);
+			Element twitterConsumerKey = document.createElement("TwitterConsumerKey");
+			twitterConsumerKey.appendChild(document.createTextNode(user_config_list.get(i).getTwitterConsumerKey()));
+			element.appendChild(twitterConsumerKey);
 			
-			Element TWITTER_SECRET_KEY = document.createElement("TWITTER_SECRET_KEY");
-			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_SECRET_KEY()));
-			element.appendChild(TWITTER_SECRET_KEY);
+			Element twitterSecretKey = document.createElement("TwitterSecretKey");
+			twitterSecretKey.appendChild(document.createTextNode(user_config_list.get(i).getTwitterSecretKey()));
+			element.appendChild(twitterSecretKey);
 			
-			Element TWITTER_ACCESS_TOKEN = document.createElement("TWITTER_ACCESS_TOKEN");
-			username.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN()));
-			element.appendChild(TWITTER_ACCESS_TOKEN);
+			Element twitterAccessToken = document.createElement("TwitterAccessToken");
+			twitterAccessToken.appendChild(document.createTextNode(user_config_list.get(i).getTwitterAccessToken()));
+			element.appendChild(twitterAccessToken);
 			
-			Element TWITTER_ACCESS_TOKEN_SECRET = document.createElement("TWITTER_ACCESS_TOKEN_SECRET");
-			password.appendChild(document.createTextNode(user_config_list.get(i).getTWITTER_ACCESS_TOKEN_SECRET()));
-			element.appendChild(TWITTER_ACCESS_TOKEN_SECRET);	
+			Element twitterAccessTokenSecret = document.createElement("TwitterAccessTokenSecret");
+			twitterAccessTokenSecret.appendChild(document.createTextNode(user_config_list.get(i).getTwitterAccessTokenSecret()));
+			element.appendChild(twitterAccessTokenSecret);	
 		}
 		
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -161,26 +161,63 @@ public class ReadAndWriteXMLFile { //
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document document = documentBuilder.parse(xmlFile.toURI().toString());
 		
-			NodeList list = document.getElementsByTagName("XMLUserConfiguration");
+			NodeList list = document.getElementsByTagName("XMLUserConfigurationList");
 		
 			boolean saveInformation;
 			int typeOfService;
-			String username, password;
+			String username; 
+			String password;
+			
+			String twitterConsumerKey;
+			String twitterSecretKey;
+			String twitterAccessToken;
+			String twitterAccessTokenSecret;
+			
+			XMLUserConfiguration xmlUserConfiguration;
 		
 			for(int i = 0 ; i < list.getLength() ; i++) {
 				Node node = list.item(i);
 			
 				if(node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
+					
+					NodeList listUserConfiguration = element.getElementsByTagName("XMLUserConfiguration");
+					
+					
+					for(int x = 0 ; x < listUserConfiguration.getLength() ; x++) {
+						Node nodeUserConfig = listUserConfiguration.item(x);
+						
+						if(node.getNodeType() == Node.ELEMENT_NODE) {
+							Element elementUserConfig = (Element) nodeUserConfig;
+							
+							
+							saveInformation = Boolean.parseBoolean(elementUserConfig.getElementsByTagName("SaveInformation").item(0).getTextContent());
+							typeOfService = Integer.parseInt(elementUserConfig.getElementsByTagName("TypeOfService").item(0).getTextContent());
+							username = elementUserConfig.getElementsByTagName("Username").item(0).getTextContent();
+							password = elementUserConfig.getElementsByTagName("Password").item(0).getTextContent();
+							
+							
+							if(typeOfService == Service.TWITTER.getTypeOfServiceNumber()) {
+								twitterConsumerKey = elementUserConfig.getElementsByTagName("TwitterConsumerKey").item(0).getTextContent();
+								twitterSecretKey = elementUserConfig.getElementsByTagName("TwitterSecretKey").item(0).getTextContent();
+								twitterAccessToken = elementUserConfig.getElementsByTagName("TwitterAccessToken").item(0).getTextContent();
+								twitterAccessTokenSecret = elementUserConfig.getElementsByTagName("TwitterAccessTokenSecret").item(0).getTextContent();
+								
+								
+								xmlUserConfiguration = new XMLUserConfiguration(saveInformation, typeOfService, twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
+							} else {
+								xmlUserConfiguration = new XMLUserConfiguration(saveInformation, typeOfService, username, password);
+							}
+							
+						
+//							System.out.println("ID: " + element.getAttribute("Id"));
+						
+							xml_user_config_array.add(xmlUserConfiguration);
+						}
+						//System.out.println(xml_user_config_array);
+					}
 				
-					saveInformation = Boolean.parseBoolean(element.getElementsByTagName("SaveInformation").item(0).getTextContent());
-					typeOfService = Integer.parseInt(element.getElementsByTagName("TypeOfService").item(0).getTextContent());
-					username = element.getElementsByTagName("Username").item(0).getTextContent();
-					password = element.getElementsByTagName("Password").item(0).getTextContent();
-				
-//					System.out.println("ID: " + element.getAttribute("Id"));
-				
-					xml_user_config_array.add(new XMLUserConfiguration(saveInformation, typeOfService, username, password));
+					
 				
 				}
 			}

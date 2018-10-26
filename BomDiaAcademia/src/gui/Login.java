@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import other.XMLUserConfiguration;
 
-public class LogIn extends Application {
+public class Login extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
@@ -21,7 +21,7 @@ public class LogIn extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		List<XMLUserConfiguration> userConfiguration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setController(new LogInController(userConfiguration.isEmpty() ? null : userConfiguration.get(0)));
+		loader.setController(new LoginController(userConfiguration.isEmpty() ? null : userConfiguration.get(0)));
 		loader.setLocation(getClass().getResource("/res/LogIn.fxml"));
 		Parent root = loader.load();
 //		Parent root = FXMLLoader.load(getClass().getResource("/res/LogIn.fxml"));

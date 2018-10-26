@@ -39,8 +39,8 @@ public class Logger {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
-		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
+		TWITTER_CONSUMER_KEY = twitterKeys.getTwitterConsumerKey();
+		TWITTER_SECRET_KEY = twitterKeys.getTwitterSecretKey();
 		
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);

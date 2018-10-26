@@ -22,21 +22,13 @@ public class XMLUserConfiguration { //
 	private String password = "";
 	
 	
-	private String TWITTER_CONSUMER_KEY = "";
-	private String TWITTER_SECRET_KEY = "";
-	private String TWITTER_ACCESS_TOKEN = "";
-	private String TWITTER_ACCESS_TOKEN_SECRET = "";
+	private String twitterConsumerKey = "";
+	private String twitterSecretKey = "";
+	private String twitterAccessToken = "";
+	private String twitterAccessTokenSecret = "";
 	
-	/**
-	 * Instantiates a new XML user configuration.
-	 *
-	 * @param saveInformation the save information
-	 * @param service the service
-	 * @param username the username
-	 * @param password the password
-	 * @throws Exception the exception
-	 */
-	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password) throws Exception {
+	
+	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
 		if (service == null) {
 			throw new Exception("Please insert a valid Service.");
 		}
@@ -44,23 +36,20 @@ public class XMLUserConfiguration { //
 		this.service = service;
 		this.username = username;
 		this.password = password;
-		this.TWITTER_CONSUMER_KEY = "";
-		this.TWITTER_SECRET_KEY = "";
-		this.TWITTER_ACCESS_TOKEN = "";
-		this.TWITTER_ACCESS_TOKEN_SECRET = "";
-		
-		
+		this.twitterConsumerKey = twitterConsumerKey;
+		this.twitterSecretKey = twitterSecretKey;
+		this.twitterAccessToken = twitterAccessToken;
+		this.twitterAccessTokenSecret = twitterAccessTokenSecret;
 	}
 	
-	public XMLUserConfiguration(boolean saveInformation, Service service, String TWITTER_CONSUMER_KEY, String TWITTER_SECRET_KEY, String TWITTER_ACCESS_TOKEN, String TWITTER_ACCESS_TOKEN_SECRET) throws Exception {
-
-		this(saveInformation, service, "", "");
-		this.TWITTER_CONSUMER_KEY = TWITTER_CONSUMER_KEY;
-		this.TWITTER_SECRET_KEY = TWITTER_SECRET_KEY;
-		this.TWITTER_ACCESS_TOKEN = TWITTER_ACCESS_TOKEN;
-		this.TWITTER_ACCESS_TOKEN_SECRET = TWITTER_ACCESS_TOKEN_SECRET;
-		
+	public XMLUserConfiguration(boolean saveInformation, Service service, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
+		this(saveInformation, service, "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
 	}
+	
+	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password) throws Exception {
+		this(saveInformation, service, username, password, "", "", "", "");
+	}
+	
 	
 	
 	
@@ -75,6 +64,10 @@ public class XMLUserConfiguration { //
 	 */
 	public XMLUserConfiguration(boolean saveInformation, int service_number, String username, String password) throws Exception {
 		this(saveInformation, Service.values()[service_number], username, password);
+	}
+	
+	public XMLUserConfiguration(boolean saveInformation, int service_number, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
+		this(saveInformation, Service.values()[service_number], "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
 	}
 	
 	/**
@@ -137,33 +130,28 @@ public class XMLUserConfiguration { //
 	
 	
 	
-	public String getTWITTER_CONSUMER_KEY() {
-		return TWITTER_CONSUMER_KEY;
+	public String getTwitterConsumerKey() {
+		return twitterConsumerKey;
 	}
 
-	public String getTWITTER_SECRET_KEY() {
-		return TWITTER_SECRET_KEY;
+	public String getTwitterSecretKey() {
+		return twitterSecretKey;
 	}
 
-	public String getTWITTER_ACCESS_TOKEN() {
-		return TWITTER_ACCESS_TOKEN;
+	public String getTwitterAccessToken() {
+		return twitterAccessToken;
 	}
 
-	public String getTWITTER_ACCESS_TOKEN_SECRET() {
-		return TWITTER_ACCESS_TOKEN_SECRET;
+	public String getTwitterAccessTokenSecret() {
+		return twitterAccessTokenSecret;
 	}
 
 	@Override
 	public String toString() {
 		return "XMLUserConfiguration [service=" + service + ", username=" + username + ", password=" + password
-				+ ", TWITTER_CONSUMER_KEY=" + TWITTER_CONSUMER_KEY + ", TWITTER_SECRET_KEY=" + TWITTER_SECRET_KEY
-				+ ", TWITTER_ACCESS_TOKEN=" + TWITTER_ACCESS_TOKEN + ", TWITTER_ACCESS_TOKEN_SECRET="
-				+ TWITTER_ACCESS_TOKEN_SECRET + "]";
+				+ ", TWITTER_CONSUMER_KEY=" + twitterConsumerKey + ", TWITTER_SECRET_KEY=" + twitterSecretKey
+				+ ", TWITTER_ACCESS_TOKEN=" + twitterAccessToken + ", TWITTER_ACCESS_TOKEN_SECRET="
+				+ twitterAccessTokenSecret + "]";
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-
-
+	
 }

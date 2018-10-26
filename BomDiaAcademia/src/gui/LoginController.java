@@ -28,7 +28,7 @@ import other.Service;
 import other.XMLUserConfiguration;
 import twitter.TwitterFunctions;
 
-public class LogInController implements Initializable {
+public class LoginController implements Initializable {
 
 	public Label errorMessage;
 	public JFXTextField username;
@@ -37,7 +37,7 @@ public class LogInController implements Initializable {
 
 	private XMLUserConfiguration user;
 
-	public LogInController(XMLUserConfiguration user) {
+	public LoginController(XMLUserConfiguration user) {
 		this.user = user;
 	}
 

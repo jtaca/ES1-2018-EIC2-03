@@ -32,6 +32,7 @@ public class Main {
 			//user = ReadAndWriteFile.readUserXMLFile(fileName);
 			
 			user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+			System.out.println(user);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,6 +71,7 @@ public class Main {
 			}
 			
 			twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+			System.out.println(twitter);
 			
 			
 			// Ja tenho o user (XMLUserConfiguration) neste ponto
