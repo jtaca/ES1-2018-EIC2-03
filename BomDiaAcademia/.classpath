@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="libraries/twitter4j-core-4.0.7.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/Users/joaocosta/Desktop/3º Ano/1º Semestre/Engenharia de Software I/Projeto/restfb-2.11.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

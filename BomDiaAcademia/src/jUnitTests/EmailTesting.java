@@ -61,6 +61,7 @@ public class EmailTesting {
 	public void testSendEmail() {
 		email.sendEmail(user.getUsername(), "test", "test");
 		List<InformationEntry> recievedEmails = email.receiveMail();
+		System.out.println(((EmailEntry)recievedEmails.get(0)).getSubject());
 		assertTrue(((EmailEntry)recievedEmails.get(0)).getSubject().contains("test"));
 		assertTrue(((EmailEntry)recievedEmails.get(0)).getContent().contains("test"));
 		//assertEquals("test",((EmailEntry)recievedEmails.get(0)).getContent());
