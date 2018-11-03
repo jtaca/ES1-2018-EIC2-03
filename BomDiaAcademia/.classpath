@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="libraries/jaf-1.1.1/activation.jar"/>
+	<classpathentry kind="lib" path="libraries/activation.jar"/>
 	<classpathentry kind="lib" path="libraries/fontawesomefx-8.9.jar"/>
 	<classpathentry kind="lib" path="libraries/javax.mail.jar"/>
 	<classpathentry kind="lib" path="libraries/jfoenix-8.0.7.jar"/>
 	<classpathentry kind="lib" path="libraries/jsoup-1.11.3.jar"/>
 	<classpathentry kind="lib" path="libraries/twitter4j-core-4.0.7.jar"/>
+	<classpathentry kind="lib" path="libraries/restfb-2.11.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Users/joaocosta/Desktop/3º Ano/1º Semestre/Engenharia de Software I/Projeto/restfb-2.11.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
