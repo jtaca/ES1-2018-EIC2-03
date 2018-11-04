@@ -236,9 +236,8 @@ public class ReadAndWriteXMLFile { //
 		Document document;
 		
 		if(xmlFile.exists()) {
-			System.out.println("Reading file");
 			document = documentBuilder.parse(xmlFile.toURI().toString());
-			NodeList list = document.getElementsByTagName("TwitterUserList");
+			NodeList list = document.getElementsByTagName("TwitterUser");
 		
 			for(int i = 0 ; i < list.getLength() ; i++) {
 				Node node = list.item(i);
@@ -246,15 +245,12 @@ public class ReadAndWriteXMLFile { //
 				if(node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
 					
-					NodeList twitterUser = element.getElementsByTagName("TwitterUser");
-					
-					users.add(((Element) twitterUser.item(0)).getElementsByTagName("Username").item(0).getTextContent());
+					users.add(element.getElementsByTagName("Username").item(0).getTextContent());
 				}
 			}
 		} else {
-			System.out.println("Writing file");
 			document = documentBuilder.newDocument();
-			String usernames[] = {"iscteiul"};
+			String usernames[] = {"iscteiul", "istar_iul"};
 			Element configurationList = document.createElement("TwitterUserList");
 			
 			document.appendChild(configurationList);
