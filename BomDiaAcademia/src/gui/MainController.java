@@ -58,7 +58,8 @@ public class MainController implements Initializable {
 		List<InformationEntry> entries = new ArrayList<>();
 		
 		try {
-			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+//			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
+			entries.addAll(TwitterFunctions.getTweets(20));
 			entries.addAll(emailConnection.receiveMail());
 		} catch (Exception e) {
 			e.printStackTrace();
