@@ -99,6 +99,26 @@ public class TwitterFunctions {
 		}
 	}
 
+	public static List<InformationEntry> getTweets(int ammount) {
+		List<InformationEntry> tweets = new ArrayList<>();
+		List<String> users;
+		
+		if (twitter == null)
+			init();
+		
+		try {
+			users = ReadAndWriteXMLFile.getTwitterUsers();
+			
+			for(String user : users)
+				twitter.getUserTimeline(user, new Paging(1, ammount)).forEach(status -> tweets.add(new TwitterEntry(status)));
+			
+		} catch (Exception e) {	
+			e.printStackTrace();
+		}
+		
+		return tweets;
+	}
+	
 	/**
 	 * @param ammount
 	 * @param user
