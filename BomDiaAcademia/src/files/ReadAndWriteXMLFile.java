@@ -1,12 +1,14 @@
 package files;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -17,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import entry_objects.InformationEntry;
 import other.Service;
@@ -32,6 +35,7 @@ public class ReadAndWriteXMLFile { //
 	
 	/** The Constant CONFIG_FILE_NAME. */
 	private final static String CONFIG_FILE_NAME = "config.xml";
+	private final static String TWITTER_CONFIG = "twitter.xml";
 	
 	/**
 	 * Creates the config XML file.
@@ -221,6 +225,57 @@ public class ReadAndWriteXMLFile { //
 		}
 		
 		return xml_user_config_array;
+	}
+	
+	public static List<String> getTwitterUsers() throws Exception {
+		File xmlFile = new File(TWITTER_CONFIG);
+		List<String> users = new ArrayList<>();
+		
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document;
+		
+		if(xmlFile.exists()) {
+			document = documentBuilder.parse(xmlFile.toURI().toString());
+			NodeList list = document.getElementsByTagName("TwitterUser");
+		
+			for(int i = 0 ; i < list.getLength() ; i++) {
+				Node node = list.item(i);
+			
+				if(node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					
+					users.add(element.getElementsByTagName("Username").item(0).getTextContent());
+				}
+			}
+		} else {
+			document = documentBuilder.newDocument();
+			String usernames[] = {"iscteiul", "istar_iul"};
+			Element configurationList = document.createElement("TwitterUserList");
+			
+			document.appendChild(configurationList);
+
+			for(String username : usernames) { 
+				Element element = document.createElement("TwitterUser");
+				configurationList.appendChild(element);
+				
+				Element user = document.createElement("Username");
+				user.appendChild(document.createTextNode(username));
+				element.appendChild(user);
+				
+				users.add(username);
+			}
+			
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			
+			StreamResult streamResult = new StreamResult(new File(TWITTER_CONFIG));
+			
+			transformer.transform(source, streamResult);
+		}
+		
+		return users;
 	}
 	
 	/*
