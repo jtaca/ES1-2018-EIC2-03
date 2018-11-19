@@ -34,7 +34,8 @@ public class Logger {
 	public void getAuthUrl() {
 		
 		try {
-			getKeysFromXML();
+			TWITTER_CONSUMER_KEY = Utils.getConsumerKeyFromXML();
+			TWITTER_SECRET_KEY = Utils.getSecretKeyFromXML();
 		} catch (Exception e1) {
 			System.out.println("Could not get api keys from xml file(Twitter)");
 			e1.printStackTrace();
@@ -44,11 +45,6 @@ public class Logger {
 		twitter = buildAuthenticationTwitter();
 		twitterAutentication(twitter);
 
-	}
-	private void getKeysFromXML() throws Exception{
-		twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-		TWITTER_CONSUMER_KEY = twitterKeys.getTwitterConsumerKey();
-		TWITTER_SECRET_KEY = twitterKeys.getTwitterSecretKey();
 	}
 	private Twitter buildAuthenticationTwitter(){
 		ConfigurationBuilder builder = new ConfigurationBuilder();
