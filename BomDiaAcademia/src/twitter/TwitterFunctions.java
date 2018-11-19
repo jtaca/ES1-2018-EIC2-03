@@ -2,6 +2,7 @@ package twitter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import entry_objects.InformationEntry;
@@ -49,15 +50,16 @@ public class TwitterFunctions {
 //		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
 //		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
 //		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
-
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true);
-		cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-		cb.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
-		cb.setOAuthAccessToken(TWITTER_ACCESS_TOKEN);
-		cb.setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);
-		TwitterFactory tf = new TwitterFactory(cb.build());
-		twitter = tf.getInstance();
+		if(twitter==null){
+			ConfigurationBuilder cb = new ConfigurationBuilder();
+			cb.setDebugEnabled(true);
+			cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
+			cb.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
+			cb.setOAuthAccessToken(TWITTER_ACCESS_TOKEN);
+			cb.setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);
+			TwitterFactory tf = new TwitterFactory(cb.build());
+			twitter = tf.getInstance();
+		}
 	}
 
 	/**
@@ -75,7 +77,6 @@ public class TwitterFunctions {
 	public List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
 
-		if (twitter == null)
 			init();
 
 		try {
@@ -103,7 +104,6 @@ public class TwitterFunctions {
 		List<InformationEntry> tweets = new ArrayList<>();
 		List<String> users;
 		
-		if (twitter == null)
 			init();
 		
 		try {
@@ -127,12 +127,28 @@ public class TwitterFunctions {
 	 */
 	public static List<InformationEntry> getTweetsForUser(int ammount, String user) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
-
-		if (twitter == null)
+		
 			init();
 
 		try {
 			twitter.getUserTimeline(user, new Paging(1, ammount)).forEach(s -> tweets.add(new TwitterEntry(s)));
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+
+		return tweets;
+	}
+	
+	public static List<InformationEntry> getTweetsForUserByDate(Date date, String user) throws Exception {
+		List<InformationEntry> tweets = new ArrayList<>();
+
+			init();
+
+		try {
+			twitter.getUserTimeline(user).forEach(s -> {
+			if(s.getCreatedAt().after(date))
+			tweets.add(new TwitterEntry(s));
+			});
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
