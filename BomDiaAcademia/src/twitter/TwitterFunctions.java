@@ -27,10 +27,10 @@ public class TwitterFunctions {
 	/**
 	 * 
 	 */
-	private static String TWITTER_CONSUMER_KEY = "3wp8mBeehnAcKIEmjzefEm3Z3";
-	private static String TWITTER_SECRET_KEY = "VapBDLbqMo4pDxp3iKIsj6IoyhdlNHa3pcaNAVcRpSmv72xuAV";
-	private static String TWITTER_ACCESS_TOKEN = "2389545732-RHAjyOlFNBSCJgSI2zILX1sXdAS2ptYfiRUlRJG";
-	private static String TWITTER_ACCESS_TOKEN_SECRET = "Yu34xSNj0XNxtD5X1dTecO1G9zGd0rKWlg83BRAjW1zO7";
+	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
+	private static String TWITTER_SECRET_KEY = "WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w";
+	private static String TWITTER_ACCESS_TOKEN = "2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi";
+	private static String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
 
 	private static Twitter twitter;
 	private static XMLUserConfiguration twitterKeys = null;
