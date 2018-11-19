@@ -34,21 +34,32 @@ public class Logger {
 	public void getAuthUrl() {
 		
 		try {
-			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			getKeysFromXML();
+		} catch (Exception e1) {
+			System.out.println("Could not get api keys from xml file(Twitter)");
+			e1.printStackTrace();
 		}
+		
+		
+		twitter = buildAuthenticationTwitter();
+		twitterAutentication(twitter);
+
+	}
+	private void getKeysFromXML() throws Exception{
+		twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 		TWITTER_CONSUMER_KEY = twitterKeys.getTwitterConsumerKey();
 		TWITTER_SECRET_KEY = twitterKeys.getTwitterSecretKey();
-		
+	}
+	private Twitter buildAuthenticationTwitter(){
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
 		builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
 		Configuration configuration = builder.build();
 
 		TwitterFactory factory = new TwitterFactory(configuration);
-		twitter = factory.getInstance();
+		return factory.getInstance();
+	}
+	private void twitterAutentication(Twitter twitter){
 		RequestToken requestToken;
 		AccessToken accessToken;
 		Scanner in = new Scanner(System.in);
@@ -65,9 +76,7 @@ public class Logger {
 			e.printStackTrace();
 		}
 		in.close();
-
 	}
-
 	/**
 	 * @return Twitter
 	 */
