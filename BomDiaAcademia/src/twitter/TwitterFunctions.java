@@ -17,6 +17,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
 /**
  * @author DElfim
  *
@@ -26,10 +27,10 @@ public class TwitterFunctions {
 	/**
 	 * 
 	 */
-	private static String TWITTER_CONSUMER_KEY = "XJzCh7dEaxQbQYw9PGBHMKmEv";
-	private static String TWITTER_SECRET_KEY = "qEShgz5Cfi0pEhtB58CDaCLB5AluNv2o19e0w3PMmQiWFshz8L";
-	private static String TWITTER_ACCESS_TOKEN = "2389545732-jXqsWzajtytv4mYMEBdoEmemT3h8uCikoQ6ab21";
-	private static String TWITTER_ACCESS_TOKEN_SECRET = "v36TUdNGSq8U2qn260Z5tB1cW6orYuZOWldlWT8YA1ss5";
+	private static String TWITTER_CONSUMER_KEY = "3wp8mBeehnAcKIEmjzefEm3Z3";
+	private static String TWITTER_SECRET_KEY = "VapBDLbqMo4pDxp3iKIsj6IoyhdlNHa3pcaNAVcRpSmv72xuAV";
+	private static String TWITTER_ACCESS_TOKEN = "2389545732-RHAjyOlFNBSCJgSI2zILX1sXdAS2ptYfiRUlRJG";
+	private static String TWITTER_ACCESS_TOKEN_SECRET = "Yu34xSNj0XNxtD5X1dTecO1G9zGd0rKWlg83BRAjW1zO7";
 
 	private static Twitter twitter;
 	private static XMLUserConfiguration twitterKeys = null;
@@ -138,13 +139,13 @@ public class TwitterFunctions {
 		return tweets;
 	}
 	
-	public static List<InformationEntry> getTweetsForUserByDate(Date date, String user) throws Exception {
+	public static List<InformationEntry> getTweetsForUserByDate(Date date, long l) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
 
 			init();
 
 		try {
-			twitter.getUserTimeline(user).forEach(s -> {
+			twitter.getUserTimeline(l).forEach(s -> {
 			if(s.getCreatedAt().after(date))
 			tweets.add(new TwitterEntry(s));
 			});
