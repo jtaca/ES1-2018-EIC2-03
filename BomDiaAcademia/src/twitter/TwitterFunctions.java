@@ -139,13 +139,13 @@ public class TwitterFunctions {
 		return tweets;
 	}
 	
-	public static List<InformationEntry> getTweetsForUserByDate(Date date, long l) throws Exception {
+	public static List<InformationEntry> getTweetsForUserByDate(Date date, String user) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
 
 			init();
 
 		try {
-			twitter.getUserTimeline(l).forEach(s -> {
+			twitter.getUserTimeline(user).forEach(s -> {
 			if(s.getCreatedAt().after(date))
 			tweets.add(new TwitterEntry(s));
 			});
