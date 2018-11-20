@@ -2,6 +2,7 @@ package tasks;
 
 import java.util.List;
 
+import other.Main;
 import threads.InformationEntryGatherer;
 import threads.TaskTable;
 
@@ -34,9 +35,11 @@ public class GetPostTask implements Task { //
 	@Override
 	public void run() {
 		for(ServiceReadTask t : tasks) {
+			t.setBarrier(information_entry_gatherer);
 			TaskTable.getInstance().putTask(t);
 		}
 		information_entry_gatherer.waitForEveryOcurrence();
+		Main.auxFunctionToPrintEmails(information_entry_gatherer.getList());
 	}
 	
 

@@ -22,15 +22,20 @@ public class TwitterPostReaderTask implements ServiceReadTask { //
 		this.barrier = barrier;
 	}
 	
+	@Override
+	public void setBarrier(InformationEntryGatherer barrier) {
+		this.barrier = barrier;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
 		List<InformationEntry> information_entry_list; // Where the results should go to.
-		information_entry_list = twitterConnection.readPosts();
+		//information_entry_list = twitterConnection.readPosts();
 		// Place the result on a simple barrier in order for the UI to load all the news at once, after organizing them by date.
-		barrier.addResult(information_entry_list);
+		//barrier.addResult(information_entry_list);
 	}
 	
 	

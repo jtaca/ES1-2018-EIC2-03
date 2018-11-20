@@ -86,9 +86,9 @@ public class Main {
 			//System.out.println(user.isInformationSaved());
 			EmailConnection outlook = new EmailConnection(user.getUsername(), user.getPassword());
 			List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
-			int number_of_tasks = 1;
-			InformationEntryGatherer barrier = new InformationEntryGatherer(number_of_tasks);
-			tasks.add(new EmailReaderTask(barrier, outlook));
+//			int number_of_tasks = 1;
+			//InformationEntryGatherer barrier = new InformationEntryGatherer(number_of_tasks);
+			tasks.add(new EmailReaderTask(outlook));
 			Thread thread = new Thread(new GetPostTask(tasks));
 			thread.start();
 			
@@ -104,6 +104,7 @@ public class Main {
 			}
 			*/
 			
+			
 			//EmailTesting test = new EmailTesting(outlook);
 			//test.jUnitTests();
 			
@@ -112,6 +113,16 @@ public class Main {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void auxFunctionToPrintEmails(List<InformationEntry> emails) {
+		for(int i = 0 ; i < emails.size() ; i++) { // should return this array instead for it to be displayed on the UI
+			System.out.println("Email Number " + (i+1) + ".");
+			System.out.println("From: " + ((EmailEntry)emails.get(i)).getWriterName());
+			System.out.println("Sent date: " + emails.get(i).getDate());
+			System.out.println("Subject: " + ((EmailEntry)emails.get(i)).getSubject());
+			System.out.println("Message: " + ((EmailEntry)emails.get(i)).getContent());
 		}
 	}
 }

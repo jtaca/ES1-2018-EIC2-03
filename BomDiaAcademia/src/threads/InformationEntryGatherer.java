@@ -6,6 +6,7 @@ import java.util.List;
 
 import comparators.DateComparator;
 import entry_objects.InformationEntry;
+import other.Main;
 
 /**
  * The Class InformationEntryGatherer.
@@ -36,8 +37,12 @@ public class InformationEntryGatherer { //
 	 */
 	public void waitForEveryOcurrence() {
 		barrier.barrierWait();
-		list.sort(new DateComparator()); // O comparator pode estar a dar uma ordem crescente e não decrescente como queremos, tem de ser testado
+		list.sort(new DateComparator()); // O comparator pode estar a dar uma ordem crescente e nï¿½o decrescente como queremos, tem de ser testado
 		// Give the list to the GUI for it to show in the window
+	}
+	
+	public List<InformationEntry> getList() {
+		return list;
 	}
 	
 	/**

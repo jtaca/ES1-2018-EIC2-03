@@ -20,6 +20,11 @@ public class FacebookPostReaderTask implements ServiceReadTask { //
 		this.facebookConnection = facebookConnection;
 		this.barrier = barrier;
 	}*/
+	
+	@Override
+	public void setBarrier(InformationEntryGatherer barrier) {
+		//this.barrier = barrier;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
