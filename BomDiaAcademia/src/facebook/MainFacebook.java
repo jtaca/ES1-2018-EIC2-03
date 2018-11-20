@@ -2,51 +2,34 @@ package facebook;
 
 import java.util.List;
 
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.FacebookClient.AccessToken;
-import com.restfb.types.Post;
-import com.restfb.types.User;
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.auth.AccessToken;
+
+
 
 public class MainFacebook {
 	public static void main(String[] args) {
 		
 		String accessToken ;
-		accessToken = "EAAePp5MZAcE4BAA43NBFkS6tqfsCNNJrUL4A961GAgfnB55WkLDrtMUjJ6WQHk3GzYLbNQ0XxIzfAXwri174vALCAhcQjjxTsYX4C2ZCZBxmCwiRrd93g7qIESxwtkkRzcdz6mAv7HP70YZCKCzifJXLlP6zHberdkaOA7F1uBoYtQBnx2rZB7P6asQaZBZCZBWAQVRZC8YrhYgZDZD";	
-		FacebookClient fbClient = new DefaultFacebookClient(accessToken);
+		accessToken = "EAAePp5MZAcE4BAEZBB44cDicBaNvGIJeD1aZCaBZB4ARsXrwhALYqKLIcYEZAGOjJZBposTXZAbXmhKByMtisqzhGNOmQnr9PbI0SZBZBlC5pl6iZAe4XfbkCMmw5EZBDcQ6SvZBhY9o0lhQG8z7HrZAZA164OZBX4xog42wqZB8KAu7fU9TFvgo4DOUPFniqwNIADhz41bepHxWZASWBlUNQNZAuSVffN";	
+		//String appToken = "EAAePp5MZAcE4BAEEZAG8KSo144aFQ2MZArmaAwR6jrqM2mXPUHpURokX5CtAOyBqFUwJjkUSy8sZAaqwK6fKucZCh6NHwmutO6iC3iaxthM467dUApfllSi24CLo8cvufsDNkcVCSSBSlZCg5Ilr4FGkITfgBq4mgTZA70V0MWgUwf9eem3NA72VKiokEugJ9WpQy2p8CZAE2QZDZD";
 		
-		User me2 = fbClient.fetchObject("me", User.class);
-		System.out.println("Facebook:");
-		System.out.println("Id: " + me2.getId());
-		System.out.println("Name: " + me2.getName());
-		User me = fbClient.fetchObject("me?fields=feed", User.class);
+		Facebook facebook = new FacebookFactory().getInstance();
 		
-		Post result = fbClient.fetchObject("me",Post.class);
-		System.out.println("\nPosts:" + result);
+		facebook.setOAuthAppId("2128274727202894","5b08263178f3db9cbd189e2100f0ee54");
+		facebook.setOAuthPermissions("2128274727202894|mv9W3YTaU_vEV0cP9txuN38DQ58");
+		facebook.setOAuthAccessToken(new AccessToken(accessToken, null));
+		try {
+			facebook.postStatusMessage("Hello World YOLO.");
+		} catch (FacebookException e) {
+			
+			e.printStackTrace();
+		}
 		
-//		int counter5 = 0;
-//		int counterTotal = 0;
-//		for (List<Post> page : result) {
-//			for (Post aPost : page) {
-//				// Filters only posts that contain the word "Inform"
-//				if (aPost.getMessage() != null && aPost.getMessage().contains("Mestrado")) {
-//				
-//					System.out.println("---- Post "+ counter5 + " ----");
-//					System.out.println("Id: "+"fb.com/"+aPost.getId());
-//					System.out.println("Message: "+aPost.getMessage());
-//					System.out.println("Caption: "+aPost.getCaption());
-//					System.out.println("Description: "+aPost.getDescription());
-//					System.out.println("Created: "+aPost.getCreatedTime());
-//					System.out.println("Name: "+aPost.getName());
-//					System.out.println("Created: "+aPost.toString());
-//					
-//					counter5++;
-//				}
-//				counterTotal++;
-//			}
-//		}
-//		System.out.println("-------------\nNo of Results: " + counter5+"/"+counterTotal);		
+		
+		
 	}
 
 }
