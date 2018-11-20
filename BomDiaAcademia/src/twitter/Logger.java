@@ -20,8 +20,8 @@ public class Logger {
 	/**
 	 * 
 	 */
-	private static String TWITTER_CONSUMER_KEY = null;
-	private static String TWITTER_SECRET_KEY = null;
+	private static String TWITTER_CONSUMER_KEY = TwitterFunctions.getKeys()[0];
+	private static String TWITTER_SECRET_KEY = TwitterFunctions.getKeys()[1];
 	private static AccessToken userToken = null;
 	private static Twitter twitter;
 	private static XMLUserConfiguration twitterKeys = null;
@@ -33,14 +33,14 @@ public class Logger {
 	 */
 	public void getAuthUrl() {
 		
-		try {
-			TWITTER_CONSUMER_KEY = Utils.getConsumerKeyFromXML();
-			TWITTER_SECRET_KEY = Utils.getSecretKeyFromXML();
-		} catch (Exception e1) {
-			System.out.println("Could not get api keys from xml file(Twitter)");
-			e1.printStackTrace();
-		}
-		
+//		try {
+//			TWITTER_CONSUMER_KEY = Utils.getConsumerKeyFromXML();
+//			TWITTER_SECRET_KEY = Utils.getSecretKeyFromXML();
+//		} catch (Exception e1) {
+//			System.out.println("Could not get api keys from xml file(Twitter)");
+//			e1.printStackTrace();
+//		}
+//		
 		
 		twitter = buildAuthenticationTwitter();
 		twitterAutentication(twitter);
@@ -88,6 +88,7 @@ public class Logger {
 			twitter.setOAuthAccessToken(userToken);
 
 		}
+		if(userToken==null)return null;
 		return twitter;
 	}
 }
