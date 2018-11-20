@@ -26,12 +26,14 @@ public class ReadAndWriteXMLFileTesting {
 
 	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 	private static XMLUserConfiguration config = null;
+	private static XMLUserConfiguration config1 = null;
 
 	
 	@BeforeClass
 	public static void startInstance() {
 		try {
 			config = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+			config1 = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 			assertNotNull( config);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,6 +49,7 @@ public class ReadAndWriteXMLFileTesting {
 			assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getUsername(),"username");
 			user_config_list.remove(user);
 			user_config_list.add(config);
+			user_config_list.add(config1);
 			ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 		} catch (Exception e) {
 			e.printStackTrace();
