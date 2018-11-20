@@ -25,7 +25,7 @@ public class GetPostTask implements Task { //
 	 */
 	public GetPostTask(List<ServiceReadTask> tasks) {
 		this.tasks = tasks;
-		information_entry_gatherer = new InformationEntryGatherer(tasks.size());
+		information_entry_gatherer = new InformationEntryGatherer(tasks.size()); // tem cenas mal...
 	}
 	
 	/* (non-Javadoc)
