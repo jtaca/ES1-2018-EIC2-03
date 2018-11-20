@@ -17,6 +17,7 @@ import email.EmailConnection;
 import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
+import javafx.animation.FadeTransition;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -28,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import twitter.TwitterFunctions;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
@@ -39,7 +41,7 @@ public class MainController implements Initializable {
 	public VBox settings, mainPostBox, postContent, emailPane;
 	public StackPane centerPane, postOverlay;
 	public ImageView postProfilePic;
-	public Label postAuthorName, postAuthorScreenName, username;
+	public Label postAuthorName, postAuthorScreenName, username, emailError;
 	public JFXButton closePost, prevPost, nextPost, comment, retweet, favourite;
 	public JFXTextField emailReceiver, emailSubject;
 	public JFXTextArea emailMessage;
@@ -199,12 +201,22 @@ public class MainController implements Initializable {
 		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
 				&& !emailMessage.getText().isEmpty())
 			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
+		else {
+			FadeTransition errorFade = new FadeTransition(Duration.seconds(1), emailError);
+			emailError.setText("Preencha todos os campos");
+			
+			errorFade.setFromValue(0);
+			errorFade.setToValue(1);
+			
+			errorFade.play();
+		}
 	}
 
 	public void clearEmail() {
 		emailReceiver.clear();
 		emailSubject.clear();
 		emailMessage.clear();
+		emailError.setText("");
 	}
 
 	public void nextPost() {
