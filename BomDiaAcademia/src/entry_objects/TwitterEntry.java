@@ -48,5 +48,8 @@ public class TwitterEntry implements InformationEntry { //
 	public Service getService() {
 		return Service.TWITTER;
 	}
-
+	@Override
+	public String toString(){
+		return status.getText();
+	}
 }
