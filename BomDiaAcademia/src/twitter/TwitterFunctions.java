@@ -67,7 +67,13 @@ public class TwitterFunctions {
 	 * @throws TwitterException
 	 */
 	public void retweet(Status tweet) throws TwitterException {
-		Logger.authenticatedInstance().retweetStatus(tweet.getId());
+		Twitter t = Logger.authenticatedInstance();
+		if(t==null){
+			init();
+			twitter.retweetStatus(tweet.getId());
+		}else{
+			t.retweetStatus(tweet.getId());
+		}
 	}
 
 	/**
