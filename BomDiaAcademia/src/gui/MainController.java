@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -34,11 +36,13 @@ public class MainController implements Initializable {
 
 	public HBox mainBox, postHeader, postBody, postFooter;
 	public JFXListView<PostBox> posts;
-	public VBox settings, mainPostBox, postContent;
+	public VBox settings, mainPostBox, postContent, emailPane;
 	public StackPane centerPane, postOverlay;
 	public ImageView postProfilePic;
 	public Label postAuthorName, postAuthorScreenName, username;
 	public JFXButton closePost, prevPost, nextPost, comment, retweet, favourite;
+	public JFXTextField emailReceiver, emailSubject;
+	public JFXTextArea emailMessage;
 
 	public ToggleGroup sideMenu, theme;
 	private EmailConnection emailConnection;
@@ -56,7 +60,7 @@ public class MainController implements Initializable {
 		username.setText(emailConnection.getUsername().split("@")[0]);
 
 		List<InformationEntry> entries = new ArrayList<>();
-		
+
 		try {
 //			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
 			entries.addAll(TwitterFunctions.getTweets(20));
@@ -185,6 +189,22 @@ public class MainController implements Initializable {
 			postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
 
 		postOverlay.toFront();
+	}
+
+	public void writeEmail() {
+		emailPane.toFront();
+	}
+
+	public void sendEmail() {
+		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
+				&& !emailMessage.getText().isEmpty())
+			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
+	}
+
+	public void clearEmail() {
+		emailReceiver.clear();
+		emailSubject.clear();
+		emailMessage.clear();
 	}
 
 	public void nextPost() {
