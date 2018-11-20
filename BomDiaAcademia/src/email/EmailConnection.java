@@ -95,6 +95,33 @@ public class EmailConnection {
 	    return result;
 	}
 	
+	public static boolean verifyLogin(String username, String password) {
+		Store emailStore = null;
+		//Folder emailFolder = null;
+		boolean connected = false;
+		try {
+			Properties properties = new Properties();
+			properties.setProperty("mail.store.protocol", "imaps");
+			Session emailSession = Session.getDefaultInstance(properties);
+			emailStore = emailSession.getStore("imaps");
+			emailStore.connect("outlook.office365.com", username, password); // outlook.office365.com // imap.gmail.com
+			connected = true;
+			/*// getting the inbox folder
+			emailFolder = emailStore.getFolder("INBOX");
+			emailFolder.open(Folder.READ_ONLY);
+			Message messages[] = emailFolder.getMessages();
+			//System.out.println(emailFolder.getMessageCount());
+			connected = true;
+			*/
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return connected;
+			
+	}
+	
 	/**
 	 * Receive mail.
 	 *
@@ -102,9 +129,11 @@ public class EmailConnection {
 	 */
 	public List<InformationEntry> receiveMail() {
 		List<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
-		ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
+		//ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
 		Store emailStore = null;
 		Folder emailFolder = null;
+		connected = false;
+		boolean correctLoginInfo = true;
 		try {
 			Properties properties = new Properties();
 			properties.setProperty("mail.store.protocol", "imaps");
@@ -152,15 +181,17 @@ public class EmailConnection {
 			
 		} catch(NoSuchProviderException nspe) {
 			nspe.printStackTrace();
-			connected = false;
+			//connected = false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (AuthenticationFailedException e) {
 			System.out.println("Failed authentication (Receive mail)");
-			connected = false;
+			correctLoginInfo = false;
+			
+			//connected = false;
 		} catch (Exception e) {
 			e.printStackTrace();
-			connected = false;
+			//connected = false;
 		} finally {
 			// closing emailFolder and emailStore.
 			try {
@@ -176,15 +207,20 @@ public class EmailConnection {
 		}
 		
 		try {
-			if(information_entry_list.isEmpty() ) {
-				information_entry_list = ReadAndWriteFile.loadListOfInformationEntry(EMAIL_FILE_NAME);
-				//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
-				System.out.println("Loaded the Information Entrys from the file.");
-				//System.out.println(information_entry_list);
-			} else {
-				information_entry_list.sort(new DateComparator());
-				ReadAndWriteFile.saveListOfInformationEntry(EMAIL_FILE_NAME, information_entry_list);
-				System.out.println("Emails saved.");
+//			boolean login = EmailConnection.verifyLogin(username, password);
+//			System.out.println(login);
+			//System.out.println(correctLoginInfo);
+			if(correctLoginInfo) {
+				if(information_entry_list.isEmpty()) {
+					information_entry_list = ReadAndWriteFile.loadListOfInformationEntry(EMAIL_FILE_NAME);
+					//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
+					System.out.println("Loaded the Information Entrys from the file.");
+					//System.out.println(information_entry_list);
+				} else {
+					information_entry_list.sort(new DateComparator());
+					ReadAndWriteFile.saveListOfInformationEntry(EMAIL_FILE_NAME, information_entry_list);
+					System.out.println("Emails saved.");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,7 +271,7 @@ public class EmailConnection {
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.starttls.required", "true");
 			
-			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar � algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
+			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
 			
 			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);

@@ -6,8 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import email.EmailConnection;
+import entry_objects.EmailEntry;
+import entry_objects.InformationEntry;
 import files.ReadAndWriteXMLFile;
-import jUnitTests.EmailTestingDelete;
+import tasks.EmailReaderTask;
+import tasks.GetPostTask;
+import tasks.ServiceReadTask;
+import threads.InformationEntryGatherer;
 
 public class Main {
 	
@@ -32,14 +37,15 @@ public class Main {
 			//user = ReadAndWriteFile.readUserXMLFile(fileName);
 			
 			user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-			System.out.println(user);
+			//System.out.println(user);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("There is no XML file yet.");
 		}
 		
 		try { 
-			if(user == null || (user != null && user.isInformationSaved() == false)) {
+			if(user == null || (user != null && (user.isInformationSaved() == false || !EmailConnection.verifyLogin(user.getUsername(), user.getPassword())))) {
 				System.out.println("Please insert your email address:");
 				username = sc.nextLine();
 				System.out.println("Please insert the password for that email:");
@@ -65,13 +71,13 @@ public class Main {
 						"RNfBwVLc7aqTiNZfv2PAWByf7w6QigG43Ni89BRZVrbs4"); ;
 				user_config_list.add(user);
 				user_config_list.add(twitter);
-				System.out.println(user_config_list.toString());
+				//System.out.println(user_config_list.toString());
 				ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 				//ReadAndWriteFile.writeOnXMLFileAsNewFile(fileName, user); // its not creating the file?
 			}
 			
 			twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-			System.out.println(twitter);
+			//System.out.println(twitter);
 			
 			
 			// Ja tenho o user (XMLUserConfiguration) neste ponto
@@ -79,6 +85,25 @@ public class Main {
 			//System.out.println(user.getPassword());
 			//System.out.println(user.isInformationSaved());
 			EmailConnection outlook = new EmailConnection(user.getUsername(), user.getPassword());
+			List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
+			int number_of_tasks = 1;
+			InformationEntryGatherer barrier = new InformationEntryGatherer(number_of_tasks);
+			tasks.add(new EmailReaderTask(barrier, outlook));
+			Thread thread = new Thread(new GetPostTask(tasks));
+			thread.start();
+			
+			//List<InformationEntry> emails = outlook.receiveMail();
+			
+			/*
+			for(int i = 0 ; i < emails.size() ; i++) { // should return this array instead for it to be displayed on the UI
+				System.out.println("Email Number " + (i+1) + ".");
+				System.out.println("From: " + ((EmailEntry)emails.get(i)).getWriterName());
+				System.out.println("Sent date: " + emails.get(i).getDate());
+				System.out.println("Subject: " + ((EmailEntry)emails.get(i)).getSubject());
+				System.out.println("Message: " + ((EmailEntry)emails.get(i)).getContent());
+			}
+			*/
+			
 			//EmailTesting test = new EmailTesting(outlook);
 			//test.jUnitTests();
 			
