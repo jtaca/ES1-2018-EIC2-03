@@ -19,7 +19,7 @@ import org.junit.Test;
 /**
  * The Class EmailTesting.
  */
-public class EmailTesting {
+public class EmailTestingDelete {
 	
 	/** The email. */
 	private static EmailConnection email;

@@ -11,7 +11,7 @@ import entry_objects.InformationEntry;
 import twitter.TwitterFunctions;
 import twitter4j.Status;
 
-public class TwitterTest {
+public class TwitterTestDelete {
 
 	@Test
 	public void loggerTestgetKeys(){

@@ -21,7 +21,7 @@ import files.ReadAndWriteXMLFile;
 import other.Service;
 import other.XMLUserConfiguration;
 
-public class ReadAndWriteTesting { 
+public class ReadAndWriteTestingDelete { 
 	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 	private static XMLUserConfiguration config = null;
 	

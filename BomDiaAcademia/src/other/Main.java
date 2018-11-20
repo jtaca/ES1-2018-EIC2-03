@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import email.EmailConnection;
 import files.ReadAndWriteXMLFile;
-import jUnitTests.EmailTesting;
+import jUnitTests.EmailTestingDelete;
 
 public class Main {
 	
