@@ -43,3 +43,7 @@
 .radio-button:selected .glyph-icon {
 	-fx-fill: ffffff
 }
+
+#sendEmail {
+	-fx-background-color: #0078ff
+}
