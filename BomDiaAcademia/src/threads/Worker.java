@@ -37,7 +37,7 @@ public class Worker extends Thread { //
 				task = TaskTable.getInstance().getTask();
 				task.run();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				stop = true;
 			}
 		}
 	}

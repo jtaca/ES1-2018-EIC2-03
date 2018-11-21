@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.sql.rowset.Joinable;
+
 import email.EmailConnection;
 import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
@@ -13,6 +15,7 @@ import tasks.EmailReaderTask;
 import tasks.GetPostTask;
 import tasks.ServiceReadTask;
 import threads.InformationEntryGatherer;
+import threads.ThreadPool;
 
 public class Main {
 	
@@ -76,7 +79,19 @@ public class Main {
 				//ReadAndWriteFile.writeOnXMLFileAsNewFile(fileName, user); // its not creating the file?
 			}
 			
-			twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+			try {
+				twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+			} catch (Exception e) {
+				//e.printStackTrace();
+				System.out.println("There is no XML file yet for twitter keys.");
+			}
+			
+			if(twitter == null) {
+				twitter = new XMLUserConfiguration(saveInformationOfUserBool, Service.TWITTER, "MMhfibuBOYCRvcSYhu7CGm8eE", 
+						"K5OAA4YwnC6w93Xb0xbvbkbqHNnJqfH3byx4hNV0TvLp7V0Cqs","2389545732-pusPUzJqBCmMxx3iwW6k0G6xMfSn2hyXzl2Hsdw",
+						"RNfBwVLc7aqTiNZfv2PAWByf7w6QigG43Ni89BRZVrbs4"); ;
+			}
+			
 			//System.out.println(twitter);
 			
 			
@@ -88,9 +103,11 @@ public class Main {
 			List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
 //			int number_of_tasks = 1;
 			//InformationEntryGatherer barrier = new InformationEntryGatherer(number_of_tasks);
+			ThreadPool.getInstance().startThreads();
 			tasks.add(new EmailReaderTask(outlook));
 			Thread thread = new Thread(new GetPostTask(tasks));
 			thread.start();
+			thread.join();
 			
 			//List<InformationEntry> emails = outlook.receiveMail();
 			
@@ -113,6 +130,8 @@ public class Main {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			ThreadPool.getInstance().stopThreads();
 		}
 	}
 	

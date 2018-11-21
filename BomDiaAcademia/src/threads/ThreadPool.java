@@ -55,8 +55,8 @@ public class ThreadPool { //
 			for(Worker w : threads) {
 				w.stopWorking();
 				w.interrupt();
-				threads.remove(w);
 			}
+			threads.clear();
 			threadsWorking = false;
 		}
 	}
