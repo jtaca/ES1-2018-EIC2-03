@@ -9,6 +9,7 @@ import java.util.List;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import files.ReadAndWriteXMLFile;
+import other.Filter;
 import other.XMLUserConfiguration;
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -33,14 +34,14 @@ public class TwitterFunctions {
 	private static String TWITTER_ACCESS_TOKEN = "2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi";
 	private static String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
 
-	private static Twitter twitter;
+	private static Twitter twitter = init();
 	private static XMLUserConfiguration twitterKeys = null;
 
 	/**
 	 * 
 	 * 
 	 */
-	private static void init() {
+	private static Twitter init() {
 //		try {
 //			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 //		} catch (Exception e) {
@@ -51,7 +52,7 @@ public class TwitterFunctions {
 //		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
 //		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
 //		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
-		if(twitter==null){
+		
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(true);
 			cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -60,7 +61,8 @@ public class TwitterFunctions {
 			cb.setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);
 			TwitterFactory tf = new TwitterFactory(cb.build());
 			twitter = tf.getInstance();
-		}
+		
+		return twitter;
 	}
 
 	/**
@@ -105,47 +107,26 @@ public class TwitterFunctions {
 			return null;
 		}
 	}
-
-	public static List<InformationEntry> getTweets(int ammount) throws Exception {
-		List<InformationEntry> tweets = new ArrayList<>();
-		List<String> users = null;
-		
-			init();
-		
-		users = ReadAndWriteXMLFile.getTwitterUsers();
-		for(String user : users)
-			getTweetsForUser(ammount,user).forEach(status -> tweets.add(status));
-		return tweets;
-	}
-	
-	/**
-	 * @param ammount
-	 * @param user
-	 * @return List<InformationEntry>
-	 * @throws Exception
-	 */
-	public static List<InformationEntry> getTweetsForUser(int ammount, String user) throws Exception {
-		List<InformationEntry> tweets = new ArrayList<>();
-		
-			init();
-
+	public static List<InformationEntry> getTweetsFiltered(){
+		init();
+		Filter f = Filter.getInstance();
+		List<InformationEntry> l=null;
 		try {
-			twitter.getUserTimeline(user, new Paging(1, ammount)).forEach(s -> tweets.add(new TwitterEntry(s)));
-		} catch (TwitterException e) {
+			l=getTweetsFromUsers(f.getDate(), f.getFilterList().toArray(new String[0]));
+		} catch (Exception e) {
+			System.out.println("getFilterList retorna lista com objetos do tipo errado ou retorna null");
 			e.printStackTrace();
 		}
-
-		return tweets;
+		return l;
 	}
+
 	
-	public static List<InformationEntry> getTweetsForUserByDate(Date date, String user) throws Exception {
+	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
-
-			init();
-
 		try {
 			twitter.getUserTimeline(user).forEach(s -> {
 			if(s.getCreatedAt().after(date))
+	//		if(s.getCreatedAt().compareTo(date)>=0)
 			tweets.add(new TwitterEntry(s));
 			});
 		} catch (TwitterException e) {
@@ -161,23 +142,18 @@ public class TwitterFunctions {
 	 * @return List<InformationEntry>
 	 * @throws Exception
 	 */
-	public static List<InformationEntry> getTweetsForUsers(int ammount, String... users) throws Exception {
+	public static List<InformationEntry> getTweetsFromUsers(Date date, String... users) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
 
 		for (String user : users)
-			tweets.addAll(getTweetsForUser(ammount, user));
+			tweets.addAll(getTweetsFromUserByDate(date, user));
 
 		tweets.sort(Comparator.comparing(InformationEntry::getDate).reversed());
 
 		return tweets;
 	}
 	
-	/*
-	public static List<InformationEntry> getTweetsForUser() {
-		for(String filter : Filter.getFilter())
-			tweeter.addAll(getTweetsForUser(filter));
-	}
-	*/
+	
 
 	public static String[] getKeys() {
 		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
