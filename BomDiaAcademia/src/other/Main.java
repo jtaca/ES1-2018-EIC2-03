@@ -108,7 +108,7 @@ public class Main {
 			tasks.add(new EmailReaderTask(outlook));
 			Thread thread = new Thread(new GetPostTask(tasks));
 			thread.start();
-			thread.join();
+			thread.join(); //
 			
 			//List<InformationEntry> emails = outlook.receiveMail();
 			
