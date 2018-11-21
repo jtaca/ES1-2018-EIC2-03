@@ -82,7 +82,7 @@ public class MainController implements Initializable {
 
 		try {
 //			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
-			entries.addAll(TwitterFunctions.getTweets(20));
+	//		entries.addAll(TwitterFunctions.getTweets(20));   as funcoes de busca dos tweets foram alteradas atualizar esta linha com a funcao pertinente
 			entries.addAll(emailConnection.receiveMail());
 		} catch (Exception e) {
 			e.printStackTrace();
