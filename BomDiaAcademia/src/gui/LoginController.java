@@ -63,20 +63,12 @@ public class LoginController implements Initializable {
 		if (username.getText().isEmpty() || password.getText().isEmpty())
 			errorMessage.setText("Preencha todos os campos");
 		else {
-			if (false) {
-				;
-				/*
-				 * Verificação do nome de utilizador e palavra-passe
-				 */
-			} else {
-//				errorMessage.setText("A palavra-passe introduzida é incorreta");
+			if (EmailConnection.verifyLogin(username.getText(), password.getText())) {
 
 				EmailConnection outlook = null;
 				XMLUserConfiguration twitter = null;
 				List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
-				
-				
-				
+
 				try {
 					twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 				} catch (Exception e) {
@@ -89,18 +81,18 @@ public class LoginController implements Initializable {
 								password.getText());
 
 //						if (rememberMe.isSelected()) {}
-					if(twitter == null)
+					if (twitter == null)
 						twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
-								TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1], TwitterFunctions.getKeys()[2],
-								TwitterFunctions.getKeys()[3]);
-					
-					if(rememberMe.isSelected()) {
+								TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1],
+								TwitterFunctions.getKeys()[2], TwitterFunctions.getKeys()[3]);
+
+					if (rememberMe.isSelected()) {
 						user_config_list.add(user);
 						user_config_list.add(twitter);
 						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 					}
-					
-					//twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+
+					// twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 					outlook = new EmailConnection(user.getUsername(), user.getPassword());
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -124,7 +116,8 @@ public class LoginController implements Initializable {
 				((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 				stage.show();
 				root.requestFocus();
-			}
+			} else
+				errorMessage.setText("A palavra-passe introduzida é incorreta");
 		}
 
 		if (!errorMessage.getText().equals(oldMessage))
