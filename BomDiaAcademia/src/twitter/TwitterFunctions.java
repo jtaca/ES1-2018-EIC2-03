@@ -121,7 +121,7 @@ public class TwitterFunctions {
 	}
 
 	
-	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) throws Exception {
+	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) {
 		List<InformationEntry> tweets = new ArrayList<>();
 		try {
 			twitter.getUserTimeline(user).forEach(s -> {
@@ -142,9 +142,9 @@ public class TwitterFunctions {
 	 * @return List<InformationEntry>
 	 * @throws Exception
 	 */
-	public static List<InformationEntry> getTweetsFromUsers(Date date, String... users) throws Exception {
+	public static List<InformationEntry> getTweetsFromUsers(Date date, String... users) {
 		List<InformationEntry> tweets = new ArrayList<>();
-
+		if(users!=null)
 		for (String user : users)
 			tweets.addAll(getTweetsFromUserByDate(date, user));
 

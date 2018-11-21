@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,22 +50,42 @@ public class TwitterFunctionsTesting {
 		}
 		assertNotNull(l);
 	}
-
-	@Test
-	public void testGetTweetsFromUser() {
-		
-	}
+	
 
 	@Test
 	public void testGetTweetsFromUserByDate() {
-		fail("Not yet implemented");
+		Calendar c= Calendar.getInstance();
+		c.set(2018, Calendar.OCTOBER , 14,23,0,0);
+		Date d = c.getTime();
+		List<InformationEntry> l;
+		l=TwitterFunctions.getTweetsFromUserByDate(d, "ANACLET28324119");
+		assert(l.isEmpty());
+		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
+		d=c.getTime();
+		l=TwitterFunctions.getTweetsFromUserByDate(d, "ANACLET28324119");
+		assertEquals(l.get(0).toString(),"ola meu outra vez");
+		assertEquals(l.get(1).toString(),"ola meu.");
 	}
 
 	@Test
 	public void testGetTweetsFromUsers() {
-		fail("Not yet implemented");
+		List<InformationEntry> l;
+		Calendar c= Calendar.getInstance();
+		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
+		Date date = c.getTime();
+		String [] users=null;
+		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		assert(l.isEmpty());
+		users=new String[0];
+		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		assert(l.isEmpty());
+		users=new String[1];
+		users[0]="ANACLET28324119";
+		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		assert(!l.isEmpty());
+		assertEquals(l.get(0).toString(),"ola meu outra vez");
+		assertEquals(l.get(1).toString(),"ola meu.");
 	}
-
 	@Test
 	public void testGetKeys() {
 		String [] l=TwitterFunctions.getKeys();
@@ -72,6 +93,12 @@ public class TwitterFunctionsTesting {
 		assertEquals("WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w", l[1]);
 		assertEquals("2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi", l[2]);
 		assertEquals("6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn", l[3]);
+	}
+	//Logger Testing
+	
+	@Test
+	public void buildAuthenticationTwitter(){
+		fail();
 	}
 	
 	private class TestStatus implements Status{
