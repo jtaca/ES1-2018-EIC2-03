@@ -1,5 +1,6 @@
 package twitter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -68,11 +69,10 @@ public class TwitterFunctions {
 	 */
 	public void retweet(Status tweet) throws TwitterException {
 		Twitter t = Logger.authenticatedInstance();
-		if(t==null){
-			init();
-			twitter.retweetStatus(tweet.getId());
-		}else{
+		if(t!=null){
 			t.retweetStatus(tweet.getId());
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
 		}
 	}
 
@@ -80,7 +80,7 @@ public class TwitterFunctions {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<InformationEntry> requestTwitter() throws Exception {
+	public static List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
 
 			init();
@@ -106,22 +106,15 @@ public class TwitterFunctions {
 		}
 	}
 
-	public static List<InformationEntry> getTweets(int ammount) {
+	public static List<InformationEntry> getTweets(int ammount) throws Exception {
 		List<InformationEntry> tweets = new ArrayList<>();
-		List<String> users;
+		List<String> users = null;
 		
 			init();
 		
-		try {
-			users = ReadAndWriteXMLFile.getTwitterUsers();
-			
-			for(String user : users)
-				twitter.getUserTimeline(user, new Paging(1, ammount)).forEach(status -> tweets.add(new TwitterEntry(status)));
-			
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
-		
+		users = ReadAndWriteXMLFile.getTwitterUsers();
+		for(String user : users)
+			getTweetsForUser(ammount,user).forEach(status -> tweets.add(status));
 		return tweets;
 	}
 	
