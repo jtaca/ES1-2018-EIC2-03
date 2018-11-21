@@ -45,6 +45,7 @@ public class MainController implements Initializable {
 	public JFXButton closePost, prevPost, nextPost, comment, retweet, favourite;
 	public JFXTextField emailReceiver, emailSubject;
 	public JFXTextArea emailMessage;
+	private PostBox loadMore;
 
 	public ToggleGroup sideMenu, theme;
 	private EmailConnection emailConnection;
@@ -61,6 +62,22 @@ public class MainController implements Initializable {
 
 		username.setText(emailConnection.getUsername().split("@")[0]);
 
+		loadMore = new PostBox(null);
+		loadMore.alignmentProperty().set(Pos.CENTER);
+		JFXButton load = new JFXButton("Carregar mais");
+		load.setOnAction(e -> loadMorePosts());
+
+		loadMore.getChildren().add(load);
+
+		loadMorePosts();
+	}
+
+	private void loadMorePosts() {
+		if (!posts.getItems().isEmpty())
+			posts.getItems().remove(posts.getItems().size() - 1);
+	
+		int last = posts.getItems().size() - 1;
+		
 		List<InformationEntry> entries = new ArrayList<>();
 
 		try {
@@ -75,6 +92,10 @@ public class MainController implements Initializable {
 
 		for (InformationEntry entry : entries)
 			posts.getItems().add(loadPost(entry));
+
+		posts.getItems().add(loadMore);
+		
+		posts.scrollTo(last);
 	}
 
 	public void setTheme() {
@@ -204,10 +225,10 @@ public class MainController implements Initializable {
 		else {
 			FadeTransition errorFade = new FadeTransition(Duration.seconds(1), emailError);
 			emailError.setText("Preencha todos os campos");
-			
+
 			errorFade.setFromValue(0);
 			errorFade.setToValue(1);
-			
+
 			errorFade.play();
 		}
 	}
