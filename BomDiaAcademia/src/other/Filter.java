@@ -16,7 +16,7 @@ public class Filter {
 	private Date dateLimit = new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000); // dateLimit as default is the previous day
 	
 	private static final String FILTER_FILE_NAME = "filter.dat";
-	private static final String[] DEFAULT_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
+	private static final String[] DEFAULT_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
 //	private static final String[] DEFAULT_FILTERS = {"ista"};
 	
 	private static final Filter INSTANCE = new Filter();
@@ -126,6 +126,10 @@ public class Filter {
 	public boolean verifyIfConsiderDate(Date date) {
 		Date dateLimit = this.dateLimit;
 		return dateLimit.before(date);
+	}
+	
+	public Date getDate(){
+		return this.dateLimit;
 	}
 
 }
