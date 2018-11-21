@@ -18,6 +18,7 @@ import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import files.ReadAndWriteFile;
 import files.ReadAndWriteXMLFile;
+import other.Filter;
 import other.Service;
 
 /**
@@ -153,15 +154,27 @@ public class EmailConnection {
 			String content;
 			InformationEntry informationEntry;
 			
-			for(int i = messages.length - 1 ; i > messages.length - 6 ; i--) {
+			List<String> filters = Filter.getInstance().getFilterList();
+			
+			for(int i = messages.length - 1 ; i >= 0 ; i--) {
 				date = messages[i].getSentDate();
+				if(!Filter.getInstance().verifyIfConsiderDate(date)) {
+					break;
+				}
 				writerName = messages[i].getFrom()[0].toString();
 				subject = messages[i].getSubject();
-				content = getTextFromMessage(messages[i]);
+//					if(writerName.toLowerCase().contains(filter) || subject.toLowerCase().contains(filter)) {
+				if(Filter.verifyIfStringContainsAnyFilter(writerName, filters) || Filter.verifyIfStringContainsAnyFilter(subject, filters)) {
+					
+					content = getTextFromMessage(messages[i]);
+					
+					informationEntry = new EmailEntry(date, writerName, subject, content);
+					
+					information_entry_list.add(informationEntry);
+				}
 				
-				informationEntry = new EmailEntry(date, writerName, subject, content);
 				
-				information_entry_list.add(informationEntry);
+				
 				
 				//ReadAndWriteFile.writeOnFileAsNewFile("" + (messages.length - i), informationEntry);
 				
@@ -214,7 +227,9 @@ public class EmailConnection {
 				if(information_entry_list.isEmpty()) {
 					information_entry_list = ReadAndWriteFile.loadListOfInformationEntry(EMAIL_FILE_NAME);
 					//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
-					System.out.println("Loaded the Information Entrys from the file.");
+					if(information_entry_list != null) {
+						System.out.println("Loaded the Information Entrys from the file.");
+					}
 					//System.out.println(information_entry_list);
 				} else {
 					information_entry_list.sort(new DateComparator());

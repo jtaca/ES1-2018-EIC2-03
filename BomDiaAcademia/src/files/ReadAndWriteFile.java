@@ -31,8 +31,8 @@ import other.XMLUserConfiguration;
  */
 public class ReadAndWriteFile { // 
 	
-	/** The Constant FOLDER. */
-	private static final String FOLDER = "Posts/";
+	private static final String FOLDER_POSTS = "Posts/";
+	
 	
 	/**
 	 * Instantiates a new read and write file.
@@ -49,7 +49,7 @@ public class ReadAndWriteFile { //
 	 */
 	public static void saveListOfInformationEntry(String fileName, List<InformationEntry> information_entry_list) {
 		
-		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FOLDER + fileName));) {
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FOLDER_POSTS + fileName));) {
 			out.writeObject(information_entry_list);
 			out.flush();
 		} catch (FileNotFoundException e) {
@@ -70,7 +70,7 @@ public class ReadAndWriteFile { //
 	public static List<InformationEntry> loadListOfInformationEntry(String fileName) {
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FOLDER + fileName));) {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FOLDER_POSTS + fileName));) {
 			information_entry_list = (ArrayList<InformationEntry>) in.readObject();
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());
@@ -81,6 +81,37 @@ public class ReadAndWriteFile { //
 		}
 		
 		return information_entry_list;
+	}
+	
+	
+	public static boolean saveListOfFilters(String fileName, List<String> filters) {
+		
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));) {
+			out.writeObject(filters);
+			out.flush();
+			return true;
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
+		}
+		return false;	
+	}
+	
+	public static List<String> loadListOfFilters(String fileName) {
+		ArrayList<String> filters = null;
+		
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {
+			filters = (ArrayList<String>) in.readObject();
+		} catch (FileNotFoundException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());			
+		}
+		
+		return filters;
 	}
 	
 	/*

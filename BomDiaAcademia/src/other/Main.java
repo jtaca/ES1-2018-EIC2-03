@@ -104,6 +104,7 @@ public class Main {
 //			int number_of_tasks = 1;
 			//InformationEntryGatherer barrier = new InformationEntryGatherer(number_of_tasks);
 			ThreadPool.getInstance().startThreads();
+			Filter.getInstance().defineDateIntervalFromCurrentDate(2);
 			tasks.add(new EmailReaderTask(outlook));
 			Thread thread = new Thread(new GetPostTask(tasks));
 			thread.start();
