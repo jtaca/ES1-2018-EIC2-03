@@ -51,19 +51,8 @@ public class TwitterFunctionsTesting {
 	}
 
 	@Test
-	public void testGetTweets() {
-		List<InformationEntry> l=null;
-		try {
-			l=TwitterFunctions.getTweets(20);
-		} catch (Exception e) {
-			if(!l.isEmpty())fail();
-		}
-		assertNotNull(l);
-	}
-
-	@Test
 	public void testGetTweetsFromUser() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
