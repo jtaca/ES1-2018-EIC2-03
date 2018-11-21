@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,6 +37,8 @@ import twitter4j.Status;
 
 public class MainController implements Initializable {
 
+	private static final MainController INSTANCE = new MainController();
+
 	public HBox mainBox, postHeader, postBody, postFooter;
 	public JFXListView<PostBox> posts;
 	public VBox settings, mainPostBox, postContent, emailPane;
@@ -50,9 +53,12 @@ public class MainController implements Initializable {
 	public ToggleGroup sideMenu, theme;
 	private EmailConnection emailConnection;
 
-	public MainController(EmailConnection emailConnection) {
-		this.emailConnection = emailConnection;
+	private MainController() {
 	}
+
+//	public MainController(EmailConnection emailConnection) {
+//		this.emailConnection = emailConnection;
+//	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -60,29 +66,42 @@ public class MainController implements Initializable {
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
 
-		username.setText(emailConnection.getUsername().split("@")[0]);
+//		username.setText(emailConnection.getUsername().split("@")[0]);
 
-		loadMore = new PostBox(null);
-		loadMore.alignmentProperty().set(Pos.CENTER);
-		JFXButton load = new JFXButton("Carregar mais");
-		load.setOnAction(e -> loadMorePosts());
+//		loadMore = new PostBox(null);
+//		loadMore.alignmentProperty().set(Pos.CENTER);
+//		JFXButton load = new JFXButton("Carregar mais");
+//		load.setOnAction(e -> loadMorePosts());
+//
+//		loadMore.getChildren().add(load);
+//
+//		loadMorePosts();
+	}
 
-		loadMore.getChildren().add(load);
+	public void reloadPosts(List<InformationEntry> entries) {
+		posts.getItems().clear();
 
-		loadMorePosts();
+		for (InformationEntry entry : entries)
+			posts.getItems().add(loadPost(entry));
+	}
+
+	public void loadPosts(List<InformationEntry> entries) {
+		for (InformationEntry entry : entries)
+			posts.getItems().add(loadPost(entry));
 	}
 
 	private void loadMorePosts() {
 		if (!posts.getItems().isEmpty())
 			posts.getItems().remove(posts.getItems().size() - 1);
-	
+
 		int last = posts.getItems().size() - 1;
-		
+
 		List<InformationEntry> entries = new ArrayList<>();
 
 		try {
 //			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
-	//		entries.addAll(TwitterFunctions.getTweets(20));   as funcoes de busca dos tweets foram alteradas atualizar esta linha com a funcao pertinente
+			// entries.addAll(TwitterFunctions.getTweets(20)); as funcoes de busca dos
+			// tweets foram alteradas atualizar esta linha com a funcao pertinente
 			entries.addAll(emailConnection.receiveMail());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,7 +113,7 @@ public class MainController implements Initializable {
 			posts.getItems().add(loadPost(entry));
 
 		posts.getItems().add(loadMore);
-		
+
 		posts.scrollTo(last);
 	}
 
@@ -256,5 +275,9 @@ public class MainController implements Initializable {
 
 	public void closePost() {
 		postOverlay.toBack();
+	}
+
+	public static MainController getInstance() {
+		return INSTANCE;
 	}
 }

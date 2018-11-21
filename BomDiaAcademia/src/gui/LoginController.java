@@ -102,7 +102,7 @@ public class LoginController implements Initializable {
 
 				Stage stage = new Stage();
 				FXMLLoader loader = new FXMLLoader();
-				loader.setController(new MainController(outlook));
+				loader.setController(MainController.getInstance());
 				loader.setLocation(getClass().getResource("/res/MainScene.fxml"));
 				Parent root = loader.load();
 				Image icon = new Image(getClass().getResource("/res/logo0.png").toString());
