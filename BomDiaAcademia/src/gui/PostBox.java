@@ -1,18 +1,25 @@
 package gui;
 
+import entry_objects.InformationEntry;
 import javafx.scene.layout.HBox;
-import twitter4j.Status;
+import other.Service;
 
 public class PostBox extends HBox {
 
-	private Status status;
+	private InformationEntry informationEntry;
+	private Service service;
 
-	public PostBox(Status status) {
+	public PostBox(InformationEntry informationEntry) {
 		super();
-		this.status = status;
+		this.informationEntry = informationEntry;
+		service = informationEntry.getService();
 	}
 
-	public Status getStatus() {
-		return status;
+	public InformationEntry getInformationEntry() {
+		return informationEntry;
+	}
+
+	public Service getService() {
+		return service;
 	}
 }
