@@ -21,19 +21,19 @@ public class Login extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ThreadPool.getInstance().startThreads();
-		
+
 		List<XMLUserConfiguration> userConfiguration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setController(new LoginController(userConfiguration.isEmpty() ? null : userConfiguration.get(0)));
 		loader.setLocation(getClass().getResource("/res/LogIn.fxml"));
 		Parent root = loader.load();
-//		Parent root = FXMLLoader.load(getClass().getResource("/res/LogIn.fxml"));
 		Image icon = new Image(getClass().getResource("/res/logo0.png").toString());
 
 		primaryStage.getIcons().add(icon);
 		primaryStage.setTitle("Bom Dia Academia");
 		primaryStage.setMinHeight(490);
 		primaryStage.setMinWidth(370);
+		primaryStage.setOnCloseRequest(e -> ThreadPool.getInstance().stopThreads());
 
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
