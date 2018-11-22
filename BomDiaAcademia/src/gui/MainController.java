@@ -77,39 +77,6 @@ public class MainController implements Initializable {
 //		loadMore.getChildren().add(load);
 //
 //		loadMorePosts();
-
-		new Thread() {
-			public void run() {
-				List<InformationEntry> e1 = new ArrayList<>(), e2 = new ArrayList<>();
-				for (int i = 0; i < 10; i++) {
-					e1.add(new EmailEntry(new Date(), "John", "Subject " + i, "Bueadasd"));
-					e2.add(new EmailEntry(new Date(), "Bob", "Subject " + i, "Bueadasd"));
-				}
-
-				for (int i = 0; i < 2; i++) {
-					for (int j = 5; j > 0; j--) {
-						try {
-							Thread.sleep(1000);
-							System.out.println(j);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-					loadPosts(e1);
-				}
-
-				for (int j = 5; j > 0; j--) {
-					try {
-						Thread.sleep(1000);
-						System.out.println(j);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-				}
-				reloadPosts(e2);
-			}
-		}.start();
 	}
 
 	public void reloadPosts(List<InformationEntry> entries) {
