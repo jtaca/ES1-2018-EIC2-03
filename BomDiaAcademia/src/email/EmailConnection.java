@@ -275,7 +275,7 @@ public class EmailConnection {
 	 */
 	public void sendEmail(String sendEmailTo, String subject, String message) {
 		try {
-			String host = "smtp.office365.com"; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com
+			String host = "smtp.office365.com"; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com // "smtp-mail.outlook.com"
 			boolean sessionDebug = false;
 			
 			Properties props = System.getProperties();

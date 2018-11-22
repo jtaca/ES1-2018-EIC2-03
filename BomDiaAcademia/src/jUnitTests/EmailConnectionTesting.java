@@ -30,25 +30,36 @@ private static EmailConnection email;
 			e.printStackTrace();
 		}
 	}
+	
 	@Test
 	public void testEmailConnection() {
-		fail("Not yet implemented");
+		boolean canConnectEmail = EmailConnection.verifyLogin(user.getUsername(), user.getPassword());
+		assertTrue(canConnectEmail);
+	}
+	
+	@Test
+	public void testFailEmailConnection() {
+		boolean canConnectEmail = EmailConnection.verifyLogin("NotTheEmail", "NotThePassword");
+		assertFalse(canConnectEmail);
 	}
 
 	@Test
 	public void testReceiveMail() {
 		List<InformationEntry> recievedEmails = email.receiveMail();
-		assertNotNull( recievedEmails);
+		assertNotNull(recievedEmails);
 	}
 
 	@Test
 	public void testGetUsername() {
-		fail("Not yet implemented");
+		String username = email.getUsername();
+		assertEquals(user.getUsername(), username);
 	}
 
 	@Test
 	public void testIsConnected() {
-		fail("Not yet implemented");
+		email.receiveMail();
+		boolean isConnected = email.isConnected();
+		assertTrue(isConnected);
 	}
 
 	@Test
@@ -57,19 +68,19 @@ private static EmailConnection email;
 		List<InformationEntry> recievedEmails = email.receiveMail();
 		System.out.println(((EmailEntry)recievedEmails.get(0)).getSubject());
 		assertTrue(((EmailEntry)recievedEmails.get(0)).getSubject().contains("test"));
-		assertTrue(((EmailEntry)recievedEmails.get(0)).getContent().contains("test"));
+//		assertTrue(((EmailEntry)recievedEmails.get(0)).getContent().contains("test"));
 		//assertEquals("test",((EmailEntry)recievedEmails.get(0)).getContent());
 		//System.out.println(((EmailEntry)recievedEmails.get(0)).getWriterName());
 		
 	}
 	
 	@Test
-	public void testIncorrectCredetials() {
-		EmailConnection emailTest = new EmailConnection(user.getUsername(), "notThePassword");
+	public void testConnectivityWhenIncorrectCredetials() {
+//		EmailConnection emailTest = new EmailConnection(user.getUsername(), "notThePassword");
+//		List<InformationEntry> recievedEmails = emailTest.receiveMail();
+//		assertFalse(emailTest.isConnected());
+		EmailConnection emailTest = new EmailConnection("dummy@iscte-iul.pt", "notThePassword");
 		List<InformationEntry> recievedEmails = emailTest.receiveMail();
-		assertFalse(emailTest.isConnected());
-		emailTest = new EmailConnection("dummy@iscte-iul.pt", "notThePassword");
-		recievedEmails = emailTest.receiveMail();
 		assertFalse(emailTest.isConnected());
 	}
 
