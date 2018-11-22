@@ -1,13 +1,9 @@
 package gui;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -20,106 +16,79 @@ import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import twitter.TwitterFunctions;
-import twitter4j.MediaEntity;
+import other.Service;
+import threads.ThreadPool;
 import twitter4j.Status;
 
 public class MainController implements Initializable {
 
 	private static final MainController INSTANCE = new MainController();
 
-	public HBox mainBox, postHeader, postBody, postFooter;
-	public JFXListView<PostBox> posts;
-	public VBox settings, mainPostBox, postContent, emailPane;
-	public StackPane centerPane, postOverlay;
-	public ImageView postProfilePic;
-	public Label postAuthorName, postAuthorScreenName, username, emailError;
-	public JFXButton closePost, prevPost, nextPost, comment, retweet, favourite;
-	public JFXTextField emailReceiver, emailSubject;
-	public JFXTextArea emailMessage;
-	private PostBox loadMore;
+	// Main window
+	public HBox mainBox;
+	public StackPane centerPane;
 
-	public ToggleGroup sideMenu, theme;
+	// Side bar
+	public ToggleGroup sideMenu;
+	public Label username;
+
+	// Posts list
+	public JFXListView<PostBox> posts;
+
+	// Open post
+	public StackPane postLayer;
+	public VBox postContainer, postContent, postAuthorInfo;
+	public Label authorName, authorUsername, retweetLabel;
+	public ImageView profilePic;
+	public HBox emailFooter, twitterFooter;
+
+	// Settings
+	public VBox settings;
+	public ToggleGroup theme;
+
+	// Email writing
+	public VBox emailPane;
+	public JFXTextField emailReceiver, emailSubject;
+	public Label emailError;
+	public JFXTextArea emailMessage;
+
 	private EmailConnection emailConnection;
 
 	private MainController() {
 	}
 
-//	public MainController(EmailConnection emailConnection) {
-//		this.emailConnection = emailConnection;
-//	}
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		showHomePage();
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
-		mainPostBox.maxHeightProperty().bind(postContent.heightProperty());
-
-//		username.setText(emailConnection.getUsername().split("@")[0]);
-
-//		loadMore = new PostBox(null);
-//		loadMore.alignmentProperty().set(Pos.CENTER);
-//		JFXButton load = new JFXButton("Carregar mais");
-//		load.setOnAction(e -> loadMorePosts());
-//
-//		loadMore.getChildren().add(load);
-//
-//		loadMorePosts();
+		postContainer.maxHeightProperty().bind(postContent.heightProperty());
 	}
 
-	public void reloadPosts(List<InformationEntry> entries) {
+	public void loadPosts(List<InformationEntry> entries, boolean reload) {
 		Platform.runLater(() -> {
-			posts.getItems().clear();
+			if (reload)
+				posts.getItems().clear();
 
 			for (InformationEntry entry : entries)
-				posts.getItems().add(loadPost(entry));
+				posts.getItems().add(toPostBox(entry));
 		});
-	}
-
-	public void loadPosts(List<InformationEntry> entries) {
-		Platform.runLater(() -> {
-			for (InformationEntry entry : entries)
-				posts.getItems().add(loadPost(entry));
-		});
-	}
-
-	private void loadMorePosts() {
-		if (!posts.getItems().isEmpty())
-			posts.getItems().remove(posts.getItems().size() - 1);
-
-		int last = posts.getItems().size() - 1;
-
-		List<InformationEntry> entries = new ArrayList<>();
-
-		try {
-//			entries.addAll(TwitterFunctions.getTweetsForUsers(20, "iscteiul"));
-			// entries.addAll(TwitterFunctions.getTweets(20)); as funcoes de busca dos
-			// tweets foram alteradas atualizar esta linha com a funcao pertinente
-			entries.addAll(emailConnection.receiveMail());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		entries.sort(Comparator.comparing(InformationEntry::getDate).reversed());
-
-		for (InformationEntry entry : entries)
-			posts.getItems().add(loadPost(entry));
-
-		posts.getItems().add(loadMore);
-
-		posts.scrollTo(last);
 	}
 
 	public void setTheme() {
@@ -133,113 +102,171 @@ public class MainController implements Initializable {
 		posts.toFront();
 	}
 
+	public void writeEmail() {
+		emailPane.toFront();
+	}
+
 	public void showSettings() {
 		settings.toFront();
 	}
 
-	public void logOut() {
-
+	public void logOut(ActionEvent event) {
+		ThreadPool.getInstance().stopThreads();
+		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 	}
 
-	private PostBox loadPost(InformationEntry entry) {
-		if (entry instanceof TwitterEntry) {
-			Status s = ((TwitterEntry) entry).getStatus();
-			return s.isRetweet() ? loadTweet(s.getRetweetedStatus(), s.getUser().getName()) : loadTweet(s, null);
-		} else if (entry instanceof EmailEntry)
-			return loadMail((EmailEntry) entry);
-		else
-			return null;
+	private PostBox toPostBox(InformationEntry informationEntry) {
+		PostBox postBox = new PostBox(informationEntry);
+		FontAwesomeIconView icon = new FontAwesomeIconView();
+		VBox entryInfo = new VBox();
+		HBox authorInfo = new HBox(), retweetInfo = new HBox();
+		Label authorName = new Label(), authorUsername = new Label(), postInfo = new Label(), date = new Label();
+		Region region = new Region();
+
+		postInfo.setWrapText(true);
+		date.setText(informationEntry.getDate().toString());
+		HBox.setHgrow(region, Priority.ALWAYS);
+		HBox.setHgrow(entryInfo, Priority.ALWAYS);
+
+		authorUsername.setPadding(new Insets(0, 10, 0, 10));
+
+		authorInfo.getChildren().addAll(authorName, authorUsername, region, date);
+		authorInfo.setAlignment(Pos.BASELINE_LEFT);
+
+		entryInfo.getChildren().addAll(authorInfo, postInfo);
+
+		postBox.getChildren().addAll(icon, entryInfo);
+
+		postBox.setSpacing(10);
+		postBox.prefWidthProperty().bind(posts.widthProperty().subtract(110));
+		postBox.setAlignment(Pos.CENTER_LEFT);
+
+		postBox.setOnMouseClicked(e -> openPost(informationEntry));
+
+		if (informationEntry.getService().equals(Service.EMAIL)) {
+			EmailEntry email = (EmailEntry) informationEntry;
+
+			String names[] = email.getWriterName().split("<");
+			icon.setIcon(FontAwesomeIcon.ENVELOPE);
+			icon.setSize("50");
+			icon.setStyle("-fx-fill: #3cbffc");
+
+			authorName.setText(names[0].trim());
+			authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
+
+			authorUsername.setStyle("-fx-font-weight: bold");
+
+			postInfo.setText(email.getSubject());
+		} else if (informationEntry.getService().equals(Service.TWITTER)) {
+			TwitterEntry tweet = (TwitterEntry) informationEntry;
+
+			icon.setIcon(FontAwesomeIcon.TWITTER);
+			icon.setSize("50");
+			icon.setStyle("-fx-fill: #3cbffc");
+
+			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
+			ImageView pic = new ImageView(new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true));
+
+			authorName.setText(status.getUser().getName());
+			authorUsername.setText("@" + status.getUser().getScreenName());
+
+			authorUsername.setStyle("-fx-font-weight: bold");
+
+			if (tweet.isRetweet()) {
+				FontAwesomeIconView retweetIcon = new FontAwesomeIconView(FontAwesomeIcon.RETWEET);
+				Label retweeter = new Label(tweet.getStatus().getUser().getName() + " retweeted");
+
+				retweetIcon.setStyle("-fx-fill: #878787");
+
+				retweeter.setStyle("-fx-text-fill: #878787");
+				retweeter.setPadding(new Insets(0, 10, 0, 5));
+
+				retweetInfo.getChildren().addAll(retweetIcon, retweeter);
+
+				entryInfo.getChildren().add(0, retweetInfo);
+			}
+
+			postInfo.setText(status.getText());
+
+			postBox.getChildren().add(1, pic);
+		}
+
+		return postBox;
 	}
 
-	private PostBox loadTweet(Status status, String retweeter) {
-		PostBox post = new PostBox(status);
-		HBox tweetAuthor = new HBox();
-		VBox tweetInfo = new VBox();
-
-		FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TWITTER);
-		icon.setSize("50");
-		icon.setStyle("-fx-fill: #3cbffc");
-
-		ImageView pic = new ImageView(new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true));
-
-		Label name = new Label(status.getUser().getName());
-		Label userName = new Label("@" + status.getUser().getScreenName());
-		Label retweet = new Label(retweeter + " retweeted");
-		Label date = new Label(status.getCreatedAt().toString());
-		FontAwesomeIconView rt = new FontAwesomeIconView(FontAwesomeIcon.RETWEET);
-
-		retweet.setStyle("-fx-text-fill: #878787");
-		retweet.setPadding(new Insets(0, 10, 0, 5));
-		userName.setStyle("-fx-font-weight: bold");
-		userName.setPadding(new Insets(0, 0, 0, 10));
-		date.setPadding(new Insets(0, 0, 0, 10));
-		rt.setStyle("-fx-fill: #878787");
-
-		Label tweet = new Label(status.getText());
-		tweet.setWrapText(true);
-
-		post.setOnMouseClicked(e -> showPost(status));
-
-		if (retweeter != null)
-			tweetAuthor.getChildren().addAll(rt, retweet);
-
-		tweetAuthor.getChildren().addAll(name, userName);
-		tweetAuthor.setAlignment(Pos.BASELINE_LEFT);
-		tweetInfo.getChildren().addAll(tweetAuthor, tweet);
-		post.getChildren().addAll(icon, pic, tweetInfo);
-		post.setSpacing(10);
-		post.prefWidthProperty().bind(posts.widthProperty().subtract(110));
-		post.setAlignment(Pos.CENTER_LEFT);
-
-		return post;
-	}
-
-	private PostBox loadMail(EmailEntry email) {
-		PostBox post = new PostBox(null);
-		HBox tweetAuthor = new HBox();
-		VBox tweetInfo = new VBox();
-
-		FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.ENVELOPE);
-		icon.setSize("50");
-		icon.setStyle("-fx-fill: #3cbffc");
-
-		Label name = new Label(email.getWriterName()), subject = new Label(email.getSubject());
-
-		subject.setWrapText(true);
-
-		tweetAuthor.getChildren().addAll(name);
-		tweetAuthor.setAlignment(Pos.BASELINE_LEFT);
-		tweetInfo.getChildren().addAll(tweetAuthor, subject);
-		post.getChildren().addAll(icon, tweetInfo);
-		post.setSpacing(10);
-		post.prefWidthProperty().bind(posts.widthProperty().subtract(110));
-		post.setAlignment(Pos.CENTER_LEFT);
-
-		return post;
-	}
-
-	private void showPost(Status status) {
+	private void openPost(InformationEntry informationEntry) {
 		postContent.getChildren().clear();
 		postContent.autosize();
+		retweetLabel.setVisible(false);
+		retweetLabel.setMaxHeight(0);
 
-		postProfilePic.setImage(new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true));
+		if (informationEntry.getService().equals(Service.EMAIL)) {
+			EmailEntry email = (EmailEntry) informationEntry;
 
-		postAuthorName.setText(status.getUser().getName());
-		postAuthorScreenName.setText("@" + status.getUser().getScreenName());
+			String names[] = email.getWriterName().split("<");
+			profilePic.setFitWidth(0);
+			profilePic.setFitHeight(0);
+			profilePic.setImage(null);
 
-		Text text = new Text(status.getText());
-		text.setWrappingWidth(450);
+			HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));
 
-		postContent.getChildren().add(text);
+			authorName.setText(names[0].trim());
+			authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
 
-		for (MediaEntity m : status.getMediaEntities())
-			postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
+			Text body = new Text(email.getContent());
+			body.setWrappingWidth(470);
 
-		postOverlay.toFront();
+			postContent.getChildren().add(body);
+
+			emailFooter.toFront();
+		} else if (informationEntry.getService().equals(Service.TWITTER)) {
+			TwitterEntry tweet = (TwitterEntry) informationEntry;
+
+			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
+			Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
+
+			profilePic.setFitWidth(50);
+			profilePic.setFitHeight(50);
+			profilePic.setImage(pic);
+
+			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
+
+			authorName.setText(status.getUser().getName());
+			authorUsername.setText("@" + status.getUser().getScreenName());
+
+			if (tweet.isRetweet()) {
+				retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
+				retweetLabel.setVisible(true);
+			}
+
+//			for (MediaEntity m : status.getMediaEntities())
+//				postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
+
+			Text body = new Text(status.getText());
+			body.setWrappingWidth(470);
+
+			postContent.getChildren().add(body);
+
+			twitterFooter.toFront();
+		}
+
+		postLayer.toFront();
 	}
 
-	public void writeEmail() {
-		emailPane.toFront();
+	public void openPreviousPost() {
+		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
+			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
+			openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
+		}
+	}
+
+	public void openNextPost() {
+		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
+		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
+	}
+
+	public void closePost() {
+		postLayer.toBack();
 	}
 
 	public void sendEmail() {
@@ -262,24 +289,6 @@ public class MainController implements Initializable {
 		emailSubject.clear();
 		emailMessage.clear();
 		emailError.setText("");
-	}
-
-	public void nextPost() {
-		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
-		PostBox post = posts.getSelectionModel().getSelectedItem();
-		showPost(post.getStatus());
-	}
-
-	public void prevPost() {
-		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
-			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
-			PostBox post = posts.getSelectionModel().getSelectedItem();
-			showPost(post.getStatus());
-		}
-	}
-
-	public void closePost() {
-		postOverlay.toBack();
 	}
 
 	public static MainController getInstance() {
