@@ -23,7 +23,7 @@ public class Logger {
 	private static String TWITTER_CONSUMER_KEY = TwitterFunctions.getKeys()[0];
 	private static String TWITTER_SECRET_KEY = TwitterFunctions.getKeys()[1];
 	private static AccessToken userToken = null;
-	private static Twitter twitter;
+	private static Twitter twitter = null;
 	private static XMLUserConfiguration twitterKeys = null;
 
 
@@ -76,19 +76,15 @@ public class Logger {
 	/**
 	 * @return Twitter
 	 */
-	public static Twitter authenticatedInstance(){
+	public Twitter authenticatedInstance(){
 		if (twitter==null){
-			ConfigurationBuilder builder = new ConfigurationBuilder();
-			builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
-			builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);
-			Configuration configuration = builder.build();
-	
-			TwitterFactory factory = new TwitterFactory(configuration);
-			twitter = factory.getInstance();
-			twitter.setOAuthAccessToken(userToken);
-
+			twitter=buildAuthenticationTwitter();
 		}
 		if(userToken==null)return null;
+		twitter.setOAuthAccessToken(userToken);
 		return twitter;
+	}
+	public Twitter getTwitter(){
+		return this.twitter;
 	}
 }

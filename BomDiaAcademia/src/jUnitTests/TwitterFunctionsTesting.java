@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import entry_objects.InformationEntry;
+import twitter.Logger;
 import twitter.TwitterFunctions;
 import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
@@ -86,6 +87,11 @@ public class TwitterFunctionsTesting {
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
 	}
+	@Test 
+	public void testGetTweetsFiltered(){
+		List<InformationEntry> l=TwitterFunctions.getTweetsFiltered();
+		assert(!l.isEmpty());
+	}
 	@Test
 	public void testGetKeys() {
 		String [] l=TwitterFunctions.getKeys();
@@ -97,8 +103,10 @@ public class TwitterFunctionsTesting {
 	//Logger Testing
 	
 	@Test
-	public void buildAuthenticationTwitter(){
-		fail();
+	public void getAuthUrl(){
+		Logger l = new Logger();
+		l.getAuthUrl();
+		assertNotNull(l.getTwitter());
 	}
 	
 	private class TestStatus implements Status{

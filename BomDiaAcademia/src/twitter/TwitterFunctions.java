@@ -37,7 +37,7 @@ public class TwitterFunctions {
 
 	private static Twitter twitter = init();
 	private static XMLUserConfiguration twitterKeys = null;
-
+	private Logger logger= new Logger();
 	/**
 	 * 
 	 * 
@@ -65,13 +65,13 @@ public class TwitterFunctions {
 		
 		return twitter;
 	}
-
+	
 	/**
 	 * @param tweet
 	 * @throws TwitterException
 	 */
 	public void retweet(Status tweet) throws TwitterException {
-		Twitter t = Logger.authenticatedInstance();
+		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
 			t.retweetStatus(tweet.getId());
 		}else{
