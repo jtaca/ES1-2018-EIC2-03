@@ -12,7 +12,9 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+
 /**
+ * Responsible for every twitter authentication needs.
  * @author DElfim
  *
  */
@@ -29,7 +31,8 @@ public class Logger {
 
 
 	/**
-	 * 
+	 * Prints out an url that the user can go to make the login an then
+	 * receives a pin from the user in order to complete authentication.
 	 */
 	public void getAuthUrl() {
 		
@@ -74,6 +77,7 @@ public class Logger {
 		in.close();
 	}
 	/**
+	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter
 	 */
 	public Twitter authenticatedInstance(){
