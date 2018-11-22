@@ -37,9 +37,9 @@ public class ReadAndWriteFile { //
 	/**
 	 * Instantiates a new read and write file.
 	 */
-	public ReadAndWriteFile() {	
-	}
-	
+//	public ReadAndWriteFile() {	
+//	}
+//	
 	
 	/**
 	 * Save list of information entry.
