@@ -8,42 +8,76 @@ import java.util.List;
 
 import org.junit.Test;
 
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
 import files.ReadAndWriteFile;
+import other.Service;
+import twitter4j.TwitterException;
+import entry_objects.*;
 
 public class ReadAndWriteFileTesting {
 	
-
 	private List<String> keyWordsFilterList = null;
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
+	public static final String TEST_FILE_NAME = "key_words_filter.dat";
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
 	
-
 	@Test
-	public void testReadAndWriteFile() {
+	public void testSaveListOfInformationEntry() {
+		try {
+			ReadAndWriteFile.saveListOfInformationEntry(null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		try {
+			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
+		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
+		information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "4"));
+	
+		try {
+			ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSaveListOfInformationEntry() {
+	public void testLoadListOfInformationEntry() {
+		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		
-		List<InformationEntry> information_entry_list = null;
+		try {
+			ReadAndWriteFile.loadListOfInformationEntry(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		try {
+			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		try {
+			ReadAndWriteFile.loadListOfInformationEntry("");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+
+		List<InformationEntry> information_entry_list2 = null;
 		Date date = new Date();
-		information_entry_list = new ArrayList<InformationEntry>();
-		information_entry_list.add(new EmailEntry(date, "Person", "Subject", "Content"));
+		information_entry_list2 = new ArrayList<InformationEntry>();
+		information_entry_list2.add(new EmailEntry(date, "Person", "Subject", "Content"));
 		
-		ReadAndWriteFile.saveListOfInformationEntry("emailEntrysTest.dat", information_entry_list);
+		ReadAndWriteFile.saveListOfInformationEntry("emailEntrysTest.dat", information_entry_list2);
 		ReadAndWriteFile.loadListOfInformationEntry("emailEntrysTest.dat");
 		
 		assertEquals(ReadAndWriteFile.loadListOfInformationEntry("emailEntrysTest.dat").get(0).getDate(),date);
@@ -55,8 +89,76 @@ public class ReadAndWriteFileTesting {
 		System.out.println(ReadAndWriteFile.loadListOfInformationEntry("nonExistingFile.dat"));
 		assertEquals( ReadAndWriteFile.loadListOfInformationEntry("nonExistingFile.dat"),new ArrayList<InformationEntry>());
 		
+		
+
+		
 	}
 
+	@Test
+	public void testSaveListOfFilters() {
+		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
+		
+		try {
+			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		
+		try {
+			ReadAndWriteFile.saveListOfFilters(null, key_words_filter);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		try {
+			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		
+		try {
+			ReadAndWriteFile.saveListOfFilters(null, null);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}		
+		
+		
+	}
+
+	@Test
+	public void testLoadListOfFilters() {
+		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
+		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
+		List<String> key_words_filter1 = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
+		assertEquals(key_words_filter, key_words_filter1);
+		
+		try {
+			ReadAndWriteFile.loadListOfFilters(TEST_FILE_NAME);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		try {
+			ReadAndWriteFile.loadListOfFilters("");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		try{
+			ReadAndWriteFile.loadListOfFilters(null);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			fail();
+		} 
+		
+		
+		
+	}
+	
+	
 
 
 }
