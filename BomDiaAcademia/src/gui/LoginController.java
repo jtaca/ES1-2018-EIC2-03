@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import other.OtherStaticFunction;
 import other.Service;
 import other.XMLUserConfiguration;
+import threads.ThreadPool;
 import twitter.TwitterFunctions;
 
 public class LoginController implements Initializable {
@@ -94,9 +95,9 @@ public class LoginController implements Initializable {
 //					}
 
 					// twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-					
+
 //					outlook = new EmailConnection(user.getUsername(), user.getPassword());
-					
+
 					OtherStaticFunction.refreshGUIWithThreads();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -115,6 +116,7 @@ public class LoginController implements Initializable {
 				stage.setTitle("Bom Dia Academia");
 				stage.setMinHeight(540);
 				stage.setMinWidth(820);
+				stage.setOnCloseRequest(e -> ThreadPool.getInstance().stopThreads());
 
 				stage.setScene(new Scene(root));
 				((Stage) ((Node) event.getSource()).getScene().getWindow()).close();

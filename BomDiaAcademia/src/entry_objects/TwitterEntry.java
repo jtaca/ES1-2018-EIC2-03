@@ -7,6 +7,7 @@ import twitter4j.Status;
 
 /**
  * The Class TwitterEntry.
+ * 
  * @author Alexandre Mendes
  * @version 1.0
  */
@@ -19,14 +20,20 @@ public class TwitterEntry implements InformationEntry { //
 
 	private Status status;
 	private Date date;
+	private boolean isRetweet;
 
 	public TwitterEntry(Status status) {
 		this.status = status;
 		date = status.getCreatedAt();
+		isRetweet = status.isRetweet();
 	}
 
 	public Status getStatus() {
 		return status;
+	}
+
+	public boolean isRetweet() {
+		return isRetweet;
 	}
 
 	/*
@@ -48,8 +55,9 @@ public class TwitterEntry implements InformationEntry { //
 	public Service getService() {
 		return Service.TWITTER;
 	}
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return status.getText();
 	}
 }
