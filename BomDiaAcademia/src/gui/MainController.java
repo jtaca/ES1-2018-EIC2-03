@@ -21,7 +21,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,7 +63,9 @@ public class MainController implements Initializable {
 
 	// Settings
 	public VBox settings;
-	public ToggleGroup theme;
+	public JFXListView<String> emailList;
+	public ChoiceBox<String> themeList;
+	public TextField newEmail;
 
 	// Email writing
 	public VBox emailPane;
@@ -77,6 +81,13 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		showHomePage();
+
+		themeList.getItems().add("Laranja");
+		themeList.getItems().add("Azul");
+		themeList.getItems().add("Azul Invertido");
+		themeList.setValue("Laranja");
+		themeList.getSelectionModel().selectedItemProperty().addListener(e -> setTheme());
+
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postContainer.maxHeightProperty().bind(postContent.heightProperty());
 	}
@@ -92,7 +103,7 @@ public class MainController implements Initializable {
 	}
 
 	public void setTheme() {
-		int cssIndex = theme.getToggles().indexOf(theme.getSelectedToggle());
+		int cssIndex = themeList.getSelectionModel().getSelectedIndex();
 		String css = getClass().getResource("/res/MainScene" + cssIndex + ".css").toExternalForm();
 		mainBox.getStylesheets().clear();
 		mainBox.getStylesheets().add(css);
@@ -289,6 +300,15 @@ public class MainController implements Initializable {
 		emailSubject.clear();
 		emailMessage.clear();
 		emailError.setText("");
+	}
+
+	public void addEmail() {
+		emailList.getItems().add(newEmail.getText());
+		newEmail.setText("");
+	}
+
+	public void removeEmail() {
+		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
 	public static MainController getInstance() {
