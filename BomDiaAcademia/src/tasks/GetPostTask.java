@@ -2,6 +2,7 @@ package tasks;
 
 import java.util.List;
 
+import gui.MainController;
 import other.Main;
 import threads.InformationEntryGatherer;
 import threads.TaskTable;
@@ -39,7 +40,8 @@ public class GetPostTask implements Task { //
 			TaskTable.getInstance().putTask(t);
 		}
 		information_entry_gatherer.waitForEveryOcurrence();
-		Main.auxFunctionToPrintEmails(information_entry_gatherer.getList());
+		MainController.getInstance().reloadPosts(information_entry_gatherer.getList());
+//		Main.auxFunctionToPrintEmails(information_entry_gatherer.getList());
 	}
 	
 

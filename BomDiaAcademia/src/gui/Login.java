@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import other.XMLUserConfiguration;
+import threads.ThreadPool;
 
 public class Login extends Application {
 
@@ -19,6 +20,8 @@ public class Login extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		ThreadPool.getInstance().startThreads();
+		
 		List<XMLUserConfiguration> userConfiguration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 		FXMLLoader loader = new FXMLLoader();
 		loader.setController(new LoginController(userConfiguration.isEmpty() ? null : userConfiguration.get(0)));

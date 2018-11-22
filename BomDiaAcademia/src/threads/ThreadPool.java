@@ -3,6 +3,12 @@ package threads;
 import java.util.ArrayList;
 import java.util.List;
 
+import email.EmailConnection;
+import other.Filter;
+import tasks.EmailReaderTask;
+import tasks.GetPostTask;
+import tasks.ServiceReadTask;
+
 /**
  * The Class ThreadPool.
  * @author Alexandre Mendes
@@ -74,6 +80,13 @@ public class ThreadPool { //
 			}
 			threadsWorking = true;
 		}
+	}
+	
+	
+	public static void refreshGUIWithThreads(List<ServiceReadTask> tasks) {
+		ThreadPool.getInstance().startThreads();
+		Thread thread = new Thread(new GetPostTask(tasks));
+		thread.start();
 	}
 	
 	

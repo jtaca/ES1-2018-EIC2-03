@@ -15,11 +15,16 @@ public class TwitterPostReaderTask implements ServiceReadTask { //
 	
 	
 	private InformationEntryGatherer barrier;
+	
+	/*
 	private TwitterFunctions twitterConnection;
 	
-	public TwitterPostReaderTask(InformationEntryGatherer barrier, TwitterFunctions twitterConnection) {
+	public TwitterPostReaderTask(TwitterFunctions twitterConnection) {
 		this.twitterConnection = twitterConnection;
-		this.barrier = barrier;
+	}
+	*/
+	
+	public TwitterPostReaderTask() {
 	}
 	
 	@Override
@@ -33,9 +38,10 @@ public class TwitterPostReaderTask implements ServiceReadTask { //
 	@Override
 	public void run() {
 		List<InformationEntry> information_entry_list; // Where the results should go to.
-		//information_entry_list = twitterConnection.readPosts();
+//		information_entry_list = twitterConnection.getTweetsFiltered();
+		information_entry_list = TwitterFunctions.getTweetsFiltered();
 		// Place the result on a simple barrier in order for the UI to load all the news at once, after organizing them by date.
-		//barrier.addResult(information_entry_list);
+		barrier.addResult(information_entry_list);
 	}
 	
 	

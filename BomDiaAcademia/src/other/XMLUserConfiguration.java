@@ -161,6 +161,10 @@ public class XMLUserConfiguration { //
 		return service.stringFormat();
 	}
 	
+	public Service getService() {
+		return service;
+	}
+	
 	/**
 	 * Gets the username.
 	 *

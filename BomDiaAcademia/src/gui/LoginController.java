@@ -24,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import other.OtherStaticFunction;
 import other.Service;
 import other.XMLUserConfiguration;
 import twitter.TwitterFunctions;
@@ -86,14 +87,17 @@ public class LoginController implements Initializable {
 								TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1],
 								TwitterFunctions.getKeys()[2], TwitterFunctions.getKeys()[3]);
 
-					if (rememberMe.isSelected()) {
-						user_config_list.add(user);
-						user_config_list.add(twitter);
-						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-					}
+//					if (rememberMe.isSelected()) {
+					user_config_list.add(user);
+					user_config_list.add(twitter);
+					ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
+//					}
 
 					// twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-					outlook = new EmailConnection(user.getUsername(), user.getPassword());
+					
+//					outlook = new EmailConnection(user.getUsername(), user.getPassword());
+					
+					OtherStaticFunction.refreshGUIWithThreads();
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
