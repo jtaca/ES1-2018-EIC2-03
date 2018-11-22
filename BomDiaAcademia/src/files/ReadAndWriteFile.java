@@ -84,18 +84,16 @@ public class ReadAndWriteFile { //
 	}
 	
 	
-	public static boolean saveListOfFilters(String fileName, List<String> filters) {
+	public static void saveListOfFilters(String fileName, List<String> filters) {
 		
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));) {
 			out.writeObject(filters);
 			out.flush();
-			return true;
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		} catch (IOException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		}
-		return false;	
 	}
 	
 	public static List<String> loadListOfFilters(String fileName) {

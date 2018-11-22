@@ -10,6 +10,7 @@ import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import files.ReadAndWriteXMLFile;
 import other.Filter;
+import other.Service;
 import other.XMLUserConfiguration;
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -112,7 +113,7 @@ public class TwitterFunctions {
 		Filter f = Filter.getInstance();
 		List<InformationEntry> l=null;
 		try {
-			l=getTweetsFromUsers(f.getDate(), f.getFilterList().toArray(new String[0]));
+			l=getTweetsFromUsers(f.getDate(), f.getFilterList(Service.TWITTER).toArray(new String[0]));
 		} catch (Exception e) {
 			System.out.println("getFilterList retorna lista com objetos do tipo errado ou retorna null");
 			e.printStackTrace();

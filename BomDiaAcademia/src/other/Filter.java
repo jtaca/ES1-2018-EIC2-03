@@ -9,14 +9,22 @@ import files.ReadAndWriteFile;
 
 public class Filter {
 	
-	private List<String> filterList = null;
+	private List<String> keyWordsFilterList = null;
+	private List<String> twitterUserFilterList = null;
+	private List<String> facebookFilterList = null;
+	
 	private boolean addingFilter = false;
 	private boolean running = false;
 	
 	private Date dateLimit = new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000); // dateLimit as default is the previous day
 	
-	private static final String FILTER_FILE_NAME = "filter.dat";
-	private static final String[] DEFAULT_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
+	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
+	private static final String TWITTER_USER_FILTER_FILE_NAME = "twitter_user_filter.dat";
+	private static final String FACEBOOK_FILTER_FILE_NAME = "facebook_filter.dat";
+	
+	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
+	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
+	private static final String[] DEFAULT_FACEBOOK_FILTERS = {};
 //	private static final String[] DEFAULT_FILTERS = {"ista"};
 	
 	private static final Filter INSTANCE = new Filter();
@@ -40,40 +48,64 @@ public class Filter {
 //	}
 	
 	private synchronized void loadFilterListFromFile() {
-		List<String> filters = ReadAndWriteFile.loadListOfFilters(FILTER_FILE_NAME);
-		if(filters == null) {
-			filters = new ArrayList<String>();
-			for(String s : DEFAULT_FILTERS) {
-				filters.add(s);
-			}
-			boolean file_saved = ReadAndWriteFile.saveListOfFilters(FILTER_FILE_NAME, filters);
-			if(file_saved) {
-				System.out.println("File was saved");
-			} else {
-				System.out.println("File wasnt saved");
-			}
+		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
+		List<String> twitterUserFilterList = ReadAndWriteFile.loadListOfFilters(TWITTER_USER_FILTER_FILE_NAME);
+		List<String> facebookFilterList = ReadAndWriteFile.loadListOfFilters(FACEBOOK_FILTER_FILE_NAME);
+		
+		if(key_words_filter == null) {
+			key_words_filter = createListWithStaticArray(DEFAULT_KEY_WORDS_FILTERS);
+			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
 		}
-		filterList = filters;
+		if(twitterUserFilterList == null) {
+			twitterUserFilterList = createListWithStaticArray(DEFAULT_TWITTER_USER_FILTERS);
+			ReadAndWriteFile.saveListOfFilters(TWITTER_USER_FILTER_FILE_NAME, twitterUserFilterList);
+		}
+		if(facebookFilterList == null) {
+			facebookFilterList = createListWithStaticArray(DEFAULT_FACEBOOK_FILTERS);
+			ReadAndWriteFile.saveListOfFilters(FACEBOOK_FILTER_FILE_NAME, facebookFilterList);
+		}
+		
+		this.keyWordsFilterList = key_words_filter;
+		this.twitterUserFilterList = twitterUserFilterList;
+		this.facebookFilterList = facebookFilterList;
 	}
 	
-	private synchronized void saveFilterListToFile(List<String> filterList) {
-		boolean file_saved = ReadAndWriteFile.saveListOfFilters(FILTER_FILE_NAME, filterList);
-		if(file_saved) {
-			System.out.println("File was saved");
-		} else {
-			System.out.println("File wasnt saved");
+	private List<String> createListWithStaticArray(String[] staticList) {
+		List<String> list = new ArrayList<String>();
+		for(String s : staticList) {
+			list.add(s);
 		}
+		return list;
 	}
 	
-	public void addFilter(List<String> filter) throws Exception {
+	private synchronized void saveFilterListToFile(Service service, List<String> filterList) {
+		String file_name;
+		switch (service) {
+		case EMAIL:
+			file_name = KEY_WORDS_FILTER_FILE_NAME;
+			break;
+		case TWITTER:
+			file_name = TWITTER_USER_FILTER_FILE_NAME;
+			break;
+		case FACEBOOK:
+			file_name = FACEBOOK_FILTER_FILE_NAME;
+			break;
+		default:
+			file_name = "";
+			break;
+		}
+		ReadAndWriteFile.saveListOfFilters(file_name, filterList);
+	}
+	
+	public void addFilter(Service service, List<String> filter) throws Exception {
 		if(addingFilter == false) {
 			addingFilter = true;
 			
-			if(filterList != null) {
-				filterList.addAll(filter);
+			if(keyWordsFilterList != null) {
+				keyWordsFilterList.addAll(filter);
 				// lets remove duplicates and keep order
-				filterList = new ArrayList<String>(new LinkedHashSet<String>(filterList));
-				saveFilterListToFile(filterList);
+				keyWordsFilterList = new ArrayList<String>(new LinkedHashSet<String>(keyWordsFilterList));
+				saveFilterListToFile(service, keyWordsFilterList);
 			}
 			
 			addingFilter = false;
@@ -82,13 +114,13 @@ public class Filter {
 		}
 	}
 	
-	public void addFilter(String filter) throws Exception {
+	public void addFilter(Service service, String filter) throws Exception {
 		if(addingFilter == false) {
 			addingFilter = true;
 			
-			if(filterList != null && !filterList.contains(filter)) {
-				filterList.add(filter);
-				saveFilterListToFile(filterList);
+			if(keyWordsFilterList != null && !keyWordsFilterList.contains(filter)) {
+				keyWordsFilterList.add(filter);
+				saveFilterListToFile(service, keyWordsFilterList);
 			}
 			
 			addingFilter = false;
@@ -98,7 +130,23 @@ public class Filter {
 		
 	}
 	
-	public List<String> getFilterList() {
+	public List<String> getFilterList(Service service) {
+		List<String> filterList;
+		switch (service) {
+		case EMAIL:
+			filterList = this.keyWordsFilterList;
+			break;
+		case TWITTER:
+			filterList = this.twitterUserFilterList;
+			break;
+		case FACEBOOK:
+			filterList = this.facebookFilterList;
+			break;
+		default:
+			filterList = null;
+			break;
+		}
+		
 		return filterList;
 	}
 	

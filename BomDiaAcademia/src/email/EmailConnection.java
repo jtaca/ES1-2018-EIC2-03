@@ -154,7 +154,7 @@ public class EmailConnection {
 			String content;
 			InformationEntry informationEntry;
 			
-			List<String> filters = Filter.getInstance().getFilterList();
+			List<String> filters = Filter.getInstance().getFilterList(Service.EMAIL);
 			
 			for(int i = messages.length - 1 ; i >= 0 ; i--) {
 				date = messages[i].getSentDate();
