@@ -19,6 +19,7 @@ import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -76,18 +77,55 @@ public class MainController implements Initializable {
 //		loadMore.getChildren().add(load);
 //
 //		loadMorePosts();
+
+		new Thread() {
+			public void run() {
+				List<InformationEntry> e1 = new ArrayList<>(), e2 = new ArrayList<>();
+				for (int i = 0; i < 10; i++) {
+					e1.add(new EmailEntry(new Date(), "John", "Subject " + i, "Bueadasd"));
+					e2.add(new EmailEntry(new Date(), "Bob", "Subject " + i, "Bueadasd"));
+				}
+
+				for (int i = 0; i < 2; i++) {
+					for (int j = 5; j > 0; j--) {
+						try {
+							Thread.sleep(1000);
+							System.out.println(j);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					loadPosts(e1);
+				}
+
+				for (int j = 5; j > 0; j--) {
+					try {
+						Thread.sleep(1000);
+						System.out.println(j);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+				}
+				reloadPosts(e2);
+			}
+		}.start();
 	}
 
 	public void reloadPosts(List<InformationEntry> entries) {
-		posts.getItems().clear();
+		Platform.runLater(() -> {
+			posts.getItems().clear();
 
-		for (InformationEntry entry : entries)
-			posts.getItems().add(loadPost(entry));
+			for (InformationEntry entry : entries)
+				posts.getItems().add(loadPost(entry));
+		});
 	}
 
 	public void loadPosts(List<InformationEntry> entries) {
-		for (InformationEntry entry : entries)
-			posts.getItems().add(loadPost(entry));
+		Platform.runLater(() -> {
+			for (InformationEntry entry : entries)
+				posts.getItems().add(loadPost(entry));
+		});
 	}
 
 	private void loadMorePosts() {
