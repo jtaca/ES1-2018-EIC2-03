@@ -17,6 +17,7 @@ import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,81 +50,105 @@ public class MainController implements Initializable {
 
 	// ------------ Main window ------------
 	/** The main box. */
-	public HBox mainBox;
+	@FXML
+	private HBox mainBox;
 
 	/** The center pane. */
-	public StackPane centerPane;
+	@FXML
+	private StackPane centerPane;
 
 	// ------------ Side bar ------------
 	/** The side menu. */
-	public ToggleGroup sideMenu;
+	@FXML
+	private ToggleGroup sideMenu;
 
 	/** The username. */
-	public Label username;
+	@FXML
+	private Label username;
 
 	// ------------ Posts list ------------
 	/** The posts. */
-	public JFXListView<PostBox> posts;
+	@FXML
+	private JFXListView<PostBox> posts;
 
 	// ------------ Open post ------------
 	/** The post layer. */
-	public StackPane postLayer;
+	@FXML
+	private StackPane postLayer;
 
 	/** The post author container. */
-	public VBox postContainer;
+	@FXML
+	private VBox postContainer;
 
 	/** The post content. */
-	public VBox postContent;
+	@FXML
+	private VBox postContent;
 
 	/** The post author info. */
-	public VBox postAuthorInfo;
+	@FXML
+	private VBox postAuthorInfo;
 
 	/** The author name. */
-	public Label authorName;
+	@FXML
+	private Label authorName;
 
 	/** The author username. */
-	public Label authorUsername;
+	@FXML
+	private Label authorUsername;
 
 	/** The retweet label. */
-	public Label retweetLabel;
+	@FXML
+	private Label retweetLabel;
 
 	/** The profile pic. */
-	public ImageView profilePic;
+	@FXML
+	private ImageView profilePic;
 
 	/** The email footer. */
-	public HBox emailFooter;
+	@FXML
+	private HBox emailFooter;
 
 	/** The twitter footer. */
-	public HBox twitterFooter;
+	@FXML
+	private HBox twitterFooter;
 
 	// ------------ Settings ------------
 	/** The settings. */
-	public VBox settings;
+	@FXML
+	private VBox settings;
 
 	/** The email list. */
-	public JFXListView<String> emailList;
+	@FXML
+	private JFXListView<String> emailList;
 
 	/** The theme list. */
-	public ChoiceBox<String> themeList;
+	@FXML
+	private ChoiceBox<String> themeList;
 
 	/** The new email. */
-	public TextField newEmail;
+	@FXML
+	private TextField newEmail;
 
 	// ------------ Email writing panel ------------
 	/** The email pane. */
-	public VBox emailPane;
+	@FXML
+	private VBox emailPane;
 
 	/** The email receiver. */
-	public JFXTextField emailReceiver;
+	@FXML
+	private JFXTextField emailReceiver;
 
 	/** The email subject. */
-	public JFXTextField emailSubject;
+	@FXML
+	private JFXTextField emailSubject;
 
 	/** The email error. */
-	public Label emailError;
+	@FXML
+	private Label emailError;
 
 	/** The email message. */
-	public JFXTextArea emailMessage;
+	@FXML
+	private JFXTextArea emailMessage;
 
 	/** The email connection. */
 	private EmailConnection emailConnection;
@@ -175,7 +200,7 @@ public class MainController implements Initializable {
 	/**
 	 * Sets the theme.
 	 */
-	public void setTheme() {
+	private void setTheme() {
 		int cssIndex = themeList.getSelectionModel().getSelectedIndex();
 		String css = getClass().getResource("/res/MainScene" + cssIndex + ".css").toExternalForm();
 		mainBox.getStylesheets().clear();
@@ -185,21 +210,24 @@ public class MainController implements Initializable {
 	/**
 	 * Shows home page.
 	 */
-	public void showHomePage() {
+	@FXML
+	private void showHomePage() {
 		posts.toFront();
 	}
 
 	/**
 	 * Shows the email writing panel.
 	 */
-	public void writeEmail() {
+	@FXML
+	private void writeEmail() {
 		emailPane.toFront();
 	}
 
 	/**
 	 * Shows settings.
 	 */
-	public void showSettings() {
+	@FXML
+	private void showSettings() {
 		settings.toFront();
 	}
 
@@ -208,7 +236,8 @@ public class MainController implements Initializable {
 	 *
 	 * @param event the event
 	 */
-	public void logOut(ActionEvent event) {
+	@FXML
+	private void logOut(ActionEvent event) {
 		ThreadPool.getInstance().stopThreads();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 	}
@@ -366,7 +395,8 @@ public class MainController implements Initializable {
 	/**
 	 * Opens the previous post.
 	 */
-	public void openPreviousPost() {
+	@FXML
+	private void openPreviousPost() {
 		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
 			openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
@@ -376,7 +406,8 @@ public class MainController implements Initializable {
 	/**
 	 * Opens the next post.
 	 */
-	public void openNextPost() {
+	@FXML
+	private void openNextPost() {
 		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
 		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 	}
@@ -384,14 +415,16 @@ public class MainController implements Initializable {
 	/**
 	 * Closes the currently open post.
 	 */
-	public void closePost() {
+	@FXML
+	private void closePost() {
 		postLayer.toBack();
 	}
 
 	/**
 	 * Sends email.
 	 */
-	public void sendEmail() {
+	@FXML
+	private void sendEmail() {
 		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
 				&& !emailMessage.getText().isEmpty())
 			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
@@ -409,7 +442,8 @@ public class MainController implements Initializable {
 	/**
 	 * Clears all fields in the email writing panel.
 	 */
-	public void clearEmail() {
+	@FXML
+	private void clearEmail() {
 		emailReceiver.clear();
 		emailSubject.clear();
 		emailMessage.clear();
@@ -419,7 +453,8 @@ public class MainController implements Initializable {
 	/**
 	 * Adds an email to the email list.
 	 */
-	public void addEmail() {
+	@FXML
+	private void addEmail() {
 		emailList.getItems().add(newEmail.getText());
 		newEmail.setText("");
 	}
@@ -427,7 +462,8 @@ public class MainController implements Initializable {
 	/**
 	 * Removes the selected email from the email list.
 	 */
-	public void removeEmail() {
+	@FXML
+	private void removeEmail() {
 		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
@@ -436,7 +472,7 @@ public class MainController implements Initializable {
 	 * 
 	 * @param username
 	 */
-	public void setUsername(String username) {
+	protected void setUsername(String username) {
 		this.username.setText(username);
 	}
 

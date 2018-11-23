@@ -14,6 +14,7 @@ import email.EmailConnection;
 import files.ReadAndWriteXMLFile;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -36,16 +37,20 @@ import twitter.TwitterFunctions;
 public class LoginController implements Initializable {
 
 	/** The error message. */
-	public Label errorMessage;
+	@FXML
+	private Label errorMessage;
 
 	/** The username. */
-	public JFXTextField username;
+	@FXML
+	private JFXTextField username;
 
 	/** The password. */
-	public JFXPasswordField password;
+	@FXML
+	private JFXPasswordField password;
 
 	/** The remember me. */
-	public JFXCheckBox rememberMe;
+	@FXML
+	private JFXCheckBox rememberMe;
 
 	/** The user. */
 	private XMLUserConfiguration user;
@@ -78,7 +83,8 @@ public class LoginController implements Initializable {
 	 *
 	 * @param e the e
 	 */
-	public void unfocus(MouseEvent e) {
+	@FXML
+	private void unfocus(MouseEvent e) {
 		((Node) e.getSource()).getScene().getRoot().requestFocus();
 	}
 
@@ -89,7 +95,8 @@ public class LoginController implements Initializable {
 	 * @param event the event
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void logIn(ActionEvent event) throws IOException {
+	@FXML
+	private void logIn(ActionEvent event) throws IOException {
 		FadeTransition errorFade = new FadeTransition(Duration.seconds(1), errorMessage);
 		String oldMessage = errorMessage.getText();
 
