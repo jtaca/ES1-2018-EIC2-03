@@ -25,29 +25,36 @@ public class Logger {
 	private static String TWITTER_CONSUMER_KEY = TwitterFunctions.getKeys()[0];
 	private static String TWITTER_SECRET_KEY = TwitterFunctions.getKeys()[1];
 	private static AccessToken userToken = null;
-	private static Twitter twitter = null;
+	private Twitter twitter = buildAuthenticationTwitter();
 	private static XMLUserConfiguration twitterKeys = null;
-
+	private RequestToken requestToken;
+	private AccessToken accessToken;
 
 
 	/**
 	 * Prints out an url that the user can go to make the login an then
 	 * receives a pin from the user in order to complete authentication.
 	 */
-	public void getAuthUrl() {
-		
-//		try {
-//			TWITTER_CONSUMER_KEY = Utils.getConsumerKeyFromXML();
-//			TWITTER_SECRET_KEY = Utils.getSecretKeyFromXML();
-//		} catch (Exception e1) {
-//			System.out.println("Could not get api keys from xml file(Twitter)");
-//			e1.printStackTrace();
-//		}
-//		
-		
-		twitter = buildAuthenticationTwitter();
-		twitterAutentication(twitter);
-
+	public String getAuthURL(){
+		try {
+			requestToken = twitter.getOAuthRequestToken("oob");
+		} catch (TwitterException e) {
+			return "";
+		}
+		String url = requestToken.getAuthenticationURL();
+		System.out.println(url);
+		return url;
+	}
+	
+	public boolean inputPin(String s){
+		try {
+			accessToken = twitter.getOAuthAccessToken(requestToken, s);
+			twitter.setOAuthAccessToken(accessToken);
+			userToken=accessToken;
+		} catch (TwitterException e) {
+			return false;
+		}
+		return true;
 	}
 	private Twitter buildAuthenticationTwitter(){
 		ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -58,24 +65,7 @@ public class Logger {
 		TwitterFactory factory = new TwitterFactory(configuration);
 		return factory.getInstance();
 	}
-	private void twitterAutentication(Twitter twitter){
-		RequestToken requestToken;
-		AccessToken accessToken;
-		Scanner in = new Scanner(System.in);
-		try {
-			requestToken = twitter.getOAuthRequestToken("oob");
-			String url = requestToken.getAuthenticationURL();
-			System.out.println(url);
-			System.out.println("Enter pin pls ...");
-			accessToken = twitter.getOAuthAccessToken(requestToken, in.nextLine());
-			twitter.setOAuthAccessToken(accessToken);
-			userToken=accessToken;
-
-		} catch (TwitterException e) {
-			e.printStackTrace();
-		}
-		in.close();
-	}
+	
 	/**
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter
