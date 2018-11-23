@@ -55,6 +55,22 @@ public class SingleBarrier { //
 		currentPosters = 0;
 	}
 	
+	public int getCurrentPosters() {
+		return currentPosters;
+	}
+	
+	public int getTotalPosters() {
+		return totalPosters;
+	}
+	
+	public int getPassedWaiters() {
+		return passedWaiters;
+	}
+	
+	public int getTotalWaiters() {
+		return totalWaiters;
+	}
+	
 	/**
 	 * Barrier set.
 	 *
