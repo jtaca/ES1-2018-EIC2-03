@@ -24,22 +24,36 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * Used to execute every twitter interaction.
  * @author DElfim
- *
+ * @version 2.0
  */
 public class TwitterFunctions {
 
-	/**
-	 * 
-	 */
+	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
+	
+	/** The twitter secret key. */
 	private static String TWITTER_SECRET_KEY = "WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w";
+	
+	/** The twitter access token. */
 	private static String TWITTER_ACCESS_TOKEN = "2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi";
+	
+	/** The twitter access token secret. */
 	private static String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
 
+	/** The twitter. */
 	private static Twitter twitter = init();
+	
+	/** The twitter keys. */
 	private static XMLUserConfiguration twitterKeys = null;
+	
+	/** The logger. */
 	private Logger logger= new Logger();
 	
+	/**
+	 * Inits the.
+	 *
+	 * @return the twitter
+	 */
 	private static Twitter init() {
 //		try {
 //			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
@@ -67,8 +81,9 @@ public class TwitterFunctions {
 	/**
 	 * Receives the Status object equivalent to the tweet the user wants to retweet
 	 * fails if the user is not authenticated.
-	 * @param tweet
-	 * @throws TwitterException
+	 *
+	 * @param tweet the tweet
+	 * @throws TwitterException the twitter exception
 	 */
 	public void retweet(Status tweet) throws TwitterException {
 		Twitter t = logger.authenticatedInstance();
@@ -81,8 +96,9 @@ public class TwitterFunctions {
 
 	/**
 	 * Returns a List with a basic query from twitter with the String "ISCTE".
+	 *
 	 * @return List<InformationEntry>
-	 * @throws Exception
+	 * @throws Exception the exception
 	 */
 	public static List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
@@ -109,6 +125,12 @@ public class TwitterFunctions {
 			return null;
 		}
 	}
+	
+	/**
+	 * Gets the tweets filtered.
+	 *
+	 * @return the tweets filtered
+	 */
 	public static List<InformationEntry> getTweetsFiltered(){
 		init();
 		Filter f = Filter.getInstance();
@@ -124,10 +146,10 @@ public class TwitterFunctions {
 
 	/**
 	 * Returns a List of all tweets done by the user referred, after the designated date.
-	 * @param date
-	 * @param user
+	 *
+	 * @param date the date
+	 * @param user the user
 	 * @return List<InformationEntry>
-	 * @throws Exception
 	 */
 	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) {
 		List<InformationEntry> tweets = new ArrayList<>();
@@ -146,10 +168,10 @@ public class TwitterFunctions {
 
 	/**
 	 * Returns a List of all tweets done by the users referred, after the designated date.
-	 * @param date
-	 * @param users
+	 *
+	 * @param date the date
+	 * @param users the users
 	 * @return List<InformationEntry>
-	 * @throws Exception
 	 */
 	public static List<InformationEntry> getTweetsFromUsers(Date date, String... users) {
 		List<InformationEntry> tweets = new ArrayList<>();
@@ -167,6 +189,11 @@ public class TwitterFunctions {
 //		List<InformationEntry> l = getTweetsFiltered();
 //		TwitterEntry te = (TwitterEntry) l.get(0);
 //		return te.getStatus();
+/**
+ * Gets the some retweet.
+ *
+ * @return the some retweet
+ */
 //	}
 	public static Status getSomeRetweet(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
@@ -179,6 +206,11 @@ public class TwitterFunctions {
 		return te.getStatus();
 	}
 
+	/**
+	 * Gets the keys.
+	 *
+	 * @return the keys
+	 */
 	public static String[] getKeys() {
 		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
 				TWITTER_ACCESS_TOKEN_SECRET };

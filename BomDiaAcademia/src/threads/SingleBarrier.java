@@ -3,7 +3,7 @@ package threads;
 /**
  * The Class SingleBarrier.
  * @author Alexandre Mendes
- * @version 1.0
+ * @version 2.0
  */
 public class SingleBarrier { //
 	
@@ -55,18 +55,38 @@ public class SingleBarrier { //
 		currentPosters = 0;
 	}
 	
+	/**
+	 * Gets the current posters.
+	 *
+	 * @return the current posters
+	 */
 	public int getCurrentPosters() {
 		return currentPosters;
 	}
 	
+	/**
+	 * Gets the total posters.
+	 *
+	 * @return the total posters
+	 */
 	public int getTotalPosters() {
 		return totalPosters;
 	}
 	
+	/**
+	 * Gets the passed waiters.
+	 *
+	 * @return the passed waiters
+	 */
 	public int getPassedWaiters() {
 		return passedWaiters;
 	}
 	
+	/**
+	 * Gets the total waiters.
+	 *
+	 * @return the total waiters
+	 */
 	public int getTotalWaiters() {
 		return totalWaiters;
 	}

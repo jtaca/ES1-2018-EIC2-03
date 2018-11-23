@@ -12,28 +12,40 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-
 /**
  * Responsible for every twitter authentication needs.
  * @author DElfim
- *
+ * @version 2.0
  */
 public class Logger {
-	/**
-	 * 
-	 */
+	
+	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = TwitterFunctions.getKeys()[0];
+	
+	/** The twitter secret key. */
 	private static String TWITTER_SECRET_KEY = TwitterFunctions.getKeys()[1];
+	
+	/** The user token. */
 	private static AccessToken userToken = null;
+	
+	/** The twitter. */
 	private Twitter twitter = buildAuthenticationTwitter();
+	
+	/** The twitter keys. */
 	private static XMLUserConfiguration twitterKeys = null;
+	
+	/** The request token. */
 	private RequestToken requestToken;
+	
+	/** The access token. */
 	private AccessToken accessToken;
 
 
 	/**
 	 * Prints out an url that the user can go to make the login an then
 	 * receives a pin from the user in order to complete authentication.
+	 *
+	 * @return the auth URL
 	 */
 	public String getAuthURL(){
 		try {
@@ -46,6 +58,12 @@ public class Logger {
 		return url;
 	}
 	
+	/**
+	 * Input pin.
+	 *
+	 * @param s the s
+	 * @return true, if successful
+	 */
 	public boolean inputPin(String s){
 		try {
 			accessToken = twitter.getOAuthAccessToken(requestToken, s);
@@ -56,6 +74,12 @@ public class Logger {
 		}
 		return true;
 	}
+	
+	/**
+	 * Builds the authentication twitter.
+	 *
+	 * @return the twitter
+	 */
 	private Twitter buildAuthenticationTwitter(){
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -78,6 +102,12 @@ public class Logger {
 		twitter.setOAuthAccessToken(userToken);
 		return twitter;
 	}
+	
+	/**
+	 * Gets the twitter.
+	 *
+	 * @return the twitter
+	 */
 	public Twitter getTwitter(){
 		return this.twitter;
 	}

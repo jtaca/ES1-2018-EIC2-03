@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package facebook;
 
 import java.util.List;
@@ -9,7 +12,18 @@ import facebook4j.auth.AccessToken;
 
 
 
+/**
+ * The Class MainFacebook.
+ * @author João Aparício
+ * @version 1.0
+ */
 public class MainFacebook {
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
 		String accessToken ;

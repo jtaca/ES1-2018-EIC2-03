@@ -10,7 +10,7 @@ import entry_objects.InformationEntry;
 /**
  * The Class InformationEntryGatherer.
  * @author Alexandre Mendes
- * @version 1.0
+ * @version 2.0
  */
 public class InformationEntryGatherer { //
 
@@ -40,6 +40,11 @@ public class InformationEntryGatherer { //
 		// Give the list to the GUI for it to show in the window
 	}
 	
+	/**
+	 * Gets the list.
+	 *
+	 * @return the list
+	 */
 	public List<InformationEntry> getList() {
 		return list;
 	}

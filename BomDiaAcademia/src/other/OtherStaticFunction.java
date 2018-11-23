@@ -11,8 +11,16 @@ import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
 
+/**
+ * The Class OtherStaticFunction.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
 public class OtherStaticFunction {
 	
+	/**
+	 * Refresh GUI with threads.
+	 */
 	public static void refreshGUIWithThreads() {
 		try {
 			ServiceReadTask task;

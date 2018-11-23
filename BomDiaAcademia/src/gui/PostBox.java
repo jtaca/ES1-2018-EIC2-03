@@ -7,6 +7,8 @@ import other.Service;
 /**
  * The Class PostBox gives a visual representation of an InformationEntry in the
  * posts list.
+ * @author Rostislav Andreev
+ * @version 2.0
  */
 public class PostBox extends HBox {
 

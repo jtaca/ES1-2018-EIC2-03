@@ -14,6 +14,8 @@ import threads.ThreadPool;
 
 /**
  * The Class Login contains the main method that starts the application.
+ * @author Rostislav Andreev
+ * @version 2.0
  */
 public class Login extends Application {
 

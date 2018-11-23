@@ -7,28 +7,56 @@ import java.util.List;
 
 import files.ReadAndWriteFile;
 
+/**
+ * The Class Filter.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
 public class Filter {
 	
+	/** The key words filter list. */
 	private List<String> keyWordsFilterList = null;
+	
+	/** The twitter user filter list. */
 	private List<String> twitterUserFilterList = null;
+	
+	/** The facebook filter list. */
 	private List<String> facebookFilterList = null;
 	
+	/** The adding filter. */
 	private boolean addingFilter = false;
+	
+	/** The running. */
 	private boolean running = false;
 	
+	/** The date limit. */
 	private Date dateLimit = new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000); // dateLimit as default is the previous day
 	
+	/** The Constant KEY_WORDS_FILTER_FILE_NAME. */
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
+	
+	/** The Constant TWITTER_USER_FILTER_FILE_NAME. */
 	private static final String TWITTER_USER_FILTER_FILE_NAME = "twitter_user_filter.dat";
+	
+	/** The Constant FACEBOOK_FILTER_FILE_NAME. */
 	private static final String FACEBOOK_FILTER_FILE_NAME = "facebook_filter.dat";
 	
+	/** The Constant DEFAULT_KEY_WORDS_FILTERS. */
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
+	
+	/** The Constant DEFAULT_TWITTER_USER_FILTERS. */
 	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
+	
+	/** The Constant DEFAULT_FACEBOOK_FILTERS. */
 	private static final String[] DEFAULT_FACEBOOK_FILTERS = {};
 //	private static final String[] DEFAULT_FILTERS = {"ista"};
 	
-	private static final Filter INSTANCE = new Filter();
+	/** The Constant INSTANCE. */
+private static final Filter INSTANCE = new Filter();
 	
+	/**
+	 * Instantiates a new filter.
+	 */
 	private Filter() {
 		if(running == false) {
 			running = true;
@@ -36,6 +64,11 @@ public class Filter {
 		}
 	}
 	
+	/**
+	 * Gets the single instance of Filter.
+	 *
+	 * @return single instance of Filter
+	 */
 	public static Filter getInstance() {
 		return INSTANCE;
 	}
@@ -47,7 +80,10 @@ public class Filter {
 //		}
 //	}
 	
-	private synchronized void loadFilterListFromFile() {
+	/**
+ * Load filter list from file.
+ */
+private synchronized void loadFilterListFromFile() {
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
 		List<String> twitterUserFilterList = ReadAndWriteFile.loadListOfFilters(TWITTER_USER_FILTER_FILE_NAME);
 		List<String> facebookFilterList = ReadAndWriteFile.loadListOfFilters(FACEBOOK_FILTER_FILE_NAME);
@@ -70,6 +106,12 @@ public class Filter {
 		this.facebookFilterList = facebookFilterList;
 	}
 	
+	/**
+	 * Creates the list with static array.
+	 *
+	 * @param staticList the static list
+	 * @return the list
+	 */
 	private List<String> createListWithStaticArray(String[] staticList) {
 		List<String> list = new ArrayList<String>();
 		for(String s : staticList) {
@@ -78,6 +120,12 @@ public class Filter {
 		return list;
 	}
 	
+	/**
+	 * Save filter list to file.
+	 *
+	 * @param service the service
+	 * @param filterList the filter list
+	 */
 	private synchronized void saveFilterListToFile(Service service, List<String> filterList) {
 		String file_name;
 		switch (service) {
@@ -97,6 +145,12 @@ public class Filter {
 		ReadAndWriteFile.saveListOfFilters(file_name, filterList);
 	}
 	
+	/**
+	 * Sets the filter.
+	 *
+	 * @param service the service
+	 * @param filter the filter
+	 */
 	public void setFilter(Service service, List<String> filter) {
 		switch (service) {
 		case EMAIL:
@@ -122,6 +176,12 @@ public class Filter {
 		}
 	}
 	
+	/**
+	 * Adds the filter.
+	 *
+	 * @param service the service
+	 * @param filter the filter
+	 */
 	public synchronized void addFilter(Service service, List<String> filter) {
 		switch (service) {
 		case EMAIL:
@@ -153,6 +213,12 @@ public class Filter {
 		}
 	}
 	
+	/**
+	 * Adds the filter.
+	 *
+	 * @param service the service
+	 * @param filter the filter
+	 */
 	public synchronized void addFilter(Service service, String filter) {
 		switch (service) {
 		case EMAIL:
@@ -181,6 +247,12 @@ public class Filter {
 		}
 	}
 	
+	/**
+	 * Gets the filter list.
+	 *
+	 * @param service the service
+	 * @return the filter list
+	 */
 	public List<String> getFilterList(Service service) {
 		List<String> filterList;
 		switch (service) {
@@ -201,6 +273,13 @@ public class Filter {
 		return filterList;
 	}
 	
+	/**
+	 * Verify if string contains any filter.
+	 *
+	 * @param string the string
+	 * @param filters the filters
+	 * @return true, if successful
+	 */
 	public static boolean verifyIfStringContainsAnyFilter(String string, List<String> filters) {
 		for(String filter : filters) {
 			if(string.toLowerCase().contains(filter)) {
@@ -210,6 +289,11 @@ public class Filter {
 		return false;
 	}
 	
+	/**
+	 * Define date interval from current date.
+	 *
+	 * @param days the days
+	 */
 	public synchronized void defineDateIntervalFromCurrentDate(int days) {
 		if(days <= 0) {
 			days = 1;
@@ -222,11 +306,22 @@ public class Filter {
 		dateLimit = new Date(new_date);
 	}
 	
+	/**
+	 * Verify if consider date.
+	 *
+	 * @param date the date
+	 * @return true, if successful
+	 */
 	public boolean verifyIfConsiderDate(Date date) {
 		Date dateLimit = this.dateLimit;
 		return dateLimit.before(date);
 	}
 	
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate(){
 		return this.dateLimit;
 	}

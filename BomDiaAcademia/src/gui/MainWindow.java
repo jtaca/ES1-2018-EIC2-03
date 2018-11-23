@@ -13,12 +13,25 @@ import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
 
+/**
+ * The Class MainWindow.
+ * @author Rostislav Andreev
+ * @version 2.0
+ */
 public class MainWindow extends Application {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();

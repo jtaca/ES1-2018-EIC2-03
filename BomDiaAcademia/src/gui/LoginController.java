@@ -33,6 +33,8 @@ import twitter.TwitterFunctions;
 
 /**
  * The Class LoginController handles the user interaction with the GUI.
+ * @author Rostislav Andreev
+ * @version 2.0
  */
 public class LoginController implements Initializable {
 

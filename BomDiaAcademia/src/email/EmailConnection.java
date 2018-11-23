@@ -24,7 +24,7 @@ import other.Service;
 /**
  * The Class EmailConnection.
  * @author Alexandre Mendes
- * @version 1.0
+ * @version 2.0
  */
 public class EmailConnection {
 	
@@ -96,6 +96,13 @@ public class EmailConnection {
 	    return result;
 	}
 	
+	/**
+	 * Verify login.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @return true, if successful
+	 */
 	public static boolean verifyLogin(String username, String password) {
 		Store emailStore = null;
 		//Folder emailFolder = null;
@@ -253,6 +260,11 @@ public class EmailConnection {
 		
 	}
 	
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}

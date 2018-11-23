@@ -12,7 +12,7 @@ import tasks.ServiceReadTask;
 /**
  * The Class ThreadPool.
  * @author Alexandre Mendes
- * @version 1.0
+ * @version 2.0
  */
 public class ThreadPool { //
 	
@@ -53,6 +53,11 @@ public class ThreadPool { //
 		return INSTANCE;
 	}
 	
+	/**
+	 * Gets the threads working.
+	 *
+	 * @return the threads working
+	 */
 	public boolean getThreadsWorking() {
 		return threadsWorking;
 	}
@@ -87,6 +92,11 @@ public class ThreadPool { //
 	}
 	
 	
+	/**
+	 * Refresh GUI with threads.
+	 *
+	 * @param tasks the tasks
+	 */
 	public static void refreshGUIWithThreads(List<ServiceReadTask> tasks) {
 		ThreadPool.getInstance().startThreads();
 		Thread thread = new Thread(new GetPostTask(tasks));

@@ -42,6 +42,8 @@ import twitter4j.Status;
 
 /**
  * The Class MainController handles the user interaction with the GUI.
+ * @author Rostislav Andreev
+ * @version 2.0
  */
 public class MainController implements Initializable {
 
