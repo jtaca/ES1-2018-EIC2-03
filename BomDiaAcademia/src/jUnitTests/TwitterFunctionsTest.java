@@ -26,7 +26,7 @@ import twitter4j.URLEntity;
 import twitter4j.User;
 import twitter4j.UserMentionEntity;
 
-public class TwitterFunctionsTesting {
+public class TwitterFunctionsTest {
 
 	@Test
 	public void testRetweet() {
