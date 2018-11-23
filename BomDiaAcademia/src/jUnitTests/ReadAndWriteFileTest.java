@@ -2,11 +2,13 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import files.ReadAndWriteFile;
 import other.Service;
@@ -19,6 +21,7 @@ public class ReadAndWriteFileTest {
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
 	public static final String TEST_FILE_NAME = "key_words_filter.dat";
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
+
 	
 	@Test
 	public void testSaveListOfInformationEntry() {
@@ -33,8 +36,30 @@ public class ReadAndWriteFileTest {
 			ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list);
 			ReadAndWriteFile.saveListOfInformationEntry("@", information_entry_list);
 			ReadAndWriteFile.saveListOfInformationEntry("\n",null);
-			information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
-			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
+			
+			
+			
+			for (int i = 0; i < 40; i++) {
+				Thread tester = new Thread() {
+					public void run() {
+						ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
+			         }
+				};
+				tester.start();
+				information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
+				ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
+			}
+			for (int i = 0; i < 40; i++) {
+				Thread tester = new Thread() {
+					public void run() {
+						ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
+			         }
+				};
+				tester.start();
+				information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
+				ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);
+			}
+			
 			
 			
 		} catch (Exception e) {
@@ -86,7 +111,6 @@ public class ReadAndWriteFileTest {
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
 		
 		try {
-			
 			ReadAndWriteFile.saveListOfFilters(null, key_words_filter);
 			ReadAndWriteFile.saveListOfFilters(TEST_FILE_NAME, key_words_filter);
 			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);
