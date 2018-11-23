@@ -482,7 +482,7 @@ public class MainController implements Initializable {
 	 * 
 	 * @return
 	 */
-	public JFXListView<PostBox> getPostsList() {
+	public JFXListView<PostBox> getPosts() {
 		return posts;
 	}
 
