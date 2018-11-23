@@ -22,6 +22,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * Used to execute every twitter interaction.
  * @author DElfim
  *
  */
@@ -38,10 +39,7 @@ public class TwitterFunctions {
 	private static Twitter twitter = init();
 	private static XMLUserConfiguration twitterKeys = null;
 	private Logger logger= new Logger();
-	/**
-	 * 
-	 * 
-	 */
+	
 	private static Twitter init() {
 //		try {
 //			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
@@ -67,6 +65,8 @@ public class TwitterFunctions {
 	}
 	
 	/**
+	 * Receives the Status object equivalent to the tweet the user wants to retweet
+	 * fails if the user is not authenticated.
 	 * @param tweet
 	 * @throws TwitterException
 	 */
@@ -80,7 +80,8 @@ public class TwitterFunctions {
 	}
 
 	/**
-	 * @return
+	 * Returns a List with a basic query from twitter with the String "ISCTE".
+	 * @return List<InformationEntry>
 	 * @throws Exception
 	 */
 	public static List<InformationEntry> requestTwitter() throws Exception {
@@ -121,7 +122,13 @@ public class TwitterFunctions {
 		return l;
 	}
 
-	
+	/**
+	 * Returns a List of all tweets done by the user referred, after the designated date.
+	 * @param date
+	 * @param user
+	 * @return List<InformationEntry>
+	 * @throws Exception
+	 */
 	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) {
 		List<InformationEntry> tweets = new ArrayList<>();
 		try {
@@ -138,7 +145,8 @@ public class TwitterFunctions {
 	}
 
 	/**
-	 * @param ammount
+	 * Returns a List of all tweets done by the users referred, after the designated date.
+	 * @param date
 	 * @param users
 	 * @return List<InformationEntry>
 	 * @throws Exception
