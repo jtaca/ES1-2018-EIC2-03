@@ -338,62 +338,64 @@ public class MainController implements Initializable {
 	 * @param informationEntry the information entry
 	 */
 	private void openPost(InformationEntry informationEntry) {
-		postContent.getChildren().clear();
-		postContent.autosize();
-		retweetLabel.setVisible(false);
-		retweetLabel.setMaxHeight(0);
+		Platform.runLater(() -> {
+			postContent.getChildren().clear();
+			postContent.autosize();
+			retweetLabel.setVisible(false);
+			retweetLabel.setMaxHeight(0);
 
-		if (informationEntry.getService().equals(Service.EMAIL)) {
-			EmailEntry email = (EmailEntry) informationEntry;
+			if (informationEntry.getService().equals(Service.EMAIL)) {
+				EmailEntry email = (EmailEntry) informationEntry;
 
-			String names[] = email.getWriterName().split("<");
-			profilePic.setFitWidth(0);
-			profilePic.setFitHeight(0);
-			profilePic.setImage(null);
+				String names[] = email.getWriterName().split("<");
+				profilePic.setFitWidth(0);
+				profilePic.setFitHeight(0);
+				profilePic.setImage(null);
 
-			HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));
+				HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));
 
-			authorName.setText(names[0].trim());
-			authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
+				authorName.setText(names[0].trim());
+				authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
 
-			Text body = new Text(email.getContent());
-			body.setWrappingWidth(470);
+				Text body = new Text(email.getContent());
+				body.setWrappingWidth(470);
 
-			postContent.getChildren().add(body);
+				postContent.getChildren().add(body);
 
-			emailFooter.toFront();
-		} else if (informationEntry.getService().equals(Service.TWITTER)) {
-			TwitterEntry tweet = (TwitterEntry) informationEntry;
+				emailFooter.toFront();
+			} else if (informationEntry.getService().equals(Service.TWITTER)) {
+				TwitterEntry tweet = (TwitterEntry) informationEntry;
 
-			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
-			Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
+				Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
+				Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
 
-			profilePic.setFitWidth(50);
-			profilePic.setFitHeight(50);
-			profilePic.setImage(pic);
+				profilePic.setFitWidth(50);
+				profilePic.setFitHeight(50);
+				profilePic.setImage(pic);
 
-			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
+				HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
 
-			authorName.setText(status.getUser().getName());
-			authorUsername.setText("@" + status.getUser().getScreenName());
+				authorName.setText(status.getUser().getName());
+				authorUsername.setText("@" + status.getUser().getScreenName());
 
-			if (tweet.isRetweet()) {
-				retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
-				retweetLabel.setVisible(true);
-			}
+				if (tweet.isRetweet()) {
+					retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
+					retweetLabel.setVisible(true);
+				}
 
 //			for (MediaEntity m : status.getMediaEntities())
 //				postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
 
-			Text body = new Text(status.getText());
-			body.setWrappingWidth(470);
+				Text body = new Text(status.getText());
+				body.setWrappingWidth(470);
 
-			postContent.getChildren().add(body);
+				postContent.getChildren().add(body);
 
-			twitterFooter.toFront();
-		}
+				twitterFooter.toFront();
+			}
 
-		postLayer.toFront();
+			postLayer.toFront();
+		});
 	}
 
 	/**
@@ -448,10 +450,12 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void clearEmail() {
-		emailReceiver.clear();
-		emailSubject.clear();
-		emailMessage.clear();
-		emailError.setText("");
+		Platform.runLater(() -> {
+			emailReceiver.clear();
+			emailSubject.clear();
+			emailMessage.clear();
+			emailError.setText("");
+		});
 	}
 
 	/**
@@ -468,7 +472,8 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void removeEmail() {
-		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
+		Platform.runLater(() -> emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex()));
+//		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
 	/**
@@ -477,7 +482,7 @@ public class MainController implements Initializable {
 	 * @param username
 	 */
 	protected void setUsername(String username) {
-		this.username.setText(username);
+		Platform.runLater(() -> this.username.setText(username));
 	}
 
 	/**

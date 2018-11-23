@@ -5,8 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,6 +25,7 @@ import gui.MainController;
 import gui.MainWindow;
 import gui.PostBox;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -95,6 +98,7 @@ public class MainControllerTest {
 
 		openPost.setAccessible(true);
 		openPost.invoke(controller, email);
+		waitForRunLater();
 
 		StackPane footer = (StackPane) postFooter.get(controller);
 		HBox efooter = (HBox) emailFooter.get(controller);
@@ -103,8 +107,24 @@ public class MainControllerTest {
 	}
 
 	@Test
-	public void testOpenPostTwitterEntry() {
+	public void testOpenPostTwitterEntry() throws Exception {
+		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
+		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
 
+		Field postFooter = cl.getDeclaredField("postFooter");
+		Field twitterFooter = cl.getDeclaredField("twitterFooter");
+
+		postFooter.setAccessible(true);
+		twitterFooter.setAccessible(true);
+
+		openPost.setAccessible(true);
+		openPost.invoke(controller, tweet);
+		waitForRunLater();
+
+		StackPane footer = (StackPane) postFooter.get(controller);
+		HBox tfooter = (HBox) twitterFooter.get(controller);
+
+		assertEquals(tfooter, footer.getChildren().get(footer.getChildren().size() - 1));
 	}
 
 	@Test
@@ -123,16 +143,17 @@ public class MainControllerTest {
 
 		clearEmail.setAccessible(true);
 		clearEmail.invoke(controller);
+		waitForRunLater();
 
 		JFXTextField receiver = (JFXTextField) emailReceiver.get(controller);
 		JFXTextField subject = (JFXTextField) emailSubject.get(controller);
 		JFXTextArea message = (JFXTextArea) emailMessage.get(controller);
-		Label error = (Label) emailError.get("controller");
+		Label error = (Label) emailError.get(controller);
 
 		assertEquals(true, receiver.getText().isEmpty());
 		assertEquals(true, subject.getText().isEmpty());
 		assertEquals(true, message.getText().isEmpty());
-		assertEquals(true, error.getText().isEmpty());
+		assertEquals(true, error.getText().equals(""));
 	}
 
 	@Test
@@ -172,7 +193,8 @@ public class MainControllerTest {
 		int before = listView.getItems().size(), after;
 
 		removeEmail.setAccessible(true);
-		removeEmail.invoke(removeEmail);
+		removeEmail.invoke(controller);
+		waitForRunLater();
 
 		after = listView.getItems().size();
 
@@ -193,6 +215,7 @@ public class MainControllerTest {
 		StackPane post = (StackPane) postLayer.get(controller);
 
 		closePost.invoke(controller);
+		waitForRunLater();
 
 		assertEquals(post, pane.getChildren().get(0));
 	}
@@ -208,6 +231,7 @@ public class MainControllerTest {
 		Label label = (Label) username.get(controller);
 
 		setUsername.invoke(controller, "Username");
+		waitForRunLater();
 
 		assertEquals("Username", label.getText());
 	}
@@ -223,5 +247,11 @@ public class MainControllerTest {
 		JFXListView<PostBox> expected = (JFXListView<PostBox>) postList.get(controller);
 
 		assertEquals(expected, posts);
+	}
+
+	public static void waitForRunLater() throws InterruptedException {
+		Semaphore semaphore = new Semaphore(0);
+		Platform.runLater(() -> semaphore.release());
+		semaphore.acquire();
 	}
 }
