@@ -104,6 +104,10 @@ public class MainController implements Initializable {
 	@FXML
 	private ImageView profilePic;
 
+	/** The post footer. */
+	@FXML
+	private StackPane postFooter;
+
 	/** The email footer. */
 	@FXML
 	private HBox emailFooter;
@@ -417,7 +421,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void closePost() {
-		postLayer.toBack();
+		Platform.runLater(() -> postLayer.toBack());
 	}
 
 	/**
