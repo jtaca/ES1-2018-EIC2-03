@@ -167,6 +167,15 @@ public class TwitterFunctions {
 		TwitterEntry te = (TwitterEntry) l.get(0);
 		return te.getStatus();
 	}
+	public static Status getSomeRetweet(){
+		List<InformationEntry> l = getTweetsFiltered();
+		TwitterEntry te=null;
+		for(InformationEntry elem : l){
+			te=(TwitterEntry)elem;
+			if(te.getStatus().isRetweet())break;
+		}
+		return te.getStatus();
+	}
 
 	public static String[] getKeys() {
 		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
