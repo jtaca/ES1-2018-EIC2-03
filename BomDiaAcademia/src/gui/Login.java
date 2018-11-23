@@ -12,12 +12,23 @@ import javafx.stage.Stage;
 import other.XMLUserConfiguration;
 import threads.ThreadPool;
 
+/**
+ * The Class Login contains the main method that starts the application.
+ */
 public class Login extends Application {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ThreadPool.getInstance().startThreads();

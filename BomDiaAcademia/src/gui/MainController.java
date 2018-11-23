@@ -39,45 +39,107 @@ import other.Service;
 import threads.ThreadPool;
 import twitter4j.Status;
 
+/**
+ * The Class MainController handles the user interaction with the GUI.
+ */
 public class MainController implements Initializable {
 
+	/** The Constant INSTANCE. */
 	private static final MainController INSTANCE = new MainController();
 
-	// Main window
+	// ------------ Main window ------------
+	/** The main box. */
 	public HBox mainBox;
+
+	/** The center pane. */
 	public StackPane centerPane;
 
-	// Side bar
+	// ------------ Side bar ------------
+	/** The side menu. */
 	public ToggleGroup sideMenu;
+
+	/** The username. */
 	public Label username;
 
-	// Posts list
+	// ------------ Posts list ------------
+	/** The posts. */
 	public JFXListView<PostBox> posts;
 
-	// Open post
+	// ------------ Open post ------------
+	/** The post layer. */
 	public StackPane postLayer;
-	public VBox postContainer, postContent, postAuthorInfo;
-	public Label authorName, authorUsername, retweetLabel;
-	public ImageView profilePic;
-	public HBox emailFooter, twitterFooter;
 
-	// Settings
+	/** The post author container. */
+	public VBox postContainer;
+
+	/** The post content. */
+	public VBox postContent;
+
+	/** The post author info. */
+	public VBox postAuthorInfo;
+
+	/** The author name. */
+	public Label authorName;
+
+	/** The author username. */
+	public Label authorUsername;
+
+	/** The retweet label. */
+	public Label retweetLabel;
+
+	/** The profile pic. */
+	public ImageView profilePic;
+
+	/** The email footer. */
+	public HBox emailFooter;
+
+	/** The twitter footer. */
+	public HBox twitterFooter;
+
+	// ------------ Settings ------------
+	/** The settings. */
 	public VBox settings;
+
+	/** The email list. */
 	public JFXListView<String> emailList;
+
+	/** The theme list. */
 	public ChoiceBox<String> themeList;
+
+	/** The new email. */
 	public TextField newEmail;
 
-	// Email writing
+	// ------------ Email writing panel ------------
+	/** The email pane. */
 	public VBox emailPane;
-	public JFXTextField emailReceiver, emailSubject;
+
+	/** The email receiver. */
+	public JFXTextField emailReceiver;
+
+	/** The email subject. */
+	public JFXTextField emailSubject;
+
+	/** The email error. */
 	public Label emailError;
+
+	/** The email message. */
 	public JFXTextArea emailMessage;
 
+	/** The email connection. */
 	private EmailConnection emailConnection;
 
+	/**
+	 * Instantiates a new main controller.
+	 */
 	private MainController() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		showHomePage();
@@ -92,6 +154,14 @@ public class MainController implements Initializable {
 		postContainer.maxHeightProperty().bind(postContent.heightProperty());
 	}
 
+	/**
+	 * Adds posts to the posts list and displays them on screen. If reload is true
+	 * then it deletes all the posts from the posts lists and displays only the new
+	 * ones.
+	 * 
+	 * @param entries the entries
+	 * @param reload  the reload
+	 */
 	public void loadPosts(List<InformationEntry> entries, boolean reload) {
 		Platform.runLater(() -> {
 			if (reload)
@@ -102,6 +172,9 @@ public class MainController implements Initializable {
 		});
 	}
 
+	/**
+	 * Sets the theme.
+	 */
 	public void setTheme() {
 		int cssIndex = themeList.getSelectionModel().getSelectedIndex();
 		String css = getClass().getResource("/res/MainScene" + cssIndex + ".css").toExternalForm();
@@ -109,23 +182,44 @@ public class MainController implements Initializable {
 		mainBox.getStylesheets().add(css);
 	}
 
+	/**
+	 * Shows home page.
+	 */
 	public void showHomePage() {
 		posts.toFront();
 	}
 
+	/**
+	 * Shows the email writing panel.
+	 */
 	public void writeEmail() {
 		emailPane.toFront();
 	}
 
+	/**
+	 * Shows settings.
+	 */
 	public void showSettings() {
 		settings.toFront();
 	}
 
+	/**
+	 * Logs out and closes the program.
+	 *
+	 * @param event the event
+	 */
 	public void logOut(ActionEvent event) {
 		ThreadPool.getInstance().stopThreads();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 	}
 
+	/**
+	 * Converts an InformationEntry object into a PostBox object to be displayed on
+	 * screen.
+	 *
+	 * @param informationEntry the information entry
+	 * @return the post box
+	 */
 	private PostBox toPostBox(InformationEntry informationEntry) {
 		PostBox postBox = new PostBox(informationEntry);
 		FontAwesomeIconView icon = new FontAwesomeIconView();
@@ -205,6 +299,11 @@ public class MainController implements Initializable {
 		return postBox;
 	}
 
+	/**
+	 * Opens the post in more detail.
+	 *
+	 * @param informationEntry the information entry
+	 */
 	private void openPost(InformationEntry informationEntry) {
 		postContent.getChildren().clear();
 		postContent.autosize();
@@ -264,6 +363,9 @@ public class MainController implements Initializable {
 		postLayer.toFront();
 	}
 
+	/**
+	 * Opens the previous post.
+	 */
 	public void openPreviousPost() {
 		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
@@ -271,15 +373,24 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Opens the next post.
+	 */
 	public void openNextPost() {
 		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
 		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 	}
 
+	/**
+	 * Closes the currently open post.
+	 */
 	public void closePost() {
 		postLayer.toBack();
 	}
 
+	/**
+	 * Sends email.
+	 */
 	public void sendEmail() {
 		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
 				&& !emailMessage.getText().isEmpty())
@@ -295,6 +406,9 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Clears all fields in the email writing panel.
+	 */
 	public void clearEmail() {
 		emailReceiver.clear();
 		emailSubject.clear();
@@ -302,15 +416,26 @@ public class MainController implements Initializable {
 		emailError.setText("");
 	}
 
+	/**
+	 * Adds an email to the email list.
+	 */
 	public void addEmail() {
 		emailList.getItems().add(newEmail.getText());
 		newEmail.setText("");
 	}
 
+	/**
+	 * Removes the selected email from the email list.
+	 */
 	public void removeEmail() {
 		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
+	/**
+	 * Gets the single instance of MainController.
+	 *
+	 * @return single instance of MainController
+	 */
 	public static MainController getInstance() {
 		return INSTANCE;
 	}
