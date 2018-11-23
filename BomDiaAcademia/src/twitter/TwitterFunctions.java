@@ -162,12 +162,12 @@ public class TwitterFunctions {
 		return tweets;
 	}
 	
-	public static Status getSomeStatus(){
-		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-		List<InformationEntry> l = getTweetsFiltered();
-		TwitterEntry te = (TwitterEntry) l.get(0);
-		return te.getStatus();
-	}
+//	public static Status getSomeStatus(){
+//		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
+//		List<InformationEntry> l = getTweetsFiltered();
+//		TwitterEntry te = (TwitterEntry) l.get(0);
+//		return te.getStatus();
+//	}
 	public static Status getSomeRetweet(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l = getTweetsFiltered();
