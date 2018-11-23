@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXListView;
 import email.EmailConnection;
 import files.ReadAndWriteXMLFile;
 import gui.MainController;
+import gui.MainWindow;
 import gui.PostBox;
 import other.OtherStaticFunction;
 import other.XMLUserConfiguration;
@@ -25,12 +26,18 @@ public class ThreadPoolTest {
 	private static XMLUserConfiguration user = null;
 	
 	@BeforeClass
-	public static void beforeClass() {
-		try {
-			user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static void beforeClass() throws Exception {
+		user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+		
+		Thread t = new Thread("MainWindow Thread") {
+			public void run() {
+				MainWindow.main(new String[0]);
+			}
+		};
+
+		t.setDaemon(true);
+		t.start();
+		Thread.sleep(500);
 	}
 
 	@Test

@@ -3,7 +3,6 @@ package tasks;
 import java.util.List;
 
 import gui.MainController;
-import other.Main;
 import threads.InformationEntryGatherer;
 import threads.TaskTable;
 

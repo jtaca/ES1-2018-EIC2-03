@@ -6,7 +6,6 @@ import java.util.List;
 
 import comparators.DateComparator;
 import entry_objects.InformationEntry;
-import other.Main;
 
 /**
  * The Class InformationEntryGatherer.
