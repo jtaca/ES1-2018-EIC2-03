@@ -115,6 +115,7 @@ public class TwitterFunctionsTest {
 	
 
 	
+	
 	private class TestStatus implements Status{
 		long post_id=-1L;
 		public TestStatus(long l){

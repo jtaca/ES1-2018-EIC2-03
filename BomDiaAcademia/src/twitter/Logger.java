@@ -45,6 +45,7 @@ public class Logger {
 		System.out.println(url);
 		return url;
 	}
+	
 	public boolean inputPin(String s){
 		try {
 			accessToken = twitter.getOAuthAccessToken(requestToken, s);
