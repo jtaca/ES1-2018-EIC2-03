@@ -53,6 +53,10 @@ public class ThreadPool { //
 		return INSTANCE;
 	}
 	
+	public boolean getThreadsWorking() {
+		return threadsWorking;
+	}
+	
 	/**
 	 * Stop threads.
 	 */

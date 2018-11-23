@@ -15,7 +15,7 @@ import other.XMLUserConfiguration;
 
 public class EmailConnectionTest {
 	
-private static EmailConnection email;
+	private static EmailConnection email;
 	
 	/** The user. */
 	private static XMLUserConfiguration user = null;
