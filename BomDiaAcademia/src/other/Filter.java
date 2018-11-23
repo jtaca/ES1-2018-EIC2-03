@@ -97,37 +97,88 @@ public class Filter {
 		ReadAndWriteFile.saveListOfFilters(file_name, filterList);
 	}
 	
-	public void addFilter(Service service, List<String> filter) throws Exception {
-		if(addingFilter == false) {
-			addingFilter = true;
-			
-			if(keyWordsFilterList != null) {
-				keyWordsFilterList.addAll(filter);
-				// lets remove duplicates and keep order
-				keyWordsFilterList = new ArrayList<String>(new LinkedHashSet<String>(keyWordsFilterList));
-				saveFilterListToFile(service, keyWordsFilterList);
+	public void setFilter(Service service, List<String> filter) {
+		switch (service) {
+		case EMAIL:
+			synchronized (this) {
+				keyWordsFilterList = filter;
 			}
+			break;
 			
-			addingFilter = false;
-		} else {
-			throw new Exception("Filter one filter is already being added.");
+		case TWITTER:
+			synchronized (this) {
+				twitterUserFilterList = filter;
+			}
+			break;
+			
+		case FACEBOOK:
+			synchronized (this) {
+				facebookFilterList = filter;
+			}
+			break;
+
+		default:
+			break;
 		}
 	}
 	
-	public void addFilter(Service service, String filter) throws Exception {
-		if(addingFilter == false) {
-			addingFilter = true;
+	public synchronized void addFilter(Service service, List<String> filter) {
+		switch (service) {
+		case EMAIL:
+			if(keyWordsFilterList != null) {
+				keyWordsFilterList.addAll(filter);
+				keyWordsFilterList = new ArrayList<String>(new LinkedHashSet<String>(keyWordsFilterList));
+				saveFilterListToFile(service, keyWordsFilterList);
+			}
+			break;
 			
+		case TWITTER:
+			if(twitterUserFilterList != null) {
+				twitterUserFilterList.addAll(filter);
+				twitterUserFilterList = new ArrayList<String>(new LinkedHashSet<String>(twitterUserFilterList));
+				saveFilterListToFile(service, twitterUserFilterList);
+			}
+			break;
+			
+		case FACEBOOK:
+			if(facebookFilterList != null) {
+				facebookFilterList.addAll(filter);
+				facebookFilterList = new ArrayList<String>(new LinkedHashSet<String>(facebookFilterList));
+				saveFilterListToFile(service, facebookFilterList);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public synchronized void addFilter(Service service, String filter) {
+		switch (service) {
+		case EMAIL:
 			if(keyWordsFilterList != null && !keyWordsFilterList.contains(filter)) {
 				keyWordsFilterList.add(filter);
 				saveFilterListToFile(service, keyWordsFilterList);
 			}
+			break;
 			
-			addingFilter = false;
-		} else {
-			throw new Exception("Filter one filter is already being added.");
+		case TWITTER:
+			if(twitterUserFilterList != null && !twitterUserFilterList.contains(filter)) {
+				twitterUserFilterList.add(filter);
+				saveFilterListToFile(service, twitterUserFilterList);
+			}
+			break;
+			
+		case FACEBOOK:
+			if(facebookFilterList != null && !facebookFilterList.contains(filter)) {
+				facebookFilterList.add(filter);
+				saveFilterListToFile(service, facebookFilterList);
+			}
+			break;
+
+		default:
+			break;
 		}
-		
 	}
 	
 	public List<String> getFilterList(Service service) {

@@ -8,8 +8,12 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.jfoenix.controls.JFXListView;
+
 import email.EmailConnection;
 import files.ReadAndWriteXMLFile;
+import gui.MainController;
+import gui.PostBox;
 import other.OtherStaticFunction;
 import other.XMLUserConfiguration;
 import tasks.EmailReaderTask;
@@ -54,10 +58,22 @@ public class ThreadPoolTest {
 	@Test
 	public void testRefreshGUIWithThreads() {
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
+		
+		// Need to initialize the MainController before everything...
+		
+		JFXListView<PostBox> previousPostBox = MainController.getInstance().getPosts();
 		tasks.add(new EmailReaderTask(new EmailConnection(user.getUsername(), user.getPassword())));
 		ThreadPool.refreshGUIWithThreads(tasks);
+		long valueNeededToWaitBeforeCheckOnList = 60000;
+		try {
+			Thread.sleep(valueNeededToWaitBeforeCheckOnList);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		JFXListView<PostBox> afterExecutionPostBox = MainController.getInstance().getPosts();
 		// Precisamos de uma maneira de verificar se a Lista foi parar mesmo ao GUI
-		fail("Require assert to the list that it creates");
+		assertNotEquals(previousPostBox, afterExecutionPostBox);
+//		fail("Require assert to the list that it creates");
 	}
 
 }
