@@ -477,6 +477,16 @@ public class MainController implements Initializable {
 	}
 
 	/**
+	 * Returns the JFXListView containing all posts currently being displayed on
+	 * screen.
+	 * 
+	 * @return
+	 */
+	public JFXListView<PostBox> getPostsList() {
+		return posts;
+	}
+
+	/**
 	 * Gets the single instance of MainController.
 	 *
 	 * @return single instance of MainController
