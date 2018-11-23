@@ -47,7 +47,7 @@ public class ReadAndWriteFile { //
 	 * @param fileName the file name
 	 * @param information_entry_list the information entry list
 	 */
-	public static void saveListOfInformationEntry(String fileName, List<InformationEntry> information_entry_list) {
+	public static synchronized void saveListOfInformationEntry(String fileName, List<InformationEntry> information_entry_list) {
 		
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FOLDER_POSTS + fileName));) {
 			out.writeObject(information_entry_list);
@@ -67,7 +67,7 @@ public class ReadAndWriteFile { //
 	 * @param fileName the file name
 	 * @return the list
 	 */
-	public static List<InformationEntry> loadListOfInformationEntry(String fileName) {
+	public static synchronized List<InformationEntry> loadListOfInformationEntry(String fileName) {
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FOLDER_POSTS + fileName));) {
@@ -84,7 +84,7 @@ public class ReadAndWriteFile { //
 	}
 	
 	
-	public static void saveListOfFilters(String fileName, List<String> filters) {
+	public static synchronized void saveListOfFilters(String fileName, List<String> filters) {
 		
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));) {
 			out.writeObject(filters);
@@ -93,10 +93,12 @@ public class ReadAndWriteFile { //
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		} catch (IOException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());
+		}catch (NullPointerException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
 		}
 	}
 	
-	public static List<String> loadListOfFilters(String fileName) {
+	public static synchronized List<String> loadListOfFilters(String fileName) {
 		ArrayList<String> filters = null;
 		
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {
@@ -107,6 +109,8 @@ public class ReadAndWriteFile { //
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());			
+		}catch (NullPointerException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
 		}
 		
 		return filters;
