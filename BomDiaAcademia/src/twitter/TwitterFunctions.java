@@ -163,8 +163,19 @@ public class TwitterFunctions {
 	}
 	
 	public static Status getSomeStatus(){
+		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l = getTweetsFiltered();
 		TwitterEntry te = (TwitterEntry) l.get(0);
+		return te.getStatus();
+	}
+	public static Status getSomeRetweet(){
+		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
+		List<InformationEntry> l = getTweetsFiltered();
+		TwitterEntry te=null;
+		for(InformationEntry elem : l){
+			te=(TwitterEntry)elem;
+			if(te.getStatus().isRetweet())break;
+		}
 		return te.getStatus();
 	}
 
