@@ -26,6 +26,7 @@ import other.Service;
 import other.XMLUserConfiguration;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ReadAndWriteXMLFile.
  * @author Alexandre Mendes
@@ -35,6 +36,8 @@ public class ReadAndWriteXMLFile { //
 	
 	/** The Constant CONFIG_FILE_NAME. */
 	private final static String CONFIG_FILE_NAME = "config.xml";
+	
+	/** The Constant TWITTER_CONFIG. */
 	private final static String TWITTER_CONFIG = "twitter.xml";
 	
 	/**
@@ -227,6 +230,12 @@ public class ReadAndWriteXMLFile { //
 		return xml_user_config_array;
 	}
 	
+	/**
+	 * Gets the twitter users.
+	 *
+	 * @return the twitter users
+	 * @throws Exception the exception
+	 */
 	public static List<String> getTwitterUsers() throws Exception {
 		File xmlFile = new File(TWITTER_CONFIG);
 		List<String> users = new ArrayList<>();

@@ -24,6 +24,7 @@ import entry_objects.InformationEntry;
 import other.Service;
 import other.XMLUserConfiguration;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ReadAndWriteFile.
  * @author Alexandre Mendes
@@ -31,11 +32,15 @@ import other.XMLUserConfiguration;
  */
 public class ReadAndWriteFile { // 
 	
-	private static final String FOLDER_POSTS = "Posts/";
+	/** The Constant FOLDER_POSTS. */
+ private static final String FOLDER_POSTS = "Posts/";
 	
 	
 	/**
 	 * Instantiates a new read and write file.
+	 *
+	 * @param fileName the file name
+	 * @param information_entry_list the information entry list
 	 */
 //	public ReadAndWriteFile() {	
 //	}
@@ -84,6 +89,12 @@ public class ReadAndWriteFile { //
 	}
 	
 	
+	/**
+	 * Save list of filters.
+	 *
+	 * @param fileName the file name
+	 * @param filters the filters
+	 */
 	public static synchronized void saveListOfFilters(String fileName, List<String> filters) {
 		
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));) {
@@ -98,6 +109,12 @@ public class ReadAndWriteFile { //
 		}
 	}
 	
+	/**
+	 * Load list of filters.
+	 *
+	 * @param fileName the file name
+	 * @return the list
+	 */
 	public static synchronized List<String> loadListOfFilters(String fileName) {
 		ArrayList<String> filters = null;
 		
