@@ -162,7 +162,11 @@ public class TwitterFunctions {
 		return tweets;
 	}
 	
-	
+	public static Status getSomeStatus(){
+		List<InformationEntry> l = getTweetsFiltered();
+		TwitterEntry te = (TwitterEntry) l.get(0);
+		return te.getStatus();
+	}
 
 	public static String[] getKeys() {
 		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
