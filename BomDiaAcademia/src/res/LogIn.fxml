@@ -38,7 +38,7 @@
                   <FontAwesomeIconView glyphName="USER" size="20" />
                </children>
             </HBox>
-            <JFXTextField fx:id="username" focusColor="#ff3000" labelFloat="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="nome de utilizador/email" unFocusColor="#c6c6c6">
+            <JFXTextField fx:id="username" focusColor="#ff3000" labelFloat="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" promptText="email" unFocusColor="#c6c6c6">
                <HBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />
                </HBox.margin>
