@@ -1,11 +1,9 @@
 package jUnitTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
@@ -24,7 +22,6 @@ import entry_objects.TwitterEntry;
 import gui.MainController;
 import gui.MainWindow;
 import gui.PostBox;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -168,6 +165,7 @@ public class MainControllerTest {
 
 		addEmail.setAccessible(true);
 		addEmail.invoke(controller);
+		waitForRunLater();
 
 		@SuppressWarnings("unchecked")
 		JFXListView<String> listView = (JFXListView<String>) emailList.get(controller);
@@ -180,15 +178,18 @@ public class MainControllerTest {
 	@Test
 	public void testRemoveEmail() throws Exception {
 		Method removeEmail = cl.getDeclaredMethod("removeEmail");
+		Method addEmail = cl.getDeclaredMethod("addEmail");
 
 		Field emailList = cl.getDeclaredField("emailList");
 
 		emailList.setAccessible(true);
+		addEmail.setAccessible(true);
+		addEmail.invoke(controller);
+		waitForRunLater();
 
 		@SuppressWarnings("unchecked")
 		JFXListView<String> listView = (JFXListView<String>) emailList.get(controller);
-
-		emailList.setAccessible(true);
+		listView.getSelectionModel().select(0);
 
 		int before = listView.getItems().size(), after;
 
@@ -198,7 +199,7 @@ public class MainControllerTest {
 
 		after = listView.getItems().size();
 
-		assertTrue(after <= before);
+		assertTrue(after < before);
 	}
 
 	@Test

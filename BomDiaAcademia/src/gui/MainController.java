@@ -463,8 +463,10 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addEmail() {
-		emailList.getItems().add(newEmail.getText());
-		newEmail.setText("");
+		Platform.runLater(() -> {
+			emailList.getItems().add(newEmail.getText());
+			newEmail.setText("");
+		});
 	}
 
 	/**
