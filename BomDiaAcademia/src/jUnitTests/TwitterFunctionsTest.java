@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import entry_objects.InformationEntry;
+import other.Filter;
 import twitter.Logger;
 import twitter.TwitterFunctions;
 import twitter4j.GeoLocation;
@@ -89,6 +90,7 @@ public class TwitterFunctionsTest {
 	}
 	@Test 
 	public void testGetTweetsFiltered(){
+		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l=TwitterFunctions.getTweetsFiltered();
 		assert(!l.isEmpty());
 	}
