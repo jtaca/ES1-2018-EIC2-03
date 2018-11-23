@@ -93,6 +93,8 @@ public class ReadAndWriteFile { //
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		} catch (IOException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());
+		}catch (NullPointerException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
 		}
 	}
 	
@@ -107,6 +109,8 @@ public class ReadAndWriteFile { //
 			System.err.println(e.getClass() + ": " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			System.err.println(e.getClass() + ": " + e.getMessage());			
+		}catch (NullPointerException e) {
+			System.err.println(e.getClass() + ": " + e.getMessage());
 		}
 		
 		return filters;

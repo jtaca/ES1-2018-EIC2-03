@@ -22,27 +22,23 @@ public class ReadAndWriteFileTest {
 	
 	@Test
 	public void testSaveListOfInformationEntry() {
-		try {
-			ReadAndWriteFile.saveListOfInformationEntry(null, null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
-		
-		try {
-			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
+
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
 		information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "4"));
 	
 		try {
+			ReadAndWriteFile.saveListOfInformationEntry(null, null);
+			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);
 			ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			ReadAndWriteFile.saveListOfInformationEntry("@", information_entry_list);
+			ReadAndWriteFile.saveListOfInformationEntry("\n",null);
+			information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
+			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 			fail();
 		}
 		
@@ -54,24 +50,15 @@ public class ReadAndWriteFileTest {
 		
 		try {
 			ReadAndWriteFile.loadListOfInformationEntry(null);
+			ReadAndWriteFile.loadListOfInformationEntry("");
+			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);
+			ReadAndWriteFile.loadListOfInformationEntry("\n");
+			//ReadAndWriteFile.loadListOfInformationEntry((String) );
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
 		}
 		
-		try {
-			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-		try {
-			ReadAndWriteFile.loadListOfInformationEntry("");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-
 		List<InformationEntry> information_entry_list2 = null;
 		Date date = new Date();
 		information_entry_list2 = new ArrayList<InformationEntry>();
@@ -99,32 +86,17 @@ public class ReadAndWriteFileTest {
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
 		
 		try {
-			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-		
-		try {
+			
 			ReadAndWriteFile.saveListOfFilters(null, key_words_filter);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-		try {
+			ReadAndWriteFile.saveListOfFilters(TEST_FILE_NAME, key_words_filter);
 			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);
+			ReadAndWriteFile.saveListOfFilters(null, null);
+			ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
+			ReadAndWriteFile.saveListOfFilters("\n", key_words_filter);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			fail();
 		}
-		
-		try {
-			ReadAndWriteFile.saveListOfFilters(null, null);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}		
-		
 		
 	}
 
@@ -137,22 +109,14 @@ public class ReadAndWriteFileTest {
 		
 		try {
 			ReadAndWriteFile.loadListOfFilters(TEST_FILE_NAME);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-		try {
 			ReadAndWriteFile.loadListOfFilters("");
+			ReadAndWriteFile.loadListOfFilters(null);
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			fail();
 		}
-		try{
-			ReadAndWriteFile.loadListOfFilters(null);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		} 
+		
 		
 		
 		
