@@ -105,11 +105,15 @@ public class TwitterFunctionsTest {
 	//Logger Testing
 	
 	@Test
-	public void getAuthUrl(){
+	public void TestLogin(){
 		Logger l = new Logger();
-		l.getAuthUrl();
-		assertNotNull(l.getTwitter());
+		String s=l.getAuthURL();
+		assert(!s.isEmpty());
+		boolean b= l.inputPin("asdasdasd");
+		assert(!b);
 	}
+	
+
 	
 	private class TestStatus implements Status{
 		long post_id=-1L;
