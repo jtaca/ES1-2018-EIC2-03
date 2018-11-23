@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.jfoenix.controls.JFXListView;
 
 import email.EmailConnection;
+import entry_objects.InformationEntry;
 import files.ReadAndWriteXMLFile;
 import gui.MainController;
 import gui.MainWindow;
@@ -19,6 +20,7 @@ import other.OtherStaticFunction;
 import other.XMLUserConfiguration;
 import tasks.EmailReaderTask;
 import tasks.ServiceReadTask;
+import threads.InformationEntryGatherer;
 import threads.ThreadPool;
 
 public class ThreadPoolTest {
@@ -38,6 +40,8 @@ public class ThreadPoolTest {
 		t.setDaemon(true);
 		t.start();
 		Thread.sleep(500);
+		
+		MainController.getInstance().loadPosts(new ArrayList<InformationEntry>(), true);
 	}
 
 	@Test
