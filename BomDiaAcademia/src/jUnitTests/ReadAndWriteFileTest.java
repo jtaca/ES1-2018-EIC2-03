@@ -13,7 +13,7 @@ import other.Service;
 import twitter4j.TwitterException;
 import entry_objects.*;
 
-public class ReadAndWriteFileTesting {
+public class ReadAndWriteFileTest {
 	
 	private List<String> keyWordsFilterList = null;
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";

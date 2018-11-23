@@ -23,7 +23,7 @@ import junit.framework.Assert;
 import other.Service;
 import other.XMLUserConfiguration;
 
-public class ReadAndWriteXMLFileTesting {
+public class ReadAndWriteXMLFileTest {
 
 	private static List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 	private static XMLUserConfiguration config = null;

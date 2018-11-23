@@ -13,7 +13,7 @@ import entry_objects.InformationEntry;
 import files.ReadAndWriteXMLFile;
 import other.XMLUserConfiguration;
 
-public class EmailConnectionTesting {
+public class EmailConnectionTest {
 	
 private static EmailConnection email;
 	
