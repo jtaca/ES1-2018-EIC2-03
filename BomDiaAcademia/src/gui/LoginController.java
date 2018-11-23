@@ -148,6 +148,7 @@ public class LoginController implements Initializable {
 					loader.setLocation(getClass().getResource("/res/MainScene.fxml"));
 					Parent root = loader.load();
 					Image icon = new Image(getClass().getResource("/res/logo0.png").toString());
+					MainController.getInstance().setUsername(username.getText().split("@")[0]);
 
 					stage.getIcons().add(icon);
 					stage.setTitle("Bom Dia Academia");

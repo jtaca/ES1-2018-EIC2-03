@@ -432,6 +432,15 @@ public class MainController implements Initializable {
 	}
 
 	/**
+	 * Sets the username on the sidebar.
+	 * 
+	 * @param username
+	 */
+	public void setUsername(String username) {
+		this.username.setText(username);
+	}
+
+	/**
 	 * Gets the single instance of MainController.
 	 *
 	 * @return single instance of MainController
