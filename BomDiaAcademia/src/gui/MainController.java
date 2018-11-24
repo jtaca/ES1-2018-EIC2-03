@@ -330,7 +330,8 @@ public class MainController implements Initializable {
 				leaveSearch.setVisible(true);
 				leaveSearch.setDisable(false);
 			}
-		}
+		} else
+			leaveSearch();
 	}
 
 	/**
