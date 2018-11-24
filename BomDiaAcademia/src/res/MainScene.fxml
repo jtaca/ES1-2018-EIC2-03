@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
@@ -270,27 +272,66 @@
             </StackPane>
             <VBox fx:id="postsSideBar">
                <children>
-                  <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
+                  <VBox style="-fx-background-color: ffffff;">
                      <children>
-                        <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" promptText="Pesquisar" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="40.0" top="10.0" />
-                           </HBox.margin>
-                        </JFXTextField>
-                        <JFXButton contentDisplay="CENTER" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#search" prefHeight="30.0" prefWidth="40.0" text=" " translateX="-40.0">
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                           <graphic>
-                              <FontAwesomeIconView fill="#4d4d4d" glyphName="SEARCH" size="15" />
-                           </graphic>
-                        </JFXButton>
+                        <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
+                           <children>
+                              <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" promptText="Pesquisar" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <JFXButton contentDisplay="CENTER" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#search" prefHeight="30.0" prefWidth="40.0" text=" " translateX="-40.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#4d4d4d" glyphName="SEARCH" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <Hyperlink onAction="#openFilter" text="Filtrar">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="36.0" />
+                           </VBox.margin>
+                        </Hyperlink>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-                  <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
+                  </VBox>
+                  <StackPane alignment="TOP_CENTER" style="-fx-background-color: ffffff;" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox maxHeight="-Infinity" style="-fx-background-color: ffffff;">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" spacing="10.0">
+                                 <children>
+                                    <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data" />
+                                    <ChoiceBox fx:id="dateFilter" prefWidth="150.0" />
+                                    <Region prefHeight="1.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <JFXButton fx:id="applyFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Tipo de serviço" />
+                                    <JFXCheckBox fx:id="emailFilter" checkedColor="#109c53" text="Email" />
+                                    <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
+                                    <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <JFXListView fx:id="posts" />
+                     </children>
+                  </StackPane>
                </children>
             </VBox>
          </children>

@@ -40,6 +40,10 @@
 	-fx-fill: ffffff
 }
 
+.jfx-check-box {
+	-jfx-checked-color: #0078ff;
+}
+
 #sendEmail {
 	-fx-background-color: #0078ff
 }

@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -15,6 +17,7 @@ import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,6 +81,21 @@ public class MainController implements Initializable {
 	/** The search bar. */
 	@FXML
 	private JFXTextField searchBar;
+
+	@FXML
+	private ChoiceBox<String> dateFilter;
+
+	@FXML
+	private JFXCheckBox emailFilter;
+
+	@FXML
+	private JFXCheckBox facebookFilter;
+
+	@FXML
+	private JFXCheckBox twitterFiler;
+
+	@FXML
+	private JFXButton applyFilter;
 
 	/** The posts. */
 	@FXML
@@ -169,6 +187,8 @@ public class MainController implements Initializable {
 	/** The email connection. */
 	private EmailConnection emailConnection;
 
+	private boolean filterOpen = false;
+
 	/**
 	 * Instantiates a new main controller.
 	 */
@@ -191,8 +211,16 @@ public class MainController implements Initializable {
 		themeList.setValue("Laranja");
 		themeList.getSelectionModel().selectedItemProperty().addListener(e -> setTheme());
 
+		dateFilter.getItems().add("Última hora");
+		dateFilter.getItems().add("Hoje");
+		dateFilter.getItems().add("Esta semana");
+		dateFilter.getItems().add("Este mês");
+		dateFilter.getItems().add("Este ano");
+		dateFilter.setValue("Última hora");
+
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postContainer.maxHeightProperty().bind(postContent.heightProperty());
+		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
 	}
 
 	/**
@@ -264,6 +292,18 @@ public class MainController implements Initializable {
 	@FXML
 	private void search() {
 		System.out.println(searchBar.getText());
+	}
+
+	/**
+	 * Opens the advanced search menu.
+	 */
+	@FXML
+	public void openFilter() {
+		TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), posts);
+
+		transition.setByY(filterOpen ? -90 : 90);
+		transition.play();
+		filterOpen = !filterOpen;
 	}
 
 	/**
