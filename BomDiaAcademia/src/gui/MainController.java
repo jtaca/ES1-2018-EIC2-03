@@ -1,10 +1,10 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
@@ -19,6 +19,8 @@ import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +28,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -83,6 +86,9 @@ public class MainController implements Initializable {
 	private JFXTextField searchBar;
 
 	@FXML
+	private Hyperlink leaveSearch;
+
+	@FXML
 	private ChoiceBox<String> dateFilter;
 
 	@FXML
@@ -93,9 +99,6 @@ public class MainController implements Initializable {
 
 	@FXML
 	private JFXCheckBox twitterFiler;
-
-	@FXML
-	private JFXButton applyFilter;
 
 	/** The posts. */
 	@FXML
@@ -186,7 +189,7 @@ public class MainController implements Initializable {
 
 	/** The email connection. */
 	private EmailConnection emailConnection;
-
+	private ObservableList<PostBox> originalList;
 	private boolean filterOpen = false;
 
 	/**
@@ -204,6 +207,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		showHomePage();
+		originalList = FXCollections.observableArrayList();
 
 		themeList.getItems().add("Laranja");
 		themeList.getItems().add("Azul");
@@ -217,6 +221,9 @@ public class MainController implements Initializable {
 		dateFilter.getItems().add("Este mês");
 		dateFilter.getItems().add("Este ano");
 		dateFilter.setValue("Última hora");
+
+		leaveSearch.setVisible(false);
+		leaveSearch.setDisable(true);
 
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postContainer.maxHeightProperty().bind(postContent.heightProperty());
@@ -238,6 +245,8 @@ public class MainController implements Initializable {
 
 			for (InformationEntry entry : entries)
 				posts.getItems().add(toPostBox(entry));
+
+			originalList.addAll(posts.getItems());
 		});
 	}
 
@@ -291,19 +300,66 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void search() {
-		System.out.println(searchBar.getText());
+		if (!searchBar.getText().isEmpty()) {
+			String search = searchBar.getText().toLowerCase();
+			List<PostBox> results = new ArrayList<>();
+
+			for (PostBox post : originalList)
+				if (post.getService().equals(Service.EMAIL)) {
+					EmailEntry email = (EmailEntry) post.getInformationEntry();
+					String writer = email.getWriterName().toLowerCase();
+					String subject = email.getSubject().toLowerCase();
+					String content = email.getContent().toLowerCase();
+
+					if (writer.contains(search) || subject.contains(search) || content.contains(search))
+						results.add(post);
+				} else if (post.getService().equals(Service.TWITTER)) {
+					TwitterEntry tweet = (TwitterEntry) post.getInformationEntry();
+					String name = tweet.getStatus().getUser().getName().toLowerCase();
+					String username = tweet.getStatus().getUser().getScreenName().toLowerCase();
+					String content = tweet.getStatus().getText().toLowerCase();
+
+					if (name.contains(search) || username.contains(search) || content.contains(search))
+						results.add(post);
+				}
+
+			if (!results.isEmpty()) {
+				posts.getItems().clear();
+				posts.getItems().addAll(results);
+
+				leaveSearch.setVisible(true);
+				leaveSearch.setDisable(false);
+			}
+		}
 	}
 
 	/**
 	 * Opens the advanced search menu.
 	 */
 	@FXML
-	public void openFilter() {
+	private void openFilter() {
 		TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), posts);
 
 		transition.setByY(filterOpen ? -90 : 90);
 		transition.play();
 		filterOpen = !filterOpen;
+	}
+
+	@FXML
+	private void applyFilter() {
+
+	}
+
+	@FXML
+	private void leaveSearch() {
+		posts.getItems().clear();
+		posts.getItems().addAll(originalList);
+		System.out.println(posts.getItems().size());
+
+		searchBar.clear();
+
+		leaveSearch.setVisible(false);
+		leaveSearch.setDisable(true);
 	}
 
 	/**

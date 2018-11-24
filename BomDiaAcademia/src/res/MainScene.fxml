@@ -294,11 +294,16 @@
                               <Insets />
                            </VBox.margin>
                         </HBox>
-                        <Hyperlink onAction="#openFilter" text="Filtrar">
+                        <HBox>
+                           <children>
+                              <Hyperlink onAction="#openFilter" text="Filtrar" />
+                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Hyperlink fx:id="leaveSearch" onAction="#leaveSearch" text="Sair da pesquisa" />
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="5.0" left="36.0" />
+                              <Insets bottom="5.0" left="36.0" right="36.0" />
                            </VBox.margin>
-                        </Hyperlink>
+                        </HBox>
                      </children>
                   </VBox>
                   <StackPane alignment="TOP_CENTER" style="-fx-background-color: ffffff;" VBox.vgrow="ALWAYS">
@@ -320,7 +325,7 @@
                                     <JFXCheckBox fx:id="emailFilter" checkedColor="#109c53" text="Email" />
                                     <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
                                     <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
-                                    <JFXButton fx:id="applyFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
                                  </children>
                                  <VBox.margin>
                                     <Insets left="40.0" right="40.0" />
