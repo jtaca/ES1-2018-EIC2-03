@@ -84,7 +84,6 @@
       </VBox>
       <StackPane fx:id="centerPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: abcdef;">
          <children>
-            <JFXListView fx:id="posts" />
             <VBox fx:id="emailPane" alignment="CENTER" style="-fx-background-color: #ffffff;">
                <children>
                   <HBox alignment="CENTER_LEFT">
@@ -178,9 +177,9 @@
                   </VBox>
                </children>
             </VBox>
-            <StackPane fx:id="postLayer" style="-fx-background-color: rgba(0, 0, 0, .5);">
+            <StackPane fx:id="postLayer" onMouseClicked="#closePost" style="-fx-background-color: rgba(0, 0, 0, .5);">
                <children>
-                  <VBox fx:id="postContainer" maxHeight="500.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="550.0" style="-fx-background-color: ffffff;">
+                  <VBox fx:id="postContainer" maxHeight="500.0" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
                      <children>
                         <Label fx:id="retweetLabel" text=" " textFill="#878787">
                            <graphic>
@@ -269,6 +268,31 @@
                   </VBox>
                </children>
             </StackPane>
+            <VBox fx:id="postsSideBar">
+               <children>
+                  <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
+                     <children>
+                        <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" promptText="Pesquisar" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="40.0" top="10.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                        <JFXButton contentDisplay="CENTER" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#search" prefHeight="30.0" prefWidth="40.0" text=" " translateX="-40.0">
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="#4d4d4d" glyphName="SEARCH" size="15" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
          </children>
       </StackPane>
    </children>

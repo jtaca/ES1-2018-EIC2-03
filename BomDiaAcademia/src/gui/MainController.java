@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -42,6 +43,7 @@ import twitter4j.Status;
 
 /**
  * The Class MainController handles the user interaction with the GUI.
+ * 
  * @author Rostislav Andreev
  * @version 2.0
  */
@@ -69,6 +71,14 @@ public class MainController implements Initializable {
 	private Label username;
 
 	// ------------ Posts list ------------
+	/** The posts side bar. */
+	@FXML
+	private VBox postsSideBar;
+
+	/** The search bar. */
+	@FXML
+	private JFXTextField searchBar;
+
 	/** The posts. */
 	@FXML
 	private JFXListView<PostBox> posts;
@@ -218,7 +228,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void showHomePage() {
-		posts.toFront();
+		postsSideBar.toFront();
 	}
 
 	/**
@@ -246,6 +256,14 @@ public class MainController implements Initializable {
 	private void logOut(ActionEvent event) {
 		ThreadPool.getInstance().stopThreads();
 		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+	}
+
+	/**
+	 * Searches posts with the given keyword.
+	 */
+	@FXML
+	private void search() {
+		System.out.println(searchBar.getText());
 	}
 
 	/**
@@ -478,6 +496,16 @@ public class MainController implements Initializable {
 	private void removeEmail() {
 		Platform.runLater(() -> emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex()));
 //		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
+	}
+
+	/**
+	 * Consumes event.
+	 * 
+	 * @param e
+	 */
+	@FXML
+	private void consumeEvent(MouseEvent e) {
+		e.consume();
 	}
 
 	/**
