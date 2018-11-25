@@ -4,11 +4,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.IntStream;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.javafx.scene.control.skin.ListViewSkin;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -550,7 +553,7 @@ public class MainController implements Initializable {
 	private void openPreviousPost() {
 		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
-//			posts.scrollTo(posts.getSelectionModel().getSelectedIndex());
+			posts.scrollTo(posts.getSelectionModel().getSelectedIndex());
 			openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 		}
 	}
@@ -561,10 +564,20 @@ public class MainController implements Initializable {
 	@FXML
 	private void openNextPost() {
 		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
-//		posts.scrollTo(posts.getSelectionModel().getSelectedIndex());
+		int[] view = postsInView();
+		if (posts.getSelectionModel().getSelectedIndex() > view[view.length - 1])
+			posts.scrollTo(view[1]);
 		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 	}
-	
+
+	private int[] postsInView() {
+		ListViewSkin<?> ts = (ListViewSkin<?>) posts.getSkin();
+		VirtualFlow<?> vf = (VirtualFlow<?>) ts.getChildren().get(0);
+		int first = vf.getFirstVisibleCellWithinViewPort().getIndex();
+		int last = vf.getLastVisibleCellWithinViewPort().getIndex();
+		return IntStream.rangeClosed(first, last).toArray();
+	}
+
 	/**
 	 * Closes the currently open post.
 	 */

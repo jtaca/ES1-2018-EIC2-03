@@ -324,7 +324,7 @@
                               <JFXCheckBox fx:id="emailFilter" checkedColor="#109c53" text="Email" />
                               <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
                               <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
-                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
+                              <JFXButton fx:id="applyFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
                            </children>
                            <VBox.margin>
                               <Insets left="40.0" right="40.0" />
