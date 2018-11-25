@@ -28,7 +28,7 @@
 }
 
 .radio-button:hover {
-	-fx-background-color: cccccc
+	-fx-background-color: e8e8e8
 }
 
 .radio-button:selected {

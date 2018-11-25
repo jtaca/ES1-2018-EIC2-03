@@ -11,6 +11,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
@@ -26,12 +27,12 @@
          <children>
             <VBox id="usernameBox">
                <children>
-                  <Label style="-fx-background-color: transparent;" text="Bem vindo," textFill="WHITE">
+                  <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: transparent;" text="Bem vindo," textFill="WHITE">
                      <VBox.margin>
                         <Insets left="25.0" top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="username" style="-fx-background-color: transparent;" text="nome de utilizador" textFill="WHITE">
+                  <Label fx:id="username" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: transparent;" text="nome de utilizador" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="15.0" left="25.0" />
                      </VBox.margin>
@@ -46,7 +47,7 @@
                   <FontAwesomeIconView glyphName="HOME" size="20" />
                </graphic>
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font size="14.0" />
                </font>
                <toggleGroup>
                   <ToggleGroup fx:id="sideMenu" />
@@ -54,7 +55,7 @@
             </RadioButton>
             <RadioButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#writeEmail" prefHeight="40.0" prefWidth="250.0" text="      Escrever email" toggleGroup="$sideMenu">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font size="14.0" />
                </font>
                <graphic>
                   <FontAwesomeIconView glyphName="ENVELOPE" size="17" />
@@ -65,7 +66,7 @@
                   <FontAwesomeIconView glyphName="COG" size="20" />
                </graphic>
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font size="14.0" />
                </font>
             </RadioButton>
             <RadioButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="250.0" text="      Terminar Sessão" toggleGroup="$sideMenu">
@@ -73,7 +74,7 @@
                   <FontAwesomeIconView glyphName="SIGN_OUT" size="20" />
                </graphic>
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font size="14.0" />
                </font>
             </RadioButton>
             <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
@@ -276,7 +277,7 @@
                      <children>
                         <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
                            <children>
-                              <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" promptText="Pesquisar" HBox.hgrow="ALWAYS">
+                              <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" promptText="Pesquisar" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="40.0" top="10.0" />
                                  </HBox.margin>
@@ -296,9 +297,9 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <Hyperlink onAction="#openFilter" text="Filtrar" />
+                              <Hyperlink maxHeight="-Infinity" minHeight="-Infinity" onAction="#openFilter" prefHeight="20.0" text="Filtrar" />
                               <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                              <Hyperlink fx:id="leaveSearch" onAction="#leaveSearch" text="Sair da pesquisa" />
+                              <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" left="36.0" right="36.0" />
@@ -306,33 +307,34 @@
                         </HBox>
                      </children>
                   </VBox>
+                  <VBox fx:id="filterMenu" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="80.0" style="-fx-background-color: ffffff;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" spacing="10.0">
+                           <children>
+                              <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data" />
+                              <ChoiceBox fx:id="dateFilter" prefWidth="150.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" spacing="10.0">
+                           <children>
+                              <Label text="Tipo de serviço" />
+                              <JFXCheckBox fx:id="emailFilter" checkedColor="#109c53" text="Email" />
+                              <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
+                              <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
+                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
                   <StackPane alignment="TOP_CENTER" style="-fx-background-color: ffffff;" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox maxHeight="-Infinity" style="-fx-background-color: ffffff;">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" spacing="10.0">
-                                 <children>
-                                    <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data" />
-                                    <ChoiceBox fx:id="dateFilter" prefWidth="150.0" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="40.0" right="40.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" spacing="10.0">
-                                 <children>
-                                    <Label text="Tipo de serviço" />
-                                    <JFXCheckBox fx:id="emailFilter" checkedColor="#109c53" text="Email" />
-                                    <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
-                                    <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Aplicar" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="40.0" right="40.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
+                        <Slider fx:id="filterSlider" />
                         <JFXListView fx:id="posts" />
                      </children>
                   </StackPane>

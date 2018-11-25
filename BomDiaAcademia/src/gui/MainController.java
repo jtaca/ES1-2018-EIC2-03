@@ -17,7 +17,6 @@ import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -89,6 +89,9 @@ public class MainController implements Initializable {
 	private Hyperlink leaveSearch;
 
 	@FXML
+	private VBox filterMenu;
+
+	@FXML
 	private ChoiceBox<String> dateFilter;
 
 	@FXML
@@ -99,6 +102,9 @@ public class MainController implements Initializable {
 
 	@FXML
 	private JFXCheckBox twitterFiler;
+
+	@FXML
+	private Slider filterSlider;
 
 	/** The posts. */
 	@FXML
@@ -225,6 +231,11 @@ public class MainController implements Initializable {
 		leaveSearch.setVisible(false);
 		leaveSearch.setDisable(true);
 
+		filterSlider.setMin(0);
+		filterSlider.setMax(80);
+		filterSlider.setValue(0);
+
+		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postContainer.maxHeightProperty().bind(postContent.heightProperty());
 		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
@@ -339,11 +350,28 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void openFilter() {
-		TranslateTransition transition = new TranslateTransition(Duration.seconds(0.5), posts);
+		new Thread() {
+			public void run() {
+				if (filterOpen)
+					for (int i = 80; i > 0; i--)
+						try {
+							filterSlider.setValue(i);
+							sleep(2);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+				else if (!filterOpen)
+					for (int i = 0; i < 80; i++)
+						try {
+							filterSlider.setValue(i);
+							sleep(2);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 
-		transition.setByY(filterOpen ? -90 : 90);
-		transition.play();
-		filterOpen = !filterOpen;
+				filterOpen = !filterOpen;
+			}
+		}.start();
 	}
 
 	@FXML
@@ -522,6 +550,7 @@ public class MainController implements Initializable {
 	private void openPreviousPost() {
 		if (posts.getSelectionModel().getSelectedIndex() - 1 >= 0) {
 			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);
+//			posts.scrollTo(posts.getSelectionModel().getSelectedIndex());
 			openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 		}
 	}
@@ -532,9 +561,10 @@ public class MainController implements Initializable {
 	@FXML
 	private void openNextPost() {
 		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
+//		posts.scrollTo(posts.getSelectionModel().getSelectedIndex());
 		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 	}
-
+	
 	/**
 	 * Closes the currently open post.
 	 */
