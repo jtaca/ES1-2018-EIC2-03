@@ -51,13 +51,13 @@ public class MainFacebook {
 			   
 		   // This is the same functionality as the example above
 		   for (Post post : myFeedPage) {
-		     System.out.println("Post: " + post.getId());
+		     System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
 		     
 		     String postId = post.getId();
 		    		 Connection<Comment> commentConnection 
 		    		    = fbClient2.fetchConnection(postId + "/comments", 
 		    		          Comment.class, Parameter.with("limit", 10));
-
+		    		 
 		    		 int personalLimit = 50;
 
 		    		 for (List<Comment> commentPage : commentConnection) {
