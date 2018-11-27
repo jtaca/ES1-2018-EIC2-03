@@ -45,37 +45,38 @@ public class MainFacebook {
 			
 		Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
 		
+		
+		
 		Iterator<List<Post>> it = myFeed.iterator();
 
 		while(it.hasNext()) {
 		   List<Post> myFeedPage = it.next();
-		   
 		   for (Post post : myFeedPage) {
-			   
-		     System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
+			 String postId = post.getId();  
+		     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
+			 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true)"));
+		     System.out.println(post1.toString());
 		     
-		     String postId = post.getId();
-		    		 Connection<Comment> commentConnection 
-		    		    = fbClient2.fetchConnection(postId + "/comments", 
-		    		          Comment.class, Parameter.with("limit", 100));
+//		     String postId = post.getId();
+//		    		 Connection<Comment> commentConnection 
+//		    		    = fbClient2.fetchConnection(postId + "/comments", 
+//		    		          Comment.class, Parameter.with("limit", 10));
+//		    		 
 		    		 
-		    		 
-    		 int personalLimit = 50;
-    		 for (List<Comment> commentPage : commentConnection) {
-    		   for (Comment comment : commentPage) {
-    		     System.out.println("Id: " + comment.getId());
-    		     System.out.println(comment.getMessage());
-    		     personalLimit--;
-
-    		     // break both loops
-    		     if (personalLimit == 0) {
-    		        return;
-    		     }
-    		   }
-    		   
-    		   Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),"));
-    		   System.out.println(post1.toString());
-    		 }
+//    		 int personalLimit = 50;
+//    		 for (List<Comment> commentPage : commentConnection) {
+//    		   for (Comment comment : commentPage) {
+//    		     System.out.println("Id: " + comment.getId());
+//    		     System.out.println(comment.getMessage());
+//    		     personalLimit--;
+//
+//    		     // break both loops
+//    		     if (personalLimit == 0) {
+//    		        return;
+//    		     }
+//    		   }
+//    		  
+//    		 }
 		   }
 		}
 		
