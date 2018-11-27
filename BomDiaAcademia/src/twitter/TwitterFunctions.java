@@ -19,6 +19,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -204,6 +205,10 @@ public class TwitterFunctions {
 			if(te.getStatus().isRetweet())break;
 		}
 		return te.getStatus();
+	}
+	public static String getUserPicture(String user) throws TwitterException{
+		User u = twitter.showUser(user);
+		return u.get400x400ProfileImageURL();
 	}
 
 	/**
