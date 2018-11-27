@@ -3,46 +3,80 @@
  */
 package facebook;
 
+import java.util.Iterator;
 import java.util.List;
 
-import facebook4j.Facebook;
-import facebook4j.FacebookException;
-import facebook4j.FacebookFactory;
-import facebook4j.auth.AccessToken;
+import com.restfb.Connection;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.FacebookClient.AccessToken;
+import com.restfb.Parameter;
+import com.restfb.types.Account;
+import com.restfb.types.Comment;
+import com.restfb.types.GraphResponse;
+import com.restfb.types.Link;
+import com.restfb.types.Message;
+import com.restfb.types.Page;
+import com.restfb.types.Post;
+import com.restfb.types.User;
 
-
-
-/**
- * The Class MainFacebook.
- * @author João Aparício
- * @version 1.0
- */
 public class MainFacebook {
-	
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
+
+		String accessToken2 = "EAAePp5MZAcE4BALVlJYSGZAC3dk9unBPASbYwL0OhQVXEopfaKtr1JxLghJWkh2JyOdS4N6v3TLl47nwlMflueUHvtlRZAhG4muHhsCFvyd2ZAfE7YB1j3ysrRc3J0kpu8ykOgw3Pn23llVxeWXQ3f9MyIxOJCCJuFZCPjdKH5zIUdR7d2BTrUcv4CIcVSDZAzXBjRG23wFAZDZD";
+		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
+		User me2 = fbClient2.fetchObject("me", User.class);
+		System.out.println("Facebook:");
+		System.out.println("Id: " + me2.getId());
+		System.out.println("Name: " + me2.getName());
 		
-		String accessToken ;
-		accessToken = "EAAePp5MZAcE4BAEZBB44cDicBaNvGIJeD1aZCaBZB4ARsXrwhALYqKLIcYEZAGOjJZBposTXZAbXmhKByMtisqzhGNOmQnr9PbI0SZBZBlC5pl6iZAe4XfbkCMmw5EZBDcQ6SvZBhY9o0lhQG8z7HrZAZA164OZBX4xog42wqZB8KAu7fU9TFvgo4DOUPFniqwNIADhz41bepHxWZASWBlUNQNZAuSVffN";	
-		//String appToken = "EAAePp5MZAcE4BAEEZAG8KSo144aFQ2MZArmaAwR6jrqM2mXPUHpURokX5CtAOyBqFUwJjkUSy8sZAaqwK6fKucZCh6NHwmutO6iC3iaxthM467dUApfllSi24CLo8cvufsDNkcVCSSBSlZCg5Ilr4FGkITfgBq4mgTZA70V0MWgUwf9eem3NA72VKiokEugJ9WpQy2p8CZAE2QZDZD";
 		
-		Facebook facebook = new FacebookFactory().getInstance();
+//		GraphResponse publishMessageResponse =
+//				fbClient2.publish("me/feed", GraphResponse.class,
+//				    Parameter.with("message", "RestFB test"));
+//
+//				System.out.println("Published message ID: " + publishMessageResponse.getId());
+//		
+//		Working
 		
-		facebook.setOAuthAppId("2128274727202894","5b08263178f3db9cbd189e2100f0ee54");
-		facebook.setOAuthPermissions("2128274727202894|mv9W3YTaU_vEV0cP9txuN38DQ58");
-		facebook.setOAuthAccessToken(new AccessToken(accessToken, null));
-		try {
-			facebook.postStatusMessage("Hello World YOLO.");
-		} catch (FacebookException e) {
+//		AccessToken accessToken =
+//				  new DefaultFacebookClient().obtainExtendedAccessToken("2128274727202894",
+//				    "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
 			
-			e.printStackTrace();
+		Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
+		
+		Iterator<List<Post>> it = myFeed.iterator();
+
+		while(it.hasNext()) {
+		   List<Post> myFeedPage = it.next();
+		   for (Post post : myFeedPage) {
+			 String postId = post.getId();  
+		     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
+			 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true)"));
+		     System.out.println(post1.toString());
+		     
+//		     String postId = post.getId();
+//		    		 Connection<Comment> commentConnection 
+//		    		    = fbClient2.fetchConnection(postId + "/comments", 
+//		    		          Comment.class, Parameter.with("limit", 10));
+//		    		 
+		    		 
+//    		 int personalLimit = 50;
+//    		 for (List<Comment> commentPage : commentConnection) {
+//    		   for (Comment comment : commentPage) {
+//    		     System.out.println("Id: " + comment.getId());
+//    		     System.out.println(comment.getMessage());
+//    		     personalLimit--;
+//
+//    		     // break both loops
+//    		     if (personalLimit == 0) {
+//    		        return;
+//    		     }
+//    		   }
+//    		  
+//    		 }
+		   }
 		}
-		
-		
 		
 	}
 
