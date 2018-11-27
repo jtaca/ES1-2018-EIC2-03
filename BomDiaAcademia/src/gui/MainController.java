@@ -32,6 +32,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -48,6 +49,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import other.Service;
 import threads.ThreadPool;
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 
 /**
@@ -122,9 +124,15 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox postContainer;
 
+	@FXML
+	private ScrollPane postScrollPane;
+
 	/** The post content. */
 	@FXML
 	private VBox postContent;
+
+	@FXML
+	private Text postText;
 
 	/** The post author info. */
 	@FXML
@@ -240,7 +248,8 @@ public class MainController implements Initializable {
 
 		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
-		postContainer.maxHeightProperty().bind(postContent.heightProperty());
+//		postContainer.maxHeightProperty().bind(postContent.heightProperty());
+		postContainer.maxHeightProperty().bind(postScrollPane.heightProperty());
 		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
 	}
 
@@ -355,24 +364,26 @@ public class MainController implements Initializable {
 	private void openFilter() {
 		new Thread() {
 			public void run() {
-				if (filterOpen)
-					for (int i = 80; i > 0; i--)
-						try {
-							filterSlider.setValue(i);
-							sleep(2);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-				else if (!filterOpen)
-					for (int i = 0; i < 80; i++)
-						try {
-							filterSlider.setValue(i);
-							sleep(2);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+				synchronized (INSTANCE) {
+					if (filterOpen)
+						for (int i = 80; i > 0; i--)
+							try {
+								filterSlider.setValue(i);
+								sleep(2);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+					else if (!filterOpen)
+						for (int i = 0; i < 80; i++)
+							try {
+								filterSlider.setValue(i);
+								sleep(2);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 
-				filterOpen = !filterOpen;
+					filterOpen = !filterOpen;
+				}
 			}
 		}.start();
 	}
@@ -486,9 +497,14 @@ public class MainController implements Initializable {
 	 * @param informationEntry the information entry
 	 */
 	private void openPost(InformationEntry informationEntry) {
-		Platform.runLater(() -> {
+//		Platform.runLater(() -> {
 			postContent.getChildren().clear();
+			postText.setText("");
 			postContent.autosize();
+			postScrollPane.autosize();
+			postScrollPane.setMinHeight(0);
+			postContainer.autosize();
+			postContent.getChildren().add(postText);
 			retweetLabel.setVisible(false);
 			retweetLabel.setMaxHeight(0);
 
@@ -505,10 +521,21 @@ public class MainController implements Initializable {
 				authorName.setText(names[0].trim());
 				authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
 
-				Text body = new Text(email.getContent());
-				body.setWrappingWidth(470);
+				postText.setText(email.getContent().trim());
 
-				postContent.getChildren().add(body);
+				double height = postText.getLayoutBounds().getHeight() + 10;
+
+//				postScrollPane.setMinHeight(height > 350 ? 350 : height);
+
+				postScrollPane.setMinHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
+				postScrollPane.setMaxHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
+
+//				Text body = new Text(email.getContent());
+//				body.setWrappingWidth(470);
+
+//				postContent.getChildren().add(body);
+
+				postScrollPane.autosize();
 
 				emailFooter.toFront();
 			} else if (informationEntry.getService().equals(Service.TWITTER)) {
@@ -531,19 +558,31 @@ public class MainController implements Initializable {
 					retweetLabel.setVisible(true);
 				}
 
-//			for (MediaEntity m : status.getMediaEntities())
-//				postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
+				postText.setText(status.getText().trim());
 
-				Text body = new Text(status.getText());
-				body.setWrappingWidth(470);
+				double height = postText.getLayoutBounds().getHeight() + 10;
+				for (MediaEntity m : status.getMediaEntities()) {
+					ImageView aux = new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true));
+					height += aux.getImage().getHeight() + 20;
+					postContent.getChildren().add(aux);
+				}
+//				Text body = new Text(status.getText());
+//				body.setWrappingWidth(470);
 
-				postContent.getChildren().add(body);
+//				postContent.getChildren().add(body);
+
+//				postScrollPane.setMinHeight(height > 350 ? 350 : height);
+
+				postScrollPane.setMinHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
+				postScrollPane.setMaxHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
+
+				postScrollPane.autosize();
 
 				twitterFooter.toFront();
 			}
 
 			postLayer.toFront();
-		});
+//		});
 	}
 
 	/**
@@ -610,12 +649,12 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void clearEmail() {
-		Platform.runLater(() -> {
+//		Platform.runLater(() -> {
 			emailReceiver.clear();
 			emailSubject.clear();
 			emailMessage.clear();
 			emailError.setText("");
-		});
+//		});
 	}
 
 	/**
@@ -623,10 +662,10 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addEmail() {
-		Platform.runLater(() -> {
+//		Platform.runLater(() -> {
 			emailList.getItems().add(newEmail.getText());
 			newEmail.setText("");
-		});
+//		});
 	}
 
 	/**
@@ -634,8 +673,8 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void removeEmail() {
-		Platform.runLater(() -> emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex()));
-//		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
+//		Platform.runLater(() -> emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex()));
+		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
 	/**
@@ -654,7 +693,8 @@ public class MainController implements Initializable {
 	 * @param username
 	 */
 	protected void setUsername(String username) {
-		Platform.runLater(() -> this.username.setText(username));
+//		Platform.runLater(() -> this.username.setText(username));
+		this.username.setText(username);
 	}
 
 	/**
