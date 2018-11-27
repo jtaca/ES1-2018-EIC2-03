@@ -23,7 +23,7 @@ import com.restfb.types.User;
 public class MainFacebook {
 	public static void main(String[] args) {
 
-		String accessToken2 = "EAAePp5MZAcE4BALVlJYSGZAC3dk9unBPASbYwL0OhQVXEopfaKtr1JxLghJWkh2JyOdS4N6v3TLl47nwlMflueUHvtlRZAhG4muHhsCFvyd2ZAfE7YB1j3ysrRc3J0kpu8ykOgw3Pn23llVxeWXQ3f9MyIxOJCCJuFZCPjdKH5zIUdR7d2BTrUcv4CIcVSDZAzXBjRG23wFAZDZD";
+		String accessToken2 = "EAAePp5MZAcE4BAJThRvLkQpTOy8aL4DVZBluIckHnTXDgf4nEUB6QtAUViUDSAg9GI5iFf5vUtA3TO3KBxCw8aZBhsvbqhxc3AhpEQgj70bWO9c68W5hqZCK8WwuZBargOlr155ZADNNDb7weW4p2afvyRwZCLUBlPqe27TgE7VPhvHagiEnmPxDX9BvUbpJ76WOMVN52r2t7OEVfROxhmp6v0fXMYoXDphxfyvmzSsWgZDZD";
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
@@ -52,8 +52,29 @@ public class MainFacebook {
 		   for (Post post : myFeedPage) {
 			 String postId = post.getId();  
 		     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
-			 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true)"));
-		     System.out.println(post1.toString());
+			 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
+		     System.out.println("Post[ Id: "+post1.getId()+";\n Message:"+post1.getMessage()+
+		    		 ";\n Description:"+post1.getDescription());
+		    		 //";\n Data:"+post1.getAttachments());
+		    		
+		    		 
+		     try {
+		    	 System.out.println("   Data URL:"+post1.getAttachments().getData().get(0).getUrl());
+		    	 System.out.println("   Data Title:"+post1.getAttachments().getData().get(0).getTitle());
+		    	 System.out.println("   Data Description:"+post1.getAttachments().getData().get(0).getDescription());
+		    	 System.out.println("   Data Media:"+post1.getAttachments().getData().get(0).getMedia());
+			     
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		    System.out.println(",\n Likes:"+post1.getLikes().getTotalCount()+"]");
+		     
+//		     if(post1.getAttachments()!= null) {
+//		    	 
+//			    	 
+//		     }
+		    	
+		     //System.out.println("    Comment[ "+post1.getComments().toString()+"]");
 		     
 //		     String postId = post.getId();
 //		    		 Connection<Comment> commentConnection 
