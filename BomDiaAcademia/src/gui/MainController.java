@@ -248,9 +248,18 @@ public class MainController implements Initializable {
 
 		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
+		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
+
+//		postContainer.maxHeightProperty().bind(mainBox.heightProperty()); --------Good
+//		postContainer.prefHeightProperty().bind(postScrollPane.heightProperty());
+
+//		postScrollPane.maxHeightProperty().bind(mainBox.heightProperty().subtract(150));
+//		postContainer.prefHeightProperty().bind(postScrollPane.heightProperty());
+
 //		postContainer.maxHeightProperty().bind(postContent.heightProperty());
-		postContainer.maxHeightProperty().bind(postScrollPane.heightProperty());
-		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
+//		postContainer.maxHeightProperty().bind(postScrollPane.heightProperty());
+//		postScrollPane.maxHeightProperty().bind(centerPane.heightProperty());
+//		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
 	}
 
 	/**
@@ -361,10 +370,15 @@ public class MainController implements Initializable {
 	 * Opens the advanced search menu.
 	 */
 	@FXML
-	private void openFilter() {
+	private void openFilter(ActionEvent e) {
+		Hyperlink link = (Hyperlink) e.getSource();
+		link.setVisited(false);
+
 		new Thread() {
 			public void run() {
 				synchronized (INSTANCE) {
+					Platform.runLater(() -> link.setText(!filterOpen ? "Fechar filtro" : "Abrir filtro"));
+
 					if (filterOpen)
 						for (int i = 80; i > 0; i--)
 							try {
@@ -403,6 +417,7 @@ public class MainController implements Initializable {
 
 		leaveSearch.setVisible(false);
 		leaveSearch.setDisable(true);
+		leaveSearch.setVisited(false);
 	}
 
 	/**
@@ -497,92 +512,57 @@ public class MainController implements Initializable {
 	 * @param informationEntry the information entry
 	 */
 	private void openPost(InformationEntry informationEntry) {
-//		Platform.runLater(() -> {
-			postContent.getChildren().clear();
-			postText.setText("");
-			postContent.autosize();
-			postScrollPane.autosize();
-			postScrollPane.setMinHeight(0);
-			postContainer.autosize();
-			postContent.getChildren().add(postText);
-			retweetLabel.setVisible(false);
-			retweetLabel.setMaxHeight(0);
+		postContent.getChildren().clear();
+		postText.setText("");
+		postContent.getChildren().add(postText);
+		retweetLabel.setVisible(false);
+		retweetLabel.setMaxHeight(0);
 
-			if (informationEntry.getService().equals(Service.EMAIL)) {
-				EmailEntry email = (EmailEntry) informationEntry;
+		if (informationEntry.getService().equals(Service.EMAIL)) {
+			EmailEntry email = (EmailEntry) informationEntry;
 
-				String names[] = email.getWriterName().split("<");
-				profilePic.setFitWidth(0);
-				profilePic.setFitHeight(0);
-				profilePic.setImage(null);
+			String names[] = email.getWriterName().split("<");
+			profilePic.setFitWidth(0);
+			profilePic.setFitHeight(0);
+			profilePic.setImage(null);
 
-				HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));
+			HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));
 
-				authorName.setText(names[0].trim());
-				authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
+			authorName.setText(names[0].trim());
+			authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
 
-				postText.setText(email.getContent().trim());
+			postText.setText(email.getContent().trim());
 
-				double height = postText.getLayoutBounds().getHeight() + 10;
+			emailFooter.toFront();
+		} else if (informationEntry.getService().equals(Service.TWITTER)) {
+			TwitterEntry tweet = (TwitterEntry) informationEntry;
 
-//				postScrollPane.setMinHeight(height > 350 ? 350 : height);
+			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
+			Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
 
-				postScrollPane.setMinHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
-				postScrollPane.setMaxHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
+			profilePic.setFitWidth(50);
+			profilePic.setFitHeight(50);
+			profilePic.setImage(pic);
 
-//				Text body = new Text(email.getContent());
-//				body.setWrappingWidth(470);
+			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
 
-//				postContent.getChildren().add(body);
+			authorName.setText(status.getUser().getName());
+			authorUsername.setText("@" + status.getUser().getScreenName());
 
-				postScrollPane.autosize();
-
-				emailFooter.toFront();
-			} else if (informationEntry.getService().equals(Service.TWITTER)) {
-				TwitterEntry tweet = (TwitterEntry) informationEntry;
-
-				Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
-				Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
-
-				profilePic.setFitWidth(50);
-				profilePic.setFitHeight(50);
-				profilePic.setImage(pic);
-
-				HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
-
-				authorName.setText(status.getUser().getName());
-				authorUsername.setText("@" + status.getUser().getScreenName());
-
-				if (tweet.isRetweet()) {
-					retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
-					retweetLabel.setVisible(true);
-				}
-
-				postText.setText(status.getText().trim());
-
-				double height = postText.getLayoutBounds().getHeight() + 10;
-				for (MediaEntity m : status.getMediaEntities()) {
-					ImageView aux = new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true));
-					height += aux.getImage().getHeight() + 20;
-					postContent.getChildren().add(aux);
-				}
-//				Text body = new Text(status.getText());
-//				body.setWrappingWidth(470);
-
-//				postContent.getChildren().add(body);
-
-//				postScrollPane.setMinHeight(height > 350 ? 350 : height);
-
-				postScrollPane.setMinHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
-				postScrollPane.setMaxHeight(Math.min(height, postScrollPane.getScene().getWindow().getHeight() - 200));
-
-				postScrollPane.autosize();
-
-				twitterFooter.toFront();
+			if (tweet.isRetweet()) {
+				retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
+				retweetLabel.setVisible(true);
 			}
 
-			postLayer.toFront();
-//		});
+			postText.setText(status.getText().trim());
+
+			for (MediaEntity m : status.getMediaEntities())
+				postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
+
+			twitterFooter.toFront();
+		}
+
+		postLayer.toFront();
 	}
 
 	/**
@@ -603,18 +583,17 @@ public class MainController implements Initializable {
 	@FXML
 	private void openNextPost() {
 		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);
-		int[] view = postsInView();
-		if (posts.getSelectionModel().getSelectedIndex() > view[view.length - 1])
-			posts.scrollTo(view[1]);
-		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
-	}
 
-	private int[] postsInView() {
 		ListViewSkin<?> ts = (ListViewSkin<?>) posts.getSkin();
 		VirtualFlow<?> vf = (VirtualFlow<?>) ts.getChildren().get(0);
 		int first = vf.getFirstVisibleCellWithinViewPort().getIndex();
 		int last = vf.getLastVisibleCellWithinViewPort().getIndex();
-		return IntStream.rangeClosed(first, last).toArray();
+		int[] view = IntStream.rangeClosed(first, last).toArray();
+
+		if (posts.getSelectionModel().getSelectedIndex() > view[view.length - 1])
+			posts.scrollTo(view[2]);
+
+		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());
 	}
 
 	/**
@@ -622,7 +601,7 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void closePost() {
-		Platform.runLater(() -> postLayer.toBack());
+		postLayer.toBack();
 	}
 
 	/**
@@ -649,12 +628,10 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void clearEmail() {
-//		Platform.runLater(() -> {
-			emailReceiver.clear();
-			emailSubject.clear();
-			emailMessage.clear();
-			emailError.setText("");
-//		});
+		emailReceiver.clear();
+		emailSubject.clear();
+		emailMessage.clear();
+		emailError.setText("");
 	}
 
 	/**
@@ -662,10 +639,8 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void addEmail() {
-//		Platform.runLater(() -> {
-			emailList.getItems().add(newEmail.getText());
-			newEmail.setText("");
-//		});
+		emailList.getItems().add(newEmail.getText());
+		newEmail.setText("");
 	}
 
 	/**
@@ -673,7 +648,6 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void removeEmail() {
-//		Platform.runLater(() -> emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex()));
 		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
@@ -693,7 +667,6 @@ public class MainController implements Initializable {
 	 * @param username
 	 */
 	protected void setUsername(String username) {
-//		Platform.runLater(() -> this.username.setText(username));
 		this.username.setText(username);
 	}
 

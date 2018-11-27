@@ -208,7 +208,7 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <Hyperlink maxHeight="-Infinity" minHeight="-Infinity" onAction="#openFilter" prefHeight="20.0" text="Filtrar" />
+                              <Hyperlink maxHeight="-Infinity" minHeight="-Infinity" onAction="#openFilter" prefHeight="20.0" text="Abrir filtro" />
                               <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                               <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa" />
                            </children>
@@ -253,7 +253,7 @@
             </VBox>
             <StackPane fx:id="postLayer" onMouseClicked="#closePost" style="-fx-background-color: rgba(0, 0, 0, .5);">
                <children>
-                  <VBox fx:id="postContainer" maxHeight="500.0" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
+                  <VBox fx:id="postContainer" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
                      <children>
                         <Label fx:id="retweetLabel" text=" " textFill="#878787">
                            <graphic>
@@ -287,14 +287,14 @@
                               <Insets bottom="10.0" left="40.0" right="40.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" VBox.vgrow="NEVER">
                            <children>
                               <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openPreviousPost" prefWidth="40.0" text=" ">
                                  <graphic>
                                     <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <ScrollPane fx:id="postScrollPane" hbarPolicy="NEVER" maxHeight="350.0" style="-fx-background-color: transparent; -fx-background: ffffff;" HBox.hgrow="ALWAYS">
+                              <ScrollPane fx:id="postScrollPane" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: ffffff;" HBox.hgrow="ALWAYS">
                                  <content>
                                     <VBox fx:id="postContent" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="470.0" spacing="20.0">
                                        <children>
@@ -310,7 +310,7 @@
                               </JFXButton>
                            </children>
                         </HBox>
-                        <StackPane>
+                        <StackPane VBox.vgrow="NEVER">
                            <children>
                               <HBox fx:id="emailFooter" spacing="15.0" style="-fx-background-color: ffffff;">
                                  <children>
