@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
@@ -24,10 +25,14 @@ import gui.MainWindow;
 import gui.PostBox;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionModel;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import twitter.TwitterFunctions;
 
 public class MainControllerTest {
@@ -37,7 +42,7 @@ public class MainControllerTest {
 
 	@BeforeClass
 	public static void setUpClass() throws InterruptedException {
-		Thread t = new Thread("MainWindow Thread") {
+		Thread t = new Thread("MainWindow Test Thread") {
 			public void run() {
 				MainWindow.main(new String[0]);
 			}
@@ -55,13 +60,32 @@ public class MainControllerTest {
 	}
 
 	@Test
+	public void testSetTheme() throws Exception {
+		Method setTheme = cl.getDeclaredMethod("setTheme");
+		setTheme.setAccessible(true);
+		
+		Field themeList = cl.getDeclaredField("themeList");
+		Field mainBox = cl.getDeclaredField("mainBox");
+		themeList.setAccessible(true);
+		mainBox.setAccessible(true);
+
+		@SuppressWarnings("unchecked")
+		SingleSelectionModel<String> themes = ((ChoiceBox<String>) themeList.get(controller)).getSelectionModel();
+		HBox main = (HBox) mainBox.get(controller);
+		String style = main.getStylesheets().get(0).split("MainScene")[1];
+		themes.select(0);
+		
+		waitForRunLater(setTheme);
+
+		assertEquals(themes.getSelectedIndex() + ".css", style);
+	}
+
+	@Test
 	public void testToPostBoxEmailEntry() throws Exception {
-		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
-
 		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
-
 		toPostBox.setAccessible(true);
 
+		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
 		PostBox postBox = (PostBox) toPostBox.invoke(controller, email);
 
 		assertEquals(email, postBox.getInformationEntry());
@@ -70,12 +94,10 @@ public class MainControllerTest {
 
 	@Test
 	public void testToPostBoxTwitterEntry() throws Exception {
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
-
 		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
-
 		toPostBox.setAccessible(true);
 
+		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
 		PostBox postBox = (PostBox) toPostBox.invoke(controller, tweet);
 
 		assertEquals(tweet, postBox.getInformationEntry());
@@ -84,88 +106,97 @@ public class MainControllerTest {
 
 	@Test
 	public void testOpenPostEmailEntry() throws Exception {
-		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
-
-		Field postFooter = cl.getDeclaredField("postFooter");
-		Field emailFooter = cl.getDeclaredField("emailFooter");
-
-		postFooter.setAccessible(true);
-		emailFooter.setAccessible(true);
-
 		openPost.setAccessible(true);
-		openPost.invoke(controller, email);
-		waitForRunLater();
 
-		StackPane footer = (StackPane) postFooter.get(controller);
-		HBox efooter = (HBox) emailFooter.get(controller);
+		Field authorName = cl.getDeclaredField("authorName");
+		Field authorUsername = cl.getDeclaredField("authorUsername");
+		Field postText = cl.getDeclaredField("postText");
+		authorName.setAccessible(true);
+		authorUsername.setAccessible(true);
+		postText.setAccessible(true);
 
-		assertEquals(efooter, footer.getChildren().get(footer.getChildren().size() - 1));
+		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
+		String[] names = email.getWriterName().split("<");
+		String author = names[0].trim();
+		String user = names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0];
+		String content = email.getContent().trim();
+		Label name = (Label) authorName.get(controller);
+		Label screenName = (Label) authorUsername.get(controller);
+		Text postContent = (Text) postText.get(controller);
+
+		waitForRunLater(openPost, email);
+
+		assertEquals(author, name.getText());
+		assertEquals(user, screenName.getText());
+		assertEquals(content, postContent.getText());
 	}
 
 	@Test
 	public void testOpenPostTwitterEntry() throws Exception {
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
-
-		Field postFooter = cl.getDeclaredField("postFooter");
-		Field twitterFooter = cl.getDeclaredField("twitterFooter");
-
-		postFooter.setAccessible(true);
-		twitterFooter.setAccessible(true);
-
 		openPost.setAccessible(true);
-		openPost.invoke(controller, tweet);
-		waitForRunLater();
 
-		StackPane footer = (StackPane) postFooter.get(controller);
-		HBox tfooter = (HBox) twitterFooter.get(controller);
+		Field authorName = cl.getDeclaredField("authorName");
+		Field authorUsername = cl.getDeclaredField("authorUsername");
+		Field postText = cl.getDeclaredField("postText");
+		authorName.setAccessible(true);
+		authorUsername.setAccessible(true);
+		postText.setAccessible(true);
 
-		assertEquals(tfooter, footer.getChildren().get(footer.getChildren().size() - 1));
+		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
+		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();
+		String user = "@" + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();
+		String content = tweet.getStatus().getRetweetedStatus().getText().trim();
+		Label name = (Label) authorName.get(controller);
+		Label screenName = (Label) authorUsername.get(controller);
+		Text postContent = (Text) postText.get(controller);
+
+		waitForRunLater(openPost, tweet);
+
+		assertEquals(author, name.getText());
+		assertEquals(user, screenName.getText());
+		assertEquals(content, postContent.getText());
 	}
 
 	@Test
 	public void testClearEmail() throws Exception {
 		Method clearEmail = cl.getDeclaredMethod("clearEmail");
+		clearEmail.setAccessible(true);
 
 		Field emailReceiver = cl.getDeclaredField("emailReceiver");
 		Field emailSubject = cl.getDeclaredField("emailSubject");
 		Field emailMessage = cl.getDeclaredField("emailMessage");
 		Field emailError = cl.getDeclaredField("emailError");
-
 		emailReceiver.setAccessible(true);
 		emailSubject.setAccessible(true);
 		emailMessage.setAccessible(true);
 		emailError.setAccessible(true);
 
-		clearEmail.setAccessible(true);
-		clearEmail.invoke(controller);
-		waitForRunLater();
+		waitForRunLater(clearEmail);
 
 		JFXTextField receiver = (JFXTextField) emailReceiver.get(controller);
 		JFXTextField subject = (JFXTextField) emailSubject.get(controller);
 		JFXTextArea message = (JFXTextArea) emailMessage.get(controller);
 		Label error = (Label) emailError.get(controller);
 
-		assertEquals(true, receiver.getText().isEmpty());
-		assertEquals(true, subject.getText().isEmpty());
-		assertEquals(true, message.getText().isEmpty());
-		assertEquals(true, error.getText().equals(""));
+		assertTrue(receiver.getText().isEmpty());
+		assertTrue(subject.getText().isEmpty());
+		assertTrue(message.getText().isEmpty());
+		assertTrue(error.getText().isEmpty());
 	}
 
 	@Test
 	public void testAddEmail() throws Exception {
 		Method addEmail = cl.getDeclaredMethod("addEmail");
+		addEmail.setAccessible(true);
 
 		Field emailList = cl.getDeclaredField("emailList");
 		Field newEmail = cl.getDeclaredField("newEmail");
-
 		emailList.setAccessible(true);
 		newEmail.setAccessible(true);
 
-		addEmail.setAccessible(true);
-		addEmail.invoke(controller);
-		waitForRunLater();
+		waitForRunLater(addEmail);
 
 		@SuppressWarnings("unchecked")
 		JFXListView<String> listView = (JFXListView<String>) emailList.get(controller);
@@ -179,13 +210,13 @@ public class MainControllerTest {
 	public void testRemoveEmail() throws Exception {
 		Method removeEmail = cl.getDeclaredMethod("removeEmail");
 		Method addEmail = cl.getDeclaredMethod("addEmail");
+		removeEmail.setAccessible(true);
+		addEmail.setAccessible(true);
 
 		Field emailList = cl.getDeclaredField("emailList");
-
 		emailList.setAccessible(true);
-		addEmail.setAccessible(true);
-		addEmail.invoke(controller);
-		waitForRunLater();
+
+		waitForRunLater(addEmail);
 
 		@SuppressWarnings("unchecked")
 		JFXListView<String> listView = (JFXListView<String>) emailList.get(controller);
@@ -193,9 +224,7 @@ public class MainControllerTest {
 
 		int before = listView.getItems().size(), after;
 
-		removeEmail.setAccessible(true);
-		removeEmail.invoke(controller);
-		waitForRunLater();
+		waitForRunLater(removeEmail);
 
 		after = listView.getItems().size();
 
@@ -205,18 +234,17 @@ public class MainControllerTest {
 	@Test
 	public void testClosePost() throws Exception {
 		Method closePost = cl.getDeclaredMethod("closePost");
+		closePost.setAccessible(true);
+
 		Field centerPane = cl.getDeclaredField("centerPane");
 		Field postLayer = cl.getDeclaredField("postLayer");
-
-		closePost.setAccessible(true);
 		centerPane.setAccessible(true);
 		postLayer.setAccessible(true);
 
 		StackPane pane = (StackPane) centerPane.get(controller);
 		StackPane post = (StackPane) postLayer.get(controller);
 
-		closePost.invoke(controller);
-		waitForRunLater();
+		waitForRunLater(closePost);
 
 		assertEquals(post, pane.getChildren().get(0));
 	}
@@ -224,25 +252,24 @@ public class MainControllerTest {
 	@Test
 	public void testSetUsername() throws Exception {
 		Method setUsername = cl.getDeclaredMethod("setUsername", String.class);
-		Field username = cl.getDeclaredField("username");
-
 		setUsername.setAccessible(true);
+
+		Field username = cl.getDeclaredField("username");
 		username.setAccessible(true);
 
 		Label label = (Label) username.get(controller);
 
-		setUsername.invoke(controller, "Username");
-		waitForRunLater();
+		waitForRunLater(setUsername, "Username");
 
 		assertEquals("Username", label.getText());
 	}
 
 	@Test
 	public void testGetPosts() throws Exception {
-		JFXListView<PostBox> posts = controller.getPosts();
-
 		Field postList = cl.getDeclaredField("posts");
 		postList.setAccessible(true);
+
+		JFXListView<PostBox> posts = controller.getPosts();
 
 		@SuppressWarnings("unchecked")
 		JFXListView<PostBox> expected = (JFXListView<PostBox>) postList.get(controller);
@@ -250,9 +277,16 @@ public class MainControllerTest {
 		assertEquals(expected, posts);
 	}
 
-	public static void waitForRunLater() throws InterruptedException {
+	public void waitForRunLater(Method method, Object... args) throws Exception {
 		Semaphore semaphore = new Semaphore(0);
-		Platform.runLater(() -> semaphore.release());
+		Platform.runLater(() -> {
+			try {
+				method.invoke(controller, args);
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+			semaphore.release();
+		});
 		semaphore.acquire();
 	}
 }
