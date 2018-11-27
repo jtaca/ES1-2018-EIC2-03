@@ -2,6 +2,8 @@ package gui;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
@@ -29,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -47,10 +50,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import other.Filter;
 import other.Service;
 import threads.ThreadPool;
+import twitter.TwitterFunctions;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
+import twitter4j.TwitterException;
 
 /**
  * The Class MainController handles the user interaction with the GUI.
@@ -169,7 +175,7 @@ public class MainController implements Initializable {
 	// ------------ Settings ------------
 	/** The settings. */
 	@FXML
-	private VBox settings;
+	private ScrollPane settings;
 
 	/** The email list. */
 	@FXML
@@ -182,6 +188,9 @@ public class MainController implements Initializable {
 	/** The new email. */
 	@FXML
 	private TextField newEmail;
+
+	@FXML
+	private JFXListView<HBox> settingsTwitterAccounts;
 
 	// ------------ Email writing panel ------------
 	/** The email pane. */
@@ -245,6 +254,32 @@ public class MainController implements Initializable {
 		filterSlider.setMin(0);
 		filterSlider.setMax(80);
 		filterSlider.setValue(0);
+
+		List<String> twitterAccounts = Arrays.asList(Filter.DEFAULT_TWITTER_USER_FILTERS);
+		Collections.sort(twitterAccounts);
+
+		for (String account : twitterAccounts) {
+			HBox accountBox = new HBox();
+			Label username = new Label("@" + account);
+			Region region = new Region();
+			CheckBox check = new CheckBox();
+			ImageView pic = null;
+			try {
+				pic = new ImageView(new Image(TwitterFunctions.getUserPicture(account), 30, 0, true, true));
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+
+			accountBox.setAlignment(Pos.CENTER);
+			accountBox.setSpacing(10);
+			username.setStyle("-fx-font-weight: bold");
+			check.setSelected(true);
+
+			HBox.setHgrow(region, Priority.ALWAYS);
+
+			accountBox.getChildren().addAll(pic, username, region, check);
+			settingsTwitterAccounts.getItems().add(accountBox);
+		}
 
 		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));

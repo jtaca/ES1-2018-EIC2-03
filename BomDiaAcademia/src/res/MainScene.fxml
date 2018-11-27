@@ -149,39 +149,6 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox fx:id="settings" style="-fx-background-color: ffffff;">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
-                     <children>
-                        <Label text="Theme:" />
-                        <ChoiceBox fx:id="themeList" prefWidth="150.0" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="40.0" top="20.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Label text="Emails:">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Label>
-                        <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
-                        <HBox spacing="5.0">
-                           <children>
-                              <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
-                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
-                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
-                           </children>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="40.0" right="40.0" top="20.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-            </VBox>
             <VBox fx:id="postsSideBar">
                <children>
                   <VBox style="-fx-background-color: ffffff;">
@@ -350,6 +317,52 @@
                   </VBox>
                </children>
             </StackPane>
+            <ScrollPane fx:id="settings" style="-fx-background-color: transparent; -fx-background: ffffff;">
+               <content>
+                  <VBox style="-fx-background-color: ffffff;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <children>
+                              <Label text="Theme:" />
+                              <ChoiceBox fx:id="themeList" prefWidth="150.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Emails:">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Label text="Apresentar tweets de:" />
+                              <JFXListView fx:id="settingsTwitterAccounts" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </StackPane>
    </children>
