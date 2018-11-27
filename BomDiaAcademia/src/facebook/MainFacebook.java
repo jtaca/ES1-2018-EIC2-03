@@ -45,8 +45,6 @@ public class MainFacebook {
 			
 		Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
 		
-		
-		
 		Iterator<List<Post>> it = myFeed.iterator();
 
 		while(it.hasNext()) {
