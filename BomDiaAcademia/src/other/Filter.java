@@ -45,7 +45,7 @@ public class Filter {
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
 	
 	/** The Constant DEFAULT_TWITTER_USER_FILTERS. */
-	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
+	public static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
 	
 	/** The Constant DEFAULT_FACEBOOK_FILTERS. */
 	private static final String[] DEFAULT_FACEBOOK_FILTERS = {};
