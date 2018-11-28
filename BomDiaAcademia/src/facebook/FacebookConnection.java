@@ -26,6 +26,9 @@ public class FacebookConnection {
 	private static FacebookClient fbClient2 = init();
 	private static User me2 ;
 	
+	public static FacebookClient getInstance() {
+		return fbClient2;
+	}
 
 	
 	public static void ExtendAccessToken(String accessToken2) {
