@@ -22,7 +22,7 @@ import other.Service;
 
 public class FacebookConnection {
 	
-	private static String accessToken2 = "EAAePp5MZAcE4BAJThRvLkQpTOy8aL4DVZBluIckHnTXDgf4nEUB6QtAUViUDSAg9GI5iFf5vUtA3TO3KBxCw8aZBhsvbqhxc3AhpEQgj70bWO9c68W5hqZCK8WwuZBargOlr155ZADNNDb7weW4p2afvyRwZCLUBlPqe27TgE7VPhvHagiEnmPxDX9BvUbpJ76WOMVN52r2t7OEVfROxhmp6v0fXMYoXDphxfyvmzSsWgZDZD";
+	private static String accessToken2 = "EAAePp5MZAcE4BAMdraxWkVpfud3OFZBvNZCqMBOLU2ue3DxgWApgZA3f4ZA5rPM3ueimfZAp2PRBPNEuTdx0Hi3JTqIKeNCzgT1gY9s239sQJM3lLOA3Y2OSFtyrzHjp4n1EWhbYbXqyn7U3W8cm5mRilcZAjwERVZC1JUuRYUgRuCZBt8OuCdtBJ9e6aZBkoAZCWGTCc7s60E3kAZDZD";
 	private static FacebookClient fbClient2 = init();
 	private static User me2 ;
 	
