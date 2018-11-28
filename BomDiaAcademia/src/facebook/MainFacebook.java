@@ -42,6 +42,8 @@ public class MainFacebook {
 //		AccessToken accessToken =
 //				  new DefaultFacebookClient().obtainExtendedAccessToken("2128274727202894",
 //				    "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
+		
+		
 			
 		Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
 		
@@ -59,15 +61,18 @@ public class MainFacebook {
 		    		
 		    		 
 		     try {
-		    	 System.out.println("   Data URL:"+post1.getAttachments().getData().get(0).getUrl());
-		    	 System.out.println("   Data Title:"+post1.getAttachments().getData().get(0).getTitle());
-		    	 System.out.println("   Data Description:"+post1.getAttachments().getData().get(0).getDescription());
-		    	 System.out.println("   Data Media:"+post1.getAttachments().getData().get(0).getMedia());
+		    	 System.out.println("   Data URL: "+post1.getAttachments().getData().get(0).getUrl());
+		    	 System.out.println("   Data Title: "+post1.getAttachments().getData().get(0).getTitle());
+		    	 System.out.println("   Data Description: "+post1.getAttachments().getData().get(0).getDescription());
+		    	 System.out.println("   Data Media: "+post1.getAttachments().getData().get(0).getMedia());
 			     
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-		    System.out.println(",\n Likes:"+post1.getLikes().getTotalCount()+"]");
+		    System.out.println("\n Likes:"+post1.getLikes().getTotalCount());
+		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
+		    	
+		    
 		     
 //		     if(post1.getAttachments()!= null) {
 //		    	 
