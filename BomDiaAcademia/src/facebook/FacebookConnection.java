@@ -44,6 +44,7 @@ public class FacebookConnection {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static DefaultFacebookClient init() {
 	
 		try {
