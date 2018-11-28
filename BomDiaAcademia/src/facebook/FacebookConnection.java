@@ -25,9 +25,10 @@ public class FacebookConnection {
 	private static String accessToken2 = "EAAePp5MZAcE4BAMdraxWkVpfud3OFZBvNZCqMBOLU2ue3DxgWApgZA3f4ZA5rPM3ueimfZAp2PRBPNEuTdx0Hi3JTqIKeNCzgT1gY9s239sQJM3lLOA3Y2OSFtyrzHjp4n1EWhbYbXqyn7U3W8cm5mRilcZAjwERVZC1JUuRYUgRuCZBt8OuCdtBJ9e6aZBkoAZCWGTCc7s60E3kAZDZD";
 	private static FacebookClient fbClient2 = init();
 	private static User me2 ;
+	private static FacebookConnection a = null;
 	
-	public static FacebookClient getInstance() {
-		return fbClient2;
+	public static FacebookConnection getInstance() {
+		return a;
 	}
 
 	
