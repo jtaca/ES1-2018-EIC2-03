@@ -11,6 +11,7 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.FacebookClient.AccessToken;
 import com.restfb.exception.FacebookException;
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
@@ -67,28 +68,35 @@ public class FacebookConnection {
 	
 	public static List<InformationEntry> requestFacebook() {
 		List<InformationEntry> list = new ArrayList<>();
-
-		try {
-			
-			Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
-			Iterator<List<Post>> it = myFeed.iterator();
-			
-			while(it.hasNext()) {
-			   List<Post> myFeedPage = it.next();
-			   for (Post post : myFeedPage) {
-				 String postId = post.getId();  
-			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
-				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
+		
+		while(true) {
+			try {
 				
-				 list.add(new FacebookEntry(post1, post1.getCreatedTime()));
-			   }	
-			   
-			} 
-			return list;
-		} catch (FacebookException te) {
-			te.printStackTrace();
-			return null;
+				Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
+				Iterator<List<Post>> it = myFeed.iterator();
+				
+				while(it.hasNext()) {
+				   List<Post> myFeedPage = it.next();
+				   for (Post post : myFeedPage) {
+					 String postId = post.getId();  
+				     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
+					 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
+					
+					 list.add(new FacebookEntry(post1, post1.getCreatedTime()));
+				   }	
+				   
+				} 
+				return list;
+			} catch (FacebookOAuthException e) {
+				e.printStackTrace();
+				FacebookConnection.ExtendAccessToken();
+				list = new ArrayList<>();
+			} catch (FacebookException te) {
+				te.printStackTrace();
+				return null;
+			}
 		}
+		
 	}
 	
 	
