@@ -47,6 +47,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -54,8 +58,6 @@ import other.Filter;
 import other.Service;
 import threads.ThreadPool;
 import twitter.TwitterFunctions;
-import twitter4j.MediaEntity;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 
 /**
@@ -511,17 +513,16 @@ public class MainController implements Initializable {
 			icon.setSize("50");
 			icon.setStyle("-fx-fill: #3cbffc");
 
-			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
-			ImageView pic = new ImageView(new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true));
+			ImageView pic = new ImageView(new Image(tweet.getProfilePictureURL(), 50, 50, true, true));
 
-			authorName.setText(status.getUser().getName());
-			authorUsername.setText("@" + status.getUser().getScreenName());
+			authorName.setText(tweet.getName());
+			authorUsername.setText(tweet.getUsername());
 
 			authorUsername.setStyle("-fx-font-weight: bold");
 
 			if (tweet.isRetweet()) {
 				FontAwesomeIconView retweetIcon = new FontAwesomeIconView(FontAwesomeIcon.RETWEET);
-				Label retweeter = new Label(tweet.getStatus().getUser().getName() + " retweeted");
+				Label retweeter = new Label(tweet.getRetweeter() + " retweeted");
 
 				retweetIcon.setStyle("-fx-fill: #878787");
 
@@ -533,7 +534,7 @@ public class MainController implements Initializable {
 				entryInfo.getChildren().add(0, retweetInfo);
 			}
 
-			postInfo.setText(status.getText());
+			postInfo.setText(tweet.getContent());
 
 			postBox.getChildren().add(1, pic);
 		}
@@ -572,8 +573,7 @@ public class MainController implements Initializable {
 		} else if (informationEntry.getService().equals(Service.TWITTER)) {
 			TwitterEntry tweet = (TwitterEntry) informationEntry;
 
-			Status status = !tweet.isRetweet() ? tweet.getStatus() : tweet.getStatus().getRetweetedStatus();
-			Image pic = new Image(status.getUser().get400x400ProfileImageURL(), 50, 50, true, true);
+			Image pic = new Image(tweet.getProfilePictureURL(), 50, 50, true, true);
 
 			profilePic.setFitWidth(50);
 			profilePic.setFitHeight(50);
@@ -581,18 +581,51 @@ public class MainController implements Initializable {
 
 			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
 
-			authorName.setText(status.getUser().getName());
-			authorUsername.setText("@" + status.getUser().getScreenName());
+			authorName.setText(tweet.getName());
+			authorUsername.setText(tweet.getUsername());
 
 			if (tweet.isRetweet()) {
-				retweetLabel.setText(tweet.getStatus().getUser().getName() + " retweeted");
+				retweetLabel.setText(tweet.getRetweeter() + " retweeted");
 				retweetLabel.setVisible(true);
 			}
 
-			postText.setText(status.getText().trim());
+			postText.setText(tweet.getContent());
 
-			for (MediaEntity m : status.getMediaEntities())
-				postContent.getChildren().add(new ImageView(new Image(m.getMediaURLHttps(), 450, 0, true, true)));
+			for (String media : tweet.getMediaURL()) {
+				String url = media.split("!;!")[0], type = media.split("!;!")[1];
+
+				if (type.equals("photo"))
+					postContent.getChildren().add(new ImageView(new Image(url, 450, 0, true, true)));
+				else if (type.equals("animated_gif")) {
+					MediaPlayer player = new MediaPlayer(new Media(url));
+					MediaView view = new MediaView(player);
+					player.setAutoPlay(true);
+					player.setOnEndOfMedia(() -> player.seek(Duration.ZERO));
+					view.setFitWidth(450);
+					view.setOnMouseClicked(e -> {
+						if (player.getStatus().equals(Status.PLAYING))
+							player.pause();
+						else
+							player.play();
+					});
+					postContent.getChildren().add(view);
+				} else if (type.equals("video")) {
+					MediaPlayer player = new MediaPlayer(new Media(url));
+					MediaView view = new MediaView(player);
+					player.setOnEndOfMedia(() -> {
+						player.seek(Duration.ZERO);
+						player.stop();
+					});
+					view.setFitWidth(450);
+					view.setOnMouseClicked(e -> {
+						if (player.getStatus().equals(Status.PLAYING))
+							player.pause();
+						else
+							player.play();
+					});
+					postContent.getChildren().add(view);
+				}
+			}
 
 			twitterFooter.toFront();
 		}
