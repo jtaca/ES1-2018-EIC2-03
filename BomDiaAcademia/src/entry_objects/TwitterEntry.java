@@ -57,7 +57,7 @@ public class TwitterEntry implements InformationEntry { //
 
 			for (MediaEntity media : s.getRetweetedStatus().getMediaEntities())
 				if (media.getType().equals("video"))
-					mediaURL.add(media.getVideoVariants()[1].getUrl() + "!;!video");
+					mediaURL.add(media.getVideoVariants()[0].getUrl() + "!;!video");
 				else if (media.getType().equals("animated_gif"))
 					mediaURL.add(media.getVideoVariants()[0].getUrl() + "!;!animated_gif");
 				else
@@ -72,7 +72,7 @@ public class TwitterEntry implements InformationEntry { //
 
 			for (MediaEntity media : s.getMediaEntities())
 				if (media.getType().equals("video"))
-					mediaURL.add(media.getVideoVariants()[2].getUrl() + "!;!video");
+					mediaURL.add(media.getVideoVariants()[0].getUrl() + "!;!video");
 				else if (media.getType().equals("animated_gif"))
 					mediaURL.add(media.getVideoVariants()[0].getUrl() + "!;!animated_gif");
 				else
