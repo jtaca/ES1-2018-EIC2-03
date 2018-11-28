@@ -54,7 +54,7 @@ public class FacebookConnection {
 	
 	
 	
-	private static List<InformationEntry> requestFacebook() throws Exception {
+	public static List<InformationEntry> requestFacebook() {
 		List<InformationEntry> list = new ArrayList<>();
 
 		try {
