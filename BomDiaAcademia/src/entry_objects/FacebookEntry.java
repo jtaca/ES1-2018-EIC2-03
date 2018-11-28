@@ -14,15 +14,14 @@ import twitter4j.Status;
  */
 public class FacebookEntry implements InformationEntry { //
 	private Post post;
-	private Status status;
+	private static final long serialVersionUID = 1L;
 	private Date date;
 	
 	
 	
 
-	public FacebookEntry(Post post, Status status, Date date) {
+	public FacebookEntry(Post post, Date date) {
 		this.post = post;
-		this.status = status;
 		this.date = date;
 	}
 
@@ -54,10 +53,6 @@ public class FacebookEntry implements InformationEntry { //
 	}
 
 
-
-	public Status getStatus() {
-		return status;
-	}
 
 
 

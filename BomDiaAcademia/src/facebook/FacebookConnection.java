@@ -69,7 +69,7 @@ public class FacebookConnection {
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
 				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "from,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
 				
-				 list.add(new FacebookEntry(post1, null, post1.getCreatedTime()));
+				 list.add(new FacebookEntry(post1, post1.getCreatedTime()));
 			   }	
 			   
 			} 
