@@ -26,11 +26,11 @@ public class FacebookConnection {
 	private static FacebookClient fbClient2 = init();
 	private static User me2 ;
 	
-	public FacebookConnection(String accessToken2) {
+
+	
+	public static void ExtendAccessToken(String accessToken2) {
 		
-		AccessToken accessToken =
-		  new DefaultFacebookClient().obtainExtendedAccessToken("2128274727202894",
-		    "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
+		fbClient2.obtainExtendedAccessToken("2128274727202894", "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
 		
 	}
 	
