@@ -34,6 +34,8 @@ public class XMLUserConfiguration { //
 	/** The twitter access token secret. */
 	private String twitterAccessTokenSecret = "";
 	
+	private String accessToken2 = "";
+	
 	
 	/**
 	 * Instantiates a new XML user configuration.
@@ -48,7 +50,7 @@ public class XMLUserConfiguration { //
 	 * @param twitterAccessTokenSecret the twitter access token secret
 	 * @throws Exception the exception
 	 */
-	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
+	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret, String accessToken2) throws Exception {
 		if (service == null) {
 			throw new Exception("Please insert a valid Service.");
 		}
@@ -60,6 +62,7 @@ public class XMLUserConfiguration { //
 		this.twitterSecretKey = twitterSecretKey;
 		this.twitterAccessToken = twitterAccessToken;
 		this.twitterAccessTokenSecret = twitterAccessTokenSecret;
+		this.accessToken2 = accessToken2;
 	}
 	
 	/**
@@ -74,7 +77,11 @@ public class XMLUserConfiguration { //
 	 * @throws Exception the exception
 	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
-		this(saveInformation, service, "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
+		this(saveInformation, service, "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret, "");
+	}
+	
+	public XMLUserConfiguration(boolean saveInformation, Service service, String accessToken2) throws Exception {
+		this(saveInformation, service, "", "", "", "", "", "", accessToken2);
 	}
 	
 	/**
@@ -87,7 +94,7 @@ public class XMLUserConfiguration { //
 	 * @throws Exception the exception
 	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password) throws Exception {
-		this(saveInformation, service, username, password, "", "", "", "");
+		this(saveInformation, service, username, password, "", "", "", "", "");
 	}
 	
 	
@@ -118,7 +125,7 @@ public class XMLUserConfiguration { //
 	 * @throws Exception the exception
 	 */
 	public XMLUserConfiguration(boolean saveInformation, int service_number, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
-		this(saveInformation, Service.values()[service_number], "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);
+		this(saveInformation, Service.values()[service_number], "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret, "");
 	}
 	
 	/**

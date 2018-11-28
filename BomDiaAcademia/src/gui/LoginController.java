@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 
 import email.EmailConnection;
+import facebook.FacebookConnection;
 import files.ReadAndWriteXMLFile;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -115,12 +116,19 @@ public class LoginController implements Initializable {
 
 					EmailConnection outlook = null;
 					XMLUserConfiguration twitter = null;
+					XMLUserConfiguration facebook = null;
 					List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
 
 					try {
 						twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 					} catch (Exception e) {
-						System.out.println("Ficheiro sem informacao");
+						System.out.println("Ficheiro sem informacao twitter");
+					}
+					
+					try {
+						facebook = ReadAndWriteXMLFile.ReadConfigXMLFile().get(2);
+					} catch (Exception e) {
+						System.out.println("Ficheiro sem informacao facebook");
 					}
 
 					try {
@@ -133,10 +141,14 @@ public class LoginController implements Initializable {
 							twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
 									TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1],
 									TwitterFunctions.getKeys()[2], TwitterFunctions.getKeys()[3]);
+						
+						if (facebook == null)
+							facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK, FacebookConnection.getAccessToken2());
 
 //					if (rememberMe.isSelected()) {
 						user_config_list.add(user);
 						user_config_list.add(twitter);
+						user_config_list.add(facebook);
 						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 //					}
 

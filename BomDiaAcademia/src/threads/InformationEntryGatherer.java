@@ -55,7 +55,9 @@ public class InformationEntryGatherer { //
 	 * @param list_of_entrys the list of entrys
 	 */
 	public synchronized void addResult(List<InformationEntry> list_of_entrys) {
-		list.addAll(list_of_entrys);
+		if(list_of_entrys != null) {
+			list.addAll(list_of_entrys);
+		}
 		barrier.barrierPost();
 	}
 
