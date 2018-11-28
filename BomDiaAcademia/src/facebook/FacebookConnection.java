@@ -31,7 +31,7 @@ public class FacebookConnection {
 	}
 
 	
-	public static void ExtendAccessToken(String accessToken2) {
+	public static void ExtendAccessToken() {
 		
 		fbClient2.obtainExtendedAccessToken("2128274727202894", "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
 		
