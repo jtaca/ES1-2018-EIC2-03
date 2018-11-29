@@ -3,6 +3,7 @@
  */
 package facebook;
 
+import java.io.SequenceInputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import com.restfb.Parameter;
 import com.restfb.types.Account;
 import com.restfb.types.Comment;
 import com.restfb.types.GraphResponse;
+import com.restfb.types.Likes;
+import com.restfb.types.Likes.LikeItem;
 import com.restfb.types.Link;
 import com.restfb.types.Message;
 import com.restfb.types.Page;
@@ -72,8 +75,18 @@ public class MainFacebook {
 				System.out.println(e);
 			}
 		    System.out.println("\n Likes:"+post1.getLikes().getTotalCount());
-		    DefaultFacebookClient client = new DefaultFacebookClient(accessToken2);
-			client.publish(post.getId()+"/likes", Boolean.class); 
+		    
+			fbClient2.publish(post.getId()+"/likes", Boolean.class); 
+			
+			Likes like = post.getLikes();
+			// retrieve a specific like, then
+			//like.
+			//fbClient2.delete(like);
+			GraphResponse publishMessageResponse = 
+					fbClient2.publish("me/feed", GraphResponse.class,
+					    Parameter.with("message", "RestFB test"));
+
+			System.out.println("Published message ID: " + publishMessageResponse.getId());
 		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
 		    	
 		    
