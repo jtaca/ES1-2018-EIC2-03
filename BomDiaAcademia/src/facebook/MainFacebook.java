@@ -23,7 +23,7 @@ import com.restfb.types.User;
 public class MainFacebook {
 	public static void main(String[] args) {
 
-		String accessToken2 = "EAAePp5MZAcE4BAMdraxWkVpfud3OFZBvNZCqMBOLU2ue3DxgWApgZA3f4ZA5rPM3ueimfZAp2PRBPNEuTdx0Hi3JTqIKeNCzgT1gY9s239sQJM3lLOA3Y2OSFtyrzHjp4n1EWhbYbXqyn7U3W8cm5mRilcZAjwERVZC1JUuRYUgRuCZBt8OuCdtBJ9e6aZBkoAZCWGTCc7s60E3kAZDZD";
+		String accessToken2 = "EAAePp5MZAcE4BAInZCUbLfwuisPqseRZAMNX2xqyebsGEAm3KctHzWrikzdNRXYpX49J3vNo8vz0h7mKRctVFk0aZAZCMQd0VmCq9zv84dcRZAVp7ZAFN3NVLk04qyoQrNAOSWpqZCjCXP7S0fdGHRkjqoZApFZBmEAARCipUHpkZCBXgZDZD";
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
