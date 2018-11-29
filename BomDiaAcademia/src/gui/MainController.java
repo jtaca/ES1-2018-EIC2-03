@@ -4,10 +4,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
@@ -31,7 +33,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -57,8 +58,6 @@ import javafx.util.Duration;
 import other.Filter;
 import other.Service;
 import threads.ThreadPool;
-import twitter.TwitterFunctions;
-import twitter4j.TwitterException;
 
 /**
  * The Class MainController handles the user interaction with the GUI.
@@ -102,7 +101,10 @@ public class MainController implements Initializable {
 	private Hyperlink leaveSearch;
 
 	@FXML
-	private VBox filterMenu;
+	private HBox filterMenu;
+
+	@FXML
+	private JFXListView<TwitterAccountBox> twitterAccountsFilter;
 
 	@FXML
 	private ChoiceBox<String> dateFilter;
@@ -114,7 +116,10 @@ public class MainController implements Initializable {
 	private JFXCheckBox facebookFilter;
 
 	@FXML
-	private JFXCheckBox twitterFiler;
+	private JFXCheckBox twitterFilter;
+
+	@FXML
+	private JFXButton removeFilter;
 
 	@FXML
 	private Slider filterSlider;
@@ -191,9 +196,6 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField newEmail;
 
-	@FXML
-	private JFXListView<HBox> settingsTwitterAccounts;
-
 	// ------------ Email writing panel ------------
 	/** The email pane. */
 	@FXML
@@ -254,35 +256,16 @@ public class MainController implements Initializable {
 		leaveSearch.setDisable(true);
 
 		filterSlider.setMin(0);
-		filterSlider.setMax(80);
+		filterSlider.setMax(200);
 		filterSlider.setValue(0);
 
 		List<String> twitterAccounts = Arrays.asList(Filter.DEFAULT_TWITTER_USER_FILTERS);
 		Collections.sort(twitterAccounts);
 
-		for (String account : twitterAccounts) {
-			HBox accountBox = new HBox();
-			Label username = new Label("@" + account);
-			Region region = new Region();
-			CheckBox check = new CheckBox();
-			ImageView pic = null;
-			try {
-				pic = new ImageView(new Image(TwitterFunctions.getInstance().getUserPicture(account), 30, 0, true, true));
-			} catch (TwitterException e) {
-				e.printStackTrace();
-			}
+		for (String account : twitterAccounts)
+			twitterAccountsFilter.getItems().add(new TwitterAccountBox(account, true));
 
-			accountBox.setAlignment(Pos.CENTER);
-			accountBox.setSpacing(10);
-			username.setStyle("-fx-font-weight: bold");
-			check.setSelected(true);
-
-			HBox.setHgrow(region, Priority.ALWAYS);
-
-			accountBox.getChildren().addAll(pic, username, region, check);
-			settingsTwitterAccounts.getItems().add(accountBox);
-		}
-
+		removeFilter.setDisable(true);
 		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
@@ -417,18 +400,18 @@ public class MainController implements Initializable {
 					Platform.runLater(() -> link.setText(!filterOpen ? "Fechar filtro" : "Abrir filtro"));
 
 					if (filterOpen)
-						for (int i = 80; i > 0; i--)
+						for (int i = 200; i > 0; i--)
 							try {
 								filterSlider.setValue(i);
-								sleep(2);
+								sleep(1);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 					else if (!filterOpen)
-						for (int i = 0; i < 80; i++)
+						for (int i = 0; i < 200; i++)
 							try {
 								filterSlider.setValue(i);
-								sleep(2);
+								sleep(1);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -441,7 +424,38 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void applyFilter() {
+		List<PostBox> filteredList = new ArrayList<>();
 
+		if (twitterFilter.isSelected()) {
+			List<String> selectedAccounts = new ArrayList<>();
+
+			for (TwitterAccountBox account : twitterAccountsFilter.getItems())
+				if (account.isSelected())
+					selectedAccounts.add(account.getUsername());
+
+			for (PostBox post : originalList)
+				if (selectedAccounts.contains(post.getPostAuthor()))
+					filteredList.add(post);
+		}
+
+		if (emailFilter.isSelected())
+			for (PostBox post : originalList)
+				if (post.getService().equals(Service.EMAIL))
+					filteredList.add(post);
+
+		filteredList.sort(Comparator.comparing(PostBox::getDate).reversed());
+
+		removeFilter.setDisable(false);
+		posts.getItems().clear();
+		posts.getItems().addAll(filteredList);
+	}
+
+	@FXML
+	private void removeFilter() {
+		removeFilter.setDisable(true);
+
+		posts.getItems().clear();
+		posts.getItems().addAll(originalList);
 	}
 
 	@FXML
@@ -516,7 +530,7 @@ public class MainController implements Initializable {
 			ImageView pic = new ImageView(new Image(tweet.getProfilePictureURL(), 50, 50, true, true));
 
 			authorName.setText(tweet.getName());
-			authorUsername.setText(tweet.getUsername());
+			authorUsername.setText("@" + tweet.getUsername());
 
 			authorUsername.setStyle("-fx-font-weight: bold");
 
@@ -582,7 +596,7 @@ public class MainController implements Initializable {
 			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
 
 			authorName.setText(tweet.getName());
-			authorUsername.setText(tweet.getUsername());
+			authorUsername.setText("@" + tweet.getUsername());
 
 			if (tweet.isRetweet()) {
 				retweetLabel.setText(tweet.getRetweeter() + " retweeted");
