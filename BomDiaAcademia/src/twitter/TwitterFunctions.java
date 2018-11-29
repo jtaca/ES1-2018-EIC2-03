@@ -28,7 +28,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @version 2.0
  */
 public class TwitterFunctions {
-	private static TwitterFunctions instance=null;
+	private static TwitterFunctions INSTANCE=null;
 
 	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
@@ -53,10 +53,14 @@ public class TwitterFunctions {
 	
 	
 	public static TwitterFunctions getInstance() {
-	      if(instance == null) {
-	         instance = new TwitterFunctions();
+	      if(INSTANCE == null) {
+	    	  synchronized (TwitterFunctions.class){
+	    		  if(INSTANCE == null) {
+	    			  INSTANCE = new TwitterFunctions();
+	    		  }
+	    	  }
 	      }
-	      return instance;
+	      return INSTANCE;
 	   }
 	
 	
