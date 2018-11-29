@@ -23,12 +23,14 @@ import com.restfb.types.User;
 public class MainFacebook {
 	public static void main(String[] args) {
 
-		String accessToken2 = "EAAePp5MZAcE4BAInZCUbLfwuisPqseRZAMNX2xqyebsGEAm3KctHzWrikzdNRXYpX49J3vNo8vz0h7mKRctVFk0aZAZCMQd0VmCq9zv84dcRZAVp7ZAFN3NVLk04qyoQrNAOSWpqZCjCXP7S0fdGHRkjqoZApFZBmEAARCipUHpkZCBXgZDZD";
+		//String accessToken (AKA USER) = "EAAePp5MZAcE4BAInZCUbLfwuisPqseRZAMNX2xqyebsGEAm3KctHzWrikzdNRXYpX49J3vNo8vz0h7mKRctVFk0aZAZCMQd0VmCq9zv84dcRZAVp7ZAFN3NVLk04qyoQrNAOSWpqZCjCXP7S0fdGHRkjqoZApFZBmEAARCipUHpkZCBXgZDZD";
+		String accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
 		System.out.println("Name: " + me2.getName());
+
 		
 		
 //		GraphResponse publishMessageResponse =
@@ -70,6 +72,8 @@ public class MainFacebook {
 				System.out.println(e);
 			}
 		    System.out.println("\n Likes:"+post1.getLikes().getTotalCount());
+		    DefaultFacebookClient client = new DefaultFacebookClient(accessToken2);
+			client.publish(post.getId()+"/likes", Boolean.class); 
 		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
 		    	
 		    
