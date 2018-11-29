@@ -84,10 +84,12 @@ public class MainFacebook {
 			//fbClient2.delete(like);
 			GraphResponse publishMessageResponse = 
 					fbClient2.publish("me/feed", GraphResponse.class,
-					    Parameter.with("message", "RestFB test"));
+					    Parameter.with("message", "RestFB testy"));
 
 			System.out.println("Published message ID: " + publishMessageResponse.getId());
 		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
+		    
+		    fbClient2.publish(post1.getId()+"/comments", String.class, Parameter.with("message", "Your comment here"));
 		    	
 		    
 		     
