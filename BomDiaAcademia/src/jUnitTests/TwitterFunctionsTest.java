@@ -32,7 +32,7 @@ public class TwitterFunctionsTest {
 	@Test
 	public void testRetweet() {
 		Status status = new TestStatus(1064992747311063040L);
-		TwitterFunctions tf = new  TwitterFunctions();
+		TwitterFunctions tf = TwitterFunctions.getInstance();
 		try {
 			tf.retweet(status);
 		} catch (TwitterException e) {
@@ -45,7 +45,7 @@ public class TwitterFunctionsTest {
 	public void testRequestTwitter() {
 		List<InformationEntry> l=new ArrayList();
 		try {
-			l = TwitterFunctions.requestTwitter();
+			l = TwitterFunctions.getInstance().requestTwitter();
 		} catch (Exception e) {
 			fail("failed to get tweets");
 			e.printStackTrace();
@@ -60,11 +60,11 @@ public class TwitterFunctionsTest {
 		c.set(2018, Calendar.OCTOBER , 14,23,0,0);
 		Date d = c.getTime();
 		List<InformationEntry> l;
-		l=TwitterFunctions.getTweetsFromUserByDate(d, "ANACLET28324119");
+		l=TwitterFunctions.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
 		assert(l.isEmpty());
 		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
 		d=c.getTime();
-		l=TwitterFunctions.getTweetsFromUserByDate(d, "ANACLET28324119");
+		l=TwitterFunctions.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
 	}
@@ -76,14 +76,14 @@ public class TwitterFunctionsTest {
 		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
 		Date date = c.getTime();
 		String [] users=null;
-		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
 		assert(l.isEmpty());
 		users=new String[0];
-		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
 		assert(l.isEmpty());
 		users=new String[1];
 		users[0]="ANACLET28324119";
-		l=TwitterFunctions.getTweetsFromUsers(date, users);
+		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
 		assert(!l.isEmpty());
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
@@ -91,7 +91,7 @@ public class TwitterFunctionsTest {
 	@Test 
 	public void testGetTweetsFiltered(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-		List<InformationEntry> l=TwitterFunctions.getTweetsFiltered();
+		List<InformationEntry> l=TwitterFunctions.getInstance().getTweetsFiltered();
 		assert(!l.isEmpty());
 	}
 	@Test

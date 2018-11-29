@@ -28,6 +28,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @version 2.0
  */
 public class TwitterFunctions {
+	private static TwitterFunctions instance=null;
 
 	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
@@ -42,7 +43,7 @@ public class TwitterFunctions {
 	private static String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
 
 	/** The twitter. */
-	private static Twitter twitter = init();
+	private Twitter twitter;
 	
 	/** The twitter keys. */
 	private static XMLUserConfiguration twitterKeys = null;
@@ -50,12 +51,28 @@ public class TwitterFunctions {
 	/** The logger. */
 	private Logger logger= new Logger();
 	
+	
+	public static TwitterFunctions getInstance() {
+	      if(instance == null) {
+	         instance = new TwitterFunctions();
+	      }
+	      return instance;
+	   }
+	
+	
+	
+	private TwitterFunctions(){
+		this.twitter=init();
+	}
+	
+	
+	
 	/**
 	 * Inits the.
 	 *
 	 * @return the twitter
 	 */
-	private static Twitter init() {
+	private Twitter init() {
 //		try {
 //			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
 //		} catch (Exception e) {
@@ -101,7 +118,7 @@ public class TwitterFunctions {
 	 * @return List<InformationEntry>
 	 * @throws Exception the exception
 	 */
-	public static List<InformationEntry> requestTwitter() throws Exception {
+	public List<InformationEntry> requestTwitter() throws Exception {
 		List<InformationEntry> list = new ArrayList<>();
 
 			init();
@@ -132,7 +149,7 @@ public class TwitterFunctions {
 	 *
 	 * @return the tweets filtered
 	 */
-	public static List<InformationEntry> getTweetsFiltered(){
+	public List<InformationEntry> getTweetsFiltered(){
 		init();
 		Filter f = Filter.getInstance();
 		List<InformationEntry> l=null;
@@ -152,7 +169,7 @@ public class TwitterFunctions {
 	 * @param user the user
 	 * @return List<InformationEntry>
 	 */
-	public static List<InformationEntry> getTweetsFromUserByDate(Date date, String user) {
+	public List<InformationEntry> getTweetsFromUserByDate(Date date, String user) {
 		List<InformationEntry> tweets = new ArrayList<>();
 		try {
 			twitter.getUserTimeline(user).forEach(s -> {
@@ -174,7 +191,7 @@ public class TwitterFunctions {
 	 * @param users the users
 	 * @return List<InformationEntry>
 	 */
-	public static List<InformationEntry> getTweetsFromUsers(Date date, String... users) {
+	public List<InformationEntry> getTweetsFromUsers(Date date, String... users) {
 		List<InformationEntry> tweets = new ArrayList<>();
 		if(users!=null)
 		for (String user : users)
@@ -196,7 +213,7 @@ public class TwitterFunctions {
  * @return the some retweet
  */
 //	}
-	public static Status getSomeRetweet(){
+	public Status getSomeRetweet(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l = getTweetsFiltered();
 		TwitterEntry te=null;
@@ -206,7 +223,7 @@ public class TwitterFunctions {
 		}
 		return te.getStatus();
 	}
-	public static String getUserPicture(String user) throws TwitterException{
+	public String getUserPicture(String user) throws TwitterException{
 		User u = twitter.showUser(user);
 		return u.get400x400ProfileImageURL();
 	}

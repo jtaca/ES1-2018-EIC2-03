@@ -37,7 +37,7 @@ public class OtherStaticFunction {
 					break;
 					
 				case FACEBOOK:
-					task = new FacebookPostReaderTask(); // needs implementation still...
+					task = new FacebookPostReaderTask(); // Require to be implemented object oriented and not function oriented
 					break;
 
 				default:

@@ -97,7 +97,7 @@ public class MainControllerTest {
 		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
 		toPostBox.setAccessible(true);
 
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
+		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getInstance().getSomeRetweet());
 		PostBox postBox = (PostBox) toPostBox.invoke(controller, tweet);
 
 		assertEquals(tweet, postBox.getInformationEntry());
@@ -144,7 +144,7 @@ public class MainControllerTest {
 		authorUsername.setAccessible(true);
 		postText.setAccessible(true);
 
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getSomeRetweet());
+		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getInstance().getSomeRetweet());
 		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();
 		String user = "@" + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();
 		String content = tweet.getStatus().getRetweetedStatus().getText().trim();

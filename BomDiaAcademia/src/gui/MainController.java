@@ -267,7 +267,7 @@ public class MainController implements Initializable {
 			CheckBox check = new CheckBox();
 			ImageView pic = null;
 			try {
-				pic = new ImageView(new Image(TwitterFunctions.getUserPicture(account), 30, 0, true, true));
+				pic = new ImageView(new Image(TwitterFunctions.getInstance().getUserPicture(account), 30, 0, true, true));
 			} catch (TwitterException e) {
 				e.printStackTrace();
 			}
