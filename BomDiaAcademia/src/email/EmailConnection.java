@@ -292,13 +292,22 @@ public class EmailConnection {
 			
 			Properties props = System.getProperties();
 			
+//			props.put("mail.smtp.user", username);
+//			props.put("mail.smtp.pwd", password);
+			
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
 			props.put("mail.smtp.port", "587"); // 587 // 465 // 25
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.starttls.required", "true");
 			
-			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
+//			Authenticator auth = new Authenticator() {
+//				protected PasswordAuthentication getPasswordAuthentication() {
+//					return new PasswordAuthentication(username, password);
+//				}
+//			};
+			
+			//java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
 			
 			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);
@@ -311,6 +320,8 @@ public class EmailConnection {
 			msg.setText(message);
 			
 			Transport transport = mailSession.getTransport("smtp");
+			System.out.println("Vou errar aqui!");
+//			Transport.send(msg, msg.getAllRecipients());
 			transport.connect(host, username, password);
 			transport.sendMessage(msg, msg.getAllRecipients());
 			transport.close();

@@ -85,7 +85,7 @@ public class MainControllerTest {
 		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
 		toPostBox.setAccessible(true);
 
-		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
+		EmailEntry email = new EmailEntry("", new Date(), "Writer Name", "Subject", "Content");
 		PostBox postBox = (PostBox) toPostBox.invoke(controller, email);
 
 		assertEquals(email, postBox.getInformationEntry());
@@ -116,7 +116,7 @@ public class MainControllerTest {
 		authorUsername.setAccessible(true);
 		postText.setAccessible(true);
 
-		EmailEntry email = new EmailEntry(new Date(), "Writer Name", "Subject", "Content");
+		EmailEntry email = new EmailEntry("", new Date(), "Writer Name", "Subject", "Content");
 		String[] names = email.getWriterName().split("<");
 		String author = names[0].trim();
 		String user = names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0];

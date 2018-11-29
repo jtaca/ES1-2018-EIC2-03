@@ -35,7 +35,7 @@ public class ReadAndWriteFileTest {
 
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
-		information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "4"));
+		information_entry_list.add(new EmailEntry("", new Date(1, 1, 1), "2", "3", "4"));
 	
 		try {
 			ReadAndWriteFile.saveListOfInformationEntry(null, null);
@@ -52,7 +52,7 @@ public class ReadAndWriteFileTest {
 			         }
 				};
 				tester.start();
-				information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
+				information_entry_list.add(new EmailEntry("", new Date(1, 1, 1), "2", "3", "\n"));
 				ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);
 			}
 			
@@ -63,7 +63,7 @@ public class ReadAndWriteFileTest {
 			         }
 				};
 				tester1.start();
-				information_entry_list.add(new EmailEntry(new Date(1, 1, 1), "2", "3", "\n"));
+				information_entry_list.add(new EmailEntry("", new Date(1, 1, 1), "2", "3", "\n"));
 				ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);
 			}
 			
@@ -127,7 +127,7 @@ public class ReadAndWriteFileTest {
 		List<InformationEntry> information_entry_list2 = null;
 		Date date = new Date();
 		information_entry_list2 = new ArrayList<InformationEntry>();
-		information_entry_list2.add(new EmailEntry(date, "Person", "Subject", "Content"));
+		information_entry_list2.add(new EmailEntry("", date, "Person", "Subject", "Content"));
 		
 		ReadAndWriteFile.saveListOfInformationEntry("emailEntrysTest.dat", information_entry_list2);
 		ReadAndWriteFile.loadListOfInformationEntry("emailEntrysTest.dat");
