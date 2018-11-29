@@ -14,6 +14,8 @@ public class EmailEntry implements InformationEntry { //
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	private String receiverEmail;
+	
 	/** The date. */
 	private Date date;
 	
@@ -34,11 +36,16 @@ public class EmailEntry implements InformationEntry { //
 	 * @param subject the subject
 	 * @param content the content
 	 */
-	public EmailEntry(Date date, String writerName, String subject, String content) {
+	public EmailEntry(String receiverEmail, Date date, String writerName, String subject, String content) {
+		this.receiverEmail = receiverEmail;
 		this.date = date;
 		this.writerName = writerName;
 		this.subject = subject;
 		this.content = content;
+	}
+	
+	public String getReceiverEmail() {
+		return receiverEmail;
 	}
 	
 	/* (non-Javadoc)

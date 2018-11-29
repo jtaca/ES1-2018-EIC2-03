@@ -175,7 +175,7 @@ public class EmailConnection {
 					
 					content = getTextFromMessage(messages[i]);
 					
-					informationEntry = new EmailEntry(date, writerName, subject, content);
+					informationEntry = new EmailEntry(username, date, writerName, subject, content);
 					
 					information_entry_list.add(informationEntry);
 				}
