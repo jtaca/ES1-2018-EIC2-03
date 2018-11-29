@@ -50,7 +50,7 @@ public class TwitterEntry implements InformationEntry { //
 
 		if (s.isRetweet()) {
 			name = s.getRetweetedStatus().getUser().getName();
-			username = "@" + s.getRetweetedStatus().getUser().getScreenName();
+			username = s.getRetweetedStatus().getUser().getScreenName();
 			content = s.getRetweetedStatus().getText().trim();
 			profilePictureURL = s.getRetweetedStatus().getUser().get400x400ProfileImageURL();
 			retweeter = s.getUser().getName();
@@ -66,7 +66,7 @@ public class TwitterEntry implements InformationEntry { //
 			isRetweet = true;
 		} else {
 			name = s.getUser().getName();
-			username = "@" + s.getUser().getScreenName();
+			username = s.getUser().getScreenName();
 			content = s.getText().trim();
 			profilePictureURL = s.getUser().get400x400ProfileImageURL();
 
