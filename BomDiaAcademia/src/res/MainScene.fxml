@@ -32,12 +32,12 @@
                <children>
                   <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: transparent;" text="Bem vindo," textFill="WHITE">
                      <VBox.margin>
-                        <Insets left="25.0" top="15.0" />
+                        <Insets left="25.0" top="16.0" />
                      </VBox.margin>
                   </Label>
                   <Label fx:id="username" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" style="-fx-background-color: transparent;" text="nome de utilizador" textFill="WHITE">
                      <VBox.margin>
-                        <Insets bottom="15.0" left="25.0" />
+                        <Insets bottom="16.0" left="25.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -56,12 +56,12 @@
                   <ToggleGroup fx:id="sideMenu" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#writeEmail" prefHeight="40.0" prefWidth="250.0" text="      Escrever email" toggleGroup="$sideMenu">
+            <RadioButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#writeEmail" prefHeight="40.0" prefWidth="250.0" text="     Escrever email" toggleGroup="$sideMenu">
                <font>
                   <Font size="14.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="ENVELOPE" size="17" />
+                  <FontAwesomeIconView glyphName="PENCIL_SQUARE_ALT" size="20" />
                </graphic>
             </RadioButton>
             <RadioButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#showSettings" prefHeight="40.0" prefWidth="250.0" text="      Definições" toggleGroup="$sideMenu">
@@ -286,7 +286,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <VBox fx:id="postsSideBar">
+            <VBox fx:id="postsSideBar" style="-fx-background-color: ffffff;">
                <children>
                   <VBox style="-fx-background-color: ffffff;">
                      <children>
@@ -314,9 +314,9 @@
                   </VBox>
                   <StackPane alignment="TOP_RIGHT">
                      <children>
-                        <Accordion>
+                        <Accordion style="-fx-background-color: ffffff;">
                           <panes>
-                            <TitledPane id="filterMenu" text="Abrir filtro">
+                            <TitledPane id="filterMenu" style="-fx-background-color: ffffff;" text="Abrir filtro">
                                  <content>
                                     <VBox spacing="10.0">
                                        <children>
@@ -376,10 +376,13 @@
                               </TitledPane>
                           </panes>
                         </Accordion>
-                        <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa" />
+                        <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa">
+                           <StackPane.margin>
+                              <Insets right="6.0" />
+                           </StackPane.margin></Hyperlink>
                      </children>
                      <VBox.margin>
-                        <Insets left="35.0" right="35.0" />
+                        <Insets left="30.0" right="30.0" />
                      </VBox.margin>
                   </StackPane>
                   <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
