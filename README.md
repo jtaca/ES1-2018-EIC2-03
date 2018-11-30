@@ -9,4 +9,6 @@ João Tiago Aparício da Costa Nº 77812
 Rostislav Andreev Nº 77689  
 Diogo Delfim Sarmento Nº 75463 
   
-  
+The Facebook  Posts, likes and comments are being added in the following page:   
+https://www.facebook.com/Bomdiaacademia-318510688875649   
+
