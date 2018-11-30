@@ -9,12 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import tasks.FacebookPostReaderTask;
 import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
 
 /**
  * The Class MainWindow.
+ * 
  * @author Rostislav Andreev
  * @version 2.0
  */
@@ -29,13 +31,16 @@ public class MainWindow extends Application {
 		launch(args);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
 		tasks.add(new TwitterPostReaderTask());
+		tasks.add(new FacebookPostReaderTask());
 		ThreadPool.refreshGUIWithThreads(tasks);
 
 		FXMLLoader loader = new FXMLLoader();
