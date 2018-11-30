@@ -10,9 +10,3 @@ Rostislav Andreev Nº 77689
 Diogo Delfim Sarmento Nº 75463 
   
   
-External libraries used:  
-  
-FontAwesomeFX  
-https://bitbucket.org/Jerady/fontawesomefx  
-JFoenix  
-https://github.com/jfoenixadmin/JFoenix  
