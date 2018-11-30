@@ -49,8 +49,11 @@ public class FacebookConnection {
 	
 
 	private FacebookConnection() {
-		fbClient2 = init();
 		accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
+		fbClient2 = init();
+		System.out.println("Facebook:");
+		System.out.println("Id: " + me2.getId());
+		System.out.println("Name: " + me2.getName());
 	}
 	
 	/**
@@ -58,6 +61,27 @@ public class FacebookConnection {
 	 */
 	public static FacebookConnection getInstance() {
 		return INSTANCE;
+	}
+	
+	@SuppressWarnings("deprecation")
+	private static DefaultFacebookClient init() {
+	
+		try {
+			fbClient2 = new DefaultFacebookClient(accessToken2);
+			me2 = fbClient2.fetchObject("me", User.class);
+			try {
+				
+			} catch (FacebookException e) {
+				System.out.println(""+e);
+			}
+
+			
+		} catch (FacebookException e) {
+			System.out.println(e);
+		}
+		
+		return (DefaultFacebookClient) fbClient2;
+		
 	}
 
 
@@ -84,24 +108,7 @@ public class FacebookConnection {
 	/**
 	 * Initiation Method
 	 */
-	@SuppressWarnings("deprecation")
-	private static DefaultFacebookClient init() {
 	
-		try {
-			fbClient2 = new DefaultFacebookClient(accessToken2);
-			me2 = fbClient2.fetchObject("me", User.class);
-			
-			System.out.println("Facebook:");
-			System.out.println("Id: " + me2.getId());
-			System.out.println("Name: " + me2.getName());
-			
-		} catch (FacebookException e) {
-			System.out.println(e);
-		}
-		
-		return (DefaultFacebookClient) fbClient2;
-		
-	}
 	
 	
 	/**
@@ -164,7 +171,7 @@ public class FacebookConnection {
 	
 
 	public static void main(String[] args) {
-		FacebookConnection fb = new FacebookConnection();
+		FacebookConnection fb = getInstance();
 		 List<InformationEntry> a = fb.requestFacebook();
 		 for (int i = 0; i < a.size(); i++) {
 			System.out.println( a.get(i).toString());
