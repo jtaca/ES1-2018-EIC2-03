@@ -2,10 +2,10 @@ package entry_objects;
 
 import java.util.Date;
 
+import com.restfb.types.Comment;
 import com.restfb.types.Post;
 
 import other.Service;
-import twitter4j.Status;
 
 /**
  * The Class FacebookEntry.
@@ -30,19 +30,34 @@ public class FacebookEntry implements InformationEntry { //
 
 	@Override
 	public String toString() {
+		String out;
+		
 		try {
-			return ("Post[ Id: "+post.getId()+";\n Message:"+post.getMessage()+
+			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage()+
 		    		 ";\n Description:"+post.getDescription()+
 		    		 "\n   Data URL: "+post.getAttachments().getData().get(0).getUrl()+
 		    		 "\n   Data Title: "+post.getAttachments().getData().get(0).getTitle()+
 		    		 "\n   Data Description: "+post.getAttachments().getData().get(0).getDescription()+
 		    		 "\n   Data Media: "+post.getAttachments().getData().get(0).getMedia()+
 		    		 "\n Likes:"+post.getLikes().getTotalCount()+
-		    		 "\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]");
+		    		 "\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]";
+		} catch (NullPointerException e) {
+			System.out.println("No attachments found: "+e);
+			
+		}
+
+		
+		try {
+			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage()+
+					 ";\n Description:"+post.getDescription()+
+					 "\n Likes:"+post.getLikes().getTotalCount()+
+		    		 "\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]";
+					
 		} catch (Exception e) {
 			System.out.println(e);
+			out = post.toString();
 		}
-		return null;
+		return out;
 	}
 	
 

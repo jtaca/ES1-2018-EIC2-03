@@ -76,30 +76,30 @@ public class MainFacebook {
 			}
 		    System.out.println("\n Likes:"+post1.getLikes().getTotalCount());
 		    
-			fbClient2.publish(post.getId()+"/likes", Boolean.class); 
-			
-			Likes like = post.getLikes();
-			// retrieve a specific like, then
-			//like.
-			//fbClient2.delete(like);
-			
-			GraphResponse publishMessageResponse =
-					fbClient2.publish("me/feed", GraphResponse.class,
-					    Parameter.with("message", "RestFB not test"));
-
-			System.out.println("Published message ID: " + publishMessageResponse.getId());
-			
-			System.out.println("something happened");
-			publishMessageResponse = 
-					fbClient2.publish("me/feed", GraphResponse.class,
-					    Parameter.with("message1", "RestFB te"));
-			
-
-			System.out.println("Published message ID: " + publishMessageResponse.getId());
-		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
-		    
-		    fbClient2.publish(post1.getId()+"/comments", String.class, Parameter.with("message", "Your comment here"));
-		    	
+//			fbClient2.publish(post.getId()+"/likes", Boolean.class); 
+//			
+//			Likes like = post.getLikes();
+//			// retrieve a specific like, then
+//			//like.
+//			//fbClient2.delete(like);
+//			
+//			GraphResponse publishMessageResponse =
+//					fbClient2.publish("me/feed", GraphResponse.class,
+//					    Parameter.with("message", "RestFB not test"));
+//
+//			System.out.println("Published message ID: " + publishMessageResponse.getId());
+//			
+//			System.out.println("something happened");
+//			publishMessageResponse = 
+//					fbClient2.publish("me/feed", GraphResponse.class,
+//					    Parameter.with("message1", "RestFB te"));
+//			
+//
+//			System.out.println("Published message ID: " + publishMessageResponse.getId());
+//		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
+//		    
+//		    fbClient2.publish(post1.getId()+"/comments", String.class, Parameter.with("message", "Your comment here"));
+//		    	
 		    
 		     
 //		     if(post1.getAttachments()!= null) {
