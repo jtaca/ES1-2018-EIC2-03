@@ -22,7 +22,9 @@ public class FacebookEntry implements InformationEntry { //
 
 	public FacebookEntry(Post post, Date date) {
 		this.post = post;
-		this.date = date;
+		//this.date = date;
+		date = new Date();
+		System.out.println(date.toString());
 	}
 
 
