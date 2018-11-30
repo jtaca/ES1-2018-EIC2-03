@@ -20,6 +20,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import email.EmailConnection;
 import entry_objects.EmailEntry;
+import entry_objects.FacebookEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
@@ -477,6 +478,16 @@ public class MainController implements Initializable {
 			postInfo.setText(tweet.getContent());
 
 			postBox.getChildren().add(1, pic);
+		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {
+			FacebookEntry facebook = (FacebookEntry) informationEntry;
+			
+			icon.setIcon(FontAwesomeIcon.FACEBOOK_OFFICIAL);
+			icon.setSize("50");
+			icon.setStyle("-fx-fill: #3cbffc");
+			
+			authorName.setText(facebook.getPost().getName());
+			
+			postInfo.setText(facebook.getPost().getMessage());
 		}
 
 		return postBox;
