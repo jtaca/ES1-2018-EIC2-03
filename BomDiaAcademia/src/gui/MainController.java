@@ -217,6 +217,16 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextArea emailMessage;
 
+	// ------------ Email writing panel ------------
+	@FXML
+	private StackPane composeTweet;
+
+	@FXML
+	private JFXTextArea tweetTextArea;
+
+	@FXML
+	private Label tweetCounter;
+
 	/** The email connection. */
 	private EmailConnection emailConnection;
 	private ObservableList<PostBox> originalList;
@@ -260,6 +270,7 @@ public class MainController implements Initializable {
 		for (String account : twitterAccounts)
 			twitterAccountsFilter.getItems().add(new TwitterAccountBox(account, true));
 
+		tweetCounter.textProperty().bind(tweetTextArea.textProperty().length().asString());
 		emailFilterConfigurations.disableProperty().bind(emailFilter.selectedProperty().not());
 		twitterFilterConfigurations.disableProperty().bind(twitterFilter.selectedProperty().not());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
@@ -321,6 +332,14 @@ public class MainController implements Initializable {
 	@FXML
 	private void writeEmail() {
 		emailPane.toFront();
+	}
+
+	/**
+	 * Shows the tweet composing panel.
+	 */
+	@FXML
+	private void composeTweet() {
+		composeTweet.toFront();
 	}
 
 	/**
@@ -480,13 +499,13 @@ public class MainController implements Initializable {
 			postBox.getChildren().add(1, pic);
 		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {
 			FacebookEntry facebook = (FacebookEntry) informationEntry;
-			
+
 			icon.setIcon(FontAwesomeIcon.FACEBOOK_OFFICIAL);
 			icon.setSize("50");
 			icon.setStyle("-fx-fill: #3cbffc");
-			
+
 			authorName.setText(facebook.getPost().getName());
-			
+
 			postInfo.setText(facebook.getPost().getMessage());
 		}
 
@@ -621,6 +640,14 @@ public class MainController implements Initializable {
 	@FXML
 	private void closePost() {
 		postLayer.toBack();
+	}
+
+	/**
+	 * Closes the tweet composing panel.
+	 */
+	@FXML
+	private void closeComposeTweet() {
+		composeTweet.toBack();
 	}
 
 	/**
