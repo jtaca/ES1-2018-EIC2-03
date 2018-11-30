@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.IntStream;
@@ -37,8 +36,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -101,9 +100,6 @@ public class MainController implements Initializable {
 	private Hyperlink leaveSearch;
 
 	@FXML
-	private HBox filterMenu;
-
-	@FXML
 	private JFXListView<TwitterAccountBox> twitterAccountsFilter;
 
 	@FXML
@@ -122,7 +118,10 @@ public class MainController implements Initializable {
 	private JFXButton removeFilter;
 
 	@FXML
-	private Slider filterSlider;
+	private TitledPane emailFilterConfigurations;
+
+	@FXML
+	private TitledPane twitterFilterConfigurations;
 
 	/** The posts. */
 	@FXML
@@ -220,7 +219,6 @@ public class MainController implements Initializable {
 	/** The email connection. */
 	private EmailConnection emailConnection;
 	private ObservableList<PostBox> originalList;
-	private boolean filterOpen = false;
 
 	/**
 	 * Instantiates a new main controller.
@@ -255,18 +253,14 @@ public class MainController implements Initializable {
 		leaveSearch.setVisible(false);
 		leaveSearch.setDisable(true);
 
-		filterSlider.setMin(0);
-		filterSlider.setMax(200);
-		filterSlider.setValue(0);
-
 		List<String> twitterAccounts = Arrays.asList(Filter.DEFAULT_TWITTER_USER_FILTERS);
 		Collections.sort(twitterAccounts);
 
 		for (String account : twitterAccounts)
 			twitterAccountsFilter.getItems().add(new TwitterAccountBox(account, true));
 
-		removeFilter.setDisable(true);
-		filterMenu.prefHeightProperty().bind(filterSlider.valueProperty());
+		emailFilterConfigurations.disableProperty().bind(emailFilter.selectedProperty().not());
+		twitterFilterConfigurations.disableProperty().bind(twitterFilter.selectedProperty().not());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
 
@@ -386,76 +380,8 @@ public class MainController implements Initializable {
 			leaveSearch();
 	}
 
-	/**
-	 * Opens the advanced search menu.
-	 */
-	@FXML
-	private void openFilter(ActionEvent e) {
-		Hyperlink link = (Hyperlink) e.getSource();
-		link.setVisited(false);
-
-		new Thread() {
-			public void run() {
-				synchronized (INSTANCE) {
-					Platform.runLater(() -> link.setText(!filterOpen ? "Fechar filtro" : "Abrir filtro"));
-
-					if (filterOpen)
-						for (int i = 200; i > 0; i--)
-							try {
-								filterSlider.setValue(i);
-								sleep(1);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-					else if (!filterOpen)
-						for (int i = 0; i < 200; i++)
-							try {
-								filterSlider.setValue(i);
-								sleep(1);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-
-					filterOpen = !filterOpen;
-				}
-			}
-		}.start();
-	}
-
 	@FXML
 	private void applyFilter() {
-		List<PostBox> filteredList = new ArrayList<>();
-
-		if (twitterFilter.isSelected()) {
-			List<String> selectedAccounts = new ArrayList<>();
-
-			for (TwitterAccountBox account : twitterAccountsFilter.getItems())
-				if (account.isSelected())
-					selectedAccounts.add(account.getUsername());
-
-			for (PostBox post : originalList)
-				if (selectedAccounts.contains(post.getPostAuthor()))
-					filteredList.add(post);
-		}
-
-		if (emailFilter.isSelected())
-			for (PostBox post : originalList)
-				if (post.getService().equals(Service.EMAIL))
-					filteredList.add(post);
-
-		filteredList.sort(Comparator.comparing(PostBox::getDate).reversed());
-
-		removeFilter.setDisable(false);
-		posts.getItems().clear();
-		posts.getItems().addAll(filteredList);
-	}
-
-	@FXML
-	private void removeFilter() {
-		removeFilter.setDisable(true);
-
-		posts.getItems().clear();
-		posts.getItems().addAll(originalList);
 	}
 
 	@FXML

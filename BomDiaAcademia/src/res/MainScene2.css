@@ -59,3 +59,17 @@
 #twitterPostOptions {
 	-fx-background-color: #0078ff
 }
+
+.titled-pane .title {
+	-fx-background-color: ffffff;
+	-fx-border-color: e8e8e8
+}
+
+#filterMenu > .title {
+	-fx-border-color: ffffff
+}
+
+.titled-pane .content {
+	-fx-background-color: ffffff;
+	-fx-border-color: ffffff
+}

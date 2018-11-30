@@ -7,13 +7,14 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -309,87 +310,79 @@
                               <Insets />
                            </VBox.margin>
                         </HBox>
-                        <HBox>
-                           <children>
-                              <Hyperlink maxHeight="-Infinity" minHeight="-Infinity" onAction="#openFilter" prefHeight="20.0" text="Abrir filtro" />
-                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                              <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="36.0" right="36.0" />
-                           </VBox.margin>
-                        </HBox>
                      </children>
                   </VBox>
-                  <HBox fx:id="filterMenu" maxHeight="-Infinity" minHeight="-Infinity" style="-fx-background-color: ffffff;">
+                  <StackPane alignment="TOP_RIGHT">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" text="Apresentar tweets de:">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="200.0">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </JFXListView>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="40.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Label text="Data:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <ChoiceBox fx:id="dateFilter" prefWidth="150.0">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </ChoiceBox>
-                              <Label text="Tipos de serviço:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                 <children>
-                                    <JFXCheckBox fx:id="emailFilter" text="Email" />
-                                    <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
-                                    <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                              <Region prefHeight="200.0" prefWidth="200.0" />
-                              <HBox prefHeight="30.0" prefWidth="206.0" spacing="20.0">
-                                 <children>
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
-                                    <JFXButton fx:id="removeFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeFilter" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: e8e8e8;" text="Remover filtro" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                        </VBox>
+                        <Accordion>
+                          <panes>
+                            <TitledPane id="filterMenu" text="Abrir filtro">
+                                 <content>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                             <children>
+                                                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data:" />
+                                                <ChoiceBox fx:id="dateFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" />
+                                                <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                             <children>
+                                                <Label text="Tipos de serviço:" />
+                                                <JFXCheckBox fx:id="emailFilter" text="Email" />
+                                                <JFXCheckBox fx:id="facebookFilter" disable="true" text="Facebook" />
+                                                <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
+                                             </children>
+                                          </HBox>
+                                          <VBox>
+                                             <children>
+                                                <Accordion>
+                                                  <panes>
+                                                    <TitledPane fx:id="emailFilterConfigurations" text="Configurações de email">
+                                                         <content>
+                                                            <VBox spacing="5.0">
+                                                               <children>
+                                                                  <Label text="Esconder emails de:" />
+                                                                  <JFXListView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="330.0" />
+                                                                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                                                     <children>
+                                                                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="180.0" />
+                                                                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
+                                                                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Remover" />
+                                                                     </children>
+                                                                  </HBox>
+                                                               </children>
+                                                            </VBox>
+                                                         </content>
+                                                      </TitledPane>
+                                                    <TitledPane fx:id="twitterFilterConfigurations" text="Configurações de Twitter">
+                                                         <content>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Apresentar tweets de:" />
+                                                                  <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="330.0" />
+                                                               </children>
+                                                            </VBox>
+                                                         </content>
+                                                      </TitledPane>
+                                                  </panes>
+                                                </Accordion>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </TitledPane>
+                          </panes>
+                        </Accordion>
+                        <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa" />
                      </children>
-                  </HBox>
-                  <StackPane alignment="TOP_CENTER" style="-fx-background-color: ffffff;" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Slider fx:id="filterSlider" />
-                        <JFXListView fx:id="posts" />
-                     </children>
+                     <VBox.margin>
+                        <Insets left="35.0" right="35.0" />
+                     </VBox.margin>
                   </StackPane>
+                  <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
