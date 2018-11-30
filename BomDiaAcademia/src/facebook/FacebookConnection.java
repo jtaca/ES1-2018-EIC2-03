@@ -70,7 +70,6 @@ public class FacebookConnection {
 	public static List<InformationEntry> requestFacebook() {
 		List<InformationEntry> list = new ArrayList<>();
 		
-		while(true) {
 			try {
 				
 				Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
@@ -87,24 +86,31 @@ public class FacebookConnection {
 				   }	
 				   
 				} 
-				return list;
+				
 			} catch (FacebookOAuthException e) {
 				e.printStackTrace();
 				FacebookConnection.ExtendAccessToken();
-				list = new ArrayList<>();
 			} catch (FacebookException te) {
 				te.printStackTrace();
-				return null;
 			}
-		}
+			return list;
+		
 		
 	}
+	
+	
 	
 	
 	public static String getAccessToken2() {
 		return accessToken2;
 	}
 	
+
+	public static void main(String[] args) {
+		FacebookConnection fb = new FacebookConnection();
+		System.out.println(fb.requestFacebook().toString());
+		
+	}
 
 	
 
