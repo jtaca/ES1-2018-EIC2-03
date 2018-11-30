@@ -104,13 +104,20 @@ public class FacebookConnection {
 	}
 	
 	
-	public static void post(String title) {
+	public static GraphResponse post(String message) {
 		GraphResponse publishMessageResponse = 
 				fbClient2.publish("me/feed", GraphResponse.class,
-				    Parameter.with("message", title));
+				    Parameter.with("message", message));
 
 		System.out.println("Published message ID: " + publishMessageResponse.getId());
+		return publishMessageResponse;
 	}
+	
+	public static void commentOnPost(String id, String message) {
+		fbClient2.publish(id+"/comments", String.class, Parameter.with("message",message));
+	}
+	
+	
 	
 	
 	
@@ -124,19 +131,13 @@ public class FacebookConnection {
 		 List<InformationEntry> a = fb.requestFacebook();
 		System.out.println(a.toString());
 		like(((FacebookEntry) a.get(0)).getPost().getId());
-		System.out.println("like done");
-		post("does it work?");
-		System.out.println("post done");
-		
+		GraphResponse b = post("does it work?");
+		like(b.getId());
+		commentOnPost(b.getId(),"Grateful Comment :P");
 		
 		
 	}
 
-	
 
-	
-	
-
-	
 
 }
