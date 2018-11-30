@@ -23,8 +23,8 @@ public class FacebookEntry implements InformationEntry { //
 	public FacebookEntry(Post post, Date date) {
 		this.post = post;
 		//this.date = date;
-		this.date = new Date();
-		System.out.println(date.toString());
+		this.date = date;
+		//System.out.println(date.toString());
 	}
 
 
@@ -36,7 +36,8 @@ public class FacebookEntry implements InformationEntry { //
 
 		
 		try {
-			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage();
+			out = "Post[ Id: "+post.getId()+" Date: "+this.date+
+				";\n Message:"+post.getMessage();
 			try {
 				out +=   "\n   Data URL: "+post.getAttachments().getData().get(0).getUrl()+
 			    		 "\n   Data Title: "+post.getAttachments().getData().get(0).getTitle()+
