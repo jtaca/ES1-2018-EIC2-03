@@ -12,6 +12,7 @@ import com.restfb.Parameter;
 import com.restfb.FacebookClient.AccessToken;
 import com.restfb.exception.FacebookException;
 import com.restfb.exception.FacebookOAuthException;
+import com.restfb.types.GraphResponse;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
@@ -103,6 +104,14 @@ public class FacebookConnection {
 	}
 	
 	
+	public static void post(String title) {
+		GraphResponse publishMessageResponse = 
+				fbClient2.publish("me/feed", GraphResponse.class,
+				    Parameter.with("message", title));
+
+		System.out.println("Published message ID: " + publishMessageResponse.getId());
+	}
+	
 	
 	
 	public static String getAccessToken2() {
@@ -115,7 +124,9 @@ public class FacebookConnection {
 		 List<InformationEntry> a = fb.requestFacebook();
 		System.out.println(a.toString());
 		like(((FacebookEntry) a.get(0)).getPost().getId());
-		
+		System.out.println("like done");
+		post("does it work?");
+		System.out.println("post done");
 		
 		
 		

@@ -82,9 +82,18 @@ public class MainFacebook {
 			// retrieve a specific like, then
 			//like.
 			//fbClient2.delete(like);
-			GraphResponse publishMessageResponse = 
+			
+			GraphResponse publishMessageResponse =
 					fbClient2.publish("me/feed", GraphResponse.class,
-					    Parameter.with("message", "RestFB testy"));
+					    Parameter.with("message", "RestFB not test"));
+
+			System.out.println("Published message ID: " + publishMessageResponse.getId());
+			
+			System.out.println("something happened");
+			publishMessageResponse = 
+					fbClient2.publish("me/feed", GraphResponse.class,
+					    Parameter.with("message1", "RestFB te"));
+			
 
 			System.out.println("Published message ID: " + publishMessageResponse.getId());
 		    System.out.println(" Comments ("+post1.getCommentsCount()+"): "+post1.getComments()+"]");
