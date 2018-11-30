@@ -33,27 +33,22 @@ public class FacebookEntry implements InformationEntry { //
 	@Override
 	public String toString() {
 		String out;
-		
-		try {
-			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage()+
-		    		 ";\n Description:"+post.getDescription()+
-		    		 "\n   Data URL: "+post.getAttachments().getData().get(0).getUrl()+
-		    		 "\n   Data Title: "+post.getAttachments().getData().get(0).getTitle()+
-		    		 "\n   Data Description: "+post.getAttachments().getData().get(0).getDescription()+
-		    		 "\n   Data Media: "+post.getAttachments().getData().get(0).getMedia()+
-		    		 "\n Likes:"+post.getLikes().getTotalCount()+
-		    		 "\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]";
-		} catch (NullPointerException e) {
-			System.out.println("No attachments found: "+e);
-			
-		}
 
 		
 		try {
-			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage()+
-					 ";\n Description:"+post.getDescription()+
-					 "\n Likes:"+post.getLikes().getTotalCount()+
-		    		 "\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]";
+			out = "Post[ Id: "+post.getId()+";\n Message:"+post.getMessage();
+			try {
+				out +=   "\n   Data URL: "+post.getAttachments().getData().get(0).getUrl()+
+			    		 "\n   Data Title: "+post.getAttachments().getData().get(0).getTitle()+
+			    		 "\n   Data Description: "+post.getAttachments().getData().get(0).getDescription()+
+			    		 "\n   Data Media: "+post.getAttachments().getData().get(0).getMedia();
+			} catch (NullPointerException e) {
+				System.out.println("No attachments found: "+e);
+				
+			}
+			out+= ";\n Description:"+post.getDescription()+
+			"\n Likes:"+post.getLikes().getTotalCount()+
+    		"\n Comments ("+post.getCommentsCount()+"): "+post.getComments()+"]";
 					
 		} catch (Exception e) {
 			System.out.println(e);
