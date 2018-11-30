@@ -23,7 +23,7 @@ import other.Service;
 
 public class FacebookConnection {
 	
-	private static String accessToken2 = "EAAePp5MZAcE4BAInZCUbLfwuisPqseRZAMNX2xqyebsGEAm3KctHzWrikzdNRXYpX49J3vNo8vz0h7mKRctVFk0aZAZCMQd0VmCq9zv84dcRZAVp7ZAFN3NVLk04qyoQrNAOSWpqZCjCXP7S0fdGHRkjqoZApFZBmEAARCipUHpkZCBXgZDZD";
+	private static String accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
 	private static FacebookClient fbClient2 = init();
 	private static User me2 ;
 	private static FacebookConnection INSTANCE = new FacebookConnection();
@@ -97,6 +97,10 @@ public class FacebookConnection {
 		
 		
 	}
+	public static void like(String id){
+		fbClient2.publish(id+"/likes", Boolean.class); 
+		
+	}
 	
 	
 	
@@ -108,7 +112,12 @@ public class FacebookConnection {
 
 	public static void main(String[] args) {
 		FacebookConnection fb = new FacebookConnection();
-		System.out.println(fb.requestFacebook().toString());
+		 List<InformationEntry> a = fb.requestFacebook();
+		System.out.println(a.toString());
+		like(((FacebookEntry) a.get(0)).getPost().getId());
+		
+		
+		
 		
 	}
 
