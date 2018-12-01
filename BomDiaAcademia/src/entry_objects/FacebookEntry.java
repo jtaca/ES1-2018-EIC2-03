@@ -44,28 +44,28 @@ public class FacebookEntry implements InformationEntry { //
 			this.Message = this.post.getMessage();
 		} catch (NullPointerException e) {
 			System.out.println("no Message: "+e);
+			this.Message = "";
 		}
 		try {
 			this.id = this.post.getId();
 		} catch (NullPointerException e) {
 			System.out.println("ID error: "+e);
+			this.id = "";
 		}
 		
 		try {
 			this.Description = this.post.getDescription();
 		} catch (NullPointerException e) {
 			System.out.println("no Description: "+e);
+			this.Description = "";
 		}
 		try {
 			this.Picture = this.post.getPicture();
 		} catch (NullPointerException e) {
 			System.out.println("no Picture: "+e);
+			this.Picture = "";
 		}
-		try {
-			this.id = this.post.getId();
-		} catch (NullPointerException e) {
-			System.out.println("ID error: "+e);
-		}
+
 		
 		
 		
@@ -73,17 +73,20 @@ public class FacebookEntry implements InformationEntry { //
 			this.LikeCount = this.post.getLikes().getTotalCount();
 		} catch (NullPointerException e) {
 			System.out.println("no Likes Record: "+e);
+			this.LikeCount = (long) 0;
 		}
 		try {
 			this.Comments = this.post.getComments();
 		} catch (NullPointerException e) {
 			System.out.println("no Comments: "+e);
+			this.Comments = new Comments();
 		}	
 		
 		try {
 			this.CommentCount = this.post.getCommentsCount();
 		} catch (NullPointerException e) {
 			System.out.println("no CommentsCount: "+e);
+			this.CommentCount = 0;
 		}			
 		
 		
@@ -91,22 +94,26 @@ public class FacebookEntry implements InformationEntry { //
 			this.AttachmentTitle = this.post.getAttachments().getData().get(0).getTitle();
 		} catch (NullPointerException e) {
 			System.out.println("no Attachments Title: "+e);
+			this.AttachmentTitle = "";
 		}
 		try {
 			this.AttachmentUrl = this.post.getAttachments().getData().get(0).getUrl();
 		} catch (NullPointerException e) {
 			System.out.println("no Attachments Url: "+e);
+			this.AttachmentUrl ="";
 		}
 		
 		try {
 			this.AttachmentDescription = this.post.getAttachments().getData().get(0).getDescription();
 		} catch (NullPointerException e) {
 			System.out.println("no Attachments Description: "+e);
+			this.AttachmentDescription ="";
 		}
 		try {
 			this.AttachmentMedia = this.post.getAttachments().getData().get(0).getMedia();
 		} catch (NullPointerException e) {
 			System.out.println("no Attachments Media: "+e);
+			this.AttachmentMedia =new Media();
 		}
 		
 		
@@ -156,7 +163,7 @@ public class FacebookEntry implements InformationEntry { //
 
 	@Override
 	public String toString() {
-		return "FacebookEntry [" +  ", date=" + date + ", AttachmentTitle=" + AttachmentTitle
+		return "FacebookEntry [" +  "date=" + date + ", AttachmentTitle=" + AttachmentTitle
 				+ ", AttachmentUrl=" + AttachmentUrl + ", AttachmentDescription=" + AttachmentDescription
 				+ ", AttachmentMedia=" + AttachmentMedia + ", Message=" + Message + ", id=" + id + ", Description="
 				+ Description + ", Picture=" + Picture + ", LikeCount=" + LikeCount + ", Comments=" + Comments
