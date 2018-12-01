@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="gui.LoginController" x="508" y="398">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="other.XMLUserConfiguration"
+            endpointName="user" kind="Simple"/>
+        <Communication destinationClassName="files.ReadAndWriteXMLFile"/>
+        <Communication destinationClassName="email.EmailConnection"/>
+        <Communication destinationClassName="other.OtherStaticFunction"/>
+        <Communication destinationClassName="twitter.TwitterFunctions"/>
+        <Communication destinationClassName="gui.MainController"/>
+        <Communication destinationClassName="other.XMLUserConfiguration"/>
+        <Communication destinationClassName="facebook.FacebookConnection"/>
+    </Class>
+    <Class name="gui.TwitterAccountBox" x="381" y="362">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="twitter.TwitterFunctions"/>
+    </Class>
+    <Class name="tasks.Task" x="492" y="695">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="tasks.TwitterPostReaderTask" x="510" y="941">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="tasks.ServiceReadTask"/>
+        <Association
+            destinationClassName="threads.InformationEntryGatherer"
+            endpointName="barrier" kind="Simple"/>
+        <Communication destinationClassName="twitter.TwitterFunctions"/>
+        <Communication destinationClassName="threads.InformationEntryGatherer"/>
+    </Class>
+    <Class name="email.EmailConnection" x="15" y="9">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="other.Filter"/>
+        <Communication destinationClassName="files.ReadAndWriteFile"/>
+    </Class>
+    <Class name="entry_objects.EmailEntry" x="381" y="104">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="entry_objects.InformationEntry"/>
+        <Communication destinationClassName="other.Service"/>
+    </Class>
+    <Class name="twitter.TwitterFunctions" x="182" y="1128">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="other.XMLUserConfiguration"
+            endpointName="twitterKeys" kind="Simple"/>
+        <Association destinationClassName="twitter.Logger"
+            endpointName="logger" kind="Simple"/>
+        <Communication destinationClassName="entry_objects.TwitterEntry"/>
+        <Communication destinationClassName="twitter.Logger"/>
+        <Communication destinationClassName="other.Filter"/>
+    </Class>
+    <Class name="twitter.Logger" x="379" y="1272">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="other.XMLUserConfiguration"
+            endpointName="twitterKeys" kind="Simple"/>
+        <Communication destinationClassName="twitter.TwitterFunctions"/>
+    </Class>
+    <Class name="gui.MainController" x="13" y="307">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="email.EmailConnection"
+            endpointName="emailConnection" kind="Simple"/>
+        <Communication destinationClassName="entry_objects.TwitterEntry"/>
+        <Communication destinationClassName="email.EmailConnection"/>
+        <Communication destinationClassName="threads.ThreadPool"/>
+        <Communication destinationClassName="gui.PostBox"/>
+    </Class>
+    <Class name="other.XMLUserConfiguration" x="361" y="525">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="other.Service"
+            endpointName="service" kind="Simple"/>
+        <Communication destinationClassName="other.Service"/>
+    </Class>
+    <Class name="tasks.FacebookPostReaderTask" x="569" y="861">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="tasks.ServiceReadTask"/>
+        <Association
+            destinationClassName="threads.InformationEntryGatherer"
+            endpointName="barrier" kind="Simple"/>
+        <Communication destinationClassName="threads.InformationEntryGatherer"/>
+        <Communication destinationClassName="facebook.FacebookConnection"/>
+    </Class>
+    <Class name="entry_objects.TwitterEntry" x="733" y="77">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="entry_objects.InformationEntry"/>
+    </Class>
+    <Class name="threads.SingleBarrier" x="654" y="1163">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="gui.Login" x="421" y="246">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="files.ReadAndWriteXMLFile"/>
+        <Communication destinationClassName="threads.ThreadPool"/>
+    </Class>
+    <Class name="tasks.GetPostTask" x="554" y="745">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="tasks.Task"/>
+        <Association
+            destinationClassName="threads.InformationEntryGatherer"
+            endpointName="information_entry_gatherer" kind="Simple"/>
+        <Association destinationClassName="tasks.ServiceReadTask"
+            endpointName="tasks" kind="Simple"/>
+        <Communication destinationClassName="tasks.ServiceReadTask"/>
+        <Communication destinationClassName="threads.TaskTable"/>
+        <Communication destinationClassName="gui.MainController"/>
+        <Communication destinationClassName="threads.InformationEntryGatherer"/>
+    </Class>
+    <Class name="entry_objects.FacebookEntry" x="534" y="143">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="entry_objects.InformationEntry"/>
+    </Class>
+    <Class name="threads.TaskTable" x="174" y="1037">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="tasks.Task"
+            endpointName="tasks" kind="Simple"/>
+    </Class>
+    <Class name="entry_objects.InformationEntry" x="584" y="11">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="threads.ThreadPool" x="13" y="1032">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="threads.Worker"
+            endpointName="threads" kind="Simple"/>
+        <Communication destinationClassName="threads.Worker"/>
+    </Class>
+    <Class name="other.Service" x="212" y="183">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="files.ReadAndWriteFile" x="20" y="189">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="tasks.EmailReaderTask" x="318" y="882">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="tasks.ServiceReadTask"/>
+        <Association
+            destinationClassName="threads.InformationEntryGatherer"
+            endpointName="barrier" kind="Simple"/>
+        <Association destinationClassName="email.EmailConnection"
+            endpointName="emailConnection" kind="Simple"/>
+        <Communication destinationClassName="email.EmailConnection"/>
+        <Communication destinationClassName="threads.InformationEntryGatherer"/>
+    </Class>
+    <Class name="threads.InformationEntryGatherer" x="587" y="1064">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="threads.SingleBarrier"
+            endpointName="barrier" kind="Simple"/>
+        <Association
+            destinationClassName="entry_objects.InformationEntry"
+            endpointName="list" kind="Simple"/>
+        <Communication destinationClassName="threads.SingleBarrier"/>
+    </Class>
+    <Class name="gui.MainWindow" x="423" y="306">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="threads.ThreadPool"/>
+    </Class>
+    <Class name="facebook.FacebookConnection" x="13" y="141">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="threads.Worker" x="22" y="1175">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="threads.TaskTable"/>
+    </Class>
+    <Class name="comparators.DateComparator" x="251" y="13">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="files.ReadAndWriteXMLFile" x="19" y="232">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="other.Service"/>
+    </Class>
+    <Class name="tasks.ServiceReadTask" x="355" y="734">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="tasks.Task"/>
+    </Class>
+    <Class name="other.OtherStaticFunction" x="151" y="145">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="files.ReadAndWriteXMLFile"/>
+        <Communication destinationClassName="threads.ThreadPool"/>
+        <Communication destinationClassName="other.XMLUserConfiguration"/>
+    </Class>
+    <Class name="other.Filter" x="596" y="543">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="files.ReadAndWriteFile"/>
+    </Class>
+    <Class name="gui.PostBox" x="714" y="318">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="other.Service"
+            endpointName="service" kind="Simple"/>
+        <Association
+            destinationClassName="entry_objects.InformationEntry"
+            endpointName="informationEntry" kind="Simple"/>
+        <Communication destinationClassName="entry_objects.TwitterEntry"/>
+        <Communication destinationClassName="entry_objects.EmailEntry"/>
+        <Communication destinationClassName="entry_objects.InformationEntry"/>
+    </Class>
+</ClassDiagram>
