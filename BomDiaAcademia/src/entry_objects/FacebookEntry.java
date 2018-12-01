@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.restfb.types.Comment;
 import com.restfb.types.Post;
+import com.restfb.types.StoryAttachment;
 
 import other.Service;
 
@@ -16,6 +17,7 @@ public class FacebookEntry implements InformationEntry { //
 	private Post post;
 	private static final long serialVersionUID = 1L;
 	private Date date;
+	private StoryAttachment Attachments;
 	
 	
 	
@@ -24,6 +26,7 @@ public class FacebookEntry implements InformationEntry { //
 		this.post = post;
 		//this.date = date;
 		this.date = date;
+		this.Attachments = this.post.getAttachments().getData().get(0);
 		//System.out.println(date.toString());
 	}
 
@@ -58,6 +61,13 @@ public class FacebookEntry implements InformationEntry { //
 		return out;
 	}
 	
+
+
+
+	public StoryAttachment getAttachments() {
+		return Attachments;
+	}
+
 
 
 

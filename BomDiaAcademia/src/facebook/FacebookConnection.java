@@ -125,7 +125,7 @@ public class FacebookConnection {
 			   for (Post post : myFeedPage) {
 				 String postId = post.getId();  
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
-				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
+				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
 				 
 				 list.add(new FacebookEntry(post1, post1.getCreatedTime()));
 			   }	
