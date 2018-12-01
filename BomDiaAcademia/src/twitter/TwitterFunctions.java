@@ -115,6 +115,15 @@ public class TwitterFunctions {
 			System.out.println("E nessessario efetuar login para utilizar esta funcao");
 		}
 	}
+	
+	public void tweet(String s) throws TwitterException{
+		Twitter t = logger.authenticatedInstance();
+		if(t!=null){
+			t.updateStatus(s);
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+	}
 
 	/**
 	 * Returns a List with a basic query from twitter with the String "ISCTE".
