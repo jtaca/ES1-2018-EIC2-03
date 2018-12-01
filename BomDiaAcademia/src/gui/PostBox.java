@@ -36,15 +36,17 @@ public class PostBox extends HBox {
 	 */
 	public PostBox(InformationEntry informationEntry) {
 		super();
-		this.informationEntry = informationEntry;
-		service = informationEntry.getService();
-		date = informationEntry.getDate();
+		if (informationEntry != null) {
+			this.informationEntry = informationEntry;
+			service = informationEntry.getService();
+			date = informationEntry.getDate();
 
-		if (informationEntry instanceof EmailEntry) {
-			postAuthor = ((EmailEntry) informationEntry).getWriterName();
-			emailReceiver = ((EmailEntry) informationEntry).getReceiverEmail();
-		} else if (informationEntry instanceof TwitterEntry)
-			postAuthor = ((TwitterEntry) informationEntry).getUsername();
+			if (informationEntry instanceof EmailEntry) {
+				postAuthor = ((EmailEntry) informationEntry).getWriterName();
+				emailReceiver = ((EmailEntry) informationEntry).getReceiverEmail();
+			} else if (informationEntry instanceof TwitterEntry)
+				postAuthor = ((TwitterEntry) informationEntry).getUsername();
+		}
 	}
 
 	public Date getDate() {

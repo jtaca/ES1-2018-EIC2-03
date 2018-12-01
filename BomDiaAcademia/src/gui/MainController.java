@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.scene.control.skin.ListViewSkin;
@@ -52,6 +53,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -217,7 +219,7 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextArea emailMessage;
 
-	// ------------ Email writing panel ------------
+	// ------------ Tweet composing panel ------------
 	@FXML
 	private StackPane composeTweet;
 
@@ -226,6 +228,9 @@ public class MainController implements Initializable {
 
 	@FXML
 	private Label tweetCounter;
+
+	@FXML
+	private JFXButton tweetButton;
 
 	/** The email connection. */
 	private EmailConnection emailConnection;
@@ -270,22 +275,32 @@ public class MainController implements Initializable {
 		for (String account : twitterAccounts)
 			twitterAccountsFilter.getItems().add(new TwitterAccountBox(account, true));
 
-		tweetCounter.textProperty().bind(tweetTextArea.textProperty().length().asString());
+		addLoadingBox();
+
+		tweetTextArea.lengthProperty().addListener((observable, oldValue, newValue) -> {
+			if (oldValue.intValue() <= 280 && newValue.intValue() > 280)
+				tweetCounter.setTextFill(Paint.valueOf("red"));
+			if (oldValue.intValue() > 280 && newValue.intValue() <= 280)
+				tweetCounter.setTextFill(Paint.valueOf("black"));
+		});
+		tweetCounter.textProperty().bind(tweetTextArea.lengthProperty().asString());
+		tweetButton.disableProperty().bind(tweetTextArea.lengthProperty().greaterThan(280));
 		emailFilterConfigurations.disableProperty().bind(emailFilter.selectedProperty().not());
 		twitterFilterConfigurations.disableProperty().bind(twitterFilter.selectedProperty().not());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
+	}
 
-//		postContainer.maxHeightProperty().bind(mainBox.heightProperty()); --------Good
-//		postContainer.prefHeightProperty().bind(postScrollPane.heightProperty());
-
-//		postScrollPane.maxHeightProperty().bind(mainBox.heightProperty().subtract(150));
-//		postContainer.prefHeightProperty().bind(postScrollPane.heightProperty());
-
-//		postContainer.maxHeightProperty().bind(postContent.heightProperty());
-//		postContainer.maxHeightProperty().bind(postScrollPane.heightProperty());
-//		postScrollPane.maxHeightProperty().bind(centerPane.heightProperty());
-//		posts.prefHeightProperty().bind(posts.heightProperty().add(150));
+	private void addLoadingBox() {
+		PostBox loading = new PostBox(null);
+		VBox loadingContent = new VBox();
+		loadingContent.getChildren().addAll(new JFXSpinner(), new Label("A carregar conteúdo..."));
+		loading.setAlignment(Pos.CENTER);
+		loadingContent.setAlignment(Pos.CENTER);
+		loadingContent.setSpacing(20);
+		loading.getChildren().add(loadingContent);
+		loading.prefHeightProperty().bind(posts.heightProperty().subtract(50));
+		posts.getItems().add(loading);
 	}
 
 	/**

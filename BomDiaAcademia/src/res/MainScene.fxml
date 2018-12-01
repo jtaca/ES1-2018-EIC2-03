@@ -234,6 +234,108 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <VBox fx:id="emailPane" alignment="CENTER" style="-fx-background-color: #ffffff;">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Para:">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXTextField fx:id="emailReceiver" focusColor="#c6c6c6" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" unFocusColor="#c6c6c6" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </JFXTextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Assunto:">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <JFXTextField fx:id="emailSubject" focusColor="#c6c6c6" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" unFocusColor="#c6c6c6" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Label fx:id="emailError" alignment="CENTER" textFill="RED">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <JFXTextArea fx:id="emailMessage" focusColor="#c6c6c6" style="-fx-border-color: #c6c6c6;" unFocusColor="#c6c6c6" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextArea>
+                  <HBox>
+                     <children>
+                        <JFXButton id="sendEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendEmail" prefHeight="30.0" prefWidth="100.0" text="Enviar" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#clearEmail" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: c6c6c6;" text="Limpar" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <StackPane fx:id="composeTweet" onMouseClicked="#closeComposeTweet" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0,0,0,.5);">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefHeight="230.0" prefWidth="400.0" style="-fx-background-color: ffffff;">
+                     <children>
+                        <Label text="Compor novo tweet">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <JFXTextArea fx:id="tweetTextArea" focusColor="WHITE" style="-fx-border-color: e8e8e8;" unFocusColor="WHITE" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </JFXTextArea>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="0.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                              <Label fx:id="tweetCounter" text="0">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton fx:id="tweetButton" style="-fx-background-color: ff3000;" text="Tweet" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
             <VBox fx:id="postsSideBar" style="-fx-background-color: ffffff;">
                <children>
                   <VBox style="-fx-background-color: ffffff;">
@@ -336,108 +438,6 @@
                   <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-            <VBox fx:id="emailPane" alignment="CENTER" style="-fx-background-color: #ffffff;">
-               <children>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Para:">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <JFXTextField fx:id="emailReceiver" focusColor="#c6c6c6" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" unFocusColor="#c6c6c6" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </JFXTextField>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="10.0" right="20.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Assunto:">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <JFXTextField fx:id="emailSubject" focusColor="#c6c6c6" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" unFocusColor="#c6c6c6" HBox.hgrow="ALWAYS" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="10.0" right="20.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Label fx:id="emailError" alignment="CENTER" textFill="RED">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Label>
-                  <JFXTextArea fx:id="emailMessage" focusColor="#c6c6c6" style="-fx-border-color: #c6c6c6;" unFocusColor="#c6c6c6" VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets left="20.0" right="20.0" top="10.0" />
-                     </VBox.margin>
-                  </JFXTextArea>
-                  <HBox>
-                     <children>
-                        <JFXButton id="sendEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#sendEmail" prefHeight="30.0" prefWidth="100.0" text="Enviar" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </JFXButton>
-                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#clearEmail" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: c6c6c6;" text="Limpar" />
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-               </children>
-            </VBox>
-            <StackPane fx:id="composeTweet" onMouseClicked="#closeComposeTweet" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: rgba(0,0,0,.5);">
-               <children>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefHeight="230.0" prefWidth="400.0" style="-fx-background-color: ffffff;">
-                     <children>
-                        <Label text="Compor novo tweet">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <JFXTextArea fx:id="tweetTextArea" focusColor="WHITE" style="-fx-border-color: e8e8e8;" unFocusColor="WHITE" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" />
-                           </VBox.margin>
-                        </JFXTextArea>
-                        <HBox alignment="CENTER">
-                           <children>
-                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="0.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                              <Label fx:id="tweetCounter" text="0">
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <JFXButton style="-fx-background-color: ff3000;" text="Tweet" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
-                                 </HBox.margin>
-                              </JFXButton>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </StackPane>
          </children>
       </StackPane>
    </children>
