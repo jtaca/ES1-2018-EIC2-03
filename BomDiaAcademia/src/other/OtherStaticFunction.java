@@ -36,7 +36,6 @@ public class OtherStaticFunction {
 			List<FacebookConnection> facebook_connections = ControlCenter.getInstance().getFacebookList();
 			
 			List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
-			List<XMLUserConfiguration> list_of_user_configuration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 			
 			if(email_connections != null && !email_connections.isEmpty()) {
 				for(EmailConnection email : email_connections) {
@@ -58,6 +57,7 @@ public class OtherStaticFunction {
 			}
 			
 			if(use_info_from_file_to_email || use_info_from_file_to_twitter || use_info_from_file_to_facebook) {
+				List<XMLUserConfiguration> list_of_user_configuration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 				for(XMLUserConfiguration xml_user_config : list_of_user_configuration) {
 					switch (xml_user_config.getService()) {
 					case EMAIL:
