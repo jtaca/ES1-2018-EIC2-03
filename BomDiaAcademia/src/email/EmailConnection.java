@@ -286,20 +286,23 @@ public class EmailConnection {
 	 * @param message the message
 	 */
 	public void sendEmail(String sendEmailTo, String subject, String message) {
+		Transport transport = null;
 		try {
-			String host = "smtp.office365.com"; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com // "smtp-mail.outlook.com"
+			String host = "smtp.office365.com"; // "smtp.office365.com" // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com // "smtp-mail.outlook.com" // "Outlook.office365.com"
 			boolean sessionDebug = false;
 			
 			Properties props = System.getProperties();
 			
 //			props.put("mail.smtp.user", username);
-//			props.put("mail.smtp.pwd", password);
+//			props.put("mail.smtp.password", password);
 			
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
 			props.put("mail.smtp.port", "587"); // 587 // 465 // 25
 			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.starttls.required", "true");
+			
+//			props.put("mail.smtp.startlls.enable", "true");
 			
 //			Authenticator auth = new Authenticator() {
 //				protected PasswordAuthentication getPasswordAuthentication() {
@@ -308,8 +311,11 @@ public class EmailConnection {
 //			};
 			
 			//java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
+			SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
+		    Session mailSession = Session.getInstance(props, authenticator);
 			
-			Session mailSession = Session.getDefaultInstance(props, null);
+			
+//			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(username));
@@ -319,7 +325,7 @@ public class EmailConnection {
 			msg.setSentDate(new Date());
 			msg.setText(message);
 			
-			Transport transport = mailSession.getTransport("smtp");
+			transport = mailSession.getTransport("smtp");
 			System.out.println("Vou errar aqui!");
 //			Transport.send(msg, msg.getAllRecipients());
 			transport.connect(host, username, password);
@@ -328,6 +334,14 @@ public class EmailConnection {
 			System.out.println("Message sent successfully");
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (transport != null) {
+				try {
+					transport.close();
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
