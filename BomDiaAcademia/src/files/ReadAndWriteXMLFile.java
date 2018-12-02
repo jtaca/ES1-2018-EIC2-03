@@ -21,9 +21,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import email.EmailConnection;
 import entry_objects.InformationEntry;
+import facebook.FacebookConnection;
+import interfaces.ServiceInstance;
 import other.Service;
 import other.XMLUserConfiguration;
+import twitter.TwitterFunctions;
 
 
 // TODO: Auto-generated Javadoc
@@ -46,7 +50,7 @@ public class ReadAndWriteXMLFile { //
 	 * @param user_config_list the user config list
 	 * @throws Exception the exception
 	 */
-	public static void CreateConfigXMLFile(List<XMLUserConfiguration> user_config_list) throws Exception {
+	public synchronized static void CreateConfigXMLFile(List<XMLUserConfiguration> user_config_list) throws Exception {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.newDocument();
@@ -159,7 +163,7 @@ public class ReadAndWriteXMLFile { //
 	 * @return the list
 	 * @throws Exception the exception
 	 */
-	public static List<XMLUserConfiguration> ReadConfigXMLFile() throws Exception {
+	public synchronized static List<XMLUserConfiguration> ReadConfigXMLFile() throws Exception {
 		File xmlFile = new File(CONFIG_FILE_NAME);
 		List<XMLUserConfiguration> xml_user_config_array = new ArrayList<XMLUserConfiguration>();
 		
@@ -229,6 +233,162 @@ public class ReadAndWriteXMLFile { //
 		
 		return xml_user_config_array;
 	}
+	
+	public static void addServiceInstanceToXMLFile(ServiceInstance serviceInstance) throws Exception {
+		if(serviceInstance != null) {
+			List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
+			XMLUserConfiguration xml_user_configuration = null;
+			if(xml_user_configuration_list != null) {
+				switch (serviceInstance.getService()) {
+					case EMAIL:
+						EmailConnection email_connection = (EmailConnection) serviceInstance;
+						xml_user_configuration = new XMLUserConfiguration(true, Service.EMAIL, email_connection.getUsername(), email_connection.getPassword());
+						break;
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
+						String[] keys = TwitterFunctions.getKeys();
+						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem
+						break;
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;
+						xml_user_configuration = new XMLUserConfiguration(true, Service.FACEBOOK, FacebookConnection.getAccessToken2()); // isto esta feito para coisas estaticas apenas
+						break;
+	
+					default:
+						break;
+				}
+				xml_user_configuration_list.add(xml_user_configuration);
+				CreateConfigXMLFile(xml_user_configuration_list);
+			}
+		}
+	}
+	
+	public static void addServiceInstanceToXMLFile(List<ServiceInstance> serviceInstances) throws Exception {
+		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
+		XMLUserConfiguration xml_user_configuration = null;
+		if(xml_user_configuration_list != null) {
+			for(ServiceInstance serviceInstance : serviceInstances) {
+				switch (serviceInstance.getService()) {
+					case EMAIL:
+						EmailConnection email_connection = (EmailConnection) serviceInstance;
+						xml_user_configuration = new XMLUserConfiguration(true, Service.EMAIL, email_connection.getUsername(), email_connection.getPassword());
+						break;
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
+						String[] keys = TwitterFunctions.getKeys();
+						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem
+						break;
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;
+						xml_user_configuration = new XMLUserConfiguration(true, Service.FACEBOOK, FacebookConnection.getAccessToken2()); // isto esta feito para coisas estaticas apenas
+						break;
+	
+					default:
+						break;
+				}
+				xml_user_configuration_list.add(xml_user_configuration);
+			}
+			CreateConfigXMLFile(xml_user_configuration_list);
+		}
+	}
+	
+	public static void removeServiceInstanceFromXMLFile(ServiceInstance serviceInstance) throws Exception {
+		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
+		List<XMLUserConfiguration> to_remove = new ArrayList<XMLUserConfiguration>();
+		if(xml_user_configuration_list != null) {
+			switch (serviceInstance.getService()) {
+				case EMAIL:
+					EmailConnection email_connection = (EmailConnection) serviceInstance;
+					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+						if(xml_user.getService() == Service.EMAIL && xml_user.getUsername().equals(email_connection.getUsername()) && xml_user.getPassword().equals(email_connection.getPassword())) {
+							to_remove.add(xml_user);
+							break;
+						}
+					}
+					break;
+			
+				case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+					TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
+					String[] keys = TwitterFunctions.getKeys();
+					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+						if(xml_user.getService() == Service.TWITTER && xml_user.getTwitterConsumerKey().equals(keys[0]) && xml_user.getTwitterSecretKey().equals(keys[1]) 
+								&& xml_user.getTwitterAccessToken().equals(keys[2]) && xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {
+							to_remove.add(xml_user);
+							break;
+						}
+					}
+					break;
+				
+				case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+					FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;
+					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+						if(xml_user.getService() == Service.FACEBOOK && xml_user.getAccessToken2().equals(FacebookConnection.getAccessToken2())) {
+							to_remove.add(xml_user);
+							break;
+						}
+					}
+					break;
+	
+				default:
+					break;
+			}
+			xml_user_configuration_list.removeAll(to_remove);
+			CreateConfigXMLFile(xml_user_configuration_list);
+		}
+	}
+	
+	public static void removeServiceInstanceFromXMLFile(List<ServiceInstance> serviceInstances) throws Exception {
+		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
+		List<XMLUserConfiguration> to_remove = new ArrayList<XMLUserConfiguration>();
+		if(xml_user_configuration_list != null) {
+			for(ServiceInstance serviceInstance : serviceInstances) {
+				switch (serviceInstance.getService()) {
+					case EMAIL:
+						EmailConnection email_connection = (EmailConnection) serviceInstance;
+						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+							if(xml_user.getService() == Service.EMAIL && xml_user.getUsername().equals(email_connection.getUsername()) && xml_user.getPassword().equals(email_connection.getPassword())) {
+								to_remove.add(xml_user);
+								break;
+							}
+						}
+						break;
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
+						String[] keys = TwitterFunctions.getKeys();
+						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+							if(xml_user.getService() == Service.TWITTER && xml_user.getTwitterConsumerKey().equals(keys[0]) && xml_user.getTwitterSecretKey().equals(keys[1]) 
+									&& xml_user.getTwitterAccessToken().equals(keys[2]) && xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {
+								to_remove.add(xml_user);
+								break;
+							}
+						}
+						break;
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;
+						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
+							if(xml_user.getService() == Service.FACEBOOK && xml_user.getAccessToken2().equals(FacebookConnection.getAccessToken2())) {
+								to_remove.add(xml_user);
+								break;
+							}
+						}
+						break;
+		
+					default:
+						break;
+				}
+				xml_user_configuration_list.removeAll(to_remove);
+			}
+			CreateConfigXMLFile(xml_user_configuration_list);
+		}
+	}
+	
+	
 	
 	/**
 	 * Gets the twitter users.

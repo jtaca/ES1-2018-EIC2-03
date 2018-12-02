@@ -18,6 +18,7 @@ import entry_objects.EmailEntry;
 import entry_objects.InformationEntry;
 import files.ReadAndWriteFile;
 import files.ReadAndWriteXMLFile;
+import interfaces.ServiceInstance;
 import other.Filter;
 import other.Service;
 
@@ -26,7 +27,7 @@ import other.Service;
  * @author Alexandre Mendes
  * @version 2.0
  */
-public class EmailConnection {
+public class EmailConnection implements ServiceInstance {
 	
 	/** The username. */
 	private String username;
@@ -277,6 +278,10 @@ public class EmailConnection {
 	public boolean isConnected() {
 		return connected;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
 	/**
 	 * Send email.
@@ -343,6 +348,11 @@ public class EmailConnection {
 				}
 			}
 		}
+	}
+
+	@Override
+	public Service getService() {
+		return Service.EMAIL;
 	}
 	
 }

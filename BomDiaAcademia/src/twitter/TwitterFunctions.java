@@ -9,6 +9,7 @@ import java.util.List;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import files.ReadAndWriteXMLFile;
+import interfaces.ServiceInstance;
 import other.Filter;
 import other.Service;
 import other.XMLUserConfiguration;
@@ -27,7 +28,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author DElfim
  * @version 2.0
  */
-public class TwitterFunctions {
+public class TwitterFunctions implements ServiceInstance {
 	private static TwitterFunctions INSTANCE=null;
 
 	/** The twitter consumer key. */
@@ -249,5 +250,12 @@ public class TwitterFunctions {
 	public static String[] getKeys() {
 		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,
 				TWITTER_ACCESS_TOKEN_SECRET };
+	}
+
+
+
+	@Override
+	public Service getService() {
+		return Service.TWITTER;
 	}
 }

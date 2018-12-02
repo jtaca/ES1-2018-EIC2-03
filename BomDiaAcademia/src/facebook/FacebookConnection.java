@@ -19,6 +19,7 @@ import com.restfb.types.User;
 import entry_objects.FacebookEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
+import interfaces.ServiceInstance;
 import other.Filter;
 import other.Service;
 
@@ -26,7 +27,7 @@ import other.Service;
  * @author Joao Aparicio
  *
  */
-public class FacebookConnection {
+public class FacebookConnection implements ServiceInstance {
 	
 	//activity going to: https://www.facebook.com/Bomdiaacademia-318510688875649/?modal=admin_todo_tour
 	
@@ -185,6 +186,11 @@ public class FacebookConnection {
 		ExtendAccessToken();
 		
 		
+	}
+
+	@Override
+	public Service getService() {
+		return Service.FACEBOOK;
 	}
 
 

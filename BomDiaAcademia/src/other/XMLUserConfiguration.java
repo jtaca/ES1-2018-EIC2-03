@@ -227,6 +227,10 @@ public class XMLUserConfiguration { //
 	public String getTwitterAccessTokenSecret() {
 		return twitterAccessTokenSecret;
 	}
+	
+	public String getAccessToken2() {
+		return accessToken2;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
