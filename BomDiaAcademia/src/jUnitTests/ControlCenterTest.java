@@ -137,5 +137,15 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	@Test
+	public void testSetFacebookList() {
+		List<FacebookConnection> expected_list = new ArrayList<FacebookConnection>();
+		expected_list.add(FacebookConnection.getInstance());
+		control_center.setFacebookList(expected_list);
+		List<FacebookConnection> actual_list = control_center.getFacebookList();
+		assertEquals(expected_list, actual_list);
+	}
+	
+	
 
 }
