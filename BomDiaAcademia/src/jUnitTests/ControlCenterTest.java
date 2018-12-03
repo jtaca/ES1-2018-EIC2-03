@@ -93,6 +93,13 @@ public class ControlCenterTest {
 		assertEquals(EMAIL_LIST, emailList);
 	}
 	
+	@Test
+	public void testGetCurrentEmailUsed() {
+		EmailConnection email = control_center.getCurrentEmailUsed();
+		assertEquals(CURRENT_EMAIL_USED, email);
+	}
+	
+	
 	
 	
 
