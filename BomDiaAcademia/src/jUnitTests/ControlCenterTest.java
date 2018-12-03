@@ -120,5 +120,13 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	@Test
+	public void testSetCurrentEmailUsed() {
+		EmailConnection expected = new EmailConnection("dummy", "dummy");
+		control_center.setCurrentEmailUsed(expected);
+		EmailConnection actual = control_center.getCurrentEmailUsed();
+		assertEquals(expected, actual);
+	}
+	
 
 }
