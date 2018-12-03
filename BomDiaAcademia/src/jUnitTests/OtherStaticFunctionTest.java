@@ -15,10 +15,12 @@ import com.jfoenix.controls.JFXListView;
 
 import email.EmailConnection;
 import entry_objects.InformationEntry;
+import facebook.FacebookConnection;
 import files.ReadAndWriteXMLFile;
 import gui.MainController;
 import gui.MainWindow;
 import gui.PostBox;
+import other.ControlCenter;
 import other.OtherStaticFunction;
 import other.XMLUserConfiguration;
 import tasks.EmailReaderTask;
@@ -26,6 +28,7 @@ import tasks.FacebookPostReaderTask;
 import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
+import twitter.TwitterFunctions;
 
 public class OtherStaticFunctionTest {
 
@@ -57,7 +60,7 @@ public class OtherStaticFunctionTest {
 	}
 
 	@Test
-	public void testRefreshGUIWithThreads() throws Exception {
+	public void testRefreshGUIWithThreadsWithNoInfoOnControlCenter() throws Exception {
 		JFXListView<PostBox> previousExecutionPostBox = MainController.getInstance().getPosts();
 		ServiceReadTask task;
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
@@ -84,6 +87,64 @@ public class OtherStaticFunctionTest {
 				tasks.add(task);
 			}
 		}
+		
+		OtherStaticFunction.refreshGUIWithThreads();
+		
+		long valueNeededToWaitBeforeCheckOnList = 60000;
+		Thread.sleep(valueNeededToWaitBeforeCheckOnList);
+		
+		JFXListView<PostBox> actualExecutionPostBox = MainController.getInstance().getPosts();
+		
+		assertNotEquals(previousExecutionPostBox, actualExecutionPostBox);
+	}
+	
+	@Test
+	public void testRefreshGUIWithThreadsWithInfoOnControlCenter() throws Exception {
+		JFXListView<PostBox> previousExecutionPostBox = MainController.getInstance().getPosts();
+		ServiceReadTask task;
+		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
+		List<XMLUserConfiguration> list_of_user_configuration = ReadAndWriteXMLFile.ReadConfigXMLFile();
+		
+		List<EmailConnection> email_list = new ArrayList<EmailConnection>();
+		List<TwitterFunctions> twitter_list = new ArrayList<TwitterFunctions>();
+		List<FacebookConnection> facebook_list = new ArrayList<FacebookConnection>();
+		
+		EmailConnection email;
+		TwitterFunctions twitter;
+		FacebookConnection facebook;
+		
+		for(XMLUserConfiguration xml_user_config : list_of_user_configuration) {
+			switch (xml_user_config.getService()) {
+			case EMAIL:
+				email = new EmailConnection(xml_user_config.getUsername(), xml_user_config.getPassword());
+				task = new EmailReaderTask(email);
+				email_list.add(email);
+				break;
+				
+			case TWITTER:
+				twitter = TwitterFunctions.getInstance();
+				task = new TwitterPostReaderTask(); // Require to be implemented object oriented and not function oriented
+				twitter_list.add(twitter);
+				break;
+				
+			case FACEBOOK:
+				facebook = FacebookConnection.getInstance();
+				task = new FacebookPostReaderTask(); // needs implementation still...
+				facebook_list.add(facebook);
+				break;
+
+			default:
+				task = null;
+				break;
+			}
+			if(task != null) {
+				tasks.add(task);
+			}
+		}
+		
+		ControlCenter.getInstance().setEmailList(email_list);
+		ControlCenter.getInstance().setTwitterList(twitter_list);
+		ControlCenter.getInstance().setFacebookList(facebook_list);
 		
 		OtherStaticFunction.refreshGUIWithThreads();
 		
