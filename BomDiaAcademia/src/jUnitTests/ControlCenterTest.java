@@ -88,8 +88,12 @@ public class ControlCenterTest {
 	}
 
 	@Test
-	public void test() {
-		
+	public void testGetEmailList() {
+		List<EmailConnection> emailList = control_center.getEmailList();
+		assertEquals(EMAIL_LIST, emailList);
 	}
+	
+	
+	
 
 }
