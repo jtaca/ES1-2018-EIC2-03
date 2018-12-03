@@ -81,6 +81,7 @@ public class OtherStaticFunction {
 					}
 					if(task != null) {
 						tasks.add(task);
+						task = null;
 					}
 				}
 			}
