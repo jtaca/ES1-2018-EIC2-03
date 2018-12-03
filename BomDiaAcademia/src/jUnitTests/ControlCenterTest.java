@@ -14,6 +14,7 @@ import org.junit.Test;
 import email.EmailConnection;
 import facebook.FacebookConnection;
 import files.ReadAndWriteXMLFile;
+import other.ControlCenter;
 import other.XMLUserConfiguration;
 import tasks.EmailReaderTask;
 import tasks.FacebookPostReaderTask;
@@ -21,6 +22,8 @@ import tasks.TwitterPostReaderTask;
 import twitter.TwitterFunctions;
 
 public class ControlCenterTest {
+	
+	private static ControlCenter control_center = ControlCenter.getInstance();
 	
 	private static List<EmailConnection> EMAIL_LIST = new ArrayList<EmailConnection>();
 	private static EmailConnection CURRENT_EMAIL_USED = null;
@@ -58,6 +61,8 @@ public class ControlCenterTest {
 				FACEBOOK_LIST.add(facebook);
 				break;
 			}
+			
+			
 		}
 		
 	}
@@ -72,6 +77,7 @@ public class ControlCenterTest {
 
 	@Before
 	public void setUp() throws Exception {
+		
 	}
 
 	@After
@@ -80,7 +86,7 @@ public class ControlCenterTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		
 	}
 
 }
