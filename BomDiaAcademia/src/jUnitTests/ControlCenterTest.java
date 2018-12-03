@@ -77,7 +77,10 @@ public class ControlCenterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
+		control_center.setCurrentEmailUsed(CURRENT_EMAIL_USED);
+		control_center.setEmailList(EMAIL_LIST);
+		control_center.setTwitterList(TWITTER_LIST);
+		control_center.setFacebookList(FACEBOOK_LIST);
 	}
 
 	@After
