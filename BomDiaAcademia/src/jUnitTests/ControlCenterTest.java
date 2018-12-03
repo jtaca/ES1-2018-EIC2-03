@@ -105,6 +105,11 @@ public class ControlCenterTest {
 		assertEquals(TWITTER_LIST, twitterList);
 	}
 	
+	@Test
+	public void testGetFacebookList() {
+		List<FacebookConnection> facebookList = control_center.getFacebookList();
+		assertEquals(FACEBOOK_LIST, facebookList);
+	}
 	
 	
 	
