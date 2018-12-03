@@ -114,6 +114,7 @@ public class ControlCenterTest {
 	@Test
 	public void testSetEmailList() {
 		List<EmailConnection> expected_list = new ArrayList<EmailConnection>();
+		expected_list.add(new EmailConnection("dummy", "dummy"));
 		control_center.setEmailList(expected_list);
 		List<EmailConnection> actual_list = control_center.getEmailList();
 		assertEquals(expected_list, actual_list);
