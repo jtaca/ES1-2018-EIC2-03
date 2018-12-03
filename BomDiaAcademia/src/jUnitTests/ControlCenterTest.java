@@ -147,5 +147,15 @@ public class ControlCenterTest {
 	}
 	
 	
+	@Test
+	public void testAddEmailConnectionToEmailList() {
+		List<EmailConnection> expected_list = EMAIL_LIST;
+		EmailConnection email = new EmailConnection("dummy", "dummy");
+		expected_list.add(email);
+		control_center.addEmailConnectionToEmailList(email);
+		List<EmailConnection> actual_list = control_center.getEmailList();
+		assertEquals(expected_list, actual_list);
+	}
+	
 
 }
