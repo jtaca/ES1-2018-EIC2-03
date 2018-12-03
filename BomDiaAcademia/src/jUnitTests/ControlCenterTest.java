@@ -64,6 +64,10 @@ public class ControlCenterTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		EMAIL_LIST = null;
+		CURRENT_EMAIL_USED = null;
+		TWITTER_LIST = null;
+		FACEBOOK_LIST = null;
 	}
 
 	@Before
