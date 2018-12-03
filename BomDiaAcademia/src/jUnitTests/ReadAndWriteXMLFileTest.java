@@ -31,69 +31,38 @@ public class ReadAndWriteXMLFileTest {
 
 	
 	@BeforeClass
-	public static void startInstance() {
-		try {
-			config = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-			config1 = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
-			assertNotNull( config);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static void startInstance() throws Exception {
+		config = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+		config1 = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+		assertNotNull( config);
 	}
 	@Test
-	public void testCreateConfigXMLFile() {
-		try {
-			ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
+	public void testCreateConfigXMLFile() throws Exception {
+		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 		
-		try {
-			ReadAndWriteXMLFile.CreateConfigXMLFile(null);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
+		ReadAndWriteXMLFile.CreateConfigXMLFile(null);
 		
-		try {
-			ReadAndWriteXMLFile.CreateConfigXMLFile(new ArrayList<XMLUserConfiguration>());
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			fail();
-		}
-		
-		
+		ReadAndWriteXMLFile.CreateConfigXMLFile(new ArrayList<XMLUserConfiguration>());
 	}
 
 	@Test
-	public void testReadConfigXMLFile() {
-		try {
-			XMLUserConfiguration user = new XMLUserConfiguration(true, Service.EMAIL, "username", "password");
-			user_config_list.add(user);
-			ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-			
-			assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getPassword(),"password");
-			assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getUsername(),"username");
-			
-			user_config_list.remove(user);
-			user_config_list.add(config);
-			user_config_list.add(config1);
-			ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void testReadConfigXMLFile() throws Exception {
+		XMLUserConfiguration user = new XMLUserConfiguration(true, Service.EMAIL, "username", "password");
+		user_config_list.add(user);
+		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 		
+		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getPassword(),"password");
+		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getUsername(),"username");
+		
+		user_config_list.remove(user);
+		user_config_list.add(config);
+		user_config_list.add(config1);
+		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
 	}
 
 	@Test
-	public void testGetTwitterUsers() {
-		try {
-			assertNotNull(ReadAndWriteXMLFile.getTwitterUsers());
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
+	public void testGetTwitterUsers() throws Exception {
+		assertNotNull(ReadAndWriteXMLFile.getTwitterUsers());
 	}
 
 }

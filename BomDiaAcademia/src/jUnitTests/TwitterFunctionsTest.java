@@ -30,26 +30,17 @@ import twitter4j.UserMentionEntity;
 public class TwitterFunctionsTest {
 
 	@Test
-	public void testRetweet() {
+	public void testRetweet() throws TwitterException {
 		Status status = new TestStatus(1064992747311063040L);
 		TwitterFunctions tf = TwitterFunctions.getInstance();
-		try {
-			tf.retweet(status);
-		} catch (TwitterException e) {
-			System.out.println("erro no retweet");
-			fail();
-		}
+		
+		tf.retweet(status);
 	}
 
 	@Test
-	public void testRequestTwitter() {
+	public void testRequestTwitter() throws Exception {
 		List<InformationEntry> l=new ArrayList();
-		try {
-			l = TwitterFunctions.getInstance().requestTwitter();
-		} catch (Exception e) {
-			fail("failed to get tweets");
-			e.printStackTrace();
-		}
+		l = TwitterFunctions.getInstance().requestTwitter();
 		assertNotNull(l);
 	}
 	

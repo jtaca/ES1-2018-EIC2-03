@@ -21,14 +21,10 @@ public class EmailConnectionTest {
 	private static XMLUserConfiguration user = null;
 	
 	@BeforeClass
-	public static void startInstance() {
-		try {
-			user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
-			email = new EmailConnection(user.getUsername(), user.getPassword());
-			//email = new EmailConnection("BomDiaAcademiaES1@Hotmail.com", "BDAcademia1!");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static void startInstance() throws Exception {
+		user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
+		email = new EmailConnection(user.getUsername(), user.getPassword());
+		//email = new EmailConnection("BomDiaAcademiaES1@Hotmail.com", "BDAcademia1!");
 	}
 	
 	@Test

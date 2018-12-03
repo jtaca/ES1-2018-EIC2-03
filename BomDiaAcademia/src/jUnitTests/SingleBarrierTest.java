@@ -80,7 +80,7 @@ public class SingleBarrierTest {
 	}
 	
 	@Test
-	public void testBarrearWait() {
+	public void testBarrearWait() throws InterruptedException {
 		singleBarrier.barrierSet(1);
 		Thread thread = new Thread(new Runnable() {
 			
@@ -90,11 +90,7 @@ public class SingleBarrierTest {
 			}
 		});
 		thread.start();
-		try {
-			thread.join(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread.join(10000);
 		singleBarrier.barrierPost();
 		
 		//If it reaches here, it means it is correct otherwise it gets blocked forever
@@ -102,7 +98,7 @@ public class SingleBarrierTest {
 	}
 	
 	@Test
-	public void testBarrearWaitInterrupt() {
+	public void testBarrearWaitInterrupt() throws InterruptedException {
 		singleBarrier.barrierSet(1);
 		Thread thread = new Thread(new Runnable() {
 			
@@ -113,25 +109,17 @@ public class SingleBarrierTest {
 			}
 		});
 		thread.start();
-		try {
-			thread.join(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread.join(10000);
 		thread.interrupt();
 		singleBarrier.barrierPost();
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread.join();
 		
 		//If it reaches here, it means it is correct otherwise it gets blocked forever
 //		assertTrue(true);
 	}
 	
 	@Test
-	public void testBarrearPostInterrupt() {
+	public void testBarrearPostInterrupt() throws InterruptedException {
 		singleBarrier.barrierSet(2);
 		Thread thread1 = new Thread(new Runnable() {
 			
@@ -150,23 +138,11 @@ public class SingleBarrierTest {
 		});
 		thread1.start();
 		thread2.start();
-		try {
-			thread1.join(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread1.join(10000);
 		thread2.interrupt();
-		try {
-			thread2.join(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread2.join(10000);
 		singleBarrier.barrierPost();
-		try {
-			thread2.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		thread2.join();
 		
 		//If it reaches here, it means it is correct otherwise it gets blocked forever
 //		assertTrue(true);

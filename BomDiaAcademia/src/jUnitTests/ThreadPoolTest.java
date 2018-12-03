@@ -67,7 +67,7 @@ public class ThreadPoolTest {
 	}
 	
 	@Test
-	public void testRefreshGUIWithThreads() {
+	public void testRefreshGUIWithThreads() throws InterruptedException {
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
 		
 		// Need to initialize the MainController before everything...
@@ -76,11 +76,7 @@ public class ThreadPoolTest {
 		tasks.add(new EmailReaderTask(new EmailConnection(user.getUsername(), user.getPassword())));
 		ThreadPool.refreshGUIWithThreads(tasks);
 		long valueNeededToWaitBeforeCheckOnList = 60000;
-		try {
-			Thread.sleep(valueNeededToWaitBeforeCheckOnList);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(valueNeededToWaitBeforeCheckOnList);
 		JFXListView<PostBox> afterExecutionPostBox = MainController.getInstance().getPosts();
 		// Precisamos de uma maneira de verificar se a Lista foi parar mesmo ao GUI
 		assertNotEquals(previousPostBox, afterExecutionPostBox);
