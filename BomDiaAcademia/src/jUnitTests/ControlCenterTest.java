@@ -157,5 +157,16 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	@Test
+	public void testAddTwitterFunctionToTwitterList() {
+		control_center.setTwitterList(new ArrayList<TwitterFunctions>());
+		List<TwitterFunctions> expected_list = new ArrayList<TwitterFunctions>();
+		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		expected_list.add(twitter);
+		control_center.addTwitterFunctionToTwitterList(twitter);
+		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		assertEquals(expected_list, actual_list);
+	}
+	
 
 }
