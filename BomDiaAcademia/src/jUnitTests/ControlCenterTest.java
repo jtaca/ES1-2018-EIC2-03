@@ -99,6 +99,12 @@ public class ControlCenterTest {
 		assertEquals(CURRENT_EMAIL_USED, email);
 	}
 	
+	@Test
+	public void testGetTwitterList() {
+		List<TwitterFunctions> twitterList = control_center.getTwitterList();
+		assertEquals(TWITTER_LIST, twitterList);
+	}
+	
 	
 	
 	
