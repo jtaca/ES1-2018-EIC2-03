@@ -134,7 +134,7 @@ public class FacebookConnection implements ServiceInstance {
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
 				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
 				 
-				 JsonObject jsonObject = fbClient2.fetchObject("/2128274727202894/picture", JsonObject.class,
+				 JsonObject jsonObject = fbClient2.fetchObject("/BomDiaAcademiaISCTE/picture", JsonObject.class,
 					        Parameter.with("type", "large"), Parameter.with("redirect", "false"));
 					JsonValue jsonValue = jsonObject.get("data");
 					JsonObject object = jsonValue.asObject();
