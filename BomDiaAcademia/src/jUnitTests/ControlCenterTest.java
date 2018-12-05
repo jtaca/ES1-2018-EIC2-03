@@ -192,5 +192,20 @@ public class ControlCenterTest {
 		List<EmailConnection> actual_list = control_center.getEmailList();
 		assertEquals(expected_list, actual_list);
 	}
+	
+	@Test
+	public void testAddTwitterFunctionsToTwitterList() {
+		control_center.setTwitterList(new ArrayList<TwitterFunctions>());
+		List<TwitterFunctions> expected_list = new ArrayList<TwitterFunctions>();
+		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		TwitterFunctions twitter2 = TwitterFunctions.getInstance();
+		List<TwitterFunctions> twitterList = new ArrayList<TwitterFunctions>();
+		twitterList.add(twitter);
+		twitterList.add(twitter2);
+		expected_list.addAll(twitterList);
+		control_center.addTwitterFunctionsToTwitterList(twitterList);
+		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		assertEquals(expected_list, actual_list);
+	}
 
 }
