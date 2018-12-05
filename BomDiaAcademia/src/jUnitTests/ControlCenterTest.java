@@ -234,6 +234,16 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	@Test
+	public void testRemoveTwitterFunctionFromTwitterList() {
+		List<TwitterFunctions> twitterList = new ArrayList<TwitterFunctions>();
+		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		twitterList.add(twitter);
+		control_center.setTwitterList(twitterList);
+		control_center.removeTwitterFunctionFromTwitterList(twitter);
+		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		assertTrue(actual_list.isEmpty());
+	}
 	
 
 }
