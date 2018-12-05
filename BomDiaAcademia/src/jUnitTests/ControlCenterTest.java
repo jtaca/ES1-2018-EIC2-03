@@ -207,5 +207,20 @@ public class ControlCenterTest {
 		List<TwitterFunctions> actual_list = control_center.getTwitterList();
 		assertEquals(expected_list, actual_list);
 	}
+	
+	@Test
+	public void testAddFacebookConnectionsToFacebookList() {
+		control_center.setFacebookList(new ArrayList<FacebookConnection>());
+		List<FacebookConnection> expected_list = new ArrayList<FacebookConnection>();
+		FacebookConnection facebook = FacebookConnection.getInstance();
+		FacebookConnection facebook2 = FacebookConnection.getInstance();
+		List<FacebookConnection> facebookList = new ArrayList<FacebookConnection>();
+		facebookList.add(facebook);
+		facebookList.add(facebook2);
+		expected_list.addAll(facebookList);
+		control_center.addFacebookConnectionsToFacebookList(facebookList);
+		List<FacebookConnection> actual_list = control_center.getFacebookList();
+		assertEquals(expected_list, actual_list);
+	}
 
 }
