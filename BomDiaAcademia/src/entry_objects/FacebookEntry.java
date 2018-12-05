@@ -30,16 +30,18 @@ public class FacebookEntry implements InformationEntry { //
 	private Long LikeCount;
 	private Comments Comments;
 	private Object CommentCount;
+	private String profileImageUrl;
 	
 	
 	
 	
 	
 
-	public FacebookEntry(Post post, Date date) {
+	public FacebookEntry(Post post, Date date, String profileImageUrl) {
 		this.post = post;
 		//this.date = date;
 		this.date = date;
+		this.profileImageUrl = profileImageUrl;
 		try {
 			this.Message = this.post.getMessage();
 		} catch (NullPointerException e) {
@@ -161,13 +163,20 @@ public class FacebookEntry implements InformationEntry { //
 
 
 
+	public String getProfileImageUrl() {
+		return profileImageUrl;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "FacebookEntry [" +  "date=" + date + ", AttachmentTitle=" + AttachmentTitle
 				+ ", AttachmentUrl=" + AttachmentUrl + ", AttachmentDescription=" + AttachmentDescription
 				+ ", AttachmentMedia=" + AttachmentMedia + ", Message=" + Message + ", id=" + id + ", Description="
 				+ Description + ", Picture=" + Picture + ", LikeCount=" + LikeCount + ", Comments=" + Comments
-				+ ", CommentCount=" + CommentCount + "]";
+				+ ", CommentCount=" + CommentCount + ", ProfileImageUrl= "+this.profileImageUrl+"]";
 	}
 
 

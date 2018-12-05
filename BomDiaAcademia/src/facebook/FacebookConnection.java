@@ -12,6 +12,8 @@ import com.restfb.Parameter;
 import com.restfb.FacebookClient.AccessToken;
 import com.restfb.exception.FacebookException;
 import com.restfb.exception.FacebookOAuthException;
+import com.restfb.json.JsonObject;
+import com.restfb.json.JsonValue;
 import com.restfb.types.GraphResponse;
 import com.restfb.types.Post;
 import com.restfb.types.User;
@@ -132,7 +134,13 @@ public class FacebookConnection implements ServiceInstance {
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
 				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
 				 
-				 list.add(new FacebookEntry(post1, post1.getCreatedTime()));
+				 JsonObject jsonObject = fbClient2.fetchObject("/2128274727202894/picture", JsonObject.class,
+					        Parameter.with("type", "large"), Parameter.with("redirect", "false"));
+					JsonValue jsonValue = jsonObject.get("data");
+					JsonObject object = jsonValue.asObject();
+					String profileImageUrl = object.get("url").asString();
+					
+				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl));
 			   }	
 			   
 			} 
