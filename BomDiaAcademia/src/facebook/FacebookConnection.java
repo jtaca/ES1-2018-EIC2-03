@@ -48,7 +48,9 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private static FacebookConnection INSTANCE = new FacebookConnection();
 	
-
+	/**
+	 * Constructor
+	 */
 	private FacebookConnection() {
 		accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
 		fbClient2 = init();
@@ -64,6 +66,10 @@ public class FacebookConnection implements ServiceInstance {
 		return INSTANCE;
 	}
 	
+	
+	/**
+	 * Starts a connection with Facebook
+	 */
 	@SuppressWarnings("deprecation")
 	private static DefaultFacebookClient init() {
 	
@@ -106,9 +112,7 @@ public class FacebookConnection implements ServiceInstance {
 		
 	}
 	
-	/**
-	 * Initiation Method
-	 */
+	
 	
 	
 	
@@ -143,12 +147,19 @@ public class FacebookConnection implements ServiceInstance {
 	
 		
 	}
+	
+	/**
+	 * Likes the post with the id given
+	 */
 	public static void like(String id){
 		fbClient2.publish(id+"/likes", Boolean.class); 
 		
 	}
 	
 	
+	/**
+	 * Posts on the bom dia academia page with the message given
+	 */
 	public static GraphResponse post(String message) {
 		GraphResponse publishMessageResponse = 
 				fbClient2.publish("me/feed", GraphResponse.class,
@@ -158,6 +169,9 @@ public class FacebookConnection implements ServiceInstance {
 		return publishMessageResponse;
 	}
 	
+	/**
+	 * comments the post with the id and message given
+	 */
 	public static void commentOnPost(String id, String message) {
 		fbClient2.publish(id+"/comments", String.class, Parameter.with("message",message));
 	}
@@ -165,12 +179,16 @@ public class FacebookConnection implements ServiceInstance {
 	
 	
 	
-	
+	/**
+	 * getter for the access token 
+	 */
 	public static String getAccessToken2() {
 		return accessToken2;
 	}
 	
-
+	/**
+	 * main for demonstrating how to use the methods in this function
+	 */
 	public static void main(String[] args) {
 		FacebookConnection fb = getInstance();
 		 List<InformationEntry> a = fb.requestFacebook();
@@ -187,7 +205,10 @@ public class FacebookConnection implements ServiceInstance {
 		
 		
 	}
-
+	
+	/**
+	 * Getter for the type of service in use
+	 */
 	@Override
 	public Service getService() {
 		return Service.FACEBOOK;
