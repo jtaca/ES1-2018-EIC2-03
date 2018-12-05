@@ -222,5 +222,18 @@ public class ControlCenterTest {
 		List<FacebookConnection> actual_list = control_center.getFacebookList();
 		assertEquals(expected_list, actual_list);
 	}
+	
+	@Test
+	public void testRemoveEmailConnectionFromEmailList() {
+		List<EmailConnection> emailList = new ArrayList<EmailConnection>();
+		EmailConnection email = new EmailConnection("dummy", "dummy");
+		emailList.add(email);
+		control_center.setEmailList(emailList);
+		control_center.removeEmailConnectionFromEmailList(email);
+		List<EmailConnection> actual_list = control_center.getEmailList();
+		assertTrue(actual_list.isEmpty());
+	}
+	
+	
 
 }
