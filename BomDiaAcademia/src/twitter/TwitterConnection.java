@@ -111,6 +111,9 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean isLoggedIn(){
 		return logger.isLoggedIn();
 	}
+	public void logout(){
+		logger.logout();
+	}
 	
 	//Auth Only Operations
 	/**

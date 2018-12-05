@@ -116,4 +116,7 @@ class TwitterAuth {
 			return false;
 		}
 	}
+	void logout(){
+		userToken = null;
+	}
 }
