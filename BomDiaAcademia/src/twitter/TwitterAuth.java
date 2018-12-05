@@ -14,7 +14,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author DElfim
  * @version 2.0
  */
-public class TwitterAuth {
+class TwitterAuth {
 	
 	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = TwitterConnection.getKeys()[0];
@@ -36,7 +36,6 @@ public class TwitterAuth {
 	
 	/** The access token. */
 	private AccessToken accessToken;
-
 
 	/**
 	 * Prints out an url that the user can go to make the login an then
@@ -107,5 +106,14 @@ public class TwitterAuth {
 	 */
 	Twitter getTwitter(){
 		return this.twitter;
+	}
+	
+	boolean isLoggedIn(){
+		try {
+			twitter.verifyCredentials();
+			return true;
+		} catch (TwitterException e) {
+			return false;
+		}
 	}
 }

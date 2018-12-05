@@ -108,6 +108,9 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	public boolean isLoggedIn(){
+		return logger.isLoggedIn();
+	}
 	
 	//Auth Only Operations
 	/**
@@ -177,6 +180,19 @@ public class TwitterConnection implements ServiceInstance {
 				StatusUpdate statusUpdate = new StatusUpdate(comment);
 				statusUpdate.inReplyToStatusId(tweet.getId()); 
 				Status status = twitter.updateStatus(statusUpdate);
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
+	public boolean deletePost(Status tweet){
+		Twitter t = logger.authenticatedInstance();
+		if(t!=null){
+			try {
+				t.destroyStatus(tweet.getId());
 			} catch (TwitterException e) {
 				return false;
 			}
