@@ -245,5 +245,16 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	@Test
+	public void testRemoveFacebookConnectionFromFacebookList() {
+		List<FacebookConnection> facebookList = new ArrayList<FacebookConnection>();
+		FacebookConnection facebook = FacebookConnection.getInstance();
+		facebookList.add(facebook);
+		control_center.setFacebookList(facebookList);
+		control_center.removeFacebookConnectionFromFacebookList(facebook);
+		List<FacebookConnection> actual_list = control_center.getFacebookList();
+		assertTrue(actual_list.isEmpty());
+	}
+	
 
 }
