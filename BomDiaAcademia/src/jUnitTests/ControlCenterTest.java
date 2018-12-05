@@ -256,5 +256,16 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	@Test
+	public void testRemoveEmailConnectionsFromEmailList() {
+		List<EmailConnection> emailList = new ArrayList<EmailConnection>();
+		EmailConnection email = new EmailConnection("dummy", "dummy");
+		emailList.add(email);
+		control_center.setEmailList(emailList);
+		control_center.removeEmailConnectionsFromEmailList(emailList);
+		List<EmailConnection> actual_list = control_center.getEmailList();
+		assertTrue(actual_list.isEmpty());
+	}
+	
 
 }
