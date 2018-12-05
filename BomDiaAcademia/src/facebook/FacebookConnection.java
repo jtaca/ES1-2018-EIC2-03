@@ -132,14 +132,16 @@ public class FacebookConnection implements ServiceInstance {
 			   for (Post post : myFeedPage) {
 				 String postId = post.getId();  
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
-				 Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
-				 
-				 JsonObject jsonObject = fbClient2.fetchObject("/BomDiaAcademiaISCTE/picture", JsonObject.class,
-					        Parameter.with("type", "large"), Parameter.with("redirect", "false"));
-					JsonValue jsonValue = jsonObject.get("data");
-					JsonObject object = jsonValue.asObject();
-					String profileImageUrl = object.get("url").asString();
-					
+				Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
+				
+				JsonObject jsonObject = fbClient2.fetchObject("/BomDiaAcademiaISCTE/picture", JsonObject.class,
+						Parameter.with("type", "large"), Parameter.with("redirect", "false"));
+						JsonValue jsonValue = jsonObject.get("data");
+						JsonObject object = jsonValue.asObject();
+						String profileImageUrl = object.get("url").asString();
+				
+						
+				
 				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl));
 			   }	
 			   

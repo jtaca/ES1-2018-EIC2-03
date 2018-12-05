@@ -36,7 +36,9 @@ public class FacebookEntry implements InformationEntry { //
 	
 	
 	
-
+	/**
+	 * Constructor
+	 */
 	public FacebookEntry(Post post, Date date, String profileImageUrl) {
 		this.post = post;
 		//this.date = date;
@@ -154,7 +156,9 @@ public class FacebookEntry implements InformationEntry { //
 //		return out;
 //	}
 
-
+	/**
+	 * getter for the post (it contains most of the information needed)
+	 */
 	public Post getPost() {
 		return post;
 	}
@@ -162,14 +166,18 @@ public class FacebookEntry implements InformationEntry { //
 
 
 
-
+	/**
+	 * getter for the profile image of the page
+	 */
 	public String getProfileImageUrl() {
 		return profileImageUrl;
 	}
 
 
 
-
+	/**
+	 * Shows the attributes and their content
+	 */
 	@Override
 	public String toString() {
 		return "FacebookEntry [" +  "date=" + date + ", AttachmentTitle=" + AttachmentTitle
@@ -181,84 +189,108 @@ public class FacebookEntry implements InformationEntry { //
 
 
 
-
+	/**
+	 * getter of the title on the Attachments if there are any
+	 */
 	public String getAttachmentTitle() {
 		return AttachmentTitle;
 	}
 
 
 
-
+	/**
+	 * getter of the Attachments if there are any
+	 */
 	public String getAttachmentUrl() {
 		return AttachmentUrl;
 	}
 
 
 
-
+	/**
+	 * getter of the description on the Attachments if there are any
+	 */
 	public String getAttachmentDescription() {
 		return AttachmentDescription;
 	}
 
 
 
-
+	/**
+	 * getter of the media on the Attachments if there are any
+	 */
 	public Media getAttachmentMedia() {
 		return AttachmentMedia;
 	}
 
 
 
-
+	/**
+	 * getter of the message on the post
+	 */
 	public String getMessage() {
 		return Message;
 	}
 
 
 
-
+	/**
+	 * getter of the id of the post
+	 */
 	public String getId() {
 		return id;
 	}
 
 
 
-
+	/**
+	 * getter of the description on the post
+	 */
 	public String getDescription() {
 		return Description;
 	}
 
 
 
-
+	/**
+	 * getter of the picture on the post
+	 */
 	public String getPicture() {
 		return Picture;
 	}
 
 
 
-
+	/**
+	 * getter of the number of likes on the post
+	 */
 	public Long getLikeCount() {
 		return LikeCount;
 	}
 
 
 
-
+	/**
+	 * getter of the comments on the post
+	 */
 	public Comments getComments() {
 		return Comments;
 	}
 
 
 
-
+	/**
+	 * getter of the number of comments on the post
+	 */
 	public Object getCommentCount() {
 		return CommentCount;
 	}
 
 
 
-
+	/**
+	 * getter of the date on the post
+	 */
 	public Date getDate() {
 		return date;
 	}
