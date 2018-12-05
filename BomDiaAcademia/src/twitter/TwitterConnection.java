@@ -17,6 +17,7 @@ import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -161,6 +162,21 @@ public class TwitterConnection implements ServiceInstance {
 			try {
 				t.createFavorite(tweet.getId());
 				return true;
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
+	public boolean commentTweet(Status tweet,String comment){
+		Twitter t = logger.authenticatedInstance();
+		if(t!=null){
+			try {
+				StatusUpdate statusUpdate = new StatusUpdate(comment);
+				statusUpdate.inReplyToStatusId(tweet.getId()); 
+				Status status = twitter.updateStatus(statusUpdate);
 			} catch (TwitterException e) {
 				return false;
 			}
