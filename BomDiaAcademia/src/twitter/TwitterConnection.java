@@ -33,16 +33,16 @@ public class TwitterConnection implements ServiceInstance {
 	private static TwitterConnection INSTANCE=null;
 
 	/** The twitter consumer key. */
-	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
+	private static final String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
 	
 	/** The twitter secret key. */
-	private static String TWITTER_SECRET_KEY = "WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w";
+	private static final String TWITTER_SECRET_KEY = "WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w";
 	
 	/** The twitter access token. */
-	private static String TWITTER_ACCESS_TOKEN = "2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi";
+	private static final String TWITTER_ACCESS_TOKEN = "2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi";
 	
 	/** The twitter access token secret. */
-	private static String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
+	private static final String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
 
 	/** The twitter. */
 	private Twitter twitter;
@@ -51,7 +51,7 @@ public class TwitterConnection implements ServiceInstance {
 	private static XMLUserConfiguration twitterKeys = null;
 	
 	/** The logger. */
-	private TwitterAuth logger= new TwitterAuth();
+	private final TwitterAuth logger= new TwitterAuth();
 	
 	//Initialization
 	public static TwitterConnection getInstance() {
