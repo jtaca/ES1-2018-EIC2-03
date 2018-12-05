@@ -105,7 +105,7 @@ public class TwitterAuth {
 	 *
 	 * @return the twitter
 	 */
-	public Twitter getTwitter(){
+	Twitter getTwitter(){
 		return this.twitter;
 	}
 }

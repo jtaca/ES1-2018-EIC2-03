@@ -107,6 +107,7 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	
 	//Auth Only Operations
 	/**
 	 * Receives the Status object equivalent to the tweet the user wants to retweet
@@ -115,22 +116,58 @@ public class TwitterConnection implements ServiceInstance {
 	 * @param tweet the tweet
 	 * @throws TwitterException the twitter exception
 	 */
-	public void retweet(Status tweet) throws TwitterException {
+	public boolean retweet(Status tweet){
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
-			t.retweetStatus(tweet.getId());
+			try {
+				t.retweetStatus(tweet.getId());
+				return true;
+			} catch (TwitterException e) {
+				return false;
+			}
 		}else{
 			System.out.println("E nessessario efetuar login para utilizar esta funcao");
 		}
+		return false;
 	}
 	
-	public void tweet(String s) throws TwitterException{
+	public boolean tweet(String s) {
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
-			t.updateStatus(s);
+			try {
+				t.updateStatus(s);
+				return true;
+			} catch (TwitterException e) {
+				return false;
+			}
 		}else{
 			System.out.println("E nessessario efetuar login para utilizar esta funcao");
 		}
+		return false;
+	}
+	public String getUsername(){
+		try {
+			return logger.authenticatedInstance().getScreenName();
+		} catch (IllegalStateException e ) {
+			
+		} catch (TwitterException e) {
+			
+		}
+		return "";
+	}
+	public boolean favoriteTweet(Status tweet){
+		Twitter t = logger.authenticatedInstance();
+		if(t!=null){
+			try {
+				t.createFavorite(tweet.getId());
+				return true;
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
 	}
 
 	//Querys
