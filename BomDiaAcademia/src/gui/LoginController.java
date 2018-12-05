@@ -30,7 +30,7 @@ import other.OtherStaticFunction;
 import other.Service;
 import other.XMLUserConfiguration;
 import threads.ThreadPool;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 /**
  * The Class LoginController handles the user interaction with the GUI.
@@ -139,8 +139,8 @@ public class LoginController implements Initializable {
 //						if (rememberMe.isSelected()) {}
 						if (twitter == null)
 							twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
-									TwitterFunctions.getKeys()[0], TwitterFunctions.getKeys()[1],
-									TwitterFunctions.getKeys()[2], TwitterFunctions.getKeys()[3]);
+									TwitterConnection.getKeys()[0], TwitterConnection.getKeys()[1],
+									TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);
 						
 						if (facebook == null)
 							facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK, FacebookConnection.getAccessToken2());

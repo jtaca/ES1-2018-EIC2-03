@@ -33,7 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 public class MainControllerTest {
 
@@ -97,7 +97,7 @@ public class MainControllerTest {
 		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
 		toPostBox.setAccessible(true);
 
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getInstance().getSomeRetweet());
+		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());
 		PostBox postBox = (PostBox) toPostBox.invoke(controller, tweet);
 
 		assertEquals(tweet, postBox.getInformationEntry());
@@ -144,7 +144,7 @@ public class MainControllerTest {
 		authorUsername.setAccessible(true);
 		postText.setAccessible(true);
 
-		TwitterEntry tweet = new TwitterEntry(TwitterFunctions.getInstance().getSomeRetweet());
+		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());
 		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();
 		String user = "@" + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();
 		String content = tweet.getStatus().getRetweetedStatus().getText().trim();

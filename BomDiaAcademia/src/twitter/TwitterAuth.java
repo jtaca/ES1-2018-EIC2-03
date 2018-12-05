@@ -1,8 +1,5 @@
 package twitter;
 
-import java.util.Scanner;
-
-import files.ReadAndWriteXMLFile;
 import other.XMLUserConfiguration;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -17,13 +14,13 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author DElfim
  * @version 2.0
  */
-public class Logger {
+public class TwitterAuth {
 	
 	/** The twitter consumer key. */
-	private static String TWITTER_CONSUMER_KEY = TwitterFunctions.getKeys()[0];
+	private static String TWITTER_CONSUMER_KEY = TwitterConnection.getKeys()[0];
 	
 	/** The twitter secret key. */
-	private static String TWITTER_SECRET_KEY = TwitterFunctions.getKeys()[1];
+	private static String TWITTER_SECRET_KEY = TwitterConnection.getKeys()[1];
 	
 	/** The user token. */
 	private static AccessToken userToken = null;
@@ -47,7 +44,7 @@ public class Logger {
 	 *
 	 * @return the auth URL
 	 */
-	public String getAuthURL(){
+	String getAuthURL(){
 		try {
 			requestToken = twitter.getOAuthRequestToken("oob");
 		} catch (TwitterException e) {
@@ -64,7 +61,7 @@ public class Logger {
 	 * @param s the s
 	 * @return true, if successful
 	 */
-	public boolean inputPin(String s){
+	boolean inputPin(String s){
 		try {
 			accessToken = twitter.getOAuthAccessToken(requestToken, s);
 			twitter.setOAuthAccessToken(accessToken);
@@ -94,7 +91,7 @@ public class Logger {
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter
 	 */
-	public Twitter authenticatedInstance(){
+	Twitter authenticatedInstance(){
 		if (twitter==null){
 			twitter=buildAuthenticationTwitter();
 		}

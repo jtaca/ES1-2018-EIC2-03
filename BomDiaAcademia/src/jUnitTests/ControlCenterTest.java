@@ -19,7 +19,7 @@ import other.XMLUserConfiguration;
 import tasks.EmailReaderTask;
 import tasks.FacebookPostReaderTask;
 import tasks.TwitterPostReaderTask;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 public class ControlCenterTest {
 	
@@ -28,7 +28,7 @@ public class ControlCenterTest {
 	private static List<EmailConnection> EMAIL_LIST = new ArrayList<EmailConnection>();
 	private static EmailConnection CURRENT_EMAIL_USED = null;
 	
-	private static List<TwitterFunctions> TWITTER_LIST = new ArrayList<TwitterFunctions>();
+	private static List<TwitterConnection> TWITTER_LIST = new ArrayList<TwitterConnection>();
 	private static List<FacebookConnection> FACEBOOK_LIST = new ArrayList<FacebookConnection>();
 
 	@BeforeClass
@@ -37,7 +37,7 @@ public class ControlCenterTest {
 		boolean firstEmail = true;
 		
 		EmailConnection email;
-		TwitterFunctions twitter;
+		TwitterConnection twitter;
 		FacebookConnection facebook;
 		
 		for(XMLUserConfiguration xml_user : xml_user_list) {
@@ -52,7 +52,7 @@ public class ControlCenterTest {
 				break;
 				
 			case TWITTER:
-				twitter = TwitterFunctions.getInstance(); // Require to be implemented object oriented and not function oriented
+				twitter = TwitterConnection.getInstance(); // Require to be implemented object oriented and not function oriented
 				TWITTER_LIST.add(twitter);
 				break;
 				
@@ -101,7 +101,7 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testGetTwitterList() {
-		List<TwitterFunctions> twitterList = control_center.getTwitterList();
+		List<TwitterConnection> twitterList = control_center.getTwitterList();
 		assertEquals(TWITTER_LIST, twitterList);
 	}
 	
@@ -130,10 +130,10 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testSetTwitterList() {
-		List<TwitterFunctions> expected_list = new ArrayList<TwitterFunctions>();
-		expected_list.add(TwitterFunctions.getInstance());
+		List<TwitterConnection> expected_list = new ArrayList<TwitterConnection>();
+		expected_list.add(TwitterConnection.getInstance());
 		control_center.setTwitterList(expected_list);
-		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		List<TwitterConnection> actual_list = control_center.getTwitterList();
 		assertEquals(expected_list, actual_list);
 	}
 	
@@ -160,12 +160,12 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testAddTwitterFunctionToTwitterList() {
-		control_center.setTwitterList(new ArrayList<TwitterFunctions>());
-		List<TwitterFunctions> expected_list = new ArrayList<TwitterFunctions>();
-		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		control_center.setTwitterList(new ArrayList<TwitterConnection>());
+		List<TwitterConnection> expected_list = new ArrayList<TwitterConnection>();
+		TwitterConnection twitter = TwitterConnection.getInstance();
 		expected_list.add(twitter);
 		control_center.addTwitterFunctionToTwitterList(twitter);
-		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		List<TwitterConnection> actual_list = control_center.getTwitterList();
 		assertEquals(expected_list, actual_list);
 	}
 	
@@ -197,16 +197,16 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testAddTwitterFunctionsToTwitterList() {
-		control_center.setTwitterList(new ArrayList<TwitterFunctions>());
-		List<TwitterFunctions> expected_list = new ArrayList<TwitterFunctions>();
-		TwitterFunctions twitter = TwitterFunctions.getInstance();
-		TwitterFunctions twitter2 = TwitterFunctions.getInstance();
-		List<TwitterFunctions> twitterList = new ArrayList<TwitterFunctions>();
+		control_center.setTwitterList(new ArrayList<TwitterConnection>());
+		List<TwitterConnection> expected_list = new ArrayList<TwitterConnection>();
+		TwitterConnection twitter = TwitterConnection.getInstance();
+		TwitterConnection twitter2 = TwitterConnection.getInstance();
+		List<TwitterConnection> twitterList = new ArrayList<TwitterConnection>();
 		twitterList.add(twitter);
 		twitterList.add(twitter2);
 		expected_list.addAll(twitterList);
 		control_center.addTwitterFunctionsToTwitterList(twitterList);
-		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		List<TwitterConnection> actual_list = control_center.getTwitterList();
 		assertEquals(expected_list, actual_list);
 	}
 	
@@ -238,12 +238,12 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testRemoveTwitterFunctionFromTwitterList() {
-		List<TwitterFunctions> twitterList = new ArrayList<TwitterFunctions>();
-		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		List<TwitterConnection> twitterList = new ArrayList<TwitterConnection>();
+		TwitterConnection twitter = TwitterConnection.getInstance();
 		twitterList.add(twitter);
 		control_center.setTwitterList(twitterList);
 		control_center.removeTwitterFunctionFromTwitterList(twitter);
-		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		List<TwitterConnection> actual_list = control_center.getTwitterList();
 		assertTrue(actual_list.isEmpty());
 	}
 	
@@ -271,12 +271,12 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testRemoveTwitterFunctionsFromTwitterList() {
-		List<TwitterFunctions> twitterList = new ArrayList<TwitterFunctions>();
-		TwitterFunctions twitter = TwitterFunctions.getInstance();
+		List<TwitterConnection> twitterList = new ArrayList<TwitterConnection>();
+		TwitterConnection twitter = TwitterConnection.getInstance();
 		twitterList.add(twitter);
 		control_center.setTwitterList(twitterList);
 		control_center.removeTwitterFunctionsFromTwitterList(twitterList);
-		List<TwitterFunctions> actual_list = control_center.getTwitterList();
+		List<TwitterConnection> actual_list = control_center.getTwitterList();
 		assertTrue(actual_list.isEmpty());
 	}
 	

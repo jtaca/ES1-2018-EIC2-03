@@ -27,7 +27,7 @@ import facebook.FacebookConnection;
 import interfaces.ServiceInstance;
 import other.Service;
 import other.XMLUserConfiguration;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 
 // TODO: Auto-generated Javadoc
@@ -246,8 +246,8 @@ public class ReadAndWriteXMLFile { //
 						break;
 				
 					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
-						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
-						String[] keys = TwitterFunctions.getKeys();
+						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;
+						String[] keys = TwitterConnection.getKeys();
 						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem
 						break;
 					
@@ -277,8 +277,8 @@ public class ReadAndWriteXMLFile { //
 						break;
 				
 					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
-						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
-						String[] keys = TwitterFunctions.getKeys();
+						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;
+						String[] keys = TwitterConnection.getKeys();
 						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem
 						break;
 					
@@ -312,8 +312,8 @@ public class ReadAndWriteXMLFile { //
 					break;
 			
 				case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
-					TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
-					String[] keys = TwitterFunctions.getKeys();
+					TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;
+					String[] keys = TwitterConnection.getKeys();
 					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
 						if(xml_user.getService() == Service.TWITTER && xml_user.getTwitterConsumerKey().equals(keys[0]) && xml_user.getTwitterSecretKey().equals(keys[1]) 
 								&& xml_user.getTwitterAccessToken().equals(keys[2]) && xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {
@@ -358,8 +358,8 @@ public class ReadAndWriteXMLFile { //
 						break;
 				
 					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
-						TwitterFunctions twitter_functions = (TwitterFunctions) serviceInstance;
-						String[] keys = TwitterFunctions.getKeys();
+						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;
+						String[] keys = TwitterConnection.getKeys();
 						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {
 							if(xml_user.getService() == Service.TWITTER && xml_user.getTwitterConsumerKey().equals(keys[0]) && xml_user.getTwitterSecretKey().equals(keys[1]) 
 									&& xml_user.getTwitterAccessToken().equals(keys[2]) && xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {

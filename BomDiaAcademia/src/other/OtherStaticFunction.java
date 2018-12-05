@@ -11,7 +11,7 @@ import tasks.FacebookPostReaderTask;
 import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 /**
  * The Class OtherStaticFunction.
@@ -32,7 +32,7 @@ public class OtherStaticFunction {
 			boolean use_info_from_file_to_facebook = true;
 			
 			List<EmailConnection> email_connections = ControlCenter.getInstance().getEmailList();
-			List<TwitterFunctions> twitter_functions = ControlCenter.getInstance().getTwitterList();
+			List<TwitterConnection> twitter_functions = ControlCenter.getInstance().getTwitterList();
 			List<FacebookConnection> facebook_connections = ControlCenter.getInstance().getFacebookList();
 			
 			List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();
@@ -44,7 +44,7 @@ public class OtherStaticFunction {
 				use_info_from_file_to_email = false;
 			}
 			if(twitter_functions != null && !twitter_functions.isEmpty()) {
-				for(TwitterFunctions twitter : twitter_functions) {
+				for(TwitterConnection twitter : twitter_functions) {
 					tasks.add(new TwitterPostReaderTask());
 				}
 				use_info_from_file_to_twitter = false;

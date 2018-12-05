@@ -9,14 +9,14 @@ import files.ReadAndWriteXMLFile;
 import interfaces.ServiceInstance;
 import threads.ThreadPool;
 import threads.Worker;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 public class ControlCenter {
 	
 	private List<EmailConnection> emailList = null;
 	private EmailConnection currentEmailUsed = null;
 	
-	private List<TwitterFunctions> twitterList = null;
+	private List<TwitterConnection> twitterList = null;
 	private List<FacebookConnection> facebookList = null;
 	
 	private static final ControlCenter INSTANCE = new ControlCenter();
@@ -37,7 +37,7 @@ public class ControlCenter {
 	}
 	
 	
-	public List<TwitterFunctions> getTwitterList() {
+	public List<TwitterConnection> getTwitterList() {
 		return twitterList;
 	}
 	
@@ -54,7 +54,7 @@ public class ControlCenter {
 	}
 	
 	
-	public synchronized void setTwitterList(List<TwitterFunctions> twitterList) {
+	public synchronized void setTwitterList(List<TwitterConnection> twitterList) {
 		this.twitterList = twitterList;
 	}
 	
@@ -93,7 +93,7 @@ public class ControlCenter {
 		}
 	}
 	
-	public synchronized void addTwitterFunctionToTwitterList(TwitterFunctions twitterFunction) {
+	public synchronized void addTwitterFunctionToTwitterList(TwitterConnection twitterFunction) {
 		if(twitterList != null && !twitterList.contains(twitterFunction)) {
 			try {
 				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(twitterFunction);
@@ -104,10 +104,10 @@ public class ControlCenter {
 		}
 	}
 	
-	public synchronized void addTwitterFunctionsToTwitterList(List<TwitterFunctions> twitterFunctions) {
+	public synchronized void addTwitterFunctionsToTwitterList(List<TwitterConnection> twitterFunctions) {
 		if(twitterList != null) {
 			List<ServiceInstance> to_add = new ArrayList<ServiceInstance>();
-			for(TwitterFunctions twitter : twitterFunctions) {
+			for(TwitterConnection twitter : twitterFunctions) {
 				if(!twitterList.contains(twitter)) {
 					to_add.add(twitter);
 				}
@@ -115,7 +115,7 @@ public class ControlCenter {
 			try {
 				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(to_add);
 				for(ServiceInstance twitter : to_add) {
-					twitterList.add((TwitterFunctions) twitter);
+					twitterList.add((TwitterConnection) twitter);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -183,7 +183,7 @@ public class ControlCenter {
 		}
 	}
 	
-	public synchronized void removeTwitterFunctionFromTwitterList(TwitterFunctions twitterFunction) {
+	public synchronized void removeTwitterFunctionFromTwitterList(TwitterConnection twitterFunction) {
 		if(twitterList != null && twitterList.contains(twitterFunction)) {
 			try {
 				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(twitterFunction);
@@ -194,10 +194,10 @@ public class ControlCenter {
 		}
 	}
 	
-	public synchronized void removeTwitterFunctionsFromTwitterList(List<TwitterFunctions> twitterFunctions) {
+	public synchronized void removeTwitterFunctionsFromTwitterList(List<TwitterConnection> twitterFunctions) {
 		if(twitterList != null) {
 			List<ServiceInstance> to_remove = new ArrayList<ServiceInstance>();
-			for(TwitterFunctions twitter : twitterFunctions) {
+			for(TwitterConnection twitter : twitterFunctions) {
 				if(twitterList.contains(twitter)) {
 					to_remove.add(twitter);
 				}

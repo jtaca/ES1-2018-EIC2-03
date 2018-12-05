@@ -28,8 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author DElfim
  * @version 2.0
  */
-public class TwitterFunctions implements ServiceInstance {
-	private static TwitterFunctions INSTANCE=null;
+public class TwitterConnection implements ServiceInstance {
+	private static TwitterConnection INSTANCE=null;
 
 	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = "k4a4y5Wcq3UqdGKs9R6CufWoA";
@@ -50,14 +50,14 @@ public class TwitterFunctions implements ServiceInstance {
 	private static XMLUserConfiguration twitterKeys = null;
 	
 	/** The logger. */
-	private Logger logger= new Logger();
+	private TwitterAuth logger= new TwitterAuth();
 	
-	
-	public static TwitterFunctions getInstance() {
+	//Initialization
+	public static TwitterConnection getInstance() {
 	      if(INSTANCE == null) {
-	    	  synchronized (TwitterFunctions.class){
+	    	  synchronized (TwitterConnection.class){
 	    		  if(INSTANCE == null) {
-	    			  INSTANCE = new TwitterFunctions();
+	    			  INSTANCE = new TwitterConnection();
 	    		  }
 	    	  }
 	      }
@@ -66,7 +66,7 @@ public class TwitterFunctions implements ServiceInstance {
 	
 	
 	
-	private TwitterFunctions(){
+	private TwitterConnection(){
 		this.twitter=init();
 	}
 	
@@ -100,7 +100,14 @@ public class TwitterFunctions implements ServiceInstance {
 		
 		return twitter;
 	}
-	
+	//Authentication
+	public String getAuthUrl(){
+		return logger.getAuthURL();
+	}
+	public boolean confirmAuth(String s){
+		return logger.inputPin(s);
+	}
+	//Auth Only Operations
 	/**
 	 * Receives the Status object equivalent to the tweet the user wants to retweet
 	 * fails if the user is not authenticated.
@@ -126,6 +133,7 @@ public class TwitterFunctions implements ServiceInstance {
 		}
 	}
 
+	//Querys
 	/**
 	 * Returns a List with a basic query from twitter with the String "ISCTE".
 	 *
@@ -188,7 +196,6 @@ public class TwitterFunctions implements ServiceInstance {
 		try {
 			twitter.getUserTimeline(user).forEach(s -> {
 			if(s.getCreatedAt().after(date))
-	//		if(s.getCreatedAt().compareTo(date)>=0)
 			tweets.add(new TwitterEntry(s));
 			});
 		} catch (TwitterException e) {

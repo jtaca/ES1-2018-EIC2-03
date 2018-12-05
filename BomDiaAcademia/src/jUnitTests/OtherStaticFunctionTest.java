@@ -28,7 +28,7 @@ import tasks.FacebookPostReaderTask;
 import tasks.ServiceReadTask;
 import tasks.TwitterPostReaderTask;
 import threads.ThreadPool;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 
 public class OtherStaticFunctionTest {
 
@@ -106,11 +106,11 @@ public class OtherStaticFunctionTest {
 		List<XMLUserConfiguration> list_of_user_configuration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 		
 		List<EmailConnection> email_list = new ArrayList<EmailConnection>();
-		List<TwitterFunctions> twitter_list = new ArrayList<TwitterFunctions>();
+		List<TwitterConnection> twitter_list = new ArrayList<TwitterConnection>();
 		List<FacebookConnection> facebook_list = new ArrayList<FacebookConnection>();
 		
 		EmailConnection email;
-		TwitterFunctions twitter;
+		TwitterConnection twitter;
 		FacebookConnection facebook;
 		
 		for(XMLUserConfiguration xml_user_config : list_of_user_configuration) {
@@ -122,7 +122,7 @@ public class OtherStaticFunctionTest {
 				break;
 				
 			case TWITTER:
-				twitter = TwitterFunctions.getInstance();
+				twitter = TwitterConnection.getInstance();
 				task = new TwitterPostReaderTask(); // Require to be implemented object oriented and not function oriented
 				twitter_list.add(twitter);
 				break;

@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import entry_objects.InformationEntry;
 import other.Filter;
-import twitter.Logger;
-import twitter.TwitterFunctions;
+import twitter.TwitterAuth;
+import twitter.TwitterConnection;
 import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -32,7 +32,7 @@ public class TwitterFunctionsTest {
 	@Test
 	public void testRetweet() throws TwitterException {
 		Status status = new TestStatus(1064992747311063040L);
-		TwitterFunctions tf = TwitterFunctions.getInstance();
+		TwitterConnection tf = TwitterConnection.getInstance();
 		
 		tf.retweet(status);
 	}
@@ -40,7 +40,7 @@ public class TwitterFunctionsTest {
 	@Test
 	public void testRequestTwitter() throws Exception {
 		List<InformationEntry> l=new ArrayList();
-		l = TwitterFunctions.getInstance().requestTwitter();
+		l = TwitterConnection.getInstance().requestTwitter();
 		assertNotNull(l);
 	}
 	
@@ -51,11 +51,11 @@ public class TwitterFunctionsTest {
 		c.set(2018, Calendar.OCTOBER , 14,23,0,0);
 		Date d = c.getTime();
 		List<InformationEntry> l;
-		l=TwitterFunctions.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
+		l=TwitterConnection.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
 		assert(l.isEmpty());
 		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
 		d=c.getTime();
-		l=TwitterFunctions.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
+		l=TwitterConnection.getInstance().getTweetsFromUserByDate(d, "ANACLET28324119");
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
 	}
@@ -67,14 +67,14 @@ public class TwitterFunctionsTest {
 		c.set(2018, Calendar.OCTOBER , 14,0,0,0);
 		Date date = c.getTime();
 		String [] users=null;
-		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
+		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);
 		assert(l.isEmpty());
 		users=new String[0];
-		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
+		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);
 		assert(l.isEmpty());
 		users=new String[1];
 		users[0]="ANACLET28324119";
-		l=TwitterFunctions.getInstance().getTweetsFromUsers(date, users);
+		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);
 		assert(!l.isEmpty());
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
@@ -82,12 +82,12 @@ public class TwitterFunctionsTest {
 	@Test 
 	public void testGetTweetsFiltered(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-		List<InformationEntry> l=TwitterFunctions.getInstance().getTweetsFiltered();
+		List<InformationEntry> l=TwitterConnection.getInstance().getTweetsFiltered();
 		assert(!l.isEmpty());
 	}
 	@Test
 	public void testGetKeys() {
-		String [] l=TwitterFunctions.getKeys();
+		String [] l=TwitterConnection.getKeys();
 		assertEquals("k4a4y5Wcq3UqdGKs9R6CufWoA", l[0]);
 		assertEquals("WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w", l[1]);
 		assertEquals("2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi", l[2]);
@@ -95,15 +95,15 @@ public class TwitterFunctionsTest {
 	}
 	//Logger Testing
 	
-	@Test
-	public void TestLogin(){
-		Logger l = new Logger();
-		String s=l.getAuthURL();
-		assert(!s.isEmpty());
-		boolean b= l.inputPin("asdasdasd");
-		assert(!b);
-	}
-	
+//	@Test
+//	public void TestLogin(){
+//		TwitterAuth l = new TwitterAuth();
+//		String s=l.getAuthURL();
+//		assert(!s.isEmpty());
+//		boolean b= l.inputPin("asdasdasd");
+//		assert(!b);
+//	}
+//	
 
 	
 	

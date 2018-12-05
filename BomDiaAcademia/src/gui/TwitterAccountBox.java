@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import twitter.TwitterFunctions;
+import twitter.TwitterConnection;
 import twitter4j.TwitterException;
 
 public class TwitterAccountBox extends HBox {
@@ -25,7 +25,7 @@ public class TwitterAccountBox extends HBox {
 		checkBox = new CheckBox();
 		ImageView pic = null;
 		try {
-			pic = new ImageView(new Image(TwitterFunctions.getInstance().getUserPicture(username), 20, 0, true, true));
+			pic = new ImageView(new Image(TwitterConnection.getInstance().getUserPicture(username), 20, 0, true, true));
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
