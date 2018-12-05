@@ -182,7 +182,8 @@ public class ControlCenterTest {
 	
 	@Test
 	public void testAddEmailConnectionsToEmailList() {
-		List<EmailConnection> expected_list = EMAIL_LIST;
+		control_center.setEmailList(new ArrayList<EmailConnection>());
+		List<EmailConnection> expected_list = new ArrayList<EmailConnection>();
 		EmailConnection email = new EmailConnection("dummy", "dummy");
 		EmailConnection email2 = new EmailConnection("dummy2", "dummy2");
 		List<EmailConnection> emailList = new ArrayList<EmailConnection>();
