@@ -235,6 +235,7 @@ public class XMLUserConfiguration { //
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	/*
 	@Override
 	public String toString() {
 		return "XMLUserConfiguration [service=" + service + ", username=" + username + ", password=" + password
@@ -242,5 +243,6 @@ public class XMLUserConfiguration { //
 				+ ", TWITTER_ACCESS_TOKEN=" + twitterAccessToken + ", TWITTER_ACCESS_TOKEN_SECRET="
 				+ twitterAccessTokenSecret + "]";
 	}
+	*/
 	
 }
