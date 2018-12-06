@@ -14,7 +14,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author DElfim
  * @version 2.0
  */
-class TwitterAuth {
+public class TwitterAuth {
 	
 	/** The twitter consumer key. */
 	private static String TWITTER_CONSUMER_KEY = TwitterConnection.getKeys()[0];
