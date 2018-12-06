@@ -14,6 +14,7 @@ public class EmailEntry implements InformationEntry { //
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The receiver email. */
 	private String receiverEmail;
 	
 	/** The date. */
@@ -31,6 +32,7 @@ public class EmailEntry implements InformationEntry { //
 	/**
 	 * Instantiates a new email entry.
 	 *
+	 * @param receiverEmail the receiver email
 	 * @param date the date
 	 * @param writerName the writer name
 	 * @param subject the subject
@@ -44,6 +46,11 @@ public class EmailEntry implements InformationEntry { //
 		this.content = content;
 	}
 	
+	/**
+	 * Gets the receiver email.
+	 *
+	 * @return the receiver email
+	 */
 	public String getReceiverEmail() {
 		return receiverEmail;
 	}

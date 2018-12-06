@@ -279,6 +279,11 @@ public class EmailConnection implements ServiceInstance {
 		return connected;
 	}
 	
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
 	public String getPassword() {
 		return password;
 	}
@@ -350,6 +355,9 @@ public class EmailConnection implements ServiceInstance {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see interfaces.ServiceInstance#getService()
+	 */
 	@Override
 	public Service getService() {
 		return Service.EMAIL;

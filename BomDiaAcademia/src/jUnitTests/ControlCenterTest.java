@@ -193,7 +193,7 @@ public class ControlCenterTest {
 		control_center.addEmailConnectionsToEmailList(emailList);
 		List<EmailConnection> actual_list = control_center.getEmailList();
 		assertEquals(expected_list, actual_list);
-	}
+	}		
 	
 	@Test
 	public void testAddTwitterFunctionsToTwitterList() {

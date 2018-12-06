@@ -19,16 +19,22 @@ public class TwitterEntry implements InformationEntry { //
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The name. */
 	private String name;
 
+	/** The username. */
 	private String username;
 
+	/** The content. */
 	private String content;
 
+	/** The profile picture URL. */
 	private String profilePictureURL;
 
+	/** The retweeter. */
 	private String retweeter;
 
+	/** The media URL. */
 	private List<String> mediaURL;
 
 	/** The is retweet. */
@@ -43,7 +49,7 @@ public class TwitterEntry implements InformationEntry { //
 	/**
 	 * Instantiates a new twitter entry.
 	 *
-	 * @param status the status
+	 * @param s the s
 	 */
 	public TwitterEntry(Status s) {
 		mediaURL = new ArrayList<>();
@@ -85,26 +91,56 @@ public class TwitterEntry implements InformationEntry { //
 		date = s.getCreatedAt();
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Gets the content.
+	 *
+	 * @return the content
+	 */
 	public String getContent() {
 		return content;
 	}
 
+	/**
+	 * Gets the profile picture URL.
+	 *
+	 * @return the profile picture URL
+	 */
 	public String getProfilePictureURL() {
 		return profilePictureURL;
 	}
 
+	/**
+	 * Gets the retweeter.
+	 *
+	 * @return the retweeter
+	 */
 	public String getRetweeter() {
 		return retweeter;
 	}
 
+	/**
+	 * Gets the media URL.
+	 *
+	 * @return the media URL
+	 */
 	public List<String> getMediaURL() {
 		return mediaURL;
 	}
