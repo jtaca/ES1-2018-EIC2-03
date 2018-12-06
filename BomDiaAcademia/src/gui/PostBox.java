@@ -120,9 +120,13 @@ public class PostBox extends HBox {
 	private void loadFacebookEntry(FacebookEntry facebook) {
 		icon.setIcon(FontAwesomeIcon.FACEBOOK_OFFICIAL);
 
-		authorName.setText(facebook.getPost().getName());
+		ImageView pic = new ImageView(new Image(facebook.getProfileImageUrl(), 50, 50, true, true));
 
-		postInfo.setText(facebook.getPost().getMessage());
+		authorName.setText(facebook.getAuthor());
+
+		postInfo.setText(facebook.getAttachmentTitle());
+
+		getChildren().add(1, pic);
 	}
 
 	private void loadTwitterEntry(TwitterEntry tweet) {

@@ -99,141 +99,6 @@
       </VBox>
       <StackPane fx:id="centerPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="550.0" style="-fx-background-color: abcdef;">
          <children>
-            <StackPane fx:id="postLayer" onMouseClicked="#closePost" style="-fx-background-color: rgba(0, 0, 0, .5);">
-               <children>
-                  <VBox fx:id="postContainer" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
-                     <children>
-                        <Label fx:id="retweetLabel" text=" " textFill="#878787">
-                           <graphic>
-                              <FontAwesomeIconView fill="#878787" glyphName="RETWEET" />
-                           </graphic>
-                           <VBox.margin>
-                              <Insets left="100.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <HBox alignment="CENTER_LEFT">
-                           <children>
-                              <ImageView fx:id="profilePic" pickOnBounds="true" preserveRatio="true" />
-                              <VBox fx:id="postAuthorInfo" spacing="5.0">
-                                 <children>
-                                    <Label fx:id="authorName" text=" " />
-                                    <Label fx:id="authorUsername" text=" ">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="0.0" HBox.hgrow="ALWAYS" />
-                              <JFXButton contentDisplay="CENTER" onAction="#closePost" text=" ">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="CLOSE" size="20" />
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="40.0" right="40.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER" VBox.vgrow="NEVER">
-                           <children>
-                              <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openPreviousPost" prefWidth="40.0" text=" ">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <ScrollPane fx:id="postScrollPane" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: ffffff;" HBox.hgrow="ALWAYS">
-                                 <content>
-                                    <VBox fx:id="postContent" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="470.0" spacing="20.0">
-                                       <children>
-                                          <Text fx:id="postText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="450.0" />
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                              <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openNextPost" prefWidth="40.0" text=" ">
-                                 <graphic>
-                                    <FontAwesomeIconView glyphName="CHEVRON_RIGHT" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </HBox>
-                        <StackPane VBox.vgrow="NEVER">
-                           <children>
-                              <HBox fx:id="emailFooter" spacing="15.0" style="-fx-background-color: ffffff;">
-                                 <children>
-                                    <JFXButton id="respondEmail" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" text="Responder" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                              <HBox fx:id="twitterFooter" spacing="15.0" style="-fx-background-color: ffffff;">
-                                 <children>
-                                    <JFXButton id="twitterPostOptions" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" text=" ">
-                                       <graphic>
-                                          <MaterialDesignIconView fill="WHITE" glyphName="COMMENT_OUTLINE" size="25" />
-                                       </graphic>
-                                    </JFXButton>
-                                    <JFXButton id="twitterPostOptions" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" text=" ">
-                                       <graphic>
-                                          <MaterialDesignIconView fill="WHITE" glyphName="TWITTER_RETWEET" size="30" />
-                                       </graphic>
-                                    </JFXButton>
-                                    <JFXButton id="twitterPostOptions" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" text=" ">
-                                       <graphic>
-                                          <MaterialDesignIconView fill="WHITE" glyphName="HEART_OUTLINE" size="25" />
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
-                           </VBox.margin>
-                        </StackPane>
-                     </children>
-                  </VBox>
-               </children>
-            </StackPane>
-            <ScrollPane fx:id="settings" style="-fx-background-color: transparent; -fx-background: ffffff;">
-               <content>
-                  <VBox style="-fx-background-color: ffffff;">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="20.0">
-                           <children>
-                              <Label text="Theme:" />
-                              <ChoiceBox fx:id="themeList" prefWidth="150.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets left="40.0" top="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="Emails:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
-                              <HBox spacing="5.0">
-                                 <children>
-                                    <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="40.0" right="40.0" top="20.0" />
-                           </VBox.margin>
-                        </VBox>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
             <VBox fx:id="emailPane" alignment="CENTER" style="-fx-background-color: #ffffff;">
                <children>
                   <HBox alignment="CENTER_LEFT">
@@ -374,7 +239,7 @@
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data:" />
                                                 <ChoiceBox fx:id="dateFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" />
-                                                <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
+                                                <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" spacing="20.0">
@@ -411,7 +276,7 @@
                                                             <VBox>
                                                                <children>
                                                                   <Label text="Apresentar tweets de:" />
-                                                                  <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="330.0" />
+                                                                  <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="330.0" />
                                                                </children>
                                                             </VBox>
                                                          </content>
@@ -438,6 +303,171 @@
                   <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
+            <ScrollPane fx:id="settings" style="-fx-background-color: transparent; -fx-background: ffffff;">
+               <content>
+                  <VBox style="-fx-background-color: ffffff;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <children>
+                              <Label text="Theme:" />
+                              <ChoiceBox fx:id="themeList" prefWidth="150.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Emails:">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <JFXButton fx:id="twitterLoginButton" contentDisplay="RIGHT" maxWidth="-Infinity" minWidth="-Infinity" onAction="#twitterLogin" prefWidth="200.0" style="-fx-background-color: #1da1f2;" text="Iniciar Sessão" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="TWITTER" size="20" />
+                                 </graphic>
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <HBox fx:id="boxPIN" disable="true" visible="false">
+                                 <children>
+                                    <JFXTextField fx:id="twitterPIN" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="PIN" />
+                                    <JFXButton maxWidth="-Infinity" minWidth="-Infinity" onAction="#authenticateTwitter" prefWidth="50.0" style="-fx-background-color: e8e8e8;" text="OK" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <StackPane fx:id="postLayer" onMouseClicked="#closePost" style="-fx-background-color: rgba(0, 0, 0, .5);">
+               <children>
+                  <VBox fx:id="postContainer" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
+                     <children>
+                        <Label fx:id="retweetLabel" text=" " textFill="#878787">
+                           <graphic>
+                              <FontAwesomeIconView fill="#878787" glyphName="RETWEET" />
+                           </graphic>
+                           <VBox.margin>
+                              <Insets left="100.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <ImageView fx:id="profilePic" pickOnBounds="true" preserveRatio="true" />
+                              <VBox fx:id="postAuthorInfo" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="authorName" text=" " />
+                                    <Label fx:id="authorUsername" text=" ">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Region maxHeight="-Infinity" minHeight="-Infinity" prefHeight="0.0" HBox.hgrow="ALWAYS" />
+                              <JFXButton contentDisplay="CENTER" onAction="#closePost" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="CLOSE" size="20" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="40.0" right="40.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" VBox.vgrow="NEVER">
+                           <children>
+                              <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openPreviousPost" prefWidth="40.0" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="25" />
+                                 </graphic>
+                              </JFXButton>
+                              <ScrollPane fx:id="postScrollPane" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: ffffff;" HBox.hgrow="ALWAYS">
+                                 <content>
+                                    <VBox fx:id="postContent" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="470.0" spacing="20.0">
+                                       <children>
+                                          <Text fx:id="postText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                              <JFXButton contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openNextPost" prefWidth="40.0" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="CHEVRON_RIGHT" size="25" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <StackPane VBox.vgrow="NEVER">
+                           <children>
+                              <HBox fx:id="emailFooter" spacing="15.0" style="-fx-background-color: ffffff;">
+                                 <children>
+                                    <JFXButton id="respondEmail" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" text="Responder" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="twitterFooter" spacing="15.0" style="-fx-background-color: ffffff;">
+                                 <children>
+                                    <JFXButton id="twitterPostOptions" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#commentTweet" prefHeight="30.0" prefWidth="50.0" text=" ">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="COMMENT_OUTLINE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="twitterPostOptions" fx:id="retweetButton" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#retweet" prefHeight="30.0" prefWidth="50.0" text=" ">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="TWITTER_RETWEET" size="30" />
+                                       </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="twitterPostOptions" fx:id="favouriteButton" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#favouriteTweet" prefHeight="30.0" prefWidth="50.0" text=" ">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="HEART_OUTLINE" size="25" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="facebookFooter" style="-fx-background-color: ffffff;">
+                                 <children>
+                                    <JFXButton id="facebookPostOption" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" text=" ">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="THUMBS_UP" size="20" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
          </children>
       </StackPane>
    </children>
