@@ -153,7 +153,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @throws TwitterException the twitter exception
 	 */
 	public boolean retweet(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.retweetStatus(tweet.getId());
@@ -173,7 +173,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean tweet(String s) {
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.updateStatus(s);
@@ -193,7 +193,7 @@ public class TwitterConnection implements ServiceInstance {
 	 */
 	public String getUsername(){
 		try {
-			return logger.authenticatedInstance().getScreenName();
+			return logger.getAuthenticatedInstance().getScreenName();
 		} catch (Exception e ) {
 			return "";
 		} 
@@ -206,7 +206,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean favoriteTweet(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.createFavorite(tweet.getId());
@@ -227,7 +227,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean commentTweet(Status tweet,String comment){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				StatusUpdate statusUpdate = new StatusUpdate(comment);
@@ -242,7 +242,7 @@ public class TwitterConnection implements ServiceInstance {
 		return false;
 	}
 	public boolean isRetweetedbyMe(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				List<Status> l = t.getRetweets(tweet.getId());
@@ -259,10 +259,10 @@ public class TwitterConnection implements ServiceInstance {
 		return false;
 	}
 	public boolean deleteRetweet(Status tweet){
-			Twitter t = logger.authenticatedInstance();
+			Twitter t = logger.getAuthenticatedInstance();
 			if(t!=null){
 				try {
-					if (tweet.getUser().getId() != logger.authenticatedInstance().getId()) {
+					if (tweet.getUser().getId() != logger.getAuthenticatedInstance().getId()) {
 						  twitter.destroyStatus(tweet.getCurrentUserRetweetId());
 						  return true;
 					}
@@ -281,7 +281,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean deletePost(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.destroyStatus(tweet.getId());

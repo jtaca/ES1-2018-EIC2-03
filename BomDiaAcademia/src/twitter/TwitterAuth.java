@@ -34,8 +34,7 @@ public class TwitterAuth {
 	/** The request token. */
 	private RequestToken requestToken;
 	
-	/** The access token. */
-	private AccessToken accessToken;
+	
 
 	/**
 	 * Prints out an url that the user can go to make the login an then
@@ -46,7 +45,7 @@ public class TwitterAuth {
 	String getAuthURL(){
 		try {
 			requestToken = twitter.getOAuthRequestToken("oob");
-		} catch (TwitterException e) {
+		} catch (Exception e) {
 			return "";
 		}
 		String url = requestToken.getAuthenticationURL();
@@ -62,7 +61,7 @@ public class TwitterAuth {
 	 */
 	boolean inputPin(String s){
 		try {
-			accessToken = twitter.getOAuthAccessToken(requestToken, s);
+			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, s);
 			twitter.setOAuthAccessToken(accessToken);
 			userToken=accessToken;
 		} catch (TwitterException e) {
@@ -74,7 +73,7 @@ public class TwitterAuth {
 	 * Sets the user token.
 	 */
 	void setUserToken(AccessToken at){
-		this.accessToken=at;
+		this.userToken=at;
 		twitter.setOAuthAccessToken(at);
 	}
 	
@@ -97,10 +96,7 @@ public class TwitterAuth {
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter, if not authenticated returns null
 	 */
-	Twitter authenticatedInstance(){
-		if (twitter==null){
-			twitter=buildAuthenticationTwitter();
-		}
+	Twitter getAuthenticatedInstance(){
 		if(userToken==null){
 			System.out.println("usertokennull");
 			return null;
