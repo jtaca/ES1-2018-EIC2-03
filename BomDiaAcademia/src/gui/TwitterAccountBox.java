@@ -11,11 +11,23 @@ import javafx.scene.layout.Region;
 import twitter.TwitterConnection;
 import twitter4j.TwitterException;
 
+/**
+ * The Class TwitterAccountBox.
+ */
 public class TwitterAccountBox extends HBox {
 
+	/** The username. */
 	private String username;
+	
+	/** The check box. */
 	private CheckBox checkBox;
 
+	/**
+	 * Instantiates a new twitter account box.
+	 *
+	 * @param username the username
+	 * @param selected the selected
+	 */
 	public TwitterAccountBox(String username, boolean selected) {
 		super();
 		this.username = username;
@@ -40,10 +52,20 @@ public class TwitterAccountBox extends HBox {
 		getChildren().addAll(pic, label, region, checkBox);
 	}
 
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Checks if is selected.
+	 *
+	 * @return true, if is selected
+	 */
 	public boolean isSelected() {
 		return checkBox.isSelected();
 	}

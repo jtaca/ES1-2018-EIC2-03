@@ -21,6 +21,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import other.Service;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PostBox gives a visual representation of an InformationEntry in the
  * posts list.
@@ -36,21 +37,41 @@ public class PostBox extends HBox {
 	/** The service. */
 	private Service service;
 
+	/** The post author. */
 	private String postAuthor;
 
+	/** The email receiver. */
 	private String emailReceiver;
 
+	/** The date. */
 	private Date date;
 
+	/** The icon. */
 	// ------------ Structure elements ------------
 	private FontAwesomeIconView icon = new FontAwesomeIconView();
+
+	/** The entry info. */
 	private VBox entryInfo = new VBox();
+
+	/** The author info. */
 	private HBox authorInfo = new HBox();
+
+	/** The retweet info. */
 	private HBox retweetInfo = new HBox();
+
+	/** The author name. */
 	private Label authorName = new Label();
+
+	/** The author username. */
 	private Label authorUsername = new Label();
+
+	/** The post info. */
 	private Label postInfo = new Label();
+
+	/** The date label. */
 	private Label dateLabel = new Label();
+
+	/** The region. */
 	private Region region = new Region();
 
 	/**
@@ -104,6 +125,11 @@ public class PostBox extends HBox {
 		}
 	}
 
+	/**
+	 * Load email entry.
+	 *
+	 * @param email the email
+	 */
 	private void loadEmailEntry(EmailEntry email) {
 		String names[] = email.getWriterName().split("<");
 		icon.setIcon(FontAwesomeIcon.ENVELOPE);
@@ -117,6 +143,11 @@ public class PostBox extends HBox {
 		postInfo.setText(email.getSubject());
 	}
 
+	/**
+	 * Load Facebook entry.
+	 *
+	 * @param facebook the facebook
+	 */
 	private void loadFacebookEntry(FacebookEntry facebook) {
 		icon.setIcon(FontAwesomeIcon.FACEBOOK_OFFICIAL);
 
@@ -129,6 +160,11 @@ public class PostBox extends HBox {
 		getChildren().add(1, pic);
 	}
 
+	/**
+	 * Load Twitter entry.
+	 *
+	 * @param tweet the tweet
+	 */
 	private void loadTwitterEntry(TwitterEntry tweet) {
 		icon.setIcon(FontAwesomeIcon.TWITTER);
 
@@ -158,14 +194,29 @@ public class PostBox extends HBox {
 		getChildren().add(1, pic);
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * Gets the post author.
+	 *
+	 * @return the post author
+	 */
 	public String getPostAuthor() {
 		return postAuthor;
 	}
 
+	/**
+	 * Gets the email receiver.
+	 *
+	 * @return the email receiver
+	 */
 	public String getEmailReceiver() {
 		return emailReceiver;
 	}

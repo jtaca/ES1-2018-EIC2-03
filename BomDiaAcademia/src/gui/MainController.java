@@ -20,7 +20,6 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.scene.control.skin.ListViewSkin;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 
-import email.EmailConnection;
 import entry_objects.EmailEntry;
 import entry_objects.FacebookEntry;
 import entry_objects.InformationEntry;
@@ -98,30 +97,39 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextField searchBar;
 
+	/** The leave search. */
 	@FXML
 	private Hyperlink leaveSearch;
 
+	/** The twitter accounts filter. */
 	@FXML
 	private JFXListView<TwitterAccountBox> twitterAccountsFilter;
 
+	/** The date filter. */
 	@FXML
 	private ChoiceBox<String> dateFilter;
 
+	/** The email filter. */
 	@FXML
 	private JFXCheckBox emailFilter;
 
+	/** The facebook filter. */
 	@FXML
 	private JFXCheckBox facebookFilter;
 
+	/** The twitter filter. */
 	@FXML
 	private JFXCheckBox twitterFilter;
 
+	/** The remove filter. */
 	@FXML
 	private JFXButton removeFilter;
 
+	/** The email filter configurations. */
 	@FXML
 	private TitledPane emailFilterConfigurations;
 
+	/** The twitter filter configurations. */
 	@FXML
 	private TitledPane twitterFilterConfigurations;
 
@@ -138,6 +146,7 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox postContainer;
 
+	/** The post scroll pane. */
 	@FXML
 	private ScrollPane postScrollPane;
 
@@ -145,6 +154,7 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox postContent;
 
+	/** The post text. */
 	@FXML
 	private Text postText;
 
@@ -176,6 +186,7 @@ public class MainController implements Initializable {
 	@FXML
 	private HBox emailFooter;
 
+	/** The facebook footer. */
 	@FXML
 	private HBox facebookFooter;
 
@@ -183,9 +194,11 @@ public class MainController implements Initializable {
 	@FXML
 	private HBox twitterFooter;
 
+	/** The retweet button. */
 	@FXML
 	private JFXButton retweetButton;
 
+	/** The favourite button. */
 	@FXML
 	private JFXButton favouriteButton;
 
@@ -206,12 +219,15 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField newEmail;
 
+	/** The twitter login button. */
 	@FXML
 	private JFXButton twitterLoginButton;
 
+	/** The box PIN. */
 	@FXML
 	private HBox boxPIN;
 
+	/** The twitter PIN. */
 	@FXML
 	private JFXTextField twitterPIN;
 
@@ -237,21 +253,27 @@ public class MainController implements Initializable {
 	private JFXTextArea emailMessage;
 
 	// ------------ Tweet composing panel ------------
+	/** The compose tweet. */
 	@FXML
 	private StackPane composeTweet;
 
+	/** The tweet text area. */
 	@FXML
 	private JFXTextArea tweetTextArea;
 
+	/** The tweet counter. */
 	@FXML
 	private Label tweetCounter;
 
+	/** The tweet button. */
 	@FXML
 	private JFXButton tweetButton;
 
-	/** The email connection. */
-	private EmailConnection emailConnection;
+	// ------------ Other attributes ------------
+	/** The original list. */
 	private ObservableList<PostBox> originalList;
+
+	/** The currently opened. */
 	private InformationEntry currentlyOpened;
 
 	/**
@@ -309,6 +331,9 @@ public class MainController implements Initializable {
 		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
 	}
 
+	/**
+	 * Adds the loading box.
+	 */
 	private void addLoadingBox() {
 		posts.getItems().clear();
 		posts.setMouseTransparent(true);
@@ -439,10 +464,16 @@ public class MainController implements Initializable {
 			leaveSearch();
 	}
 
+	/**
+	 * Apply filter.
+	 */
 	@FXML
 	private void applyFilter() {
 	}
 
+	/**
+	 * Leave search.
+	 */
 	@FXML
 	private void leaveSearch() {
 		posts.getItems().clear();
@@ -616,11 +647,17 @@ public class MainController implements Initializable {
 		postLayer.toBack();
 	}
 
+	/**
+	 * Comment tweet.
+	 */
 	@FXML
 	private void commentTweet() {
 
 	}
 
+	/**
+	 * Retweet.
+	 */
 	@FXML
 	private void retweet() {
 		if (TwitterConnection.getInstance().isLoggedIn()) {
@@ -635,6 +672,9 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Favourite tweet.
+	 */
 	@FXML
 	private void favouriteTweet() {
 
@@ -654,8 +694,9 @@ public class MainController implements Initializable {
 	@FXML
 	private void sendEmail() {
 		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
-				&& !emailMessage.getText().isEmpty())
-			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
+				&& !emailMessage.getText().isEmpty()) {
+		}
+//			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
 		else {
 			FadeTransition errorFade = new FadeTransition(Duration.seconds(1), emailError);
 			emailError.setText("Preencha todos os campos");
@@ -695,6 +736,9 @@ public class MainController implements Initializable {
 		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
 	}
 
+	/**
+	 * Twitter login.
+	 */
 	@FXML
 	private void twitterLogin() {
 		if (TwitterConnection.getInstance().isLoggedIn()) {
@@ -711,6 +755,9 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Authenticate twitter.
+	 */
 	@FXML
 	private void authenticateTwitter() {
 		if (TwitterConnection.getInstance().confirmAuth(twitterPIN.getText())) {
@@ -722,8 +769,8 @@ public class MainController implements Initializable {
 
 	/**
 	 * Consumes event.
-	 * 
-	 * @param e
+	 *
+	 * @param e the e
 	 */
 	@FXML
 	private void consumeEvent(MouseEvent e) {
@@ -732,8 +779,8 @@ public class MainController implements Initializable {
 
 	/**
 	 * Sets the username on the sidebar.
-	 * 
-	 * @param username
+	 *
+	 * @param username the new username
 	 */
 	protected void setUsername(String username) {
 		this.username.setText(username);
@@ -742,8 +789,8 @@ public class MainController implements Initializable {
 	/**
 	 * Returns the JFXListView containing all posts currently being displayed on
 	 * screen.
-	 * 
-	 * @return
+	 *
+	 * @return the posts
 	 */
 	public JFXListView<PostBox> getPosts() {
 		return posts;
