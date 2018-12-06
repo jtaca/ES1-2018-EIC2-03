@@ -198,7 +198,7 @@ public class TwitterConnection implements ServiceInstance {
 			return "";
 		} 
 		
-	}
+	}	
 	/**
 	 * tags a tweet as favorite.
 	 *
@@ -283,19 +283,19 @@ public class TwitterConnection implements ServiceInstance {
 	 * @param tweet the target tweet
 	 * @return true, if sucessful
 	 */
-//	public boolean deletePost(Status tweet){
-//		Twitter t = logger.getAuthenticatedInstance();
-//		if(t!=null){
-//			try {
-//				t.destroyStatus(tweet.getId());
-//			} catch (TwitterException e) {
-//				return false;
-//			}
-//		}else{
-//			System.out.println("E nessessario efetuar login para utilizar esta funcao");
-//		}
-//		return false;
-//	}
+	public boolean deletePost(Status tweet){
+		Twitter t = logger.getAuthenticatedInstance();
+		if(t!=null){
+			try {
+				t.destroyStatus(tweet.getId());
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
 
 	//Querys
 	/**
@@ -432,6 +432,13 @@ public class TwitterConnection implements ServiceInstance {
 		return logger.getAuthenticatedInstance();
 	}
 
+	public Status getStatusById(Long id) {
+		try {
+			return twitter.showStatus(id);
+		} catch (TwitterException e) {
+			return null;
+		}
+	}
 	@Override
 	public Service getService() {
 		return Service.TWITTER;

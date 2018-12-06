@@ -73,4 +73,19 @@ public class TwitterConnectionLoggedInTest {
 			assert(tf.deleteRetweet(status));
 		}
 		
+		@Test
+		public void testTweetnComment() {
+			assert(TwitterConnection.getInstance().tweet(""+((Math.random()*1000))));
+			List<Status> list;
+			try {
+				list = TwitterConnection.getInstance().getTwitter().getUserTimeline();
+				assert(TwitterConnection.getInstance().favoriteTweet(list.get(0)));
+				assert(TwitterConnection.getInstance().commentTweet(list.get(0), ""+((Math.random()*1000))));
+				assert(TwitterConnection.getInstance().deletePost(list.get(0)));
+			} catch (TwitterException e) {
+				fail();
+			}
+			
+		}
+		
 }
