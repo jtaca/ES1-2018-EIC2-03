@@ -54,6 +54,11 @@ public class TwitterConnection implements ServiceInstance {
 	private final TwitterAuth logger= new TwitterAuth();
 	
 	//Initialization
+	/**
+	 * Gets the instance of TwitterConnection since it is a Singleton.
+	 *
+	 * @return the TwitterConnection
+	 */
 	public static TwitterConnection getInstance() {
 	      if(INSTANCE == null) {
 	    	  synchronized (TwitterConnection.class){
@@ -74,7 +79,7 @@ public class TwitterConnection implements ServiceInstance {
 	
 	
 	/**
-	 * Inits the.
+	 * Inits the twitter object with the base keys.
 	 *
 	 * @return the twitter
 	 */
@@ -102,15 +107,35 @@ public class TwitterConnection implements ServiceInstance {
 		return twitter;
 	}
 	//Authentication
+	/**
+	 * Prints out an url that the user can go to make the login an then
+	 * receives a pin from the user in order to complete authentication.
+	 *
+	 * @return the auth URL
+	 */
 	public String getAuthUrl(){
 		return logger.getAuthURL();
 	}
+	/**
+	 * Input pin, to confirm the user authentication.
+	 *
+	 * @param s the pin
+	 * @return true, if the authentication successful
+	 */
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	/**
+	 * Verifies if there is a user logged in.
+	 *
+	 * @return true, if a user is logged in
+	 */
 	public boolean isLoggedIn(){
 		return logger.isLoggedIn();
 	}
+	/**
+	 * Logout current user.
+	 */
 	public void logout(){
 		logger.logout();
 	}
@@ -137,7 +162,12 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
-	
+	/**
+	 * Posts a tweet as the logged user with a designated string.
+	 *
+	 * @param s the tweet content
+	 * @return true, if sucessful
+	 */
 	public boolean tweet(String s) {
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
@@ -152,6 +182,11 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	/**
+	 * Gets the username of the currently loggeg in user.
+	 *
+	 * @return the username, if sucessful else returns an empty string
+	 */
 	public String getUsername(){
 		try {
 			return logger.authenticatedInstance().getScreenName();
@@ -162,6 +197,12 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return "";
 	}
+	/**
+	 * tags a tweet as favorite.
+	 *
+	 * @param tweet the target tweet
+	 * @return true, if sucessful
+	 */
 	public boolean favoriteTweet(Status tweet){
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
@@ -176,6 +217,13 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	/**
+	 * adds a comment to a tweet.
+	 *
+	 * @param tweet the target tweet
+	 * @param comment the comment being made
+	 * @return true, if sucessful
+	 */
 	public boolean commentTweet(Status tweet,String comment){
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){
@@ -191,6 +239,12 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	/**
+	 * deletes a post made by the user.
+	 *
+	 * @param tweet the target tweet
+	 * @return true, if sucessful
+	 */
 	public boolean deletePost(Status tweet){
 		Twitter t = logger.authenticatedInstance();
 		if(t!=null){

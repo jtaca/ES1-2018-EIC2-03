@@ -57,8 +57,8 @@ public class TwitterAuth {
 	/**
 	 * Input pin.
 	 *
-	 * @param s the s
-	 * @return true, if successful
+	 * @param s the pin
+	 * @return true, if the authentication successful
 	 */
 	protected boolean inputPin(String s){
 		try {
@@ -88,7 +88,7 @@ public class TwitterAuth {
 	
 	/**
 	 * Returns an authenticated instance of the object Twitter.
-	 * @return Twitter
+	 * @return Twitter, if not authenticated returns null
 	 */
 	protected Twitter authenticatedInstance(){
 		if (twitter==null){
@@ -99,6 +99,7 @@ public class TwitterAuth {
 		return twitter;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Gets the twitter.
 	 *
@@ -107,16 +108,34 @@ public class TwitterAuth {
 	protected Twitter getTwitter(){
 		return this.twitter;
 	}
+=======
+>>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 	
+<<<<<<< HEAD
 	protected boolean isLoggedIn(){
+=======
+	/**
+	 * Verifies if there is a user logged in.
+	 *
+	 * @return true, if a user is logged in
+	 */
+	boolean isLoggedIn(){
+>>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 		try {
 			twitter.verifyCredentials();
 			return true;
-		} catch (TwitterException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
+<<<<<<< HEAD
 	protected void logout(){
+=======
+	/**
+	 * Logout current user.
+	 */
+	void logout(){
+>>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 		userToken = null;
 	}
 }
