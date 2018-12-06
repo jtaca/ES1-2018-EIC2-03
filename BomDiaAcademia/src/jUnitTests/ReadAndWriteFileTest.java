@@ -39,7 +39,7 @@ public class ReadAndWriteFileTest {
 	
 		ReadAndWriteFile.saveListOfInformationEntry(null, null);
 		ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);
-		ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list);
+		ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list); 
 		ReadAndWriteFile.saveListOfInformationEntry("@", information_entry_list);
 		ReadAndWriteFile.saveListOfInformationEntry("\n",null);
 		
