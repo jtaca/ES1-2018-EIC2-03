@@ -92,6 +92,8 @@ public class TwitterAuth {
 		return factory.getInstance();
 	}
 	
+	
+	
 	/**
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter, if not authenticated returns null
