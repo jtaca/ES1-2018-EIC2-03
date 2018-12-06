@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import entry_objects.InformationEntry;
@@ -26,15 +28,39 @@ import twitter4j.TwitterException;
 import twitter4j.URLEntity;
 import twitter4j.User;
 import twitter4j.UserMentionEntity;
+import twitter4j.auth.AccessToken;
 
-public class TwitterFunctionsTest {
-
+public class TwitterConnectionLoggedOutTest {
+	@BeforeClass
+	public static void setUp(){
+		TwitterConnection.getInstance().logout();
+	}
+	//Authetication functions
+	@Test
+	public void testGetAuthUrl(){
+		String s = TwitterConnection.getInstance().getAuthUrl();
+		assert(s!="");
+	}
+	@Test
+	public void testInputPin(){
+		assert(!TwitterConnection.getInstance().confirmAuth("asdasd"));
+	}
+	@Test
+	public void testIsLoggedIn(){
+		assert(!TwitterConnection.getInstance().isLoggedIn());
+	}
+	
+	//LoggedIn functions
+	@Test
+	public void testGetUsername(){
+		String s=TwitterConnection.getInstance().getUsername();
+		assertEquals(s,"");
+	}
 	@Test
 	public void testRetweet() throws TwitterException {
 		Status status = new TestStatus(1064992747311063040L);
 		TwitterConnection tf = TwitterConnection.getInstance();
-		
-		tf.retweet(status);
+		assert(!tf.retweet(status));
 	}
 
 	@Test

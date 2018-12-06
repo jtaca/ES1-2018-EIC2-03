@@ -23,7 +23,7 @@ public class TwitterAuth {
 	private static String TWITTER_SECRET_KEY = TwitterConnection.getKeys()[1];
 	
 	/** The user token. */
-	private static AccessToken userToken = null;
+	private AccessToken userToken = null;
 	
 	/** The twitter. */
 	private Twitter twitter = buildAuthenticationTwitter();
@@ -70,6 +70,13 @@ public class TwitterAuth {
 		}
 		return true;
 	}
+	/**
+	 * Sets the user token.
+	 */
+	void setUserToken(AccessToken at){
+		this.accessToken=at;
+		twitter.setOAuthAccessToken(at);
+	}
 	
 	/**
 	 * Builds the authentication twitter.
@@ -94,8 +101,10 @@ public class TwitterAuth {
 		if (twitter==null){
 			twitter=buildAuthenticationTwitter();
 		}
-		if(userToken==null)return null;
-		twitter.setOAuthAccessToken(userToken);
+		if(userToken==null){
+			System.out.println("usertokennull");
+			return null;
+		}
 		return twitter;
 	}
 	
@@ -118,5 +127,6 @@ public class TwitterAuth {
 	 */
 	void logout(){
 		userToken = null;
+		twitter = buildAuthenticationTwitter();
 	}
 }

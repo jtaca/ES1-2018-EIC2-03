@@ -22,6 +22,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -125,6 +126,9 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	public void setUserToken(AccessToken at){
+		logger.setUserToken(at);
+	}
 	/**
 	 * Verifies if there is a user logged in.
 	 *
@@ -190,12 +194,10 @@ public class TwitterConnection implements ServiceInstance {
 	public String getUsername(){
 		try {
 			return logger.authenticatedInstance().getScreenName();
-		} catch (IllegalStateException e ) {
-			
-		} catch (TwitterException e) {
-			
-		}
-		return "";
+		} catch (Exception e ) {
+			return "";
+		} 
+		
 	}
 	/**
 	 * tags a tweet as favorite.
@@ -238,6 +240,39 @@ public class TwitterConnection implements ServiceInstance {
 			System.out.println("E nessessario efetuar login para utilizar esta funcao");
 		}
 		return false;
+	}
+	public boolean isRetweetedbyMe(Status tweet){
+		Twitter t = logger.authenticatedInstance();
+		if(t!=null){
+			try {
+				List<Status> l = t.getRetweets(tweet.getId());
+				for(Status s : l){
+					if(s.getUser().getScreenName().equals(t.getScreenName()))return true;
+				}
+				
+			} catch (Exception e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
+	public boolean deleteRetweet(Status tweet){
+			Twitter t = logger.authenticatedInstance();
+			if(t!=null){
+				try {
+					if (tweet.getUser().getId() != logger.authenticatedInstance().getId()) {
+						  twitter.destroyStatus(tweet.getCurrentUserRetweetId());
+						  return true;
+					}
+				} catch (Exception e) {
+					return false;
+				}
+			}else{
+				System.out.println("E nessessario efetuar login para utilizar esta funcao");
+			}
+			return false;
 	}
 	/**
 	 * deletes a post made by the user.
