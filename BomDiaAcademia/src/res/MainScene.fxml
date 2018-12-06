@@ -379,7 +379,7 @@
                               <VBox fx:id="postAuthorInfo" spacing="5.0">
                                  <children>
                                     <Label fx:id="authorName" text=" " />
-                                    <Label fx:id="authorUsername" text=" ">
+                                    <Label fx:id="authorUsername" text=" " wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
