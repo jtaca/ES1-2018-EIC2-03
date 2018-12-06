@@ -127,4 +127,5 @@ public class TwitterAuth {
 		userToken = null;
 		twitter = buildAuthenticationTwitter();
 	}
+	
 }

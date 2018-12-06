@@ -67,7 +67,6 @@ public class TwitterConnectionLoggedInTest {
 		@Test
 		public void testRetweet() throws TwitterException {
 			
-			
 			TwitterConnection tf = TwitterConnection.getInstance();
 			assert(tf.retweet(status));
 			assert(tf.isRetweetedbyMe(status));

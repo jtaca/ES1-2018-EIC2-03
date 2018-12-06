@@ -260,6 +260,7 @@ public class TwitterConnection implements ServiceInstance {
 		return false;
 	}
 	
+	
 	public boolean deleteRetweet(Status tweet){
 			Twitter t = logger.getAuthenticatedInstance();
 			if(t!=null){
