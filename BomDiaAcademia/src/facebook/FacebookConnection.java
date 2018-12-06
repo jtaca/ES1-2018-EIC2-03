@@ -134,15 +134,34 @@ public class FacebookConnection implements ServiceInstance {
 			     //System.out.println("Post: " + post.getId()+ ", Message: "+ post.getMessage() +", Updated time: "+ post.getUpdatedTime());
 				Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with("fields", "name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)"));
 				
+				String author = "BomDiaAcademiaISCTE";
+				
 				JsonObject jsonObject = fbClient2.fetchObject("/BomDiaAcademiaISCTE/picture", JsonObject.class,
 						Parameter.with("type", "large"), Parameter.with("redirect", "false"));
 						JsonValue jsonValue = jsonObject.get("data");
 						JsonObject object = jsonValue.asObject();
 						String profileImageUrl = object.get("url").asString();
 				
-						
+				try {
+					String linkurl = post1.getAttachments().getData().get(0).getUrl();
+					//String name = linkurl.split("/")[3];
+					System.out.println(linkurl.split("/")[3]);
+					if (!linkurl.split("/")[3].contains("l.php")) {
+						author = linkurl.split("/")[3];
+						jsonObject = fbClient2.fetchObject("/"+author+"/picture", JsonObject.class,
+								Parameter.with("type", "large"), Parameter.with("redirect", "false"));
+								jsonValue = jsonObject.get("data");
+								object = jsonValue.asObject();
+								profileImageUrl = object.get("url").asString();
+					}
+					
+					
+				} catch (Exception e) {
+					System.out.println(e);
+					
+				}
 				
-				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl));
+				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl,author));
 			   }	
 			   
 			} 

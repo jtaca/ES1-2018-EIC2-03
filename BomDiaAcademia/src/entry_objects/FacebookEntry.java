@@ -31,6 +31,7 @@ public class FacebookEntry implements InformationEntry { //
 	private Comments Comments;
 	private Object CommentCount;
 	private String profileImageUrl;
+	private String Author; 
 	
 	
 	
@@ -39,11 +40,12 @@ public class FacebookEntry implements InformationEntry { //
 	/**
 	 * Constructor
 	 */
-	public FacebookEntry(Post post, Date date, String profileImageUrl) {
+	public FacebookEntry(Post post, Date date, String profileImageUrl, String Author) {
 		this.post = post;
 		//this.date = date;
 		this.date = date;
 		this.profileImageUrl = profileImageUrl;
+		this.Author = Author;
 		try {
 			this.Message = this.post.getMessage();
 		} catch (NullPointerException e) {
@@ -172,6 +174,17 @@ public class FacebookEntry implements InformationEntry { //
 	public String getProfileImageUrl() {
 		return profileImageUrl;
 	}
+	
+	
+
+
+	/**
+	 * getter for the post author
+	 */
+	public String getAuthor() {
+		return Author;
+	}
+
 
 
 
@@ -180,7 +193,7 @@ public class FacebookEntry implements InformationEntry { //
 	 */
 	@Override
 	public String toString() {
-		return "FacebookEntry [" +  "date=" + date + ", AttachmentTitle=" + AttachmentTitle
+		return "FacebookEntry [" +  "date=" + date + ", Author=" + Author +", AttachmentTitle=" + AttachmentTitle
 				+ ", AttachmentUrl=" + AttachmentUrl + ", AttachmentDescription=" + AttachmentDescription
 				+ ", AttachmentMedia=" + AttachmentMedia + ", Message=" + Message + ", id=" + id + ", Description="
 				+ Description + ", Picture=" + Picture + ", LikeCount=" + LikeCount + ", Comments=" + Comments
