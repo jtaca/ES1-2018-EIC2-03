@@ -233,6 +233,7 @@ public class TwitterConnection implements ServiceInstance {
 				StatusUpdate statusUpdate = new StatusUpdate(comment);
 				statusUpdate.inReplyToStatusId(tweet.getId()); 
 				Status status = twitter.updateStatus(statusUpdate);
+				return true;
 			} catch (TwitterException e) {
 				return false;
 			}
@@ -288,6 +289,7 @@ public class TwitterConnection implements ServiceInstance {
 		if(t!=null){
 			try {
 				t.destroyStatus(tweet.getId());
+				return true;
 			} catch (TwitterException e) {
 				return false;
 			}

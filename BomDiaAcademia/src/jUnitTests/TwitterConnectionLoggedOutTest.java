@@ -62,6 +62,16 @@ public class TwitterConnectionLoggedOutTest {
 		TwitterConnection tf = TwitterConnection.getInstance();
 		assert(!tf.retweet(status));
 	}
+	@Test
+	public void testFailWhenOffFunctions() {
+		TwitterConnection tc= TwitterConnection.getInstance();
+		Status status=tc.getSomeStatus();
+		assert(!tc.tweet(""));
+		assert(!tc.favoriteTweet(status));
+		assert(!tc.commentTweet(status, ""));
+		assert(!tc.isRetweetedbyMe(status));
+		assert(!tc.deleteRetweet(status));
+	}
 
 	@Test
 	public void testRequestTwitter() throws Exception {
