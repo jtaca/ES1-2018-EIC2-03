@@ -105,6 +105,7 @@ public class FacebookTest {
 			int n = rand.nextInt(50) + 1;
 			GraphResponse b = FacebookConnection.post("Random Number: "+ n );
 			assertNotNull(b);
+			
 			FacebookConnection.post("SameText");
 			FacebookConnection.post(null);
 			
