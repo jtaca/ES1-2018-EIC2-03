@@ -57,8 +57,8 @@ public class TwitterAuth {
 	/**
 	 * Input pin.
 	 *
-	 * @param s the s
-	 * @return true, if successful
+	 * @param s the pin
+	 * @return true, if the authentication successful
 	 */
 	boolean inputPin(String s){
 		try {
@@ -88,7 +88,7 @@ public class TwitterAuth {
 	
 	/**
 	 * Returns an authenticated instance of the object Twitter.
-	 * @return Twitter
+	 * @return Twitter, if not authenticated returns null
 	 */
 	Twitter authenticatedInstance(){
 		if (twitter==null){
@@ -99,15 +99,12 @@ public class TwitterAuth {
 		return twitter;
 	}
 	
-	/**
-	 * Gets the twitter.
-	 *
-	 * @return the twitter
-	 */
-	Twitter getTwitter(){
-		return this.twitter;
-	}
 	
+	/**
+	 * Verifies if there is a user logged in.
+	 *
+	 * @return true, if a user is logged in
+	 */
 	boolean isLoggedIn(){
 		try {
 			twitter.verifyCredentials();
@@ -116,6 +113,9 @@ public class TwitterAuth {
 			return false;
 		}
 	}
+	/**
+	 * Logout current user.
+	 */
 	void logout(){
 		userToken = null;
 	}
