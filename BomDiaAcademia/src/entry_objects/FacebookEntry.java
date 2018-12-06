@@ -42,7 +42,7 @@ public class FacebookEntry implements InformationEntry { //
 	 */
 	public FacebookEntry(Post post, Date date, String profileImageUrl, String Author) {
 		this.post = post;
-		//this.date = date;
+		//this.date = date; 
 		this.date = date;
 		this.profileImageUrl = profileImageUrl;
 		this.Author = Author;
@@ -61,7 +61,7 @@ public class FacebookEntry implements InformationEntry { //
 		
 		try {
 			this.Description = this.post.getDescription();
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			System.out.println("no Description: "+e);
 			this.Description = "";
 		}
@@ -260,7 +260,7 @@ public class FacebookEntry implements InformationEntry { //
 	 * getter of the description on the post
 	 */
 	public String getDescription() {
-		return Description;
+		return this.Description;
 	}
 
 
@@ -269,7 +269,7 @@ public class FacebookEntry implements InformationEntry { //
 	 * getter of the picture on the post
 	 */
 	public String getPicture() {
-		return Picture;
+		return this.Picture;
 	}
 
 

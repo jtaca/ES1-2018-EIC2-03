@@ -55,7 +55,7 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private FacebookConnection() {
 		accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
-		fbClient2 = init();
+		fbClient2 = init("me");
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
 		System.out.println("Name: " + me2.getName());
@@ -73,16 +73,16 @@ public class FacebookConnection implements ServiceInstance {
 	 * Starts a connection with Facebook
 	 */
 	@SuppressWarnings("deprecation")
-	private static DefaultFacebookClient init() {
+	private static DefaultFacebookClient init(String s) {
 	
 		try {
 			fbClient2 = new DefaultFacebookClient(accessToken2);
-			me2 = fbClient2.fetchObject("me", User.class);
-			try {
-				
-			} catch (FacebookException e) {
-				System.out.println(""+e);
-			}
+			me2 = fbClient2.fetchObject(s, User.class);
+//			try {
+//				me2.getAbout();
+//			} catch (FacebookException e) {
+//				System.out.println(""+e);
+//			}
 
 			
 		} catch (FacebookException e) {
@@ -94,21 +94,23 @@ public class FacebookConnection implements ServiceInstance {
 	}
 
 
-	/**
-	 * Setter for app token
-	 */
-	public static void setAccessToken2(String accessToken2) {
-		FacebookConnection.accessToken2 = accessToken2;
-	}
+//	/**
+//	 * Setter for app token, to be implemented later.
+//	 */
+//	public static void setAccessToken2(String accessToken2) {
+//		FacebookConnection.accessToken2 = accessToken2;
+//	}
 	
 	/**
 	 * Extends the app token
 	 */
-	public static void ExtendAccessToken() {
+	public static void ExtendAccessToken(String app, String secret) {
 		try {
-			fbClient2.obtainExtendedAccessToken("2128274727202894", "5b08263178f3db9cbd189e2100f0ee54", accessToken2);
+			fbClient2.obtainExtendedAccessToken(app, secret, accessToken2);
 			
 		} catch (FacebookException e) {
+			System.out.println("FB exception: "+e);
+		}catch (Exception e) {
 			System.out.println(e);
 		}
 		
@@ -121,10 +123,10 @@ public class FacebookConnection implements ServiceInstance {
 	/**
 	 * Request for the bom dia academia page
 	 */
-	public static List<InformationEntry> requestFacebook() {
+	public static List<InformationEntry> requestFacebook(String s) {
 		List<InformationEntry> list = new ArrayList<>();
 		try {
-			Connection<Post> myFeed = fbClient2.fetchConnection("me/feed", Post.class);
+			Connection<Post> myFeed = fbClient2.fetchConnection(s, Post.class);
 			Iterator<List<Post>> it = myFeed.iterator();
 			
 			while(it.hasNext()) {
@@ -160,17 +162,16 @@ public class FacebookConnection implements ServiceInstance {
 					System.out.println(e);
 					
 				}
-				
 				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl,author));
 			   }	
 			   
 			} 
 			
-		} catch (FacebookOAuthException e) {
+		} catch (FacebookException e) {
 			e.printStackTrace();
-			FacebookConnection.ExtendAccessToken();
-		} catch (FacebookException te) {
-			te.printStackTrace();
+			FacebookConnection.ExtendAccessToken("2128274727202894", "5b08263178f3db9cbd189e2100f0ee54");
+		} catch (Exception te) {
+			System.out.println("unexpected :"+te);
 		}
 		return list;
 	
@@ -181,7 +182,14 @@ public class FacebookConnection implements ServiceInstance {
 	 * Likes the post with the id given
 	 */
 	public static void like(String id){
-		fbClient2.publish(id+"/likes", Boolean.class); 
+		try {
+			fbClient2.publish(id+"/likes", Boolean.class); 
+		} catch (FacebookException e) {
+			System.out.println("invalid id: "+e);
+		}catch (NullPointerException e) {
+			System.out.println("invalid id: "+e);
+		}
+		
 		
 	}
 	
@@ -190,19 +198,32 @@ public class FacebookConnection implements ServiceInstance {
 	 * Posts on the bom dia academia page with the message given
 	 */
 	public static GraphResponse post(String message) {
-		GraphResponse publishMessageResponse = 
-				fbClient2.publish("me/feed", GraphResponse.class,
-				    Parameter.with("message", message));
+		if(message != null) {
+			GraphResponse publishMessageResponse = 
+					fbClient2.publish("me/feed", GraphResponse.class,
+					    Parameter.with("message", message));
 
-		System.out.println("Published message ID: " + publishMessageResponse.getId());
-		return publishMessageResponse;
+			System.out.println("Published message ID: " + publishMessageResponse.getId());
+			return publishMessageResponse;
+		}
+		return null;	
+		
+		
 	}
 	
 	/**
 	 * comments the post with the id and message given
 	 */
 	public static void commentOnPost(String id, String message) {
-		fbClient2.publish(id+"/comments", String.class, Parameter.with("message",message));
+		if(message != null && id != null) {
+			try {
+				fbClient2.publish(id+"/comments", String.class, Parameter.with("message",message));
+			} catch (FacebookException e) {
+				System.out.println("commentOnPost: "+e);
+			}
+//		}else{
+			System.out.println("Invalid ID or message");
+		}
 	}
 	
 	
@@ -218,22 +239,22 @@ public class FacebookConnection implements ServiceInstance {
 	/**
 	 * main for demonstrating how to use the methods in this function
 	 */
-	public static void main(String[] args) {
-		FacebookConnection fb = getInstance();
-		 List<InformationEntry> a = fb.requestFacebook();
-		 for (int i = 0; i < a.size(); i++) {
-			System.out.println( a.get(i).toString());
-		}
-		//System.out.println(a);
-		like(((FacebookEntry) a.get(0)).getPost().getId());
-		
-		//GraphResponse b = post("FaceId");
-		//like(b.getId());
-		//commentOnPost(b.getId(),"Grateful Comment :P");
-		ExtendAccessToken();
-		
-		
-	}
+//	public static void main(String[] args) {
+//		FacebookConnection fb = getInstance();
+//		 List<InformationEntry> a = fb.requestFacebook();
+//		 for (int i = 0; i < a.size(); i++) {
+//			System.out.println( a.get(i).toString());
+//		}
+//		//System.out.println(a);
+//		like(((FacebookEntry) a.get(0)).getPost().getId());
+//		
+//		//GraphResponse b = post("FaceId");
+//		//like(b.getId());
+//		//commentOnPost(b.getId(),"Grateful Comment :P");
+//		ExtendAccessToken();
+//		
+//		
+//	}
 	
 	/**
 	 * Getter for the type of service in use
