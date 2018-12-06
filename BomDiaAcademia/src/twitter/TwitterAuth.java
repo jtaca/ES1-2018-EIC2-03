@@ -23,7 +23,7 @@ public class TwitterAuth {
 	private static String TWITTER_SECRET_KEY = TwitterConnection.getKeys()[1];
 	
 	/** The user token. */
-	private AccessToken userToken = null;
+	private AccessToken userToken;
 	
 	/** The twitter. */
 	private Twitter twitter = buildAuthenticationTwitter();

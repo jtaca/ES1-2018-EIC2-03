@@ -247,7 +247,8 @@ public class TwitterConnection implements ServiceInstance {
 			try {
 				List<Status> l = t.getRetweets(tweet.getId());
 				for(Status s : l){
-					if(s.getUser().getScreenName().equals(t.getScreenName()))return true;
+					if(s.getUser().getScreenName().equals(t.getScreenName()))	
+						return true;
 				}
 				
 			} catch (Exception e) {
@@ -262,11 +263,11 @@ public class TwitterConnection implements ServiceInstance {
 			Twitter t = logger.getAuthenticatedInstance();
 			if(t!=null){
 				try {
-					if (tweet.getUser().getId() != logger.getAuthenticatedInstance().getId()) {
-						  twitter.destroyStatus(tweet.getCurrentUserRetweetId());
-						  return true;
-					}
+					twitter.unRetweetStatus(tweet.getId());	
+					return true;
+						
 				} catch (Exception e) {
+					e.printStackTrace();
 					return false;
 				}
 			}else{
@@ -384,11 +385,12 @@ public class TwitterConnection implements ServiceInstance {
 		return tweets;
 	}
 	
-//	public static Status getSomeStatus(){
-//		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-//		List<InformationEntry> l = getTweetsFiltered();
-//		TwitterEntry te = (TwitterEntry) l.get(0);
-//		return te.getStatus();
+	public Status getSomeStatus(){
+		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
+		List<InformationEntry> l = TwitterConnection.getInstance().getTweetsFiltered();
+		TwitterEntry te = (TwitterEntry) l.get(0);
+		return te.getStatus();
+	}
 /**
  * Gets the some retweet.
  *
@@ -420,7 +422,9 @@ public class TwitterConnection implements ServiceInstance {
 				TWITTER_ACCESS_TOKEN_SECRET };
 	}
 
-
+	public Twitter getTwitter() {
+		return logger.getAuthenticatedInstance();
+	}
 
 	@Override
 	public Service getService() {
