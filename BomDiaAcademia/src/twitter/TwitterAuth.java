@@ -112,7 +112,7 @@ public class TwitterAuth {
 		try {
 			twitter.verifyCredentials();
 			return true;
-		} catch (TwitterException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
