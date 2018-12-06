@@ -23,7 +23,7 @@ public class TwitterAuth {
 	private static String TWITTER_SECRET_KEY = TwitterConnection.getKeys()[1];
 	
 	/** The user token. */
-	private static AccessToken userToken = null;
+	private AccessToken userToken;
 	
 	/** The twitter. */
 	private Twitter twitter = buildAuthenticationTwitter();
@@ -34,8 +34,7 @@ public class TwitterAuth {
 	/** The request token. */
 	private RequestToken requestToken;
 	
-	/** The access token. */
-	private AccessToken accessToken;
+	
 
 	/**
 	 * Prints out an url that the user can go to make the login an then
@@ -43,10 +42,10 @@ public class TwitterAuth {
 	 *
 	 * @return the auth URL
 	 */
-	protected String getAuthURL(){
+	String getAuthURL(){
 		try {
 			requestToken = twitter.getOAuthRequestToken("oob");
-		} catch (TwitterException e) {
+		} catch (Exception e) {
 			return "";
 		}
 		String url = requestToken.getAuthenticationURL();
@@ -60,15 +59,22 @@ public class TwitterAuth {
 	 * @param s the pin
 	 * @return true, if the authentication successful
 	 */
-	protected boolean inputPin(String s){
+	boolean inputPin(String s){
 		try {
-			accessToken = twitter.getOAuthAccessToken(requestToken, s);
+			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, s);
 			twitter.setOAuthAccessToken(accessToken);
 			userToken=accessToken;
 		} catch (TwitterException e) {
 			return false;
 		}
 		return true;
+	}
+	/**
+	 * Sets the user token.
+	 */
+	void setUserToken(AccessToken at){
+		this.userToken=at;
+		twitter.setOAuthAccessToken(at);
 	}
 	
 	/**
@@ -86,41 +92,27 @@ public class TwitterAuth {
 		return factory.getInstance();
 	}
 	
+	
+	
 	/**
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter, if not authenticated returns null
 	 */
-	protected Twitter authenticatedInstance(){
-		if (twitter==null){
-			twitter=buildAuthenticationTwitter();
+	Twitter getAuthenticatedInstance(){
+		if(userToken==null){
+			System.out.println("usertokennull");
+			return null;
 		}
-		if(userToken==null)return null;
-		twitter.setOAuthAccessToken(userToken);
 		return twitter;
 	}
 	
-<<<<<<< HEAD
-	/**
-	 * Gets the twitter.
-	 *
-	 * @return the twitter
-	 */
-	protected Twitter getTwitter(){
-		return this.twitter;
-	}
-=======
->>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 	
-<<<<<<< HEAD
-	protected boolean isLoggedIn(){
-=======
 	/**
 	 * Verifies if there is a user logged in.
 	 *
 	 * @return true, if a user is logged in
 	 */
 	boolean isLoggedIn(){
->>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 		try {
 			twitter.verifyCredentials();
 			return true;
@@ -128,14 +120,12 @@ public class TwitterAuth {
 			return false;
 		}
 	}
-<<<<<<< HEAD
-	protected void logout(){
-=======
 	/**
 	 * Logout current user.
 	 */
 	void logout(){
->>>>>>> branch 'master' of https://github.com/jtaca/ES1-2018-EIC2-03.git
 		userToken = null;
+		twitter = buildAuthenticationTwitter();
 	}
+	
 }
