@@ -283,19 +283,19 @@ public class TwitterConnection implements ServiceInstance {
 	 * @param tweet the target tweet
 	 * @return true, if sucessful
 	 */
-	public boolean deletePost(Status tweet){
-		Twitter t = logger.getAuthenticatedInstance();
-		if(t!=null){
-			try {
-				t.destroyStatus(tweet.getId());
-			} catch (TwitterException e) {
-				return false;
-			}
-		}else{
-			System.out.println("E nessessario efetuar login para utilizar esta funcao");
-		}
-		return false;
-	}
+//	public boolean deletePost(Status tweet){
+//		Twitter t = logger.getAuthenticatedInstance();
+//		if(t!=null){
+//			try {
+//				t.destroyStatus(tweet.getId());
+//			} catch (TwitterException e) {
+//				return false;
+//			}
+//		}else{
+//			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+//		}
+//		return false;
+//	}
 
 	//Querys
 	/**
@@ -400,14 +400,18 @@ public class TwitterConnection implements ServiceInstance {
  */
 //	}
 	public Status getSomeRetweet(){
-		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-		List<InformationEntry> l = getTweetsFiltered();
-		TwitterEntry te=null;
-		for(InformationEntry elem : l){
-			te=(TwitterEntry)elem;
-			if(te.getStatus().isRetweet())break;
+		List<Status> list;
+		try {
+			list = twitter.getUserTimeline();
+			for(Status elem : list){
+				if(elem.isRetweet())return elem;
+			}
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return te.getStatus();
+		
+		return null;
 	}
 	public String getUserPicture(String user) throws TwitterException{
 		User u = twitter.showUser(user);
