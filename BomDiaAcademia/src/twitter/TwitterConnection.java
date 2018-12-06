@@ -22,6 +22,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
+import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -125,6 +126,9 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	public void setUserToken(AccessToken at){
+		logger.setUserToken(at);
+	}
 	/**
 	 * Verifies if there is a user logged in.
 	 *
@@ -149,7 +153,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @throws TwitterException the twitter exception
 	 */
 	public boolean retweet(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.retweetStatus(tweet.getId());
@@ -169,7 +173,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean tweet(String s) {
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.updateStatus(s);
@@ -189,14 +193,12 @@ public class TwitterConnection implements ServiceInstance {
 	 */
 	public String getUsername(){
 		try {
-			return logger.authenticatedInstance().getScreenName();
-		} catch (IllegalStateException e ) {
-			
-		} catch (TwitterException e) {
-			
-		}
-		return "";
-	}
+			return logger.getAuthenticatedInstance().getScreenName();
+		} catch (Exception e ) {
+			return "";
+		} 
+		
+	}	
 	/**
 	 * tags a tweet as favorite.
 	 *
@@ -204,7 +206,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean favoriteTweet(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.createFavorite(tweet.getId());
@@ -225,7 +227,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean commentTweet(Status tweet,String comment){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				StatusUpdate statusUpdate = new StatusUpdate(comment);
@@ -239,6 +241,42 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	public boolean isRetweetedbyMe(Status tweet){
+		Twitter t = logger.getAuthenticatedInstance();
+		if(t!=null){
+			try {
+				List<Status> l = t.getRetweets(tweet.getId());
+				for(Status s : l){
+					if(s.getUser().getScreenName().equals(t.getScreenName()))	
+						return true;
+				}
+				
+			} catch (Exception e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
+	
+	
+	public boolean deleteRetweet(Status tweet){
+			Twitter t = logger.getAuthenticatedInstance();
+			if(t!=null){
+				try {
+					twitter.unRetweetStatus(tweet.getId());	
+					return true;
+						
+				} catch (Exception e) {
+					e.printStackTrace();
+					return false;
+				}
+			}else{
+				System.out.println("E nessessario efetuar login para utilizar esta funcao");
+			}
+			return false;
+	}
 	/**
 	 * deletes a post made by the user.
 	 *
@@ -246,7 +284,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * @return true, if sucessful
 	 */
 	public boolean deletePost(Status tweet){
-		Twitter t = logger.authenticatedInstance();
+		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
 				t.destroyStatus(tweet.getId());
@@ -349,11 +387,12 @@ public class TwitterConnection implements ServiceInstance {
 		return tweets;
 	}
 	
-//	public static Status getSomeStatus(){
-//		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-//		List<InformationEntry> l = getTweetsFiltered();
-//		TwitterEntry te = (TwitterEntry) l.get(0);
-//		return te.getStatus();
+	public Status getSomeStatus(){
+		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
+		List<InformationEntry> l = TwitterConnection.getInstance().getTweetsFiltered();
+		TwitterEntry te = (TwitterEntry) l.get(0);
+		return te.getStatus();
+	}
 /**
  * Gets the some retweet.
  *
@@ -361,14 +400,18 @@ public class TwitterConnection implements ServiceInstance {
  */
 //	}
 	public Status getSomeRetweet(){
-		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
-		List<InformationEntry> l = getTweetsFiltered();
-		TwitterEntry te=null;
-		for(InformationEntry elem : l){
-			te=(TwitterEntry)elem;
-			if(te.getStatus().isRetweet())break;
+		List<Status> list;
+		try {
+			list = twitter.getUserTimeline();
+			for(Status elem : list){
+				if(elem.isRetweet())return elem;
+			}
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return te.getStatus();
+		
+		return null;
 	}
 	public String getUserPicture(String user) throws TwitterException{
 		User u = twitter.showUser(user);
@@ -385,8 +428,17 @@ public class TwitterConnection implements ServiceInstance {
 				TWITTER_ACCESS_TOKEN_SECRET };
 	}
 
+	public Twitter getTwitter() {
+		return logger.getAuthenticatedInstance();
+	}
 
-
+	public Status getStatusById(Long id) {
+		try {
+			return twitter.showStatus(id);
+		} catch (TwitterException e) {
+			return null;
+		}
+	}
 	@Override
 	public Service getService() {
 		return Service.TWITTER;

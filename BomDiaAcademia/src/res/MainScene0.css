@@ -56,6 +56,10 @@
 	-fx-background-color: ff3000;
 }
 
+#facebookPostOption {
+	-fx-background-color: ff3000;
+}
+
 .titled-pane .title {
 	-fx-background-color: ffffff;
 	-fx-border-color: e8e8e8

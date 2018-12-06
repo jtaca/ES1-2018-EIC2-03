@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +22,7 @@ import com.sun.javafx.scene.control.skin.VirtualFlow;
 
 import email.EmailConnection;
 import entry_objects.EmailEntry;
+import entry_objects.FacebookEntry;
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
 import javafx.animation.FadeTransition;
@@ -53,6 +58,7 @@ import javafx.util.Duration;
 import other.Filter;
 import other.Service;
 import threads.ThreadPool;
+import twitter.TwitterConnection;
 
 /**
  * The Class MainController handles the user interaction with the GUI.
@@ -170,9 +176,18 @@ public class MainController implements Initializable {
 	@FXML
 	private HBox emailFooter;
 
+	@FXML
+	private HBox facebookFooter;
+
 	/** The twitter footer. */
 	@FXML
 	private HBox twitterFooter;
+
+	@FXML
+	private JFXButton retweetButton;
+
+	@FXML
+	private JFXButton favouriteButton;
 
 	// ------------ Settings ------------
 	/** The settings. */
@@ -190,6 +205,15 @@ public class MainController implements Initializable {
 	/** The new email. */
 	@FXML
 	private TextField newEmail;
+
+	@FXML
+	private JFXButton twitterLoginButton;
+
+	@FXML
+	private HBox boxPIN;
+
+	@FXML
+	private JFXTextField twitterPIN;
 
 	// ------------ Email writing panel ------------
 	/** The email pane. */
@@ -228,6 +252,7 @@ public class MainController implements Initializable {
 	/** The email connection. */
 	private EmailConnection emailConnection;
 	private ObservableList<PostBox> originalList;
+	private InformationEntry currentlyOpened;
 
 	/**
 	 * Instantiates a new main controller.
@@ -432,100 +457,12 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Converts an InformationEntry object into a PostBox object to be displayed on
-	 * screen.
-	 *
-	 * @param informationEntry the information entry
-	 * @return the post box
-	 */
-//	private PostBox toPostBox(InformationEntry informationEntry) {
-//		PostBox postBox = new PostBox(informationEntry);
-//		FontAwesomeIconView icon = new FontAwesomeIconView();
-//		VBox entryInfo = new VBox();
-//		HBox authorInfo = new HBox(), retweetInfo = new HBox();
-//		Label authorName = new Label(), authorUsername = new Label(), postInfo = new Label(), date = new Label();
-//		Region region = new Region();
-//
-//		icon.setSize("50");
-//		icon.setStyle("-fx-fill: #3cbffc");
-//
-//		postInfo.setWrapText(true);
-//		date.setText(informationEntry.getDate().toString());
-//		HBox.setHgrow(region, Priority.ALWAYS);
-//		HBox.setHgrow(entryInfo, Priority.ALWAYS);
-//
-//		authorUsername.setPadding(new Insets(0, 10, 0, 10));
-//		authorUsername.setStyle("-fx-font-weight: bold");
-//
-//		authorInfo.getChildren().addAll(authorName, authorUsername, region, date);
-//		authorInfo.setAlignment(Pos.BASELINE_LEFT);
-//
-//		entryInfo.getChildren().addAll(authorInfo, postInfo);
-//
-//		postBox.getChildren().addAll(icon, entryInfo);
-//
-//		postBox.setSpacing(10);
-//		postBox.prefWidthProperty().bind(posts.widthProperty().subtract(110));
-//		postBox.setAlignment(Pos.CENTER_LEFT);
-//
-//		postBox.setOnMouseClicked(e -> openPost(informationEntry));
-//
-//		if (informationEntry.getService().equals(Service.EMAIL)) {
-//			EmailEntry email = (EmailEntry) informationEntry;
-//
-//			String names[] = email.getWriterName().split("<");
-//			icon.setIcon(FontAwesomeIcon.ENVELOPE);
-//
-//			authorName.setText(names[0].trim());
-//			authorUsername.setText(names.length > 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);
-//
-//			postInfo.setText(email.getSubject());
-//		} else if (informationEntry.getService().equals(Service.TWITTER)) {
-//			TwitterEntry tweet = (TwitterEntry) informationEntry;
-//
-//			icon.setIcon(FontAwesomeIcon.TWITTER);
-//
-//			ImageView pic = new ImageView(new Image(tweet.getProfilePictureURL(), 50, 50, true, true));
-//
-//			authorName.setText(tweet.getName());
-//			authorUsername.setText("@" + tweet.getUsername());
-//
-//			if (tweet.isRetweet()) {
-//				FontAwesomeIconView retweetIcon = new FontAwesomeIconView(FontAwesomeIcon.RETWEET);
-//				Label retweeter = new Label(tweet.getRetweeter() + " retweeted");
-//
-//				retweetIcon.setStyle("-fx-fill: #878787");
-//
-//				retweeter.setStyle("-fx-text-fill: #878787");
-//				retweeter.setPadding(new Insets(0, 10, 0, 5));
-//
-//				retweetInfo.getChildren().addAll(retweetIcon, retweeter);
-//
-//				entryInfo.getChildren().add(0, retweetInfo);
-//			}
-//
-//			postInfo.setText(tweet.getContent());
-//
-//			postBox.getChildren().add(1, pic);
-//		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {
-//			FacebookEntry facebook = (FacebookEntry) informationEntry;
-//
-//			icon.setIcon(FontAwesomeIcon.FACEBOOK_OFFICIAL);
-//
-//			authorName.setText(facebook.getPost().getName());
-//
-//			postInfo.setText(facebook.getPost().getMessage());
-//		}
-//
-//		return postBox;
-//	}
-
-	/**
 	 * Opens the post in more detail.
 	 *
 	 * @param informationEntry the information entry
 	 */
 	private void openPost(InformationEntry informationEntry) {
+		currentlyOpened = informationEntry;
 		postContent.getChildren().clear();
 		postText.setText("");
 		postContent.getChildren().add(postText);
@@ -548,6 +485,28 @@ public class MainController implements Initializable {
 			postText.setText(email.getContent().trim());
 
 			emailFooter.toFront();
+		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {
+			FacebookEntry post = (FacebookEntry) informationEntry;
+
+			Image pic = new Image(post.getProfileImageUrl(), 50, 50, true, true);
+
+			profilePic.setFitWidth(50);
+			profilePic.setFitHeight(50);
+			profilePic.setImage(pic);
+
+			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));
+
+			authorName.setText(post.getAuthor());
+			authorUsername.setText(post.getAttachmentTitle());
+
+			postText.setText(post.getAttachmentDescription());
+
+			String url = post.getAttachmentMedia().getImage().getSrc();
+			Image image = new Image(url, 450, 0, true, true);
+
+			postContent.getChildren().add(new ImageView(image));
+
+			facebookFooter.toFront();
 		} else if (informationEntry.getService().equals(Service.TWITTER)) {
 			TwitterEntry tweet = (TwitterEntry) informationEntry;
 
@@ -568,6 +527,13 @@ public class MainController implements Initializable {
 			}
 
 			postText.setText(tweet.getContent());
+
+			retweetButton.setStyle(
+					TwitterConnection.getInstance().isRetweetedbyMe(tweet.getStatus()) ? "-fx-background-color: #34bf49"
+							: "");
+
+			if (tweet.getStatus().isFavorited())
+				favouriteButton.setStyle("-fx-background-color: #34bf49");
 
 			for (String media : tweet.getMediaURL()) {
 				String url = media.split("!;!")[0], type = media.split("!;!")[1];
@@ -650,6 +616,30 @@ public class MainController implements Initializable {
 		postLayer.toBack();
 	}
 
+	@FXML
+	private void commentTweet() {
+
+	}
+
+	@FXML
+	private void retweet() {
+		if (TwitterConnection.getInstance().isLoggedIn()) {
+			TwitterEntry tweet = (TwitterEntry) currentlyOpened;
+			if (TwitterConnection.getInstance().isRetweetedbyMe(tweet.getStatus())) {
+				TwitterConnection.getInstance().deleteRetweet(tweet.getStatus());
+				retweetButton.setStyle("-fx-background-color: #ff3000");
+			} else {
+				TwitterConnection.getInstance().retweet(tweet.getStatus());
+				retweetButton.setStyle("-fx-background-color: #34bf49");
+			}
+		}
+	}
+
+	@FXML
+	private void favouriteTweet() {
+
+	}
+
 	/**
 	 * Closes the tweet composing panel.
 	 */
@@ -703,6 +693,31 @@ public class MainController implements Initializable {
 	@FXML
 	private void removeEmail() {
 		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());
+	}
+
+	@FXML
+	private void twitterLogin() {
+		if (TwitterConnection.getInstance().isLoggedIn()) {
+			TwitterConnection.getInstance().logout();
+			twitterLoginButton.setText("Iniciar Sessão");
+		} else
+			try {
+				Desktop.getDesktop().browse(new URI(TwitterConnection.getInstance().getAuthUrl()));
+				boxPIN.setVisible(true);
+				boxPIN.setDisable(false);
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+
+	}
+
+	@FXML
+	private void authenticateTwitter() {
+		if (TwitterConnection.getInstance().confirmAuth(twitterPIN.getText())) {
+			boxPIN.setDisable(true);
+			boxPIN.setVisible(false);
+			twitterLoginButton.setText("Terminar sessão: " + TwitterConnection.getInstance().getUsername());
+		}
 	}
 
 	/**

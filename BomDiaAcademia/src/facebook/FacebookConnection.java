@@ -199,12 +199,17 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	public static GraphResponse post(String message) {
 		if(message != null) {
-			GraphResponse publishMessageResponse = 
-					fbClient2.publish("me/feed", GraphResponse.class,
-					    Parameter.with("message", message));
+			try {
+				GraphResponse publishMessageResponse = 
+						fbClient2.publish("me/feed", GraphResponse.class,
+						    Parameter.with("message", message));
 
-			System.out.println("Published message ID: " + publishMessageResponse.getId());
-			return publishMessageResponse;
+				System.out.println("Published message ID: " + publishMessageResponse.getId());
+				return publishMessageResponse;
+			} catch (FacebookException e) {
+				System.out.println("Error publishing: s"+e);
+			}
+			
 		}
 		return null;	
 		
