@@ -26,12 +26,14 @@ import gui.PostBox;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionModel;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import twitter.TwitterConnection;
 
@@ -63,7 +65,7 @@ public class MainControllerTest {
 	public void testSetTheme() throws Exception {
 		Method setTheme = cl.getDeclaredMethod("setTheme");
 		setTheme.setAccessible(true);
-		
+
 		Field themeList = cl.getDeclaredField("themeList");
 		Field mainBox = cl.getDeclaredField("mainBox");
 		themeList.setAccessible(true);
@@ -74,34 +76,123 @@ public class MainControllerTest {
 		HBox main = (HBox) mainBox.get(controller);
 		String style = main.getStylesheets().get(0).split("MainScene")[1];
 		themes.select(0);
-		
+
 		waitForRunLater(setTheme);
 
 		assertEquals(themes.getSelectedIndex() + ".css", style);
 	}
 
 	@Test
-	public void testToPostBoxEmailEntry() throws Exception {
-		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
-		toPostBox.setAccessible(true);
+	public void testTweetCounterColorRed() throws Exception {
+		Field tweetTextArea = cl.getDeclaredField("tweetTextArea");
+		tweetTextArea.setAccessible(true);
 
-		EmailEntry email = new EmailEntry("", new Date(), "Writer Name", "Subject", "Content");
-		PostBox postBox = (PostBox) toPostBox.invoke(controller, email);
+		JFXTextArea tweetArea = (JFXTextArea) tweetTextArea.get(controller);
+		String tweet = "";
+		for (int i = 0; i < 280; i++)
+			tweet += "a";
 
-		assertEquals(email, postBox.getInformationEntry());
-		assertEquals(email.getService(), postBox.getService());
+		tweetArea.setText(tweet);
 	}
 
 	@Test
-	public void testToPostBoxTwitterEntry() throws Exception {
-		Method toPostBox = cl.getDeclaredMethod("toPostBox", InformationEntry.class);
-		toPostBox.setAccessible(true);
+	public void testTweetCounterColorBlack() throws Exception {
+		Field tweetTextArea = cl.getDeclaredField("tweetTextArea");
+		tweetTextArea.setAccessible(true);
 
-		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());
-		PostBox postBox = (PostBox) toPostBox.invoke(controller, tweet);
+		JFXTextArea tweetArea = (JFXTextArea) tweetTextArea.get(controller);
+		String tweet = "";
 
-		assertEquals(tweet, postBox.getInformationEntry());
-		assertEquals(tweet.getService(), postBox.getService());
+		tweetArea.setText(tweet);
+	}
+
+	@Test
+	public void testWriteEmail() throws Exception {
+		Method writeEmail = cl.getDeclaredMethod("writeEmail");
+		writeEmail.setAccessible(true);
+
+		Field centerPane = cl.getDeclaredField("centerPane");
+		Field emailPane = cl.getDeclaredField("emailPane");
+		centerPane.setAccessible(true);
+		emailPane.setAccessible(true);
+
+		StackPane center = (StackPane) centerPane.get(controller);
+		VBox email = (VBox) emailPane.get(controller);
+
+		waitForRunLater(writeEmail);
+
+		assertEquals(email, center.getChildren().get(center.getChildren().size() - 1));
+	}
+
+	@Test
+	public void testComposeTweet() throws Exception {
+		Method composeTweet = cl.getDeclaredMethod("composeTweet");
+		composeTweet.setAccessible(true);
+
+		Field centerPane = cl.getDeclaredField("centerPane");
+		Field tweetPane = cl.getDeclaredField("composeTweet");
+		centerPane.setAccessible(true);
+		tweetPane.setAccessible(true);
+
+		StackPane center = (StackPane) centerPane.get(controller);
+		StackPane tweet = (StackPane) tweetPane.get(controller);
+
+		waitForRunLater(composeTweet);
+
+		assertEquals(tweet, center.getChildren().get(center.getChildren().size() - 1));
+	}
+
+	@Test
+	public void testShowSettings() throws Exception {
+		Method showSettings = cl.getDeclaredMethod("showSettings");
+		showSettings.setAccessible(true);
+
+		Field centerPane = cl.getDeclaredField("centerPane");
+		Field settings = cl.getDeclaredField("settings");
+		centerPane.setAccessible(true);
+		settings.setAccessible(true);
+
+		StackPane center = (StackPane) centerPane.get(controller);
+		ScrollPane set = (ScrollPane) settings.get(controller);
+
+		waitForRunLater(showSettings);
+
+		assertEquals(set, center.getChildren().get(center.getChildren().size() - 1));
+	}
+
+	@Test
+	public void testSearchNotEmpty() throws Exception {
+		Method search = cl.getDeclaredMethod("search");
+		search.setAccessible(true);
+
+		Field searchBar = cl.getDeclaredField("searchBar");
+		Field leaveSearch = cl.getDeclaredField("leaveSearch");
+		searchBar.setAccessible(true);
+		leaveSearch.setAccessible(true);
+
+		JFXTextField s = (JFXTextField) searchBar.get(controller);
+		Hyperlink ls = (Hyperlink) leaveSearch.get(controller);
+		s.setText("");
+
+		waitForRunLater(search);
+
+		assertTrue(ls.isVisible());
+	}
+
+	@Test
+	public void testSearchEmpty() throws Exception {
+		Method search = cl.getDeclaredMethod("search");
+		search.setAccessible(true);
+
+		Field searchBar = cl.getDeclaredField("searchBar");
+		searchBar.setAccessible(true);
+
+		JFXTextField s = (JFXTextField) searchBar.get(controller);
+		s.setText("");
+
+		waitForRunLater(search);
+
+		assertTrue(s.getText().isEmpty());
 	}
 
 	@Test
@@ -148,6 +239,87 @@ public class MainControllerTest {
 		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();
 		String user = "@" + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();
 		String content = tweet.getStatus().getRetweetedStatus().getText().trim();
+		Label name = (Label) authorName.get(controller);
+		Label screenName = (Label) authorUsername.get(controller);
+		Text postContent = (Text) postText.get(controller);
+
+		waitForRunLater(openPost, tweet);
+
+		assertEquals(author, name.getText());
+		assertEquals(user, screenName.getText());
+		assertEquals(content, postContent.getText());
+	}
+
+	@Test
+	public void testOpenPostTwitterEntryWithImage() throws Exception {
+		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
+		openPost.setAccessible(true);
+
+		Field authorName = cl.getDeclaredField("authorName");
+		Field authorUsername = cl.getDeclaredField("authorUsername");
+		Field postText = cl.getDeclaredField("postText");
+		authorName.setAccessible(true);
+		authorUsername.setAccessible(true);
+		postText.setAccessible(true);
+
+		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070789437901037568l));
+		String author = tweet.getStatus().getUser().getName();
+		String user = "@" + tweet.getStatus().getUser().getScreenName();
+		String content = tweet.getStatus().getText().trim();
+		Label name = (Label) authorName.get(controller);
+		Label screenName = (Label) authorUsername.get(controller);
+		Text postContent = (Text) postText.get(controller);
+
+		waitForRunLater(openPost, tweet);
+
+		assertEquals(author, name.getText());
+		assertEquals(user, screenName.getText());
+		assertEquals(content, postContent.getText());
+	}
+
+	@Test
+	public void testOpenPostTwitterEntryWithVideo() throws Exception {
+		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
+		openPost.setAccessible(true);
+
+		Field authorName = cl.getDeclaredField("authorName");
+		Field authorUsername = cl.getDeclaredField("authorUsername");
+		Field postText = cl.getDeclaredField("postText");
+		authorName.setAccessible(true);
+		authorUsername.setAccessible(true);
+		postText.setAccessible(true);
+
+		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070789789803139073l));
+		String author = tweet.getStatus().getUser().getName();
+		String user = "@" + tweet.getStatus().getUser().getScreenName();
+		String content = tweet.getStatus().getText().trim();
+		Label name = (Label) authorName.get(controller);
+		Label screenName = (Label) authorUsername.get(controller);
+		Text postContent = (Text) postText.get(controller);
+
+		waitForRunLater(openPost, tweet);
+
+		assertEquals(author, name.getText());
+		assertEquals(user, screenName.getText());
+		assertEquals(content, postContent.getText());
+	}
+
+	@Test
+	public void testOpenPostTwitterEntryWithGif() throws Exception {
+		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
+		openPost.setAccessible(true);
+
+		Field authorName = cl.getDeclaredField("authorName");
+		Field authorUsername = cl.getDeclaredField("authorUsername");
+		Field postText = cl.getDeclaredField("postText");
+		authorName.setAccessible(true);
+		authorUsername.setAccessible(true);
+		postText.setAccessible(true);
+
+		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070797035593498624l));
+		String author = tweet.getStatus().getUser().getName();
+		String user = "@" + tweet.getStatus().getUser().getScreenName();
+		String content = tweet.getStatus().getText().trim();
 		Label name = (Label) authorName.get(controller);
 		Label screenName = (Label) authorUsername.get(controller);
 		Text postContent = (Text) postText.get(controller);
