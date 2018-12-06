@@ -42,7 +42,7 @@ public class TwitterAuth {
 	 *
 	 * @return the auth URL
 	 */
-	String getAuthURL(){
+	protected String getAuthURL(){
 		try {
 			requestToken = twitter.getOAuthRequestToken("oob");
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public class TwitterAuth {
 	 * @param s the pin
 	 * @return true, if the authentication successful
 	 */
-	boolean inputPin(String s){
+	protected boolean inputPin(String s){
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, s);
 			twitter.setOAuthAccessToken(accessToken);
@@ -72,7 +72,7 @@ public class TwitterAuth {
 	/**
 	 * Sets the user token.
 	 */
-	void setUserToken(AccessToken at){
+	protected void setUserToken(AccessToken at){
 		this.userToken=at;
 		twitter.setOAuthAccessToken(at);
 	}
@@ -98,7 +98,7 @@ public class TwitterAuth {
 	 * Returns an authenticated instance of the object Twitter.
 	 * @return Twitter, if not authenticated returns null
 	 */
-	Twitter getAuthenticatedInstance(){
+	protected Twitter getAuthenticatedInstance(){
 		if(userToken==null){
 			System.out.println("usertokennull");
 			return null;
@@ -112,7 +112,7 @@ public class TwitterAuth {
 	 *
 	 * @return true, if a user is logged in
 	 */
-	boolean isLoggedIn(){
+	protected boolean isLoggedIn(){
 		try {
 			twitter.verifyCredentials();
 			return true;
@@ -123,7 +123,7 @@ public class TwitterAuth {
 	/**
 	 * Logout current user.
 	 */
-	void logout(){
+	protected void logout(){
 		userToken = null;
 		twitter = buildAuthenticationTwitter();
 	}
