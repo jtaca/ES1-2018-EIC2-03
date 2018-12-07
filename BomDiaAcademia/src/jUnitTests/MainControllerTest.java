@@ -17,12 +17,13 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
-import entry_objects.TwitterEntry;
-import gui.MainController;
-import gui.MainWindow;
-import gui.PostBox;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.entry_objects.TwitterEntry;
+import BDA.gui.MainController;
+import BDA.gui.MainWindow;
+import BDA.gui.PostBox;
+import BDA.twitter.TwitterConnection;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
@@ -35,7 +36,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import twitter.TwitterConnection;
 
 public class MainControllerTest {
 

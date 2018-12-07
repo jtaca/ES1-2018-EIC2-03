@@ -14,14 +14,14 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import email.EmailConnection;
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
-import files.ReadAndWriteFile;
-import files.ReadAndWriteXMLFile;
+import BDA.email.EmailConnection;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.files.ReadAndWriteFile;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.Service;
+import BDA.other.XMLUserConfiguration;
 import junit.framework.Assert;
-import other.Service;
-import other.XMLUserConfiguration;
 
 public class ReadAndWriteXMLFileTest {
 

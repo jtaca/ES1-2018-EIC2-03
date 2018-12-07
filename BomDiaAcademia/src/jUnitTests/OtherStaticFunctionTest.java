@@ -13,22 +13,22 @@ import org.junit.Test;
 
 import com.jfoenix.controls.JFXListView;
 
-import email.EmailConnection;
-import entry_objects.InformationEntry;
-import facebook.FacebookConnection;
-import files.ReadAndWriteXMLFile;
-import gui.MainController;
-import gui.MainWindow;
-import gui.PostBox;
-import other.ControlCenter;
-import other.OtherStaticFunction;
-import other.XMLUserConfiguration;
-import tasks.EmailReaderTask;
-import tasks.FacebookPostReaderTask;
-import tasks.ServiceReadTask;
-import tasks.TwitterPostReaderTask;
-import threads.ThreadPool;
-import twitter.TwitterConnection;
+import BDA.email.EmailConnection;
+import BDA.entry_objects.InformationEntry;
+import BDA.facebook.FacebookConnection;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.gui.MainController;
+import BDA.gui.MainWindow;
+import BDA.gui.PostBox;
+import BDA.other.ControlCenter;
+import BDA.other.OtherStaticFunction;
+import BDA.other.XMLUserConfiguration;
+import BDA.tasks.EmailReaderTask;
+import BDA.tasks.FacebookPostReaderTask;
+import BDA.tasks.ServiceReadTask;
+import BDA.tasks.TwitterPostReaderTask;
+import BDA.threads.ThreadPool;
+import BDA.twitter.TwitterConnection;
 
 public class OtherStaticFunctionTest {
 

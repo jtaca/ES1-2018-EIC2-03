@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import tasks.GetPostTask;
-import threads.SingleBarrier;
+import BDA.tasks.GetPostTask;
+import BDA.threads.SingleBarrier;
 
 public class SingleBarrierTest {
 	

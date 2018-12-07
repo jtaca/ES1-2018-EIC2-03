@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import files.ReadAndWriteFile;
-import other.Filter;
-import other.Service;
+import BDA.files.ReadAndWriteFile;
+import BDA.other.Filter;
+import BDA.other.Service;
 
 public class FilterTest {
 	

@@ -8,12 +8,12 @@ import java.util.Date;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import entry_objects.EmailEntry;
-import entry_objects.TwitterEntry;
-import gui.MainWindow;
-import gui.PostBox;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.TwitterEntry;
+import BDA.gui.MainWindow;
+import BDA.gui.PostBox;
+import BDA.twitter.TwitterConnection;
 import javafx.geometry.Pos;
-import twitter.TwitterConnection;
 
 public class PostBoxTest {
 

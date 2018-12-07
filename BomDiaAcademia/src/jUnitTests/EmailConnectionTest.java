@@ -7,11 +7,11 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import email.EmailConnection;
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
-import files.ReadAndWriteXMLFile;
-import other.XMLUserConfiguration;
+import BDA.email.EmailConnection;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.XMLUserConfiguration;
 
 public class EmailConnectionTest {
 	

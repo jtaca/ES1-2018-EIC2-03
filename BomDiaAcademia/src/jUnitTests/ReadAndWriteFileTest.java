@@ -18,10 +18,12 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import files.ReadAndWriteFile;
-import other.Service;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.files.ReadAndWriteFile;
+import BDA.other.Service;
 import twitter4j.TwitterException;
-import entry_objects.*;
+import BDA.entry_objects.*;
 
 public class ReadAndWriteFileTest {
 	

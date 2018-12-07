@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import entry_objects.InformationEntry;
-import other.Filter;
-import twitter.TwitterConnection;
+import BDA.entry_objects.InformationEntry;
+import BDA.other.Filter;
+import BDA.twitter.TwitterConnection;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 

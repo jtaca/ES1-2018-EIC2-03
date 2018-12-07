@@ -11,15 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import email.EmailConnection;
-import facebook.FacebookConnection;
-import files.ReadAndWriteXMLFile;
-import other.ControlCenter;
-import other.XMLUserConfiguration;
-import tasks.EmailReaderTask;
-import tasks.FacebookPostReaderTask;
-import tasks.TwitterPostReaderTask;
-import twitter.TwitterConnection;
+import BDA.email.EmailConnection;
+import BDA.facebook.FacebookConnection;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.ControlCenter;
+import BDA.other.XMLUserConfiguration;
+import BDA.tasks.EmailReaderTask;
+import BDA.tasks.FacebookPostReaderTask;
+import BDA.tasks.TwitterPostReaderTask;
+import BDA.twitter.TwitterConnection;
 
 public class ControlCenterTest {
 	

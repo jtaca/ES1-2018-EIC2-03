@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import com.restfb.types.GraphResponse;
 
-import entry_objects.InformationEntry;
-import facebook.FacebookConnection;
-import other.Service;
-import entry_objects.FacebookEntry;
+import BDA.entry_objects.FacebookEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.facebook.FacebookConnection;
+import BDA.other.Service;
 
 public class FacebookTest {
 	List<InformationEntry> in;
