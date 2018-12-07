@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>EmailConnection.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">email</a> &gt; <span class="el_source">EmailConnection.java</span></div><h1>EmailConnection.java</h1><pre class="source lang-java linenums">/*
+ * 
+ */
+package email;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import comparators.DateComparator;
+import entry_objects.EmailEntry;
+import entry_objects.InformationEntry;
+import files.ReadAndWriteFile;
+import files.ReadAndWriteXMLFile;
+import interfaces.ServiceInstance;
+import other.Filter;
+import other.Service;
+
+/**
+ * The Class EmailConnection.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
+public class EmailConnection implements ServiceInstance {
+	
+	/** The username. */
+	private String username;
+	
+	/** The password. */
+	private String password;
+	
+	/** The connected. */
+<span class="fc" id="L39">	private boolean connected = false;</span>
+	
+	/** The Constant EMAIL_FILE_NAME. */
+	private static final String EMAIL_FILE_NAME = &quot;emailEntrys.dat&quot;;
+	
+	/**
+	 * Instantiates a new email connection.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 */
+<span class="fc" id="L50">	public EmailConnection(String username, String password) { // Constructor</span>
+<span class="fc" id="L51">		this.username = username;</span>
+<span class="fc" id="L52">		this.password = password;</span>
+<span class="fc" id="L53">	} // Fim do Constructor</span>
+	
+	/**
+	 * Gets the text from message.
+	 *
+	 * @param message the message
+	 * @return the text from message
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private String getTextFromMessage(Message message) throws MessagingException, IOException {
+<span class="fc" id="L64">	    String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">	    if (message.isMimeType(&quot;text/plain&quot;)) {</span>
+<span class="fc" id="L66">	        result = message.getContent().toString();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">	    } else if (message.isMimeType(&quot;multipart/*&quot;)) {</span>
+<span class="fc" id="L68">	        MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();</span>
+<span class="fc" id="L69">	        result = getTextFromMimeMultipart(mimeMultipart);</span>
+	    }
+<span class="fc" id="L71">	    return result;</span>
+	}
+
+	/**
+	 * Gets the text from mime multipart.
+	 *
+	 * @param mimeMultipart the mime multipart
+	 * @return the text from mime multipart
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private String getTextFromMimeMultipart(MimeMultipart mimeMultipart)  throws MessagingException, IOException {
+<span class="fc" id="L83">	    String result = &quot;&quot;;</span>
+<span class="fc" id="L84">	    int count = mimeMultipart.getCount();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">	    for (int i = 0; i &lt; count; i++) {</span>
+<span class="fc" id="L86">	        BodyPart bodyPart = mimeMultipart.getBodyPart(i);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">	        if (bodyPart.isMimeType(&quot;text/plain&quot;)) {</span>
+<span class="fc" id="L88">	            result = result + &quot;\n&quot; + bodyPart.getContent();</span>
+<span class="fc" id="L89">	            break; // without break same text appears twice in my tests</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">	        } else if (bodyPart.isMimeType(&quot;text/html&quot;)) {</span>
+<span class="fc" id="L91">	            String html = (String) bodyPart.getContent();</span>
+<span class="fc" id="L92">	            result = result + &quot;\n&quot; + org.jsoup.Jsoup.parse(html).text();</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">	        } else if (bodyPart.getContent() instanceof MimeMultipart){</span>
+<span class="nc" id="L94">	            result = result + getTextFromMimeMultipart((MimeMultipart)bodyPart.getContent());</span>
+	        }
+	    }
+<span class="fc" id="L97">	    return result;</span>
+	}
+	
+	/**
+	 * Verify login.
+	 *
+	 * @param username the username
+	 * @param password the password
+	 * @return true, if successful
+	 */
+	public static boolean verifyLogin(String username, String password) {
+<span class="fc" id="L108">		Store emailStore = null;</span>
+		//Folder emailFolder = null;
+<span class="fc" id="L110">		boolean connected = false;</span>
+		try {
+<span class="fc" id="L112">			Properties properties = new Properties();</span>
+<span class="fc" id="L113">			properties.setProperty(&quot;mail.store.protocol&quot;, &quot;imaps&quot;);</span>
+<span class="fc" id="L114">			Session emailSession = Session.getDefaultInstance(properties);</span>
+<span class="fc" id="L115">			emailStore = emailSession.getStore(&quot;imaps&quot;);</span>
+<span class="fc" id="L116">			emailStore.connect(&quot;outlook.office365.com&quot;, username, password); // outlook.office365.com // imap.gmail.com</span>
+<span class="fc" id="L117">			connected = true;</span>
+			/*// getting the inbox folder
+			emailFolder = emailStore.getFolder(&quot;INBOX&quot;);
+			emailFolder.open(Folder.READ_ONLY);
+			Message messages[] = emailFolder.getMessages();
+			//System.out.println(emailFolder.getMessageCount());
+			connected = true;
+			*/
+<span class="pc" id="L125">		} catch (NoSuchProviderException e) {</span>
+<span class="nc" id="L126">			e.printStackTrace();</span>
+<span class="fc" id="L127">		} catch (MessagingException e) {</span>
+<span class="fc" id="L128">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L130">		return connected;</span>
+			
+	}
+	
+	/**
+	 * Receive mail.
+	 *
+	 * @return the list
+	 */
+	public List&lt;InformationEntry&gt; receiveMail() {
+<span class="fc" id="L140">		List&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
+		//ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
+<span class="fc" id="L142">		Store emailStore = null;</span>
+<span class="fc" id="L143">		Folder emailFolder = null;</span>
+<span class="fc" id="L144">		connected = false;</span>
+<span class="fc" id="L145">		boolean correctLoginInfo = true;</span>
+		try {
+<span class="fc" id="L147">			Properties properties = new Properties();</span>
+<span class="fc" id="L148">			properties.setProperty(&quot;mail.store.protocol&quot;, &quot;imaps&quot;);</span>
+<span class="fc" id="L149">			Session emailSession = Session.getDefaultInstance(properties);</span>
+<span class="fc" id="L150">			emailStore = emailSession.getStore(&quot;imaps&quot;);</span>
+<span class="fc" id="L151">			emailStore.connect(&quot;outlook.office365.com&quot;, username, password); // outlook.office365.com // imap.gmail.com</span>
+<span class="fc" id="L152">			connected = true;</span>
+			// getting the inbox folder
+<span class="fc" id="L154">			emailFolder = emailStore.getFolder(&quot;INBOX&quot;);</span>
+<span class="fc" id="L155">			emailFolder.open(Folder.READ_ONLY);</span>
+<span class="fc" id="L156">			Message messages[] = emailFolder.getMessages();</span>
+			//System.out.println(emailFolder.getMessageCount());
+			
+			Date date;
+			String writerName;
+			String subject;
+			String content;
+			InformationEntry informationEntry;
+			
+<span class="fc" id="L165">			List&lt;String&gt; filters = Filter.getInstance().getFilterList(Service.EMAIL);</span>
+			
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">			for(int i = messages.length - 1 ; i &gt;= 0 ; i--) {</span>
+<span class="fc" id="L168">				date = messages[i].getSentDate();</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">				if(!Filter.getInstance().verifyIfConsiderDate(date)) {</span>
+<span class="fc" id="L170">					break;</span>
+				}
+<span class="fc" id="L172">				writerName = messages[i].getFrom()[0].toString();</span>
+<span class="fc" id="L173">				subject = messages[i].getSubject();</span>
+//					if(writerName.toLowerCase().contains(filter) || subject.toLowerCase().contains(filter)) {
+<span class="pc bpc" id="L175" title="1 of 4 branches missed.">				if(Filter.verifyIfStringContainsAnyFilter(writerName, filters) || Filter.verifyIfStringContainsAnyFilter(subject, filters)) {</span>
+					
+<span class="fc" id="L177">					content = getTextFromMessage(messages[i]);</span>
+					
+<span class="fc" id="L179">					informationEntry = new EmailEntry(username, date, writerName, subject, content);</span>
+					
+<span class="fc" id="L181">					information_entry_list.add(informationEntry);</span>
+				}
+				
+				
+				
+				
+				//ReadAndWriteFile.writeOnFileAsNewFile(&quot;&quot; + (messages.length - i), informationEntry);
+				
+				//System.out.println(&quot;&quot; + (messages.length - i));
+			}
+			
+			/*
+			try {
+				
+				//ReadAndWriteXMLFile.CreateInformationEntryXMLFile(information_entry_list); // require work, it has errors!
+				System.out.println(&quot;Created the XML file for the Information Entrys.&quot;);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			*/
+			
+			
+<span class="nc" id="L203">		} catch(NoSuchProviderException nspe) {</span>
+<span class="nc" id="L204">			nspe.printStackTrace();</span>
+			//connected = false;
+<span class="nc" id="L206">		} catch (IOException e) {</span>
+<span class="nc" id="L207">			e.printStackTrace();</span>
+<span class="nc" id="L208">		} catch (AuthenticationFailedException e) {</span>
+<span class="nc" id="L209">			System.out.println(&quot;Failed authentication (Receive mail)&quot;);</span>
+<span class="nc" id="L210">			correctLoginInfo = false;</span>
+			
+			//connected = false;
+<span class="fc" id="L213">		} catch (Exception e) {</span>
+<span class="fc" id="L214">			e.printStackTrace();</span>
+			//connected = false;
+		} finally {
+			// closing emailFolder and emailStore.
+			try {
+<span class="fc bfc" id="L219" title="All 2 branches covered.">				if(emailFolder != null)</span>
+<span class="fc" id="L220">					emailFolder.close(false);</span>
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">				if(emailStore != null)</span>
+<span class="fc" id="L222">					emailStore.close();</span>
+<span class="pc" id="L223">			} catch (MessagingException me) {</span>
+<span class="nc" id="L224">				me.printStackTrace();</span>
+<span class="nc" id="L225">				connected = false;</span>
+			}
+			
+		}
+		
+		try {
+//			boolean login = EmailConnection.verifyLogin(username, password);
+//			System.out.println(login);
+			//System.out.println(correctLoginInfo);
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">			if(correctLoginInfo) {</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">				if(information_entry_list.isEmpty()) {</span>
+<span class="fc" id="L236">					information_entry_list = ReadAndWriteFile.loadListOfInformationEntry(EMAIL_FILE_NAME);</span>
+					//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">					if(information_entry_list != null) {</span>
+<span class="fc" id="L239">						System.out.println(&quot;Loaded the Information Entrys from the file.&quot;);</span>
+					}
+					//System.out.println(information_entry_list);
+<span class="fc" id="L242">				} else {</span>
+<span class="fc" id="L243">					information_entry_list.sort(new DateComparator());</span>
+<span class="fc" id="L244">					ReadAndWriteFile.saveListOfInformationEntry(EMAIL_FILE_NAME, information_entry_list);</span>
+<span class="fc" id="L245">					System.out.println(&quot;Emails saved.&quot;);</span>
+				}
+			}
+<span class="pc" id="L248">		} catch (Exception e) {</span>
+<span class="nc" id="L249">			e.printStackTrace();</span>
+		}
+		
+<span class="fc bfc" id="L252" title="All 2 branches covered.">		for(int i = 0 ; i &lt; information_entry_list.size() ; i++) { // should return this array instead for it to be displayed on the UI</span>
+<span class="fc" id="L253">			System.out.println(&quot;Email Number &quot; + (i+1) + &quot;.&quot;);</span>
+			//System.out.println(&quot;From: &quot; + ((EmailEntry)information_entry_list.get(i)).getWriterName());
+			//System.out.println(&quot;Sent date: &quot; + information_entry_list.get(i).getDate());
+			//System.out.println(&quot;Subject: &quot; + ((EmailEntry)information_entry_list.get(i)).getSubject());
+			//System.out.println(&quot;Message: &quot; + ((EmailEntry)information_entry_list.get(i)).getContent());
+		}
+		
+<span class="fc" id="L260">		return information_entry_list;</span>
+		
+	}
+	
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+<span class="fc" id="L270">		return username;</span>
+	}
+	
+	/**
+	 * Checks if is connected.
+	 *
+	 * @return true, if is connected
+	 */
+	public boolean isConnected() {
+<span class="fc" id="L279">		return connected;</span>
+	}
+	
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
+	public String getPassword() {
+<span class="fc" id="L288">		return password;</span>
+	}
+
+	/**
+	 * Send email.
+	 *
+	 * @param sendEmailTo the send email to
+	 * @param subject the subject
+	 * @param message the message
+	 */
+	public void sendEmail(String sendEmailTo, String subject, String message) {
+<span class="fc" id="L299">		Transport transport = null;</span>
+		try {
+<span class="fc" id="L301">			String host = &quot;smtp.office365.com&quot;; // &quot;smtp.office365.com&quot; // smtp.gmail.com // smtp-mail-outlook.com // smtp.office365.com // mail.protection.outlook.com // m.outlook.com // &quot;smtp-mail.outlook.com&quot; // &quot;Outlook.office365.com&quot;</span>
+<span class="fc" id="L302">			boolean sessionDebug = false;</span>
+			
+<span class="fc" id="L304">			Properties props = System.getProperties();</span>
+			
+//			props.put(&quot;mail.smtp.user&quot;, username);
+//			props.put(&quot;mail.smtp.password&quot;, password);
+			
+<span class="fc" id="L309">			props.put(&quot;mail.smtp.starttls.enable&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L310">			props.put(&quot;mail.smtp.host&quot;, host);</span>
+<span class="fc" id="L311">			props.put(&quot;mail.smtp.port&quot;, &quot;587&quot;); // 587 // 465 // 25</span>
+<span class="fc" id="L312">			props.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L313">			props.put(&quot;mail.smtp.starttls.required&quot;, &quot;true&quot;);</span>
+			
+//			props.put(&quot;mail.smtp.startlls.enable&quot;, &quot;true&quot;);
+			
+//			Authenticator auth = new Authenticator() {
+//				protected PasswordAuthentication getPasswordAuthentication() {
+//					return new PasswordAuthentication(username, password);
+//				}
+//			};
+			
+			//java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider()); // Este erro tem acontecido desde o inicio, secalhar ï¿½ algo que se possa remover no futuro? (vi isto em algum lado e adicionei thats why)
+<span class="fc" id="L324">			SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);</span>
+<span class="fc" id="L325">		    Session mailSession = Session.getInstance(props, authenticator);</span>
+			
+			
+//			Session mailSession = Session.getDefaultInstance(props, null);
+<span class="fc" id="L329">			mailSession.setDebug(sessionDebug);</span>
+<span class="fc" id="L330">			Message msg = new MimeMessage(mailSession);</span>
+<span class="fc" id="L331">			msg.setFrom(new InternetAddress(username));</span>
+<span class="fc" id="L332">			InternetAddress[] address = {new InternetAddress(sendEmailTo)};</span>
+<span class="fc" id="L333">			msg.setRecipients(Message.RecipientType.TO, address);</span>
+<span class="fc" id="L334">			msg.setSubject(subject);</span>
+<span class="fc" id="L335">			msg.setSentDate(new Date());</span>
+<span class="fc" id="L336">			msg.setText(message);</span>
+			
+<span class="fc" id="L338">			transport = mailSession.getTransport(&quot;smtp&quot;);</span>
+<span class="fc" id="L339">			System.out.println(&quot;Vou errar aqui!&quot;);</span>
+//			Transport.send(msg, msg.getAllRecipients());
+<span class="fc" id="L341">			transport.connect(host, username, password);</span>
+<span class="fc" id="L342">			transport.sendMessage(msg, msg.getAllRecipients());</span>
+<span class="fc" id="L343">			transport.close();</span>
+<span class="fc" id="L344">			System.out.println(&quot;Message sent successfully&quot;);</span>
+<span class="pc" id="L345">		} catch(Exception e) {</span>
+<span class="nc" id="L346">			e.printStackTrace();</span>
+		} finally {
+<span class="pc bpc" id="L348" title="1 of 2 branches missed.">			if (transport != null) {</span>
+				try {
+<span class="fc" id="L350">					transport.close();</span>
+<span class="pc" id="L351">				} catch (MessagingException e) {</span>
+<span class="nc" id="L352">					e.printStackTrace();</span>
+				}
+			}
+		}
+<span class="fc" id="L356">	}</span>
+
+	/* (non-Javadoc)
+	 * @see interfaces.ServiceInstance#getService()
+	 */
+	@Override
+	public Service getService() {
+<span class="fc" id="L363">		return Service.EMAIL;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

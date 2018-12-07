@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterConnectionLoggedOutTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">TwitterConnectionLoggedOutTest.java</span></div><h1>TwitterConnectionLoggedOutTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import entry_objects.InformationEntry;
+import other.Filter;
+import twitter.TwitterConnection;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">public class TwitterConnectionLoggedOutTest {</span>
+	@BeforeClass
+	public static void setUp(){
+<span class="fc" id="L22">		TwitterConnection.getInstance().logout();</span>
+<span class="fc" id="L23">	}</span>
+	//Authetication functions
+	@Test
+	public void testGetAuthUrl(){
+<span class="fc" id="L27">		String s = TwitterConnection.getInstance().getAuthUrl();</span>
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">		assert(s!=&quot;&quot;);</span>
+<span class="fc" id="L29">	}</span>
+	@Test
+	public void testInputPin(){
+<span class="pc bpc" id="L32" title="2 of 4 branches missed.">		assert(!TwitterConnection.getInstance().confirmAuth(&quot;asdasd&quot;));</span>
+<span class="fc" id="L33">	}</span>
+	@Test
+	public void testIsLoggedIn(){
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">		assert(!TwitterConnection.getInstance().isLoggedIn());</span>
+<span class="fc" id="L37">	}</span>
+	
+	//LoggedIn functions
+	@Test
+	public void testGetUsername(){
+<span class="fc" id="L42">		String s=TwitterConnection.getInstance().getUsername();</span>
+<span class="fc" id="L43">		assertEquals(s,&quot;&quot;);</span>
+<span class="fc" id="L44">	}</span>
+	@Test
+	public void testRetweet() throws TwitterException {
+<span class="fc" id="L47">		TwitterConnection tf = TwitterConnection.getInstance();</span>
+<span class="pc bpc" id="L48" title="2 of 4 branches missed.">		assert(!tf.retweet(tf.getSomeStatus()));</span>
+<span class="fc" id="L49">	}</span>
+	@Test
+	public void testFailWhenOffFunctions() {
+<span class="fc" id="L52">		TwitterConnection tc= TwitterConnection.getInstance();</span>
+<span class="fc" id="L53">		Status status=tc.getSomeStatus();</span>
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">		assert(!tc.tweet(&quot;&quot;));</span>
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">		assert(!tc.favoriteTweet(status));</span>
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">		assert(!tc.commentTweet(status, &quot;&quot;));</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">		assert(!tc.isRetweetedbyMe(status));</span>
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">		assert(!tc.deleteRetweet(status));</span>
+<span class="fc" id="L59">	}</span>
+
+	@Test
+	public void testRequestTwitter() throws Exception {
+<span class="fc" id="L63">		List&lt;InformationEntry&gt; l=new ArrayList&lt;InformationEntry&gt;();</span>
+<span class="fc" id="L64">		l = TwitterConnection.getInstance().requestTwitter();</span>
+<span class="fc" id="L65">		assertNotNull(l);</span>
+<span class="fc" id="L66">	}</span>
+	
+
+	@Test
+	public void testGetTweetsFromUserByDate() {
+<span class="fc" id="L71">		Calendar c= Calendar.getInstance();</span>
+<span class="fc" id="L72">		c.set(2018, Calendar.OCTOBER , 14,23,0,0);</span>
+<span class="fc" id="L73">		Date d = c.getTime();</span>
+		List&lt;InformationEntry&gt; l;
+<span class="fc" id="L75">		l=TwitterConnection.getInstance().getTweetsFromUserByDate(d, &quot;ANACLET28324119&quot;);</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">		assert(l.isEmpty());</span>
+<span class="fc" id="L77">		c.set(2018, Calendar.OCTOBER , 14,0,0,0);</span>
+<span class="fc" id="L78">		d=c.getTime();</span>
+<span class="fc" id="L79">		l=TwitterConnection.getInstance().getTweetsFromUserByDate(d, &quot;ANACLET28324119&quot;);</span>
+<span class="fc" id="L80">		assertEquals(l.get(0).toString(),&quot;ola meu outra vez&quot;);</span>
+<span class="fc" id="L81">		assertEquals(l.get(1).toString(),&quot;ola meu.&quot;);</span>
+<span class="fc" id="L82">	}</span>
+
+	@Test
+	public void testGetTweetsFromUsers() {
+		List&lt;InformationEntry&gt; l;
+<span class="fc" id="L87">		Calendar c= Calendar.getInstance();</span>
+<span class="fc" id="L88">		c.set(2018, Calendar.OCTOBER , 14,0,0,0);</span>
+<span class="fc" id="L89">		Date date = c.getTime();</span>
+<span class="fc" id="L90">		String [] users=null;</span>
+<span class="fc" id="L91">		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);</span>
+<span class="pc bpc" id="L92" title="2 of 4 branches missed.">		assert(l.isEmpty());</span>
+<span class="fc" id="L93">		users=new String[0];</span>
+<span class="fc" id="L94">		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);</span>
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">		assert(l.isEmpty());</span>
+<span class="fc" id="L96">		users=new String[1];</span>
+<span class="fc" id="L97">		users[0]=&quot;ANACLET28324119&quot;;</span>
+<span class="fc" id="L98">		l=TwitterConnection.getInstance().getTweetsFromUsers(date, users);</span>
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">		assert(!l.isEmpty());</span>
+<span class="fc" id="L100">		assertEquals(l.get(0).toString(),&quot;ola meu outra vez&quot;);</span>
+<span class="fc" id="L101">		assertEquals(l.get(1).toString(),&quot;ola meu.&quot;);</span>
+<span class="fc" id="L102">	}</span>
+	@Test 
+	public void testGetTweetsFiltered(){
+<span class="fc" id="L105">		Filter.getInstance().defineDateIntervalFromCurrentDate(24);</span>
+<span class="fc" id="L106">		List&lt;InformationEntry&gt; l=TwitterConnection.getInstance().getTweetsFiltered();</span>
+<span class="pc bpc" id="L107" title="2 of 4 branches missed.">		assert(!l.isEmpty());</span>
+<span class="fc" id="L108">	}</span>
+	@Test
+	public void testGetKeys() {
+<span class="fc" id="L111">		String [] l=TwitterConnection.getKeys();</span>
+<span class="fc" id="L112">		assertEquals(&quot;k4a4y5Wcq3UqdGKs9R6CufWoA&quot;, l[0]);</span>
+<span class="fc" id="L113">		assertEquals(&quot;WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w&quot;, l[1]);</span>
+<span class="fc" id="L114">		assertEquals(&quot;2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi&quot;, l[2]);</span>
+<span class="fc" id="L115">		assertEquals(&quot;6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn&quot;, l[3]);</span>
+<span class="fc" id="L116">	}</span>
+	//Logger Testing
+	
+//	@Test
+//	public void TestLogin(){
+//		TwitterAuth l = new TwitterAuth();
+//		String s=l.getAuthURL();
+//		assert(!s.isEmpty());
+//		boolean b= l.inputPin(&quot;asdasdasd&quot;);
+//		assert(!b);
+//	}
+//	
+
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

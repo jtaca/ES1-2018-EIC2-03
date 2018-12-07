@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterAccountBox.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">TwitterAccountBox.java</span></div><h1>TwitterAccountBox.java</h1><pre class="source lang-java linenums">package gui;
+
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import twitter.TwitterConnection;
+import twitter4j.TwitterException;
+
+/**
+ * The Class TwitterAccountBox.
+ */
+public class TwitterAccountBox extends HBox {
+
+	/** The username. */
+	private String username;
+	
+	/** The check box. */
+	private CheckBox checkBox;
+
+	/**
+	 * Instantiates a new twitter account box.
+	 *
+	 * @param username the username
+	 * @param selected the selected
+	 */
+	public TwitterAccountBox(String username, boolean selected) {
+<span class="fc" id="L32">		super();</span>
+<span class="fc" id="L33">		this.username = username;</span>
+
+<span class="fc" id="L35">		Label label = new Label(&quot;@&quot; + username);</span>
+<span class="fc" id="L36">		Region region = new Region();</span>
+<span class="fc" id="L37">		checkBox = new CheckBox();</span>
+<span class="fc" id="L38">		ImageView pic = null;</span>
+		try {
+<span class="fc" id="L40">			pic = new ImageView(new Image(TwitterConnection.getInstance().getUserPicture(username), 20, 0, true, true));</span>
+<span class="pc" id="L41">		} catch (TwitterException e) {</span>
+<span class="nc" id="L42">			e.printStackTrace();</span>
+		}
+
+<span class="fc" id="L45">		setAlignment(Pos.CENTER);</span>
+<span class="fc" id="L46">		setSpacing(10);</span>
+<span class="fc" id="L47">		label.setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+<span class="fc" id="L48">		checkBox.setSelected(selected);</span>
+
+<span class="fc" id="L50">		HBox.setHgrow(region, Priority.ALWAYS);</span>
+
+<span class="fc" id="L52">		getChildren().addAll(pic, label, region, checkBox);</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+<span class="nc" id="L61">		return username;</span>
+	}
+
+	/**
+	 * Checks if is selected.
+	 *
+	 * @return true, if is selected
+	 */
+	public boolean isSelected() {
+<span class="nc" id="L70">		return checkBox.isSelected();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

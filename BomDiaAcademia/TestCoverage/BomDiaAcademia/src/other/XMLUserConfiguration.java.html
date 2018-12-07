@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>XMLUserConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">other</a> &gt; <span class="el_source">XMLUserConfiguration.java</span></div><h1>XMLUserConfiguration.java</h1><pre class="source lang-java linenums">package other;
+
+import java.io.IOException;
+
+/**
+ * The Class XMLUserConfiguration.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+public class XMLUserConfiguration { //
+	
+	/** The save information. */
+<span class="fc" id="L13">	private boolean saveInformation = false;</span>
+	
+	/** The service. */
+	private Service service; // 0 = email, 1 = facebook, 2 = twitter;
+	
+	/** The username. */
+<span class="fc" id="L19">	private String username = &quot;&quot;;</span>
+	
+	/** The password. */
+<span class="fc" id="L22">	private String password = &quot;&quot;;</span>
+	
+	
+	/** The twitter consumer key. */
+<span class="fc" id="L26">	private String twitterConsumerKey = &quot;&quot;;</span>
+	
+	/** The twitter secret key. */
+<span class="fc" id="L29">	private String twitterSecretKey = &quot;&quot;;</span>
+	
+	/** The twitter access token. */
+<span class="fc" id="L32">	private String twitterAccessToken = &quot;&quot;;</span>
+	
+	/** The twitter access token secret. */
+<span class="fc" id="L35">	private String twitterAccessTokenSecret = &quot;&quot;;</span>
+	
+<span class="fc" id="L37">	private String accessToken2 = &quot;&quot;;</span>
+	
+	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param username the username
+	 * @param password the password
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
+<span class="fc" id="L53">	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret, String accessToken2) throws Exception {</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">		if (service == null) {</span>
+<span class="nc" id="L55">			throw new Exception(&quot;Please insert a valid Service.&quot;);</span>
+		}
+<span class="fc" id="L57">		this.saveInformation = saveInformation;</span>
+<span class="fc" id="L58">		this.service = service;</span>
+<span class="fc" id="L59">		this.username = username;</span>
+<span class="fc" id="L60">		this.password = password;</span>
+<span class="fc" id="L61">		this.twitterConsumerKey = twitterConsumerKey;</span>
+<span class="fc" id="L62">		this.twitterSecretKey = twitterSecretKey;</span>
+<span class="fc" id="L63">		this.twitterAccessToken = twitterAccessToken;</span>
+<span class="fc" id="L64">		this.twitterAccessTokenSecret = twitterAccessTokenSecret;</span>
+<span class="fc" id="L65">		this.accessToken2 = accessToken2;</span>
+<span class="fc" id="L66">	}</span>
+	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
+	public XMLUserConfiguration(boolean saveInformation, Service service, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
+<span class="fc" id="L80">		this(saveInformation, service, &quot;&quot;, &quot;&quot;, twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret, &quot;&quot;);</span>
+<span class="fc" id="L81">	}</span>
+	
+	public XMLUserConfiguration(boolean saveInformation, Service service, String accessToken2) throws Exception {
+<span class="fc" id="L84">		this(saveInformation, service, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, accessToken2);</span>
+<span class="fc" id="L85">	}</span>
+	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param username the username
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
+	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password) throws Exception {
+<span class="fc" id="L97">		this(saveInformation, service, username, password, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;);</span>
+<span class="fc" id="L98">	}</span>
+	
+	
+	
+	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service_number the service number
+	 * @param username the username
+	 * @param password the password
+	 * @throws Exception the exception
+	 */
+	public XMLUserConfiguration(boolean saveInformation, int service_number, String username, String password) throws Exception {
+<span class="fc" id="L113">		this(saveInformation, Service.values()[service_number], username, password);</span>
+<span class="fc" id="L114">	}</span>
+	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service_number the service number
+	 * @param twitterConsumerKey the twitter consumer key
+	 * @param twitterSecretKey the twitter secret key
+	 * @param twitterAccessToken the twitter access token
+	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @throws Exception the exception
+	 */
+	public XMLUserConfiguration(boolean saveInformation, int service_number, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret) throws Exception {
+<span class="fc" id="L128">		this(saveInformation, Service.values()[service_number], &quot;&quot;, &quot;&quot;, twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret, &quot;&quot;);</span>
+<span class="fc" id="L129">	}</span>
+	
+	/**
+	 * Checks if is information saved.
+	 *
+	 * @return true, if is information saved
+	 */
+	public boolean isInformationSaved() {
+<span class="fc" id="L137">		return saveInformation;</span>
+	}
+	
+	/**
+	 * Information saved as int.
+	 *
+	 * @return the int
+	 */
+	private int informationSavedAsInt() {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		if(saveInformation) {</span>
+<span class="nc" id="L147">			return 1; // true</span>
+		} else {
+<span class="nc" id="L149">			return 0; // false</span>
+		}
+	}
+	
+	/**
+	 * Gets the type of service number.
+	 *
+	 * @return the type of service number
+	 */
+	public int getTypeOfServiceNumber() {
+<span class="fc" id="L159">		return service.getTypeOfServiceNumber();</span>
+	}
+	
+	/**
+	 * Gets the type of service in string.
+	 *
+	 * @return the type of service in string
+	 */
+	public String getTypeOfServiceInString() {
+<span class="nc" id="L168">		return service.stringFormat();</span>
+	}
+	
+	public Service getService() {
+<span class="fc" id="L172">		return service;</span>
+	}
+	
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+<span class="fc" id="L181">		return username;</span>
+	}
+	
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
+	public String getPassword() {
+<span class="fc" id="L190">		return password;</span>
+	}
+	
+	
+	
+	/**
+	 * Gets the twitter consumer key.
+	 *
+	 * @return the twitter consumer key
+	 */
+	public String getTwitterConsumerKey() {
+<span class="fc" id="L201">		return twitterConsumerKey;</span>
+	}
+
+	/**
+	 * Gets the twitter secret key.
+	 *
+	 * @return the twitter secret key
+	 */
+	public String getTwitterSecretKey() {
+<span class="fc" id="L210">		return twitterSecretKey;</span>
+	}
+
+	/**
+	 * Gets the twitter access token.
+	 *
+	 * @return the twitter access token
+	 */
+	public String getTwitterAccessToken() {
+<span class="fc" id="L219">		return twitterAccessToken;</span>
+	}
+
+	/**
+	 * Gets the twitter access token secret.
+	 *
+	 * @return the twitter access token secret
+	 */
+	public String getTwitterAccessTokenSecret() {
+<span class="fc" id="L228">		return twitterAccessTokenSecret;</span>
+	}
+	
+	public String getAccessToken2() {
+<span class="fc" id="L232">		return accessToken2;</span>
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	/*
+	@Override
+	public String toString() {
+		return &quot;XMLUserConfiguration [service=&quot; + service + &quot;, username=&quot; + username + &quot;, password=&quot; + password
+				+ &quot;, TWITTER_CONSUMER_KEY=&quot; + twitterConsumerKey + &quot;, TWITTER_SECRET_KEY=&quot; + twitterSecretKey
+				+ &quot;, TWITTER_ACCESS_TOKEN=&quot; + twitterAccessToken + &quot;, TWITTER_ACCESS_TOKEN_SECRET=&quot;
+				+ twitterAccessTokenSecret + &quot;]&quot;;
+	}
+	*/
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
