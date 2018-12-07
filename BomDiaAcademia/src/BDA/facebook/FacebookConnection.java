@@ -50,7 +50,7 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private static FacebookConnection INSTANCE = new FacebookConnection();
 	
-	private static final String loginLink = "https://developers.facebook.com/tools/debug/accesstoken/?access_token=";
+	private static final String loginLink = "https://developers.facebook.com/tools/access_token/";
 	
 	/**
 	 * Constructor
