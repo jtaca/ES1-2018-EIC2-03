@@ -3,12 +3,21 @@
  */
 package BDA.email;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.*;
+
+import javax.mail.AuthenticationFailedException;
+import javax.mail.BodyPart;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -17,17 +26,17 @@ import BDA.comparators.DateComparator;
 import BDA.entry_objects.EmailEntry;
 import BDA.entry_objects.InformationEntry;
 import BDA.files.ReadAndWriteFile;
-import BDA.files.ReadAndWriteXMLFile;
-import BDA.interfaces.ServiceInstance;
 import BDA.other.Filter;
 import BDA.other.Service;
+import BDA.tasks.CreateEmailWriterTask;
+
 
 /**
  * The Class EmailConnection.
  * @author Alexandre Mendes
- * @version 2.0
+ * @version 3.0
  */
-public class EmailConnection implements ServiceInstance {
+public class EmailConnection implements BDA.interfaces.ServiceInstance {
 	
 	/** The username. */
 	private String username;
@@ -361,6 +370,19 @@ public class EmailConnection implements ServiceInstance {
 	@Override
 	public Service getService() {
 		return Service.EMAIL;
+	}
+	
+	/**
+	 * Send email with threads.
+	 *
+	 * @param emailConnection the email connection
+	 * @param sendEmailTo the send email to
+	 * @param subject the subject
+	 * @param message the message
+	 */
+	public static void sendEmailWithThreads(EmailConnection emailConnection, String sendEmailTo, String subject, String message) {
+		Thread thread = new Thread(new CreateEmailWriterTask(emailConnection, sendEmailTo, subject, message));
+		thread.start();
 	}
 	
 }

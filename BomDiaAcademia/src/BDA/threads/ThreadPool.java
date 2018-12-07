@@ -3,9 +3,6 @@ package BDA.threads;
 import java.util.ArrayList;
 import java.util.List;
 
-import BDA.email.EmailConnection;
-import BDA.other.Filter;
-import BDA.tasks.EmailReaderTask;
 import BDA.tasks.GetPostTask;
 import BDA.tasks.ServiceReadTask;
 

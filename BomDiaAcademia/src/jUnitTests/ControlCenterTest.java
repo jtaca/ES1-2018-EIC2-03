@@ -1,6 +1,7 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,6 @@ import BDA.facebook.FacebookConnection;
 import BDA.files.ReadAndWriteXMLFile;
 import BDA.other.ControlCenter;
 import BDA.other.XMLUserConfiguration;
-import BDA.tasks.EmailReaderTask;
-import BDA.tasks.FacebookPostReaderTask;
-import BDA.tasks.TwitterPostReaderTask;
 import BDA.twitter.TwitterConnection;
 
 public class ControlCenterTest {

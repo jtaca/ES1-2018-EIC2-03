@@ -1,6 +1,6 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ import BDA.tasks.EmailReaderTask;
 import BDA.tasks.FacebookPostReaderTask;
 import BDA.tasks.ServiceReadTask;
 import BDA.tasks.TwitterPostReaderTask;
-import BDA.threads.ThreadPool;
 import BDA.twitter.TwitterConnection;
 
 public class OtherStaticFunctionTest {

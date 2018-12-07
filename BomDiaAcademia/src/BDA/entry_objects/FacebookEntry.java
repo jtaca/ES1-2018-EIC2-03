@@ -2,10 +2,8 @@ package BDA.entry_objects;
 
 import java.util.Date;
 
-import com.restfb.types.Comment;
 import com.restfb.types.Comments;
 import com.restfb.types.Post;
-import com.restfb.types.StoryAttachment;
 import com.restfb.types.StoryAttachment.Media;
 
 import BDA.other.Service;

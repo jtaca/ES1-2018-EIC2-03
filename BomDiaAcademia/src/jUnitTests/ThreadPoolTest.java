@@ -1,6 +1,8 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,9 @@ import BDA.files.ReadAndWriteXMLFile;
 import BDA.gui.MainController;
 import BDA.gui.MainWindow;
 import BDA.gui.PostBox;
-import BDA.other.OtherStaticFunction;
 import BDA.other.XMLUserConfiguration;
 import BDA.tasks.EmailReaderTask;
 import BDA.tasks.ServiceReadTask;
-import BDA.threads.InformationEntryGatherer;
 import BDA.threads.ThreadPool;
 
 public class ThreadPoolTest {

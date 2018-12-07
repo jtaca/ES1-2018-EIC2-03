@@ -1,7 +1,6 @@
 package BDA.threads;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import BDA.comparators.DateComparator;

@@ -1,13 +1,14 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,7 +32,7 @@ public class FilterTest {
 	
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
 	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
-	private static final String[] DEFAULT_FACEBOOK_FILTERS = {};
+	private static final String[] DEFAULT_FACEBOOK_FILTERS = {"iscte"};
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -182,6 +183,96 @@ public class FilterTest {
 		
 		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_FACEBOOK_FILTERS));
 		expectedFilterList.add("ola");
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterListEmail() {
+		String filterName = "reitoria";
+		List<String> filterList = new ArrayList<String>();
+		filterList.add(filterName);
+		
+		filter.removeFilter(Service.EMAIL, filterList);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.EMAIL);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS));
+		expectedFilterList.remove(filterName);
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterListTwitter() {
+		String filterName = "namiscte";
+		List<String> filterList = new ArrayList<String>();
+		filterList.add(filterName);
+		
+		filter.removeFilter(Service.TWITTER, filterList);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.TWITTER);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS));
+		expectedFilterList.remove(filterName);
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterListFacebook() {
+		String filterName = "iscte";
+		List<String> filterList = new ArrayList<String>();
+		filterList.add(filterName);
+		
+		filter.removeFilter(Service.FACEBOOK, filterList);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.FACEBOOK);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_FACEBOOK_FILTERS));
+		expectedFilterList.remove(filterName);
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterSingleEmail() {
+		String filterToRemove = "reitoria";
+		
+		filter.removeFilter(Service.EMAIL, filterToRemove);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.EMAIL);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS));
+		expectedFilterList.remove(filterToRemove);
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterSingleTwitter() {
+		String filterToRemove = "namiscte";
+		
+		filter.removeFilter(Service.TWITTER, filterToRemove);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.TWITTER);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS));
+		expectedFilterList.remove(filterToRemove);
+		
+		assertEquals(expectedFilterList, actualFilterList);
+	}
+	
+	@Test
+	public void testRemoveFilterSingleFacebook() {
+		String filterToRemove = "iscte";
+		
+		filter.removeFilter(Service.FACEBOOK, filterToRemove);
+		
+		List<String> actualFilterList = filter.getFilterList(Service.FACEBOOK);
+		
+		List<String> expectedFilterList = new ArrayList<String>(Arrays.asList(DEFAULT_FACEBOOK_FILTERS));
+		expectedFilterList.remove(filterToRemove);
 		
 		assertEquals(expectedFilterList, actualFilterList);
 	}

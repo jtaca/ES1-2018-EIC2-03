@@ -1,7 +1,5 @@
 package BDA.other;
 
-import java.io.IOException;
-
 /**
  * The Class XMLUserConfiguration.
  * @author Alexandre Mendes

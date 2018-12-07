@@ -88,8 +88,7 @@ public class OtherStaticFunction {
 			ThreadPool.refreshGUIWithThreads(tasks);
 		} catch (Exception e) {
 			System.out.println("Cant Refresh. There is no XML file yet.");
-		}
-		
+		}	
 	}
-
+	
 }

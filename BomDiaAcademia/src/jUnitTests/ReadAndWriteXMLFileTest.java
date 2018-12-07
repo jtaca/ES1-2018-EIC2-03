@@ -1,27 +1,17 @@
 package jUnitTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import BDA.email.EmailConnection;
-import BDA.entry_objects.EmailEntry;
-import BDA.entry_objects.InformationEntry;
-import BDA.files.ReadAndWriteFile;
 import BDA.files.ReadAndWriteXMLFile;
 import BDA.other.Service;
 import BDA.other.XMLUserConfiguration;
-import junit.framework.Assert;
 
 public class ReadAndWriteXMLFileTest {
 

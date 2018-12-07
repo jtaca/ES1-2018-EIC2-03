@@ -1,6 +1,9 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -78,6 +81,11 @@ public class EmailConnectionTest {
 		EmailConnection emailTest = new EmailConnection("dummy@iscte-iul.pt", "notThePassword");
 		List<InformationEntry> recievedEmails = emailTest.receiveMail();
 		assertFalse(emailTest.isConnected());
+	}
+	
+	@Test
+	public void testSendEmailWithThreads() {
+		EmailConnection.sendEmailWithThreads(email, user.getUsername(), "Testing Subject", "Testing Message");
 	}
 
 }

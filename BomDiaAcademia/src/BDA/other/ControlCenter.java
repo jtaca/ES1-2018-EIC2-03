@@ -7,8 +7,6 @@ import BDA.email.EmailConnection;
 import BDA.facebook.FacebookConnection;
 import BDA.files.ReadAndWriteXMLFile;
 import BDA.interfaces.ServiceInstance;
-import BDA.threads.ThreadPool;
-import BDA.threads.Worker;
 import BDA.twitter.TwitterConnection;
 
 public class ControlCenter {
