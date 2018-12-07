@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
@@ -170,7 +171,21 @@ public class ReadAndWriteFileTest {
 		ReadAndWriteFile.loadListOfFilters("NoFile.txt");
 		ReadAndWriteFile.loadListOfFilters(null);
 		
+		try{  		
+    		File file = new File("NoFile.txt");
+        	
+    		if(file.delete()){
+    			System.out.println(file.getName() + " is deleted!");
+    		}else{
+    			System.out.println("Delete operation is failed.");
+    		}   
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		
+    	}
 	}
+		
+		
 	
 	
 
