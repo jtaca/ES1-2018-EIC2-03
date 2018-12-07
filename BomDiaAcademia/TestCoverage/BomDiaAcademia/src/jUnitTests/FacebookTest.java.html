@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">FacebookTest.java</span></div><h1>FacebookTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+
+import static org.junit.Assert.*;
+
+import java.util.List;
+import java.util.Random;
+
+import org.junit.Test;
+
+import com.restfb.types.GraphResponse;
+
+import entry_objects.InformationEntry;
+import facebook.FacebookConnection;
+import other.Service;
+import entry_objects.FacebookEntry;
+
+<span class="fc" id="L17">public class FacebookTest {</span>
+	List&lt;InformationEntry&gt; in;
+	FacebookEntry testEntry;
+
+	@Test
+	public final void testGetInstance() {
+		try {
+<span class="fc" id="L24">			assertNotNull(FacebookConnection.getInstance());</span>
+<span class="pc" id="L25">		} catch (Exception e) {</span>
+<span class="nc" id="L26">			fail(&quot;Not expected: &quot;+e);</span>
+		}
+		
+<span class="fc" id="L29">	}</span>
+
+
+	@Test
+	public final void testExtendAccessToken() {
+		try {
+<span class="fc" id="L35">			FacebookConnection.ExtendAccessToken(&quot;2128274727202894&quot;, &quot;5b08263178f3db9cbd189e2100f0ee54&quot;);</span>
+<span class="fc" id="L36">			FacebookConnection.ExtendAccessToken(null, null);</span>
+<span class="fc" id="L37">			FacebookConnection.ExtendAccessToken(&quot;null&quot;, &quot;null&quot;);</span>
+<span class="pc" id="L38">		} catch (Exception e) {</span>
+<span class="nc" id="L39">			fail(&quot;Not expected: &quot;+e);</span>
+		}
+		
+<span class="fc" id="L42">	}</span>
+
+	@Test
+	public final void testRequestFacebook() {
+		try {
+<span class="fc" id="L47">			in = FacebookConnection.requestFacebook(&quot;me/feed&quot;);</span>
+<span class="fc" id="L48">			FacebookConnection.requestFacebook(&quot;me&quot;);</span>
+<span class="fc" id="L49">			FacebookConnection.requestFacebook(&quot;null&quot;);</span>
+<span class="fc" id="L50">			FacebookConnection.requestFacebook(null);</span>
+			
+			
+<span class="pc" id="L53">		} catch (Exception e) {</span>
+<span class="nc" id="L54">			fail(&quot;Not expected: &quot;+e);</span>
+		}
+<span class="fc" id="L56">		testEntry = ((FacebookEntry) in.get(0));</span>
+<span class="fc" id="L57">		assertNotNull(in);</span>
+<span class="fc" id="L58">		assertNotNull(testEntry.getPost());</span>
+<span class="fc" id="L59">		assertNotNull(testEntry.getAttachmentDescription());</span>
+<span class="fc" id="L60">		assertNotNull(testEntry.getAttachmentMedia());</span>
+<span class="fc" id="L61">		assertNotNull(testEntry.getAttachmentTitle());</span>
+<span class="fc" id="L62">		assertNotNull(testEntry.getAttachmentUrl());</span>
+<span class="fc" id="L63">		assertNotNull(testEntry.getAuthor());</span>
+<span class="fc" id="L64">		assertNotNull(testEntry.getCommentCount());</span>
+<span class="fc" id="L65">		assertNotNull(testEntry.getComments());</span>
+<span class="fc" id="L66">		assertNotNull(testEntry.getDate());</span>
+		//assertNotNull(testEntry.getDescription());
+<span class="fc" id="L68">		assertNotNull(testEntry.getId());</span>
+<span class="fc" id="L69">		assertNotNull(testEntry.getLikeCount());</span>
+<span class="fc" id="L70">		assertNotNull(testEntry.getMessage());</span>
+		//assertNotNull(testEntry.getPicture());
+<span class="fc" id="L72">		assertNotNull(testEntry.getProfileImageUrl());</span>
+<span class="fc" id="L73">		assertNotNull(testEntry.getService());</span>
+<span class="fc" id="L74">		assertNotNull(testEntry.toString());</span>
+		try {
+<span class="fc" id="L76">			FacebookEntry testEntry2 = new FacebookEntry(null, null, null, null);</span>
+<span class="pc" id="L77">		} catch (Exception e) {</span>
+<span class="nc" id="L78">			fail(&quot;null in constructor: &quot;+e);</span>
+		}
+		
+		
+<span class="fc" id="L82">	}</span>
+
+	@Test
+	public final void testLike() {
+		try {
+<span class="fc" id="L87">			in = FacebookConnection.requestFacebook(&quot;me/feed&quot;);</span>
+<span class="fc" id="L88">			testEntry = ((FacebookEntry) in.get(0));</span>
+<span class="fc" id="L89">			System.out.println(testEntry.getId());</span>
+<span class="fc" id="L90">			FacebookConnection.like(testEntry.getId());</span>
+<span class="fc" id="L91">			FacebookConnection.like(&quot;0&quot;);</span>
+<span class="fc" id="L92">			FacebookConnection.like(&quot;erfiwbf&quot;);</span>
+<span class="fc" id="L93">			FacebookConnection.like(null);</span>
+<span class="pc" id="L94">		} catch (Exception e) {</span>
+<span class="nc" id="L95">			fail(&quot;Not anticipated: &quot;+e);</span>
+		}
+		
+		
+<span class="fc" id="L99">	}</span>
+
+	@Test
+	public final void testPost() {
+		try {
+<span class="fc" id="L104">			Random rand = new Random();</span>
+<span class="fc" id="L105">			int n = rand.nextInt(50) + 1;</span>
+<span class="fc" id="L106">			GraphResponse b = FacebookConnection.post(&quot;Random Number: &quot;+ n );</span>
+<span class="fc" id="L107">			assertNotNull(b);</span>
+			
+<span class="fc" id="L109">			FacebookConnection.post(&quot;SameText&quot;);</span>
+<span class="fc" id="L110">			FacebookConnection.post(null);</span>
+			
+<span class="pc" id="L112">		} catch (Exception e) {</span>
+<span class="nc" id="L113">			fail();</span>
+		}
+		
+		
+<span class="fc" id="L117">	}</span>
+
+	@Test
+	public final void testCommentOnPost() {
+		try {
+<span class="fc" id="L122">			in = FacebookConnection.requestFacebook(&quot;me/feed&quot;);</span>
+<span class="fc" id="L123">			testEntry = ((FacebookEntry) in.get(0));</span>
+			
+<span class="fc" id="L125">			FacebookConnection.commentOnPost(testEntry.getId(),&quot;Great comment&quot;);</span>
+<span class="fc" id="L126">			FacebookConnection.commentOnPost(&quot;bwilq&quot;, null);</span>
+<span class="fc" id="L127">			FacebookConnection.commentOnPost(null,&quot;Great comment&quot;);</span>
+<span class="fc" id="L128">			FacebookConnection.commentOnPost(null, null);</span>
+<span class="pc" id="L129">		} catch (Exception e) {</span>
+<span class="nc" id="L130">			fail();</span>
+		}
+		
+		
+		
+		
+<span class="fc" id="L136">	}</span>
+
+	@Test
+	public final void testGetAccessToken2() {
+<span class="fc" id="L140">		assertNotNull(FacebookConnection.getAccessToken2());</span>
+<span class="fc" id="L141">	}</span>
+
+
+	@Test
+	public final void testGetService() {
+<span class="fc" id="L146">		assertNotNull(FacebookConnection.getInstance().getService());</span>
+<span class="fc" id="L147">		assertEquals(Service.FACEBOOK, FacebookConnection.getInstance().getService());</span>
+<span class="fc" id="L148">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

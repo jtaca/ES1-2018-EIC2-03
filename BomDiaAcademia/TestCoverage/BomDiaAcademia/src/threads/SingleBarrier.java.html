@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SingleBarrier.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">threads</a> &gt; <span class="el_source">SingleBarrier.java</span></div><h1>SingleBarrier.java</h1><pre class="source lang-java linenums">package threads;
+
+/**
+ * The Class SingleBarrier.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
+public class SingleBarrier { //
+	
+	/** The current posters. */
+<span class="fc" id="L11">	int currentPosters = 0;</span>
+	
+	/** The total posters. */
+<span class="fc" id="L14">	int totalPosters = 0;</span>
+	
+	/** The passed waiters. */
+<span class="fc" id="L17">	int passedWaiters = 0;</span>
+	
+	/** The total waiters. */
+<span class="fc" id="L20">	int totalWaiters = 1;</span>
+	
+	/**
+	 * Instantiates a new single barrier.
+	 *
+	 * @param i the i
+	 */
+<span class="fc" id="L27">	public SingleBarrier(int i) {</span>
+<span class="fc" id="L28">		totalPosters = i;</span>
+<span class="fc" id="L29">	}</span>
+	
+	/**
+	 * Instantiates a new single barrier.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 */
+<span class="fc" id="L37">	public SingleBarrier(int i, int j) {</span>
+<span class="fc" id="L38">		totalPosters = i;</span>
+<span class="fc" id="L39">		totalWaiters = j;</span>
+<span class="fc" id="L40">	}</span>
+	
+	/**
+	 * Instantiates a new single barrier.
+	 */
+<span class="fc" id="L45">	public SingleBarrier() {</span>
+<span class="fc" id="L46">	}</span>
+	
+	/**
+	 * Inits the.
+	 *
+	 * @param i the i
+	 */
+	public synchronized void init(int i) {
+<span class="fc" id="L54">		totalPosters = i;</span>
+<span class="fc" id="L55">		currentPosters = 0;</span>
+<span class="fc" id="L56">	}</span>
+	
+	/**
+	 * Gets the current posters.
+	 *
+	 * @return the current posters
+	 */
+	public int getCurrentPosters() {
+<span class="fc" id="L64">		return currentPosters;</span>
+	}
+	
+	/**
+	 * Gets the total posters.
+	 *
+	 * @return the total posters
+	 */
+	public int getTotalPosters() {
+<span class="fc" id="L73">		return totalPosters;</span>
+	}
+	
+	/**
+	 * Gets the passed waiters.
+	 *
+	 * @return the passed waiters
+	 */
+	public int getPassedWaiters() {
+<span class="fc" id="L82">		return passedWaiters;</span>
+	}
+	
+	/**
+	 * Gets the total waiters.
+	 *
+	 * @return the total waiters
+	 */
+	public int getTotalWaiters() {
+<span class="fc" id="L91">		return totalWaiters;</span>
+	}
+	
+	/**
+	 * Barrier set.
+	 *
+	 * @param i the i
+	 */
+	public synchronized void barrierSet(int i) {
+<span class="fc" id="L100">		totalPosters = i;</span>
+<span class="fc" id="L101">		currentPosters = 0;</span>
+<span class="fc" id="L102">	}</span>
+	
+	/**
+	 * Barrier wait.
+	 */
+	public synchronized void barrierWait() {
+<span class="fc" id="L108">		boolean interrupted = false;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		while (currentPosters != totalPosters) {</span>
+			try {
+<span class="fc" id="L111">				wait();</span>
+<span class="fc" id="L112">			} catch (InterruptedException ie) {</span>
+<span class="fc" id="L113">				interrupted = true;</span>
+			}
+		}
+<span class="fc" id="L116">		passedWaiters++;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if (passedWaiters == totalWaiters) {</span>
+<span class="fc" id="L118">			currentPosters = 0;</span>
+<span class="fc" id="L119">			passedWaiters = 0;</span>
+<span class="fc" id="L120">			notifyAll();</span>
+		}
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if (interrupted) {</span>
+<span class="fc" id="L123">			Thread.currentThread().interrupt();</span>
+		}
+<span class="fc" id="L125">	}</span>
+	
+	/**
+	 * Barrier post.
+	 */
+	public synchronized void barrierPost() {
+<span class="fc" id="L131">		boolean interrupted = false;</span>
+		// In case a poster thread beats barrierWait,
+		// keep count of posters.
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">		while (currentPosters == totalPosters) {</span>
+			try {
+<span class="nc" id="L136">				wait();</span>
+<span class="nc" id="L137">			} catch (InterruptedException ie) {</span>
+<span class="nc" id="L138">				interrupted = true;</span>
+			}
+		}
+<span class="fc" id="L141">		currentPosters++;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		if (currentPosters == totalPosters)</span>
+<span class="fc" id="L143">			notifyAll();</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		if (interrupted) {</span>
+<span class="nc" id="L145">			Thread.currentThread().interrupt();</span>
+		}
+<span class="fc" id="L147">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

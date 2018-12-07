@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ThreadPool.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">threads</a> &gt; <span class="el_source">ThreadPool.java</span></div><h1>ThreadPool.java</h1><pre class="source lang-java linenums">package threads;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import email.EmailConnection;
+import other.Filter;
+import tasks.EmailReaderTask;
+import tasks.GetPostTask;
+import tasks.ServiceReadTask;
+
+/**
+ * The Class ThreadPool.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
+public class ThreadPool { //
+	
+	/** The threads working. */
+<span class="fc" id="L20">	private boolean threadsWorking = false;</span>
+	
+	/** The Constant MINIMUM_NUMBER_OF_THREADS. */
+	private static final int MINIMUM_NUMBER_OF_THREADS = 10;
+	
+	/** The number of threads. */
+	private int numberOfThreads;
+	
+	/** The threads. */
+	private List&lt;Worker&gt; threads;
+	
+	/** The Constant INSTANCE. */
+<span class="fc" id="L32">	private static final ThreadPool INSTANCE = new ThreadPool();</span>
+	
+	/**
+	 * Instantiates a new thread pool.
+	 */
+<span class="fc" id="L37">	private ThreadPool() {</span>
+<span class="fc" id="L38">		threads = new ArrayList&lt;Worker&gt;();</span>
+<span class="fc" id="L39">		numberOfThreads = Runtime.getRuntime().availableProcessors();</span>
+		
+<span class="fc" id="L41">		System.out.println(&quot;Number of cores: &quot; + numberOfThreads);</span>
+<span class="fc" id="L42">		numberOfThreads = Math.max(MINIMUM_NUMBER_OF_THREADS, numberOfThreads);</span>
+<span class="fc" id="L43">		System.out.println(&quot;Number of threads: &quot; + numberOfThreads);</span>
+		
+<span class="fc" id="L45">	}</span>
+	
+	/**
+	 * Gets the single instance of ThreadPool.
+	 *
+	 * @return single instance of ThreadPool
+	 */
+	public static ThreadPool getInstance() {
+<span class="fc" id="L53">		return INSTANCE;</span>
+	}
+	
+	/**
+	 * Gets the threads working.
+	 *
+	 * @return the threads working
+	 */
+	public boolean getThreadsWorking() {
+<span class="fc" id="L62">		return threadsWorking;</span>
+	}
+	
+	/**
+	 * Stop threads.
+	 */
+	public void stopThreads() {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">		if(threadsWorking == true) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">			for(Worker w : threads) {</span>
+<span class="fc" id="L71">				w.stopWorking();</span>
+<span class="fc" id="L72">				w.interrupt();</span>
+			}
+<span class="fc" id="L74">			threads.clear();</span>
+<span class="fc" id="L75">			threadsWorking = false;</span>
+		}
+<span class="fc" id="L77">	}</span>
+	
+	/**
+	 * Start threads.
+	 */
+	public void startThreads() { // require to be called for the threads to be created and start.
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if(threadsWorking == false) {</span>
+			Worker worker;
+<span class="fc bfc" id="L85" title="All 2 branches covered.">			for(int i = 0 ; i &lt; numberOfThreads ; i++) {</span>
+<span class="fc" id="L86">				worker = new Worker();</span>
+<span class="fc" id="L87">				threads.add(worker);</span>
+<span class="fc" id="L88">				worker.start();</span>
+			}
+<span class="fc" id="L90">			threadsWorking = true;</span>
+		}
+<span class="fc" id="L92">	}</span>
+	
+	
+	/**
+	 * Refresh GUI with threads.
+	 *
+	 * @param tasks the tasks
+	 */
+	public static void refreshGUIWithThreads(List&lt;ServiceReadTask&gt; tasks) {
+<span class="fc" id="L101">		ThreadPool.getInstance().startThreads();</span>
+<span class="fc" id="L102">		Thread thread = new Thread(new GetPostTask(tasks));</span>
+<span class="fc" id="L103">		thread.start();</span>
+<span class="fc" id="L104">	}</span>
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GetPostTask.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">tasks</a> &gt; <span class="el_source">GetPostTask.java</span></div><h1>GetPostTask.java</h1><pre class="source lang-java linenums">package tasks;
+
+import java.util.List;
+
+import gui.MainController;
+import threads.InformationEntryGatherer;
+import threads.TaskTable;
+
+/**
+ * The Class GetPostTask.
+ * 
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+public class GetPostTask implements Task { //
+
+	/** The tasks. */
+	private List&lt;ServiceReadTask&gt; tasks;
+
+	/** The information entry gatherer. */
+	private InformationEntryGatherer information_entry_gatherer;
+
+	/**
+	 * Instantiates a new gets the post task.
+	 *
+	 * @param tasks the tasks
+	 */
+<span class="fc" id="L28">	public GetPostTask(List&lt;ServiceReadTask&gt; tasks) {</span>
+<span class="fc" id="L29">		this.tasks = tasks;</span>
+<span class="fc" id="L30">		information_entry_gatherer = new InformationEntryGatherer(tasks.size()); // tem cenas mal...</span>
+<span class="fc" id="L31">	}</span>
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		for (ServiceReadTask t : tasks) {</span>
+<span class="fc" id="L41">			t.setBarrier(information_entry_gatherer);</span>
+<span class="fc" id="L42">			TaskTable.getInstance().putTask(t);</span>
+		}
+<span class="fc" id="L44">		information_entry_gatherer.waitForEveryOcurrence();</span>
+<span class="fc" id="L45">		MainController.getInstance().loadPosts(information_entry_gatherer.getList(), true);</span>
+//		Main.auxFunctionToPrintEmails(information_entry_gatherer.getList());
+<span class="fc" id="L47">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

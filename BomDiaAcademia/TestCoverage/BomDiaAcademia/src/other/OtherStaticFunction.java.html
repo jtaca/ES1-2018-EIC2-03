@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>OtherStaticFunction.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">other</a> &gt; <span class="el_source">OtherStaticFunction.java</span></div><h1>OtherStaticFunction.java</h1><pre class="source lang-java linenums">package other;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import email.EmailConnection;
+import facebook.FacebookConnection;
+import files.ReadAndWriteXMLFile;
+import tasks.EmailReaderTask;
+import tasks.FacebookPostReaderTask;
+import tasks.ServiceReadTask;
+import tasks.TwitterPostReaderTask;
+import threads.ThreadPool;
+import twitter.TwitterConnection;
+
+/**
+ * The Class OtherStaticFunction.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
+<span class="nc" id="L21">public class OtherStaticFunction {</span>
+	
+	/**
+	 * Refresh GUI with threads.
+	 */
+	public static void refreshGUIWithThreads() {
+		try {
+<span class="fc" id="L28">			ServiceReadTask task = null;</span>
+			
+<span class="fc" id="L30">			boolean use_info_from_file_to_email = true;</span>
+<span class="fc" id="L31">			boolean use_info_from_file_to_twitter = true;</span>
+<span class="fc" id="L32">			boolean use_info_from_file_to_facebook = true;</span>
+			
+<span class="fc" id="L34">			List&lt;EmailConnection&gt; email_connections = ControlCenter.getInstance().getEmailList();</span>
+<span class="fc" id="L35">			List&lt;TwitterConnection&gt; twitter_functions = ControlCenter.getInstance().getTwitterList();</span>
+<span class="fc" id="L36">			List&lt;FacebookConnection&gt; facebook_connections = ControlCenter.getInstance().getFacebookList();</span>
+			
+<span class="fc" id="L38">			List&lt;ServiceReadTask&gt; tasks = new ArrayList&lt;ServiceReadTask&gt;();</span>
+			
+<span class="pc bpc" id="L40" title="2 of 4 branches missed.">			if(email_connections != null &amp;&amp; !email_connections.isEmpty()) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">				for(EmailConnection email : email_connections) {</span>
+<span class="fc" id="L42">					tasks.add(new EmailReaderTask(email));</span>
+				}
+<span class="fc" id="L44">				use_info_from_file_to_email = false;</span>
+			}
+<span class="pc bpc" id="L46" title="1 of 4 branches missed.">			if(twitter_functions != null &amp;&amp; !twitter_functions.isEmpty()) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">				for(TwitterConnection twitter : twitter_functions) {</span>
+<span class="fc" id="L48">					tasks.add(new TwitterPostReaderTask());</span>
+				}
+<span class="fc" id="L50">				use_info_from_file_to_twitter = false;</span>
+			}
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">			if(facebook_connections != null &amp;&amp; !facebook_connections.isEmpty()) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">				for(FacebookConnection facebook : facebook_connections) {</span>
+<span class="fc" id="L54">					tasks.add(new FacebookPostReaderTask());</span>
+				}
+<span class="fc" id="L56">				use_info_from_file_to_facebook = false;</span>
+			}
+			
+<span class="pc bpc" id="L59" title="2 of 6 branches missed.">			if(use_info_from_file_to_email || use_info_from_file_to_twitter || use_info_from_file_to_facebook) {</span>
+<span class="fc" id="L60">				List&lt;XMLUserConfiguration&gt; list_of_user_configuration = ReadAndWriteXMLFile.ReadConfigXMLFile();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">				for(XMLUserConfiguration xml_user_config : list_of_user_configuration) {</span>
+<span class="pc bpc" id="L62" title="2 of 4 branches missed.">					switch (xml_user_config.getService()) {</span>
+					case EMAIL:
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">						if(use_info_from_file_to_email == true) {</span>
+<span class="nc" id="L65">							task = new EmailReaderTask(new EmailConnection(xml_user_config.getUsername(), xml_user_config.getPassword()));</span>
+						}
+<span class="nc" id="L67">						break;</span>
+						
+					case TWITTER:
+<span class="fc bfc" id="L70" title="All 2 branches covered.">						if(use_info_from_file_to_twitter == true) {</span>
+<span class="fc" id="L71">							task = new TwitterPostReaderTask(); // Require to be implemented object oriented and not function oriented</span>
+						}
+<span class="fc" id="L73">						break;</span>
+						
+					case FACEBOOK:
+<span class="nc bnc" id="L76" title="All 2 branches missed.">						if(use_info_from_file_to_facebook == true) {</span>
+<span class="nc" id="L77">							task = new FacebookPostReaderTask(); // Require to be implemented object oriented and not function oriented</span>
+						}
+						break;
+
+					}
+<span class="fc bfc" id="L82" title="All 2 branches covered.">					if(task != null) {</span>
+<span class="fc" id="L83">						tasks.add(task);</span>
+<span class="fc" id="L84">						task = null;</span>
+					}
+				}
+			}
+<span class="fc" id="L88">			ThreadPool.refreshGUIWithThreads(tasks);</span>
+<span class="pc" id="L89">		} catch (Exception e) {</span>
+<span class="nc" id="L90">			System.out.println(&quot;Cant Refresh. There is no XML file yet.&quot;);</span>
+		}
+		
+<span class="fc" id="L93">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

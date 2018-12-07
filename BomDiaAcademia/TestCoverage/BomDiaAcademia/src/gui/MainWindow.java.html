@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MainWindow.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">MainWindow.java</span></div><h1>MainWindow.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import tasks.FacebookPostReaderTask;
+import tasks.ServiceReadTask;
+import tasks.TwitterPostReaderTask;
+import threads.ThreadPool;
+
+/**
+ * The Class MainWindow.
+ * 
+ * @author Rostislav Andreev
+ * @version 2.0
+ */
+<span class="fc" id="L23">public class MainWindow extends Application {</span>
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
+	public static void main(String[] args) {
+<span class="nc" id="L31">		launch(args);</span>
+<span class="nc" id="L32">	}</span>
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+<span class="fc" id="L41">		List&lt;ServiceReadTask&gt; tasks = new ArrayList&lt;ServiceReadTask&gt;();</span>
+<span class="fc" id="L42">		tasks.add(new TwitterPostReaderTask());</span>
+<span class="fc" id="L43">		tasks.add(new FacebookPostReaderTask());</span>
+<span class="fc" id="L44">		ThreadPool.refreshGUIWithThreads(tasks);</span>
+
+<span class="fc" id="L46">		FXMLLoader loader = new FXMLLoader();</span>
+<span class="fc" id="L47">		loader.setController(MainController.getInstance());</span>
+<span class="fc" id="L48">		loader.setLocation(getClass().getResource(&quot;/res/MainScene.fxml&quot;));</span>
+<span class="fc" id="L49">		Parent root = loader.load();</span>
+<span class="fc" id="L50">		Image icon = new Image(getClass().getResource(&quot;/res/logo0.png&quot;).toString());</span>
+
+<span class="fc" id="L52">		primaryStage.getIcons().add(icon);</span>
+<span class="fc" id="L53">		primaryStage.setTitle(&quot;Bom Dia Academia&quot;);</span>
+<span class="fc" id="L54">		primaryStage.setMinHeight(540);</span>
+<span class="fc" id="L55">		primaryStage.setMinWidth(820);</span>
+<span class="pc" id="L56">		primaryStage.setOnCloseRequest(e -&gt; ThreadPool.getInstance().stopThreads());</span>
+
+<span class="fc" id="L58">		primaryStage.setScene(new Scene(root));</span>
+<span class="fc" id="L59">		primaryStage.show();</span>
+<span class="fc" id="L60">		root.requestFocus();</span>
+<span class="fc" id="L61">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

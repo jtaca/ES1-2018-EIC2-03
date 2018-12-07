@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookConnection.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">facebook</a> &gt; <span class="el_source">FacebookConnection.java</span></div><h1>FacebookConnection.java</h1><pre class="source lang-java linenums">package facebook;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+
+import com.restfb.Connection;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.FacebookClient.AccessToken;
+import com.restfb.exception.FacebookException;
+import com.restfb.exception.FacebookOAuthException;
+import com.restfb.json.JsonObject;
+import com.restfb.json.JsonValue;
+import com.restfb.types.GraphResponse;
+import com.restfb.types.Post;
+import com.restfb.types.User;
+
+import entry_objects.FacebookEntry;
+import entry_objects.InformationEntry;
+import entry_objects.TwitterEntry;
+import interfaces.ServiceInstance;
+import other.Filter;
+import other.Service;
+
+/** This class handles the Facebook connection and respective functions
+ * @author Joao Aparicio
+ *
+ */
+public class FacebookConnection implements ServiceInstance {
+	
+	//activity going to: https://www.facebook.com/Bomdiaacademia-318510688875649/?modal=admin_todo_tour
+	
+	/**
+	 * Access Token for the BomDiaAcademia app
+	 */
+	private static String accessToken2 ;
+	/**
+	 * Client used in every connection
+	 */
+	private static FacebookClient fbClient2;
+	/**
+	 * 
+	 */
+	private static User me2 ;
+	/**
+	 * Instance used for the singleton
+	 */
+<span class="fc" id="L51">	private static FacebookConnection INSTANCE = new FacebookConnection();</span>
+	
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L56">	private FacebookConnection() {</span>
+<span class="fc" id="L57">		accessToken2 = &quot;EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC&quot;;</span>
+<span class="fc" id="L58">		fbClient2 = init(&quot;me&quot;);</span>
+<span class="fc" id="L59">		System.out.println(&quot;Facebook:&quot;);</span>
+<span class="fc" id="L60">		System.out.println(&quot;Id: &quot; + me2.getId());</span>
+<span class="fc" id="L61">		System.out.println(&quot;Name: &quot; + me2.getName());</span>
+<span class="fc" id="L62">	}</span>
+	
+	/**
+	 * @return the instance of the singleton
+	 */
+	public static FacebookConnection getInstance() {
+<span class="fc" id="L68">		return INSTANCE;</span>
+	}
+	
+	
+	/**
+	 * Starts a connection with Facebook
+	 */
+	@SuppressWarnings(&quot;deprecation&quot;)
+	private static DefaultFacebookClient init(String s) {
+	
+		try {
+<span class="fc" id="L79">			fbClient2 = new DefaultFacebookClient(accessToken2);</span>
+<span class="fc" id="L80">			me2 = fbClient2.fetchObject(s, User.class);</span>
+//			try {
+//				me2.getAbout();
+//			} catch (FacebookException e) {
+//				System.out.println(&quot;&quot;+e);
+//			}
+
+			
+<span class="pc" id="L88">		} catch (FacebookException e) {</span>
+<span class="nc" id="L89">			System.out.println(e);</span>
+		}
+		
+<span class="fc" id="L92">		return (DefaultFacebookClient) fbClient2;</span>
+		
+	}
+
+
+//	/**
+//	 * Setter for app token, to be implemented later.
+//	 */
+//	public static void setAccessToken2(String accessToken2) {
+//		FacebookConnection.accessToken2 = accessToken2;
+//	}
+	
+	/**
+	 * Extends the app token
+	 */
+	public static void ExtendAccessToken(String app, String secret) {
+		try {
+<span class="fc" id="L109">			fbClient2.obtainExtendedAccessToken(app, secret, accessToken2);</span>
+			
+<span class="fc" id="L111">		} catch (FacebookException e) {</span>
+<span class="fc" id="L112">			System.out.println(&quot;FB exception: &quot;+e);</span>
+<span class="fc" id="L113">		}catch (Exception e) {</span>
+<span class="fc" id="L114">			System.out.println(e);</span>
+		}
+		
+<span class="fc" id="L117">	}</span>
+	
+	
+	
+	
+	
+	/**
+	 * Request for the bom dia academia page
+	 */
+	public static List&lt;InformationEntry&gt; requestFacebook(String s) {
+<span class="fc" id="L127">		List&lt;InformationEntry&gt; list = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L129">			Connection&lt;Post&gt; myFeed = fbClient2.fetchConnection(s, Post.class);</span>
+<span class="fc" id="L130">			Iterator&lt;List&lt;Post&gt;&gt; it = myFeed.iterator();</span>
+			
+<span class="fc bfc" id="L132" title="All 2 branches covered.">			while(it.hasNext()) {</span>
+<span class="fc" id="L133">			   List&lt;Post&gt; myFeedPage = it.next();</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">			   for (Post post : myFeedPage) {</span>
+<span class="fc" id="L135">				 String postId = post.getId();  </span>
+			     //System.out.println(&quot;Post: &quot; + post.getId()+ &quot;, Message: &quot;+ post.getMessage() +&quot;, Updated time: &quot;+ post.getUpdatedTime());
+<span class="fc" id="L137">				Post post1 = fbClient2.fetchObject(postId, Post.class, Parameter.with(&quot;fields&quot;, &quot;name,created_time,from,full_picture,picture,to,likes.summary(true),description.summary(true),comments.summary(true),message.summary(true),attachments.summary(true)&quot;));</span>
+				
+<span class="fc" id="L139">				String author = &quot;BomDiaAcademiaISCTE&quot;;</span>
+				
+<span class="fc" id="L141">				JsonObject jsonObject = fbClient2.fetchObject(&quot;/BomDiaAcademiaISCTE/picture&quot;, JsonObject.class,</span>
+<span class="fc" id="L142">						Parameter.with(&quot;type&quot;, &quot;large&quot;), Parameter.with(&quot;redirect&quot;, &quot;false&quot;));</span>
+<span class="fc" id="L143">						JsonValue jsonValue = jsonObject.get(&quot;data&quot;);</span>
+<span class="fc" id="L144">						JsonObject object = jsonValue.asObject();</span>
+<span class="fc" id="L145">						String profileImageUrl = object.get(&quot;url&quot;).asString();</span>
+				
+				try {
+<span class="fc" id="L148">					String linkurl = post1.getAttachments().getData().get(0).getUrl();</span>
+					//String name = linkurl.split(&quot;/&quot;)[3];
+<span class="fc" id="L150">					System.out.println(linkurl.split(&quot;/&quot;)[3]);</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">					if (!linkurl.split(&quot;/&quot;)[3].contains(&quot;l.php&quot;)) {</span>
+<span class="fc" id="L152">						author = linkurl.split(&quot;/&quot;)[3];</span>
+<span class="fc" id="L153">						jsonObject = fbClient2.fetchObject(&quot;/&quot;+author+&quot;/picture&quot;, JsonObject.class,</span>
+<span class="fc" id="L154">								Parameter.with(&quot;type&quot;, &quot;large&quot;), Parameter.with(&quot;redirect&quot;, &quot;false&quot;));</span>
+<span class="fc" id="L155">								jsonValue = jsonObject.get(&quot;data&quot;);</span>
+<span class="fc" id="L156">								object = jsonValue.asObject();</span>
+<span class="fc" id="L157">								profileImageUrl = object.get(&quot;url&quot;).asString();</span>
+					}
+					
+					
+<span class="fc" id="L161">				} catch (Exception e) {</span>
+<span class="fc" id="L162">					System.out.println(e);</span>
+					
+				}
+<span class="fc" id="L165">				 list.add(new FacebookEntry(post1, post1.getCreatedTime(), profileImageUrl,author));</span>
+			   }	
+			   
+			} 
+			
+<span class="fc" id="L170">		} catch (FacebookException e) {</span>
+<span class="fc" id="L171">			e.printStackTrace();</span>
+<span class="fc" id="L172">			FacebookConnection.ExtendAccessToken(&quot;2128274727202894&quot;, &quot;5b08263178f3db9cbd189e2100f0ee54&quot;);</span>
+<span class="fc" id="L173">		} catch (Exception te) {</span>
+<span class="fc" id="L174">			System.out.println(&quot;unexpected :&quot;+te);</span>
+		}
+<span class="fc" id="L176">		return list;</span>
+	
+		
+	}
+	
+	/**
+	 * Likes the post with the id given
+	 */
+	public static void like(String id){
+		try {
+<span class="fc" id="L186">			fbClient2.publish(id+&quot;/likes&quot;, Boolean.class); </span>
+<span class="fc" id="L187">		} catch (FacebookException e) {</span>
+<span class="fc" id="L188">			System.out.println(&quot;invalid id: &quot;+e);</span>
+<span class="nc" id="L189">		}catch (NullPointerException e) {</span>
+<span class="nc" id="L190">			System.out.println(&quot;invalid id: &quot;+e);</span>
+		}
+		
+		
+<span class="fc" id="L194">	}</span>
+	
+	
+	/**
+	 * Posts on the bom dia academia page with the message given
+	 */
+	public static GraphResponse post(String message) {
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		if(message != null) {</span>
+			try {
+<span class="fc" id="L203">				GraphResponse publishMessageResponse = </span>
+<span class="fc" id="L204">						fbClient2.publish(&quot;me/feed&quot;, GraphResponse.class,</span>
+<span class="fc" id="L205">						    Parameter.with(&quot;message&quot;, message));</span>
+
+<span class="fc" id="L207">				System.out.println(&quot;Published message ID: &quot; + publishMessageResponse.getId());</span>
+<span class="fc" id="L208">				return publishMessageResponse;</span>
+<span class="nc" id="L209">			} catch (FacebookException e) {</span>
+<span class="nc" id="L210">				System.out.println(&quot;Error publishing: s&quot;+e);</span>
+			}
+			
+		}
+<span class="fc" id="L214">		return null;	</span>
+		
+		
+	}
+	
+	/**
+	 * comments the post with the id and message given
+	 */
+	public static void commentOnPost(String id, String message) {
+<span class="fc bfc" id="L223" title="All 4 branches covered.">		if(message != null &amp;&amp; id != null) {</span>
+			try {
+<span class="fc" id="L225">				fbClient2.publish(id+&quot;/comments&quot;, String.class, Parameter.with(&quot;message&quot;,message));</span>
+<span class="pc" id="L226">			} catch (FacebookException e) {</span>
+<span class="nc" id="L227">				System.out.println(&quot;commentOnPost: &quot;+e);</span>
+			}
+//		}else{
+<span class="fc" id="L230">			System.out.println(&quot;Invalid ID or message&quot;);</span>
+		}
+<span class="fc" id="L232">	}</span>
+	
+	
+	
+	
+	/**
+	 * getter for the access token 
+	 */
+	public static String getAccessToken2() {
+<span class="fc" id="L241">		return accessToken2;</span>
+	}
+	
+	/**
+	 * main for demonstrating how to use the methods in this function
+	 */
+//	public static void main(String[] args) {
+//		FacebookConnection fb = getInstance();
+//		 List&lt;InformationEntry&gt; a = fb.requestFacebook();
+//		 for (int i = 0; i &lt; a.size(); i++) {
+//			System.out.println( a.get(i).toString());
+//		}
+//		//System.out.println(a);
+//		like(((FacebookEntry) a.get(0)).getPost().getId());
+//		
+//		//GraphResponse b = post(&quot;FaceId&quot;);
+//		//like(b.getId());
+//		//commentOnPost(b.getId(),&quot;Grateful Comment :P&quot;);
+//		ExtendAccessToken();
+//		
+//		
+//	}
+	
+	/**
+	 * Getter for the type of service in use
+	 */
+	@Override
+	public Service getService() {
+<span class="fc" id="L269">		return Service.FACEBOOK;</span>
+	}
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

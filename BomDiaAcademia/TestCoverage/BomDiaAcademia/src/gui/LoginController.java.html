@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>LoginController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">LoginController.java</span></div><h1>LoginController.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
+import email.EmailConnection;
+import facebook.FacebookConnection;
+import files.ReadAndWriteXMLFile;
+import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import other.OtherStaticFunction;
+import other.Service;
+import other.XMLUserConfiguration;
+import threads.ThreadPool;
+import twitter.TwitterConnection;
+
+/**
+ * The Class LoginController handles the user interaction with the GUI.
+ * @author Rostislav Andreev
+ * @version 2.0
+ */
+public class LoginController implements Initializable {
+
+	/** The error message. */
+	@FXML
+	private Label errorMessage;
+
+	/** The username. */
+	@FXML
+	private JFXTextField username;
+
+	/** The password. */
+	@FXML
+	private JFXPasswordField password;
+
+	/** The remember me. */
+	@FXML
+	private JFXCheckBox rememberMe;
+
+	/** The user. */
+	private XMLUserConfiguration user;
+
+	/**
+	 * Instantiates a new login controller.
+	 *
+	 * @param user the user
+	 */
+<span class="nc" id="L66">	public LoginController(XMLUserConfiguration user) {</span>
+<span class="nc" id="L67">		this.user = user;</span>
+<span class="nc" id="L68">	}</span>
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+<span class="nc bnc" id="L78" title="All 4 branches missed.">		if (user != null &amp;&amp; user.isInformationSaved()) {</span>
+<span class="nc" id="L79">			username.setText(user.getUsername());</span>
+<span class="nc" id="L80">			password.setText(user.getPassword());</span>
+		}
+<span class="nc" id="L82">	}</span>
+
+	/**
+	 * Unfocuses any element that may have been set to focused by the user.
+	 *
+	 * @param e the e
+	 */
+	@FXML
+	private void unfocus(MouseEvent e) {
+<span class="nc" id="L91">		((Node) e.getSource()).getScene().getRoot().requestFocus();</span>
+<span class="nc" id="L92">	}</span>
+
+	/**
+	 * Checks the credentials given by the user and if they are correct then it
+	 * opens the main application window.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@FXML
+	private void logIn(ActionEvent event) throws IOException {
+<span class="nc" id="L103">		FadeTransition errorFade = new FadeTransition(Duration.seconds(1), errorMessage);</span>
+<span class="nc" id="L104">		String oldMessage = errorMessage.getText();</span>
+
+<span class="nc" id="L106">		errorFade.setFromValue(0);</span>
+<span class="nc" id="L107">		errorFade.setToValue(1);</span>
+
+<span class="nc bnc" id="L109" title="All 4 branches missed.">		if (username.getText().isEmpty() || password.getText().isEmpty())</span>
+<span class="nc" id="L110">			errorMessage.setText(&quot;Preencha todos os campos&quot;);</span>
+		else {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">			if (!username.getText().matches(&quot;.+(@iscte-iul.pt)&quot;))</span>
+<span class="nc" id="L113">				errorMessage.setText(&quot;Email não válido&quot;);</span>
+			else {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">				if (EmailConnection.verifyLogin(username.getText(), password.getText())) {</span>
+
+<span class="nc" id="L117">					EmailConnection outlook = null;</span>
+<span class="nc" id="L118">					XMLUserConfiguration twitter = null;</span>
+<span class="nc" id="L119">					XMLUserConfiguration facebook = null;</span>
+<span class="nc" id="L120">					List&lt;XMLUserConfiguration&gt; user_config_list = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
+
+					try {
+<span class="nc" id="L123">						twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);</span>
+<span class="nc" id="L124">					} catch (Exception e) {</span>
+<span class="nc" id="L125">						System.out.println(&quot;Ficheiro sem informacao twitter&quot;);</span>
+					}
+					
+					try {
+<span class="nc" id="L129">						facebook = ReadAndWriteXMLFile.ReadConfigXMLFile().get(2);</span>
+<span class="nc" id="L130">					} catch (Exception e) {</span>
+<span class="nc" id="L131">						System.out.println(&quot;Ficheiro sem informacao facebook&quot;);</span>
+					}
+
+					try {
+<span class="nc bnc" id="L135" title="All 6 branches missed.">						if (user == null || (user != null &amp;&amp; user.isInformationSaved() == false))</span>
+<span class="nc" id="L136">							user = new XMLUserConfiguration(rememberMe.isSelected(), Service.EMAIL, username.getText(),</span>
+<span class="nc" id="L137">									password.getText());</span>
+
+//						if (rememberMe.isSelected()) {}
+<span class="nc bnc" id="L140" title="All 2 branches missed.">						if (twitter == null)</span>
+<span class="nc" id="L141">							twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,</span>
+<span class="nc" id="L142">									TwitterConnection.getKeys()[0], TwitterConnection.getKeys()[1],</span>
+<span class="nc" id="L143">									TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);</span>
+						
+<span class="nc bnc" id="L145" title="All 2 branches missed.">						if (facebook == null)</span>
+<span class="nc" id="L146">							facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK, FacebookConnection.getAccessToken2());</span>
+
+//					if (rememberMe.isSelected()) {
+<span class="nc" id="L149">						user_config_list.add(user);</span>
+<span class="nc" id="L150">						user_config_list.add(twitter);</span>
+<span class="nc" id="L151">						user_config_list.add(facebook);</span>
+<span class="nc" id="L152">						ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
+//					}
+
+						// twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+
+//					outlook = new EmailConnection(user.getUsername(), user.getPassword());
+
+<span class="nc" id="L159">						OtherStaticFunction.refreshGUIWithThreads();</span>
+<span class="nc" id="L160">					} catch (IOException e) {</span>
+<span class="nc" id="L161">						e.printStackTrace();</span>
+<span class="nc" id="L162">					} catch (Exception e) {</span>
+<span class="nc" id="L163">						e.printStackTrace();</span>
+					}
+
+<span class="nc" id="L166">					Stage stage = new Stage();</span>
+<span class="nc" id="L167">					FXMLLoader loader = new FXMLLoader();</span>
+<span class="nc" id="L168">					loader.setController(MainController.getInstance());</span>
+<span class="nc" id="L169">					loader.setLocation(getClass().getResource(&quot;/res/MainScene.fxml&quot;));</span>
+<span class="nc" id="L170">					Parent root = loader.load();</span>
+<span class="nc" id="L171">					Image icon = new Image(getClass().getResource(&quot;/res/logo0.png&quot;).toString());</span>
+<span class="nc" id="L172">					MainController.getInstance().setUsername(username.getText().split(&quot;@&quot;)[0]);</span>
+
+<span class="nc" id="L174">					stage.getIcons().add(icon);</span>
+<span class="nc" id="L175">					stage.setTitle(&quot;Bom Dia Academia&quot;);</span>
+<span class="nc" id="L176">					stage.setMinHeight(540);</span>
+<span class="nc" id="L177">					stage.setMinWidth(820);</span>
+<span class="nc" id="L178">					stage.setOnCloseRequest(e -&gt; ThreadPool.getInstance().stopThreads());</span>
+
+<span class="nc" id="L180">					stage.setScene(new Scene(root));</span>
+<span class="nc" id="L181">					((Stage) ((Node) event.getSource()).getScene().getWindow()).close();</span>
+<span class="nc" id="L182">					stage.show();</span>
+<span class="nc" id="L183">					root.requestFocus();</span>
+<span class="nc" id="L184">				} else</span>
+<span class="nc" id="L185">					errorMessage.setText(&quot;A palavra-passe introduzida é incorreta&quot;);</span>
+			}
+		}
+
+<span class="nc bnc" id="L189" title="All 2 branches missed.">		if (!errorMessage.getText().equals(oldMessage))</span>
+<span class="nc" id="L190">			errorFade.play();</span>
+<span class="nc" id="L191">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

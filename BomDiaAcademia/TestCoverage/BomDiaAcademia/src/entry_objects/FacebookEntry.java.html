@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookEntry.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">entry_objects</a> &gt; <span class="el_source">FacebookEntry.java</span></div><h1>FacebookEntry.java</h1><pre class="source lang-java linenums">package entry_objects;
+
+import java.util.Date;
+
+import com.restfb.types.Comment;
+import com.restfb.types.Comments;
+import com.restfb.types.Post;
+import com.restfb.types.StoryAttachment;
+import com.restfb.types.StoryAttachment.Media;
+
+import other.Service;
+
+/**
+ * The Class FacebookEntry.
+ * @author Joao Aparicio
+ * @version 3.0
+ */
+public class FacebookEntry implements InformationEntry { 
+ /** The post. */
+ //
+	private Post post;
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+	
+	/** The date. */
+	private Date date;
+	
+	/** The Attachment title. */
+	private String AttachmentTitle;
+	
+	/** The Attachment url. */
+	private String AttachmentUrl;
+	
+	/** The Attachment description. */
+	private String AttachmentDescription;
+	
+	/** The Attachment media. */
+	private Media AttachmentMedia;
+	
+	/** The Message. */
+	private String Message;
+	
+	/** The id. */
+	private String id;
+	
+	/** The Description. */
+	private String Description;
+	
+	/** The Picture. */
+	private String Picture;
+	
+	/** The Like count. */
+	private Long LikeCount;
+	
+	/** The Comments. */
+	private Comments Comments;
+	
+	/** The Comment count. */
+	private Object CommentCount;
+	
+	/** The profile image url. */
+	private String profileImageUrl;
+	
+	/** The Author. */
+	private String Author; 
+	
+	
+	
+	
+	
+	/**
+	 * Constructor.
+	 *
+	 * @param post the post
+	 * @param date the date
+	 * @param profileImageUrl the profile image url
+	 * @param Author the author
+	 */
+<span class="fc" id="L80">	public FacebookEntry(Post post, Date date, String profileImageUrl, String Author) {</span>
+<span class="fc" id="L81">		this.post = post;</span>
+		//this.date = date; 
+<span class="fc" id="L83">		this.date = date;</span>
+<span class="fc" id="L84">		this.profileImageUrl = profileImageUrl;</span>
+<span class="fc" id="L85">		this.Author = Author;</span>
+		try {
+<span class="fc" id="L87">			this.Message = this.post.getMessage();</span>
+<span class="fc" id="L88">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L89">			System.out.println(&quot;no Message: &quot;+e);</span>
+<span class="fc" id="L90">			this.Message = &quot;&quot;;</span>
+		}
+		try {
+<span class="fc" id="L93">			this.id = this.post.getId();</span>
+<span class="fc" id="L94">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L95">			System.out.println(&quot;ID error: &quot;+e);</span>
+<span class="fc" id="L96">			this.id = &quot;&quot;;</span>
+		}
+		
+		try {
+<span class="fc" id="L100">			this.Description = this.post.getDescription();</span>
+<span class="fc" id="L101">		} catch (Exception e) {</span>
+<span class="fc" id="L102">			System.out.println(&quot;no Description: &quot;+e);</span>
+<span class="fc" id="L103">			this.Description = &quot;&quot;;</span>
+		}
+		try {
+<span class="fc" id="L106">			this.Picture = this.post.getPicture();</span>
+<span class="fc" id="L107">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L108">			System.out.println(&quot;no Picture: &quot;+e);</span>
+<span class="fc" id="L109">			this.Picture = &quot;&quot;;</span>
+		}
+
+		
+		
+		
+		try {
+<span class="fc" id="L116">			this.LikeCount = this.post.getLikes().getTotalCount();</span>
+<span class="fc" id="L117">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L118">			System.out.println(&quot;no Likes Record: &quot;+e);</span>
+<span class="fc" id="L119">			this.LikeCount = (long) 0;</span>
+		}
+		try {
+<span class="fc" id="L122">			this.Comments = this.post.getComments();</span>
+<span class="fc" id="L123">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L124">			System.out.println(&quot;no Comments: &quot;+e);</span>
+<span class="fc" id="L125">			this.Comments = new Comments();</span>
+		}	
+		
+		try {
+<span class="fc" id="L129">			this.CommentCount = this.post.getCommentsCount();</span>
+<span class="fc" id="L130">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L131">			System.out.println(&quot;no CommentsCount: &quot;+e);</span>
+<span class="fc" id="L132">			this.CommentCount = 0;</span>
+		}			
+		
+		
+		try {
+<span class="fc" id="L137">			this.AttachmentTitle = this.post.getAttachments().getData().get(0).getTitle();</span>
+<span class="fc" id="L138">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L139">			System.out.println(&quot;no Attachments Title: &quot;+e);</span>
+<span class="fc" id="L140">			this.AttachmentTitle = &quot;&quot;;</span>
+		}
+		try {
+<span class="fc" id="L143">			this.AttachmentUrl = this.post.getAttachments().getData().get(0).getUrl();</span>
+<span class="fc" id="L144">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L145">			System.out.println(&quot;no Attachments Url: &quot;+e);</span>
+<span class="fc" id="L146">			this.AttachmentUrl =&quot;&quot;;</span>
+		}
+		
+		try {
+<span class="fc" id="L150">			this.AttachmentDescription = this.post.getAttachments().getData().get(0).getDescription();</span>
+<span class="fc" id="L151">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L152">			System.out.println(&quot;no Attachments Description: &quot;+e);</span>
+<span class="fc" id="L153">			this.AttachmentDescription =&quot;&quot;;</span>
+		}
+		try {
+<span class="fc" id="L156">			this.AttachmentMedia = this.post.getAttachments().getData().get(0).getMedia();</span>
+<span class="fc" id="L157">		} catch (NullPointerException e) {</span>
+<span class="fc" id="L158">			System.out.println(&quot;no Attachments Media: &quot;+e);</span>
+<span class="fc" id="L159">			this.AttachmentMedia =new Media();</span>
+		}
+		
+		
+		
+		//System.out.println(date.toString());
+<span class="fc" id="L165">	}</span>
+
+
+
+
+//	@Override
+//	public String toString() {
+//		String out;
+//
+//		
+//		try {
+//			out = &quot;Post[ Id: &quot;+post.getId()+&quot; Date: &quot;+this.date+
+//				&quot;;\n Message:&quot;+post.getMessage();
+//			try {
+//				out +=   &quot;\n   Data URL: &quot;+post.getAttachments().getData().get(0).getUrl()+
+//			    		 &quot;\n   Data Title: &quot;+post.getAttachments().getData().get(0).getTitle()+
+//			    		 &quot;\n   Data Description: &quot;+post.getAttachments().getData().get(0).getDescription()+
+//			    		 &quot;\n   Data Media: &quot;+post.getAttachments().getData().get(0).getMedia();
+//			} catch (NullPointerException e) {
+//				System.out.println(&quot;No attachments found: &quot;+e);
+//				
+//			}
+//			out+= &quot;;\n Description:&quot;+post.getDescription()+
+//			&quot;\n Likes:&quot;+post.getLikes().getTotalCount()+
+//    		&quot;\n Comments (&quot;+post.getCommentsCount()+&quot;): &quot;+post.getComments()+&quot;]&quot;;
+//					
+//		} catch (Exception e) {
+//			System.out.println(e);
+//			out = post.toString();
+//		}
+//		return out;
+//	}
+
+	/**
+ * getter for the post (it contains most of the information needed).
+ *
+ * @return the post
+ */
+	public Post getPost() {
+<span class="fc" id="L204">		return post;</span>
+	}
+
+
+
+
+	/**
+	 * getter for the profile image of the page.
+	 *
+	 * @return the profile image url
+	 */
+	public String getProfileImageUrl() {
+<span class="fc" id="L216">		return profileImageUrl;</span>
+	}
+	
+	
+
+
+	/**
+	 * getter for the post author.
+	 *
+	 * @return the author
+	 */
+	public String getAuthor() {
+<span class="fc" id="L228">		return Author;</span>
+	}
+
+
+
+
+	/**
+	 * Shows the attributes and their content.
+	 *
+	 * @return the string
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L241">		return &quot;FacebookEntry [&quot; +  &quot;date=&quot; + date + &quot;, Author=&quot; + Author +&quot;, AttachmentTitle=&quot; + AttachmentTitle</span>
+<span class="fc" id="L242">				+ &quot;, AttachmentUrl=&quot; + AttachmentUrl + &quot;, AttachmentDescription=&quot; + AttachmentDescription</span>
+<span class="fc" id="L243">				+ &quot;, AttachmentMedia=&quot; + AttachmentMedia + &quot;, Message=&quot; + Message + &quot;, id=&quot; + id + &quot;, Description=&quot;</span>
+<span class="fc" id="L244">				+ Description + &quot;, Picture=&quot; + Picture + &quot;, LikeCount=&quot; + LikeCount + &quot;, Comments=&quot; + Comments</span>
+<span class="fc" id="L245">				+ &quot;, CommentCount=&quot; + CommentCount + &quot;, ProfileImageUrl= &quot;+this.profileImageUrl+&quot;]&quot;;</span>
+	}
+
+
+
+	/**
+	 * getter of the title on the Attachments if there are any.
+	 *
+	 * @return the attachment title
+	 */
+	public String getAttachmentTitle() {
+<span class="fc" id="L256">		return AttachmentTitle;</span>
+	}
+
+
+
+	/**
+	 * getter of the Attachments if there are any.
+	 *
+	 * @return the attachment url
+	 */
+	public String getAttachmentUrl() {
+<span class="fc" id="L267">		return AttachmentUrl;</span>
+	}
+
+
+
+	/**
+	 * getter of the description on the Attachments if there are any.
+	 *
+	 * @return the attachment description
+	 */
+	public String getAttachmentDescription() {
+<span class="fc" id="L278">		return AttachmentDescription;</span>
+	}
+
+
+
+	/**
+	 * getter of the media on the Attachments if there are any.
+	 *
+	 * @return the attachment media
+	 */
+	public Media getAttachmentMedia() {
+<span class="fc" id="L289">		return AttachmentMedia;</span>
+	}
+
+
+
+	/**
+	 * getter of the message on the post.
+	 *
+	 * @return the message
+	 */
+	public String getMessage() {
+<span class="fc" id="L300">		return Message;</span>
+	}
+
+
+
+	/**
+	 * getter of the id of the post.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+<span class="fc" id="L311">		return id;</span>
+	}
+
+
+
+	/**
+	 * getter of the description on the post.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+<span class="nc" id="L322">		return this.Description;</span>
+	}
+
+
+
+	/**
+	 * getter of the picture on the post.
+	 *
+	 * @return the picture
+	 */
+	public String getPicture() {
+<span class="nc" id="L333">		return this.Picture;</span>
+	}
+
+
+
+	/**
+	 * getter of the number of likes on the post.
+	 *
+	 * @return the like count
+	 */
+	public Long getLikeCount() {
+<span class="fc" id="L344">		return LikeCount;</span>
+	}
+
+
+
+	/**
+	 * getter of the comments on the post.
+	 *
+	 * @return the comments
+	 */
+	public Comments getComments() {
+<span class="fc" id="L355">		return Comments;</span>
+	}
+
+
+
+	/**
+	 * getter of the number of comments on the post.
+	 *
+	 * @return the comment count
+	 */
+	public Object getCommentCount() {
+<span class="fc" id="L366">		return CommentCount;</span>
+	}
+
+
+
+	/**
+	 * getter of the date on the post.
+	 *
+	 * @return the date
+	 */
+	public Date getDate() {
+<span class="fc" id="L377">		return date;</span>
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see entry_objects.InformationEntry#getService()
+	 */
+	@Override
+	public Service getService() {
+<span class="fc" id="L387">		return Service.FACEBOOK;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

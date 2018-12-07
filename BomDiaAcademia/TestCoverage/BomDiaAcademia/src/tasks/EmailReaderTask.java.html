@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>EmailReaderTask.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">tasks</a> &gt; <span class="el_source">EmailReaderTask.java</span></div><h1>EmailReaderTask.java</h1><pre class="source lang-java linenums">package tasks;
+
+import java.util.List;
+
+import email.EmailConnection;
+import entry_objects.InformationEntry;
+import threads.InformationEntryGatherer;
+
+/**
+ * The Class EmailReaderTask.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+public class EmailReaderTask implements ServiceReadTask { //
+	
+	/** The barrier. */
+	private InformationEntryGatherer barrier;
+	
+	/** The email connection. */
+	private EmailConnection emailConnection;
+	
+	/**
+	 * Instantiates a new email reader task.
+	 *
+	 * @param barrier the barrier
+	 * @param emailConnection the email connection
+	 */
+<span class="fc" id="L28">	public EmailReaderTask(EmailConnection emailConnection) {</span>
+<span class="fc" id="L29">		this.emailConnection = emailConnection;</span>
+<span class="fc" id="L30">	}</span>
+	
+	@Override
+	public void setBarrier(InformationEntryGatherer barrier) {
+<span class="fc" id="L34">		this.barrier = barrier;</span>
+<span class="fc" id="L35">	}</span>
+
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+		List&lt;InformationEntry&gt; information_entry_list; // Where the results should go to.
+<span class="fc" id="L43">		information_entry_list = emailConnection.receiveMail(); // require to recieve a list of emails</span>
+		// Place the result on a simple barrier in order for the UI to load all the news at once, after organizing them by date.
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		if(barrier != null) {</span>
+<span class="fc" id="L46">			barrier.addResult(information_entry_list);</span>
+		}
+<span class="fc" id="L48">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

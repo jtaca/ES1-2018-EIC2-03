@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FilterTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">FilterTest.java</span></div><h1>FilterTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import files.ReadAndWriteFile;
+import other.Filter;
+import other.Service;
+
+<span class="fc" id="L20">public class FilterTest {</span>
+	
+<span class="fc" id="L22">	private static Filter filter = null;</span>
+	
+	private static List&lt;String&gt; key_words_filter;
+	private static List&lt;String&gt; twitterUserFilterList;
+	private static List&lt;String&gt; facebookFilterList;
+	
+	private static final String KEY_WORDS_FILTER_FILE_NAME = &quot;key_words_filter.dat&quot;;
+	private static final String TWITTER_USER_FILTER_FILE_NAME = &quot;twitter_user_filter.dat&quot;;
+	private static final String FACEBOOK_FILTER_FILE_NAME = &quot;facebook_filter.dat&quot;;
+	
+<span class="fc" id="L32">	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {&quot;iscte&quot;, &quot;universidade&quot;, &quot;reitoria&quot;, &quot;ista&quot;, &quot;biblioteca&quot;, &quot;cominvestigar&quot;, &quot;tesouraria&quot;};</span>
+<span class="fc" id="L33">	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {&quot;ISCTEIUL&quot;, &quot;INDEGISCTE&quot;, &quot;IBSLisbon&quot;, &quot;namiscte&quot;, &quot;ISCTE_JC&quot;};</span>
+<span class="fc" id="L34">	private static final String[] DEFAULT_FACEBOOK_FILTERS = {};</span>
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+<span class="fc" id="L38">		key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
+<span class="fc" id="L39">		twitterUserFilterList = ReadAndWriteFile.loadListOfFilters(TWITTER_USER_FILTER_FILE_NAME);</span>
+<span class="fc" id="L40">		facebookFilterList = ReadAndWriteFile.loadListOfFilters(FACEBOOK_FILTER_FILE_NAME);</span>
+		
+<span class="fc" id="L42">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);</span>
+<span class="fc" id="L43">		ReadAndWriteFile.saveListOfFilters(TWITTER_USER_FILTER_FILE_NAME, null);</span>
+<span class="fc" id="L44">		ReadAndWriteFile.saveListOfFilters(FACEBOOK_FILTER_FILE_NAME, null);</span>
+		
+<span class="fc" id="L46">		filter = Filter.getInstance();</span>
+<span class="fc" id="L47">		filter.setFilter(Service.EMAIL, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS)));</span>
+<span class="fc" id="L48">		filter.setFilter(Service.TWITTER, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS)));</span>
+<span class="fc" id="L49">		filter.setFilter(Service.FACEBOOK, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_FACEBOOK_FILTERS)));</span>
+		
+		
+<span class="fc" id="L52">	}</span>
+	
+	@Before
+	public void setUpBeforeFunction() {
+<span class="fc" id="L56">		filter.setFilter(Service.EMAIL, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS)));</span>
+<span class="fc" id="L57">		filter.setFilter(Service.TWITTER, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS)));</span>
+<span class="fc" id="L58">		filter.setFilter(Service.FACEBOOK, new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_FACEBOOK_FILTERS)));</span>
+<span class="fc" id="L59">	}</span>
+	
+	@AfterClass
+	public static void afterClass() {
+<span class="fc" id="L63">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);</span>
+<span class="fc" id="L64">		ReadAndWriteFile.saveListOfFilters(TWITTER_USER_FILTER_FILE_NAME, twitterUserFilterList);</span>
+<span class="fc" id="L65">		ReadAndWriteFile.saveListOfFilters(FACEBOOK_FILTER_FILE_NAME, facebookFilterList);</span>
+<span class="fc" id="L66">	}</span>
+	
+
+	@Test
+	public void testSetFilterEmail() {
+<span class="fc" id="L71">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L72">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L73">		filter.setFilter(Service.EMAIL, expectedFilterList);</span>
+		
+<span class="fc" id="L75">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L77">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L78">	}</span>
+	
+	@Test
+	public void testSetFilterTwitter() {
+<span class="fc" id="L82">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L83">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L84">		filter.setFilter(Service.TWITTER, expectedFilterList);</span>
+
+<span class="fc" id="L86">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.TWITTER);</span>
+		
+<span class="fc" id="L88">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L89">	}</span>
+	
+	@Test
+	public void testSetFilterFacebook() {
+<span class="fc" id="L93">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L94">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L95">		filter.setFilter(Service.FACEBOOK, expectedFilterList);</span>
+
+<span class="fc" id="L97">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.FACEBOOK);</span>
+		
+<span class="fc" id="L99">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L100">	}</span>
+	
+	@Test
+	public void testAddFilterListEmail() {
+<span class="fc" id="L104">		List&lt;String&gt; filterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L105">		filterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L107">		filter.addFilter(Service.EMAIL, filterList);</span>
+		
+<span class="fc" id="L109">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L111">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS));</span>
+<span class="fc" id="L112">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L114">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L115">	}</span>
+	
+	@Test
+	public void testAddFilterListTwitter() {
+<span class="fc" id="L119">		List&lt;String&gt; filterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L120">		filterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L122">		filter.addFilter(Service.TWITTER, filterList);</span>
+		
+<span class="fc" id="L124">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.TWITTER);</span>
+		
+<span class="fc" id="L126">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS));</span>
+<span class="fc" id="L127">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L129">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L130">	}</span>
+	
+	@Test
+	public void testAddFilterListFacebook() {
+<span class="fc" id="L134">		List&lt;String&gt; filterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L135">		filterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L137">		filter.addFilter(Service.FACEBOOK, filterList);</span>
+		
+<span class="fc" id="L139">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.FACEBOOK);</span>
+		
+<span class="fc" id="L141">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_FACEBOOK_FILTERS));</span>
+<span class="fc" id="L142">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L144">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L145">	}</span>
+	
+	@Test
+	public void testAddFilterSingleEmail() {
+<span class="fc" id="L149">		String filterToAdd = &quot;ola&quot;;</span>
+		
+<span class="fc" id="L151">		filter.addFilter(Service.EMAIL, filterToAdd);</span>
+		
+<span class="fc" id="L153">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L155">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS));</span>
+<span class="fc" id="L156">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L158">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L159">	}</span>
+	
+	@Test
+	public void testAddFilterSingleTwitter() {
+<span class="fc" id="L163">		String filterToAdd = &quot;ola&quot;;</span>
+		
+<span class="fc" id="L165">		filter.addFilter(Service.TWITTER, filterToAdd);</span>
+		
+<span class="fc" id="L167">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.TWITTER);</span>
+		
+<span class="fc" id="L169">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_TWITTER_USER_FILTERS));</span>
+<span class="fc" id="L170">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L172">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L173">	}</span>
+	
+	@Test
+	public void testAddFilterSingleFacebook() {
+<span class="fc" id="L177">		String filterToAdd = &quot;ola&quot;;</span>
+		
+<span class="fc" id="L179">		filter.addFilter(Service.FACEBOOK, filterToAdd);</span>
+		
+<span class="fc" id="L181">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.FACEBOOK);</span>
+		
+<span class="fc" id="L183">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;(Arrays.asList(DEFAULT_FACEBOOK_FILTERS));</span>
+<span class="fc" id="L184">		expectedFilterList.add(&quot;ola&quot;);</span>
+		
+<span class="fc" id="L186">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L187">	}</span>
+	
+	@Test
+	public void testGetFilterListEmail() {
+<span class="fc" id="L191">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L192">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L193">		filter.setFilter(Service.EMAIL, expectedFilterList);</span>
+		
+<span class="fc" id="L195">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L197">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L198">	}</span>
+	
+	@Test
+	public void testGetFilterListTwitter() {
+<span class="fc" id="L202">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L203">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L204">		filter.setFilter(Service.TWITTER, expectedFilterList);</span>
+		
+<span class="fc" id="L206">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.TWITTER);</span>
+		
+<span class="fc" id="L208">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L209">	}</span>
+	
+	@Test
+	public void testGetFilterListFacebook() {
+<span class="fc" id="L213">		List&lt;String&gt; expectedFilterList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L214">		expectedFilterList.add(&quot;ola&quot;);</span>
+<span class="fc" id="L215">		filter.setFilter(Service.FACEBOOK, expectedFilterList);</span>
+		
+<span class="fc" id="L217">		List&lt;String&gt; actualFilterList = filter.getFilterList(Service.FACEBOOK);</span>
+		
+<span class="fc" id="L219">		assertEquals(expectedFilterList, actualFilterList);</span>
+<span class="fc" id="L220">	}</span>
+	
+	@Test
+	public void testPositiveVerifyIfStringContainsAnyFilter() {
+<span class="fc" id="L224">		String testingString = &quot;biblioteca@iscte-iul.pt&quot;;</span>
+<span class="fc" id="L225">		List&lt;String&gt; filterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L227">		boolean result = Filter.verifyIfStringContainsAnyFilter(testingString, filterList);</span>
+		
+<span class="fc" id="L229">		assertTrue(result);</span>
+<span class="fc" id="L230">	}</span>
+	
+	@Test
+	public void testNegativeVerifyIfStringContainsAnyFilter() {
+<span class="fc" id="L234">		String testingString = &quot;lala@gmail.com&quot;;</span>
+<span class="fc" id="L235">		List&lt;String&gt; filterList = filter.getFilterList(Service.EMAIL);</span>
+		
+<span class="fc" id="L237">		boolean result = Filter.verifyIfStringContainsAnyFilter(testingString, filterList);</span>
+		
+<span class="fc" id="L239">		assertFalse(result);</span>
+<span class="fc" id="L240">	}</span>
+	
+	@Test
+	public void testDefineDateIntervalFromCurrentDateGreaterThan1() {
+<span class="fc" id="L244">		int dateInterval = 2;</span>
+<span class="fc" id="L245">		Date currentDate = new Date();</span>
+<span class="fc" id="L246">		filter.defineDateIntervalFromCurrentDate(dateInterval);</span>
+<span class="fc" id="L247">		long subtract_value = dateInterval * 24 * 60 * 60 * 1000;</span>
+<span class="fc" id="L248">		long date = currentDate.getTime();</span>
+<span class="fc" id="L249">		long new_date = date - subtract_value;</span>
+		
+<span class="fc" id="L251">		Date expectedDateLimit = new Date(new_date);</span>
+		
+<span class="fc" id="L253">		Date actualDateLimit = filter.getDate();</span>
+		
+<span class="fc" id="L255">		assertEquals(expectedDateLimit, actualDateLimit);</span>
+<span class="fc" id="L256">	}</span>
+	
+	@Test
+	public void testDefineDateIntervalFromCurrentDateLessThan1() {
+<span class="fc" id="L260">		int dateInterval = 0;</span>
+<span class="fc" id="L261">		Date currentDate = new Date();</span>
+<span class="fc" id="L262">		filter.defineDateIntervalFromCurrentDate(dateInterval);</span>
+<span class="fc" id="L263">		long subtract_value = 1 * 24 * 60 * 60 * 1000;</span>
+<span class="fc" id="L264">		long date = currentDate.getTime();</span>
+<span class="fc" id="L265">		long new_date = date - subtract_value;</span>
+		
+<span class="fc" id="L267">		Date expectedDateLimit = new Date(new_date);</span>
+		
+<span class="fc" id="L269">		Date actualDateLimit = filter.getDate();</span>
+		
+<span class="fc" id="L271">		assertEquals(expectedDateLimit, actualDateLimit);</span>
+<span class="fc" id="L272">	}</span>
+	
+	@Test
+	public void testVerifyIfConsiderDateCurrentDate() {
+<span class="fc" id="L276">		Date date = new Date();</span>
+<span class="fc" id="L277">		boolean result = filter.verifyIfConsiderDate(date);</span>
+		
+<span class="fc" id="L279">		assertTrue(result);</span>
+<span class="fc" id="L280">	}</span>
+	
+	@Test
+	public void testVerifyIfConsiderDateLimit() {
+<span class="fc" id="L284">		int dateInterval = 1;</span>
+<span class="fc" id="L285">		filter.defineDateIntervalFromCurrentDate(dateInterval);</span>
+<span class="fc" id="L286">		Date currentDate = new Date();</span>
+<span class="fc" id="L287">		long subtract_value = dateInterval * 24 * 60 * 60 * 1000;</span>
+<span class="fc" id="L288">		long date = currentDate.getTime();</span>
+<span class="fc" id="L289">		long new_date = date - subtract_value;</span>
+		
+<span class="fc" id="L291">		Date expectedDateLimit = new Date(new_date);</span>
+		
+<span class="fc" id="L293">		boolean result = filter.verifyIfConsiderDate(expectedDateLimit);</span>
+		
+<span class="fc" id="L295">		assertFalse(result);</span>
+<span class="fc" id="L296">	}</span>
+	
+	@Test
+	public void testVerifyIfConsiderDateFailed() {
+<span class="fc" id="L300">		filter.defineDateIntervalFromCurrentDate(2);</span>
+		
+<span class="fc" id="L302">		Date currentDate = new Date();</span>
+<span class="fc" id="L303">		long subtract_value = 3 * 24 * 60 * 60 * 1000;</span>
+<span class="fc" id="L304">		long date = currentDate.getTime();</span>
+<span class="fc" id="L305">		long new_date = date - subtract_value;</span>
+		
+<span class="fc" id="L307">		Date dateToTest = new Date(new_date);</span>
+		
+<span class="fc" id="L309">		boolean result = filter.verifyIfConsiderDate(dateToTest);</span>
+		
+<span class="fc" id="L311">		assertFalse(result);</span>
+<span class="fc" id="L312">	}</span>
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
