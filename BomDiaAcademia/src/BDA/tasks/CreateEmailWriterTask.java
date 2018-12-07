@@ -8,7 +8,7 @@ public class CreateEmailWriterTask implements Task { //
 	private EmailWriterTask task;
 
 	public CreateEmailWriterTask(EmailConnection emailConnection, String sendEmailTo, String subject, String message) {
-		EmailWriterTask task = new EmailWriterTask(emailConnection, sendEmailTo, subject, message);
+		task = new EmailWriterTask(emailConnection, sendEmailTo, subject, message);
 	}
 
 	/* (non-Javadoc)
