@@ -220,30 +220,30 @@ public class FacebookConnection implements ServiceInstance {
 		return loginLink;
 	}
 
-//	public static void logIn(String accessToken) {
-//		try {
-//			FacebookConnection.accessToken = accessToken;
-//			fbClient = new DefaultFacebookClient(accessToken);
-//			me = fbClient.fetchObject("me", User.class);
-//			System.out.println("Facebook User:");
-//			System.out.println("Id: " + me.getId());
-//			System.out.println("Name: " + me.getName());
-//		} catch (FacebookException e) {
-//			System.out.println(e);
-//		}
-//	}
-//	
-//	public static void userCommentOnPost(String id, String message) {
-//		if(message != null && id != null) {
-//			try {
-//				fbClient.publish(id+"/comments", String.class, Parameter.with("message",message));
-//			} catch (FacebookException e) {
-//				System.out.println("userCommentOnPost: "+e);
-//			}
-//		}else{
-//			System.out.println("Invalid ID or message:(Maybe login needed?):");
-//		}
-//	}
+	public static void logIn(String accessToken) {
+		try {
+			FacebookConnection.accessToken = accessToken;
+			fbClient = new DefaultFacebookClient(accessToken);
+			me = fbClient.fetchObject("me", User.class);
+			System.out.println("Facebook User:");
+			System.out.println("Id: " + me.getId());
+			System.out.println("Name: " + me.getName());
+		} catch (FacebookException e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void userCommentOnPost(String id, String message) {
+		if(message != null && id != null) {
+			try {
+				fbClient.publish(id+"/comments", String.class, Parameter.with("message",message));
+			} catch (FacebookException e) {
+				System.out.println("userCommentOnPost: "+e);
+			}
+		}else{
+			System.out.println("Invalid ID or message:(Maybe login needed?):");
+		}
+	}
 
 	/**
 	 * Posts on the bom dia academia page with the message given
@@ -297,17 +297,18 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 //	public static void main(String[] args) {
 //		FacebookConnection fb = getInstance();
-//		 List<InformationEntry> a = fb.requestFacebook();
+//		 List<InformationEntry> a = fb.requestFacebook(accessToken2);
 //		 for (int i = 0; i < a.size(); i++) {
 //			System.out.println( a.get(i).toString());
 //		}
 //		//System.out.println(a);
 //		like(((FacebookEntry) a.get(0)).getPost().getId());
-//		
+//		logIn("EAAC3MdcjZCi4BALOuxuN5VAXSkWIV5qjo4bueT6Fs4llSqMrv4mZAOfyzIfmgX6NomM1Qa7SZCpqq2IWMSVlHJQyaRF2OjTkBTb3ib00UbDZCeAsFCiiqHC1WAN4E8Yh0nPtCOBMwiLQOmb0jtRH3iYP7962N0cZD");
+//		userCommentOnPost(((FacebookEntry) a.get(0)).getPost().getId(), "Comment XPTO");
 //		//GraphResponse b = post("FaceId");
 //		//like(b.getId());
 //		//commentOnPost(b.getId(),"Grateful Comment 😛");
-//		ExtendAccessToken();
+//		//ExtendAccessToken();
 //		
 //		
 //	}
