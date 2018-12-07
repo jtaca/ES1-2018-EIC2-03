@@ -20,16 +20,31 @@ import BDA.other.Service;
 import BDA.other.XMLUserConfiguration;
 import BDA.twitter.TwitterConnection;
 
+/**
+ * The Class ControlCenterTest.
+ */
 public class ControlCenterTest {
 	
+	/** The control center. */
 	private static ControlCenter control_center = ControlCenter.getInstance();
 	
+	/** The email list. */
 	private static List<EmailConnection> EMAIL_LIST = new ArrayList<EmailConnection>();
+	
+	/** The current email used. */
 	private static EmailConnection CURRENT_EMAIL_USED = null;
 	
+	/** The twitter list. */
 	private static List<TwitterConnection> TWITTER_LIST = new ArrayList<TwitterConnection>();
+	
+	/** The facebook list. */
 	private static List<FacebookConnection> FACEBOOK_LIST = new ArrayList<FacebookConnection>();
 
+	/**
+	 * Sets the up before class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		List<XMLUserConfiguration> xml_user_list = ReadAndWriteXMLFile.ReadConfigXMLFile();
@@ -66,6 +81,11 @@ public class ControlCenterTest {
 		
 	}
 
+	/**
+	 * Tear down after class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		EMAIL_LIST = null;
@@ -74,6 +94,11 @@ public class ControlCenterTest {
 		FACEBOOK_LIST = null;
 	}
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		control_center.setCurrentEmailUsed(CURRENT_EMAIL_USED);
@@ -82,34 +107,54 @@ public class ControlCenterTest {
 		control_center.setFacebookList(FACEBOOK_LIST);
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test get email list.
+	 */
 	@Test
 	public void testGetEmailList() {
 		List<EmailConnection> emailList = control_center.getEmailList();
 		assertEquals(EMAIL_LIST, emailList);
 	}
 	
+	/**
+	 * Test get current email used.
+	 */
 	@Test
 	public void testGetCurrentEmailUsed() {
 		EmailConnection email = control_center.getCurrentEmailUsed();
 		assertEquals(CURRENT_EMAIL_USED, email);
 	}
 	
+	/**
+	 * Test get twitter list.
+	 */
 	@Test
 	public void testGetTwitterList() {
 		List<TwitterConnection> twitterList = control_center.getTwitterList();
 		assertEquals(TWITTER_LIST, twitterList);
 	}
 	
+	/**
+	 * Test get facebook list.
+	 */
 	@Test
 	public void testGetFacebookList() {
 		List<FacebookConnection> facebookList = control_center.getFacebookList();
 		assertEquals(FACEBOOK_LIST, facebookList);
 	}
 	
+	/**
+	 * Test set email list.
+	 */
 	@Test
 	public void testSetEmailList() {
 		List<EmailConnection> expected_list = new ArrayList<EmailConnection>();
@@ -119,6 +164,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test set current email used.
+	 */
 	@Test
 	public void testSetCurrentEmailUsed() {
 		EmailConnection expected = new EmailConnection("dummy", "dummy");
@@ -127,6 +175,9 @@ public class ControlCenterTest {
 		assertEquals(expected, actual);
 	}
 	
+	/**
+	 * Test set twitter list.
+	 */
 	@Test
 	public void testSetTwitterList() {
 		List<TwitterConnection> expected_list = new ArrayList<TwitterConnection>();
@@ -136,6 +187,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test set facebook list.
+	 */
 	@Test
 	public void testSetFacebookList() {
 		List<FacebookConnection> expected_list = new ArrayList<FacebookConnection>();
@@ -146,6 +200,9 @@ public class ControlCenterTest {
 	}
 	
 	
+	/**
+	 * Test add email connection to email list.
+	 */
 	@Test
 	public void testAddEmailConnectionToEmailList() {
 		control_center.setEmailList(new ArrayList<EmailConnection>());
@@ -157,6 +214,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test add twitter function to twitter list.
+	 */
 	@Test
 	public void testAddTwitterFunctionToTwitterList() {
 		control_center.setTwitterList(new ArrayList<TwitterConnection>());
@@ -168,6 +228,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test add facebook connection to facebook list.
+	 */
 	@Test
 	public void testAddFacebookConnectionToFacebookList() {
 		control_center.setFacebookList(new ArrayList<FacebookConnection>());
@@ -179,6 +242,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test add email connections to email list.
+	 */
 	@Test
 	public void testAddEmailConnectionsToEmailList() {
 		control_center.setEmailList(new ArrayList<EmailConnection>());
@@ -194,6 +260,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}		
 	
+	/**
+	 * Test add twitter functions to twitter list.
+	 */
 	@Test
 	public void testAddTwitterFunctionsToTwitterList() {
 		control_center.setTwitterList(new ArrayList<TwitterConnection>());
@@ -209,6 +278,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test add facebook connections to facebook list.
+	 */
 	@Test
 	public void testAddFacebookConnectionsToFacebookList() {
 		control_center.setFacebookList(new ArrayList<FacebookConnection>());
@@ -224,6 +296,9 @@ public class ControlCenterTest {
 		assertEquals(expected_list, actual_list);
 	}
 	
+	/**
+	 * Test remove email connection from email list.
+	 */
 	@Test
 	public void testRemoveEmailConnectionFromEmailList() {
 		List<EmailConnection> emailList = new ArrayList<EmailConnection>();
@@ -235,6 +310,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test remove twitter function from twitter list.
+	 */
 	@Test
 	public void testRemoveTwitterFunctionFromTwitterList() {
 		List<TwitterConnection> twitterList = new ArrayList<TwitterConnection>();
@@ -246,6 +324,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test remove facebook connection from facebook list.
+	 */
 	@Test
 	public void testRemoveFacebookConnectionFromFacebookList() {
 		List<FacebookConnection> facebookList = new ArrayList<FacebookConnection>();
@@ -257,6 +338,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test remove email connections from email list.
+	 */
 	@Test
 	public void testRemoveEmailConnectionsFromEmailList() {
 		List<EmailConnection> emailList = new ArrayList<EmailConnection>();
@@ -268,6 +352,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test remove twitter functions from twitter list.
+	 */
 	@Test
 	public void testRemoveTwitterFunctionsFromTwitterList() {
 		List<TwitterConnection> twitterList = new ArrayList<TwitterConnection>();
@@ -279,6 +366,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test remove facebook connections from facebook list.
+	 */
 	@Test
 	public void testRemoveFacebookConnectionsFromFacebookList() {
 		List<FacebookConnection> facebookList = new ArrayList<FacebookConnection>();
@@ -290,6 +380,9 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	/**
+	 * Test set and get ignore service email.
+	 */
 	@Test
 	public void testSetAndGetIgnoreServiceEmail() {
 		ControlCenter.getInstance().setIgnoreService(Service.EMAIL, true);
@@ -297,6 +390,9 @@ public class ControlCenterTest {
 		assertTrue(actual_boolean);
 	}
 	
+	/**
+	 * Test set and get ignore service twitter.
+	 */
 	@Test
 	public void testSetAndGetIgnoreServiceTwitter() {
 		ControlCenter.getInstance().setIgnoreService(Service.TWITTER, true);
@@ -304,6 +400,9 @@ public class ControlCenterTest {
 		assertTrue(actual_boolean);
 	}
 	
+	/**
+	 * Test set and get ignore service facebook.
+	 */
 	@Test
 	public void testSetAndGetIgnoreServiceFacebook() {
 		ControlCenter.getInstance().setIgnoreService(Service.FACEBOOK, true);

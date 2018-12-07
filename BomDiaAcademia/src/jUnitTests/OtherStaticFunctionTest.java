@@ -29,8 +29,16 @@ import BDA.tasks.ServiceReadTask;
 import BDA.tasks.TwitterPostReaderTask;
 import BDA.twitter.TwitterConnection;
 
+/**
+ * The Class OtherStaticFunctionTest.
+ */
 public class OtherStaticFunctionTest {
 
+	/**
+	 * Sets the up before class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Thread t = new Thread("MainWindow Thread") {
@@ -46,18 +54,38 @@ public class OtherStaticFunctionTest {
 		MainController.getInstance().loadPosts(new ArrayList<InformationEntry>(), true);
 	}
 
+	/**
+	 * Tear down after class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test refresh GUI with threads with no info on control center.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testRefreshGUIWithThreadsWithNoInfoOnControlCenter() throws Exception {
 		JFXListView<PostBox> previousExecutionPostBox = MainController.getInstance().getPosts();
@@ -97,6 +125,11 @@ public class OtherStaticFunctionTest {
 		assertNotEquals(previousExecutionPostBox, actualExecutionPostBox);
 	}
 	
+	/**
+	 * Test refresh GUI with threads with info on control center.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testRefreshGUIWithThreadsWithInfoOnControlCenter() throws Exception {
 		JFXListView<PostBox> previousExecutionPostBox = MainController.getInstance().getPosts();

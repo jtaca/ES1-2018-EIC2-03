@@ -32,6 +32,7 @@ public class XMLUserConfiguration { //
 	/** The twitter access token secret. */
 	private String twitterAccessTokenSecret = "";
 	
+	/** The access token 2. */
 	private String accessToken2 = "";
 	
 	
@@ -46,6 +47,7 @@ public class XMLUserConfiguration { //
 	 * @param twitterSecretKey the twitter secret key
 	 * @param twitterAccessToken the twitter access token
 	 * @param twitterAccessTokenSecret the twitter access token secret
+	 * @param accessToken2 the access token 2
 	 * @throws Exception the exception
 	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String username, String password, String twitterConsumerKey, String twitterSecretKey, String twitterAccessToken, String twitterAccessTokenSecret, String accessToken2) throws Exception {
@@ -78,6 +80,14 @@ public class XMLUserConfiguration { //
 		this(saveInformation, service, "", "", twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret, "");
 	}
 	
+	/**
+	 * Instantiates a new XML user configuration.
+	 *
+	 * @param saveInformation the save information
+	 * @param service the service
+	 * @param accessToken2 the access token 2
+	 * @throws Exception the exception
+	 */
 	public XMLUserConfiguration(boolean saveInformation, Service service, String accessToken2) throws Exception {
 		this(saveInformation, service, "", "", "", "", "", "", accessToken2);
 	}
@@ -166,6 +176,11 @@ public class XMLUserConfiguration { //
 		return service.stringFormat();
 	}
 	
+	/**
+	 * Gets the service.
+	 *
+	 * @return the service
+	 */
 	public Service getService() {
 		return service;
 	}
@@ -226,6 +241,11 @@ public class XMLUserConfiguration { //
 		return twitterAccessTokenSecret;
 	}
 	
+	/**
+	 * Gets the access token 2.
+	 *
+	 * @return the access token 2
+	 */
 	public String getAccessToken2() {
 		return accessToken2;
 	}

@@ -14,13 +14,17 @@ import BDA.threads.InformationEntryGatherer;
 public class FacebookPostReaderTask implements ServiceReadTask { //
 	
 	
-	private InformationEntryGatherer barrier;
+	/** The barrier. */
+ private InformationEntryGatherer barrier;
 //	private FacebookConnection facebookConnection;
 //	
 //	public FacebookPostReaderTask(InformationEntryGatherer barrier, FacebookConnection facebookConnection) {
 //		this.facebookConnection = facebookConnection;
 //		this.barrier = barrier;
 //	}
+/* (non-Javadoc)
+ * @see BDA.tasks.ServiceReadTask#setBarrier(BDA.threads.InformationEntryGatherer)
+ */
 //	
 	@Override
 	public void setBarrier(InformationEntryGatherer barrier) {

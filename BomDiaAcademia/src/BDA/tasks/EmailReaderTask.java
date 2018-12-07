@@ -22,13 +22,15 @@ public class EmailReaderTask implements ServiceReadTask { //
 	/**
 	 * Instantiates a new email reader task.
 	 *
-	 * @param barrier the barrier
 	 * @param emailConnection the email connection
 	 */
 	public EmailReaderTask(EmailConnection emailConnection) {
 		this.emailConnection = emailConnection;
 	}
 	
+	/* (non-Javadoc)
+	 * @see BDA.tasks.ServiceReadTask#setBarrier(BDA.threads.InformationEntryGatherer)
+	 */
 	@Override
 	public void setBarrier(InformationEntryGatherer barrier) {
 		this.barrier = barrier;

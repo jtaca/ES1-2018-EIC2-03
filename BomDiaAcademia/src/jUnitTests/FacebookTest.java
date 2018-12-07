@@ -14,10 +14,20 @@ import BDA.entry_objects.InformationEntry;
 import BDA.facebook.FacebookConnection;
 import BDA.other.Service;
 
+/**
+ * The Class FacebookTest.
+ */
 public class FacebookTest {
+	
+	/** The in. */
 	List<InformationEntry> in;
+	
+	/** The test entry. */
 	FacebookEntry testEntry;
 
+	/**
+	 * Test get instance.
+	 */
 	@Test
 	public final void testGetInstance() {
 		try {
@@ -29,6 +39,9 @@ public class FacebookTest {
 	}
 
 
+	/**
+	 * Test extend access token.
+	 */
 	@Test
 	public final void testExtendAccessToken() {
 		try {
@@ -41,6 +54,9 @@ public class FacebookTest {
 		
 	}
 
+	/**
+	 * Test request facebook.
+	 */
 	@Test
 	public final void testRequestFacebook() {
 		try {
@@ -81,6 +97,9 @@ public class FacebookTest {
 		
 	}
 
+	/**
+	 * Test like.
+	 */
 	@Test
 	public final void testLike() {
 		try {
@@ -98,6 +117,9 @@ public class FacebookTest {
 		
 	}
 
+	/**
+	 * Test post.
+	 */
 	@Test
 	public final void testPost() {
 		try {
@@ -116,6 +138,9 @@ public class FacebookTest {
 		
 	}
 
+	/**
+	 * Test comment on post.
+	 */
 	@Test
 	public final void testCommentOnPost() {
 		try {
@@ -137,12 +162,18 @@ public class FacebookTest {
 	
 	
 	
+	/**
+	 * Test get access token 2.
+	 */
 	@Test
 	public final void testGetAccessToken2() {
 		assertNotNull(FacebookConnection.getAccessToken2());
 	}
 
 
+	/**
+	 * Test get service.
+	 */
 	@Test
 	public final void testGetService() {
 		assertNotNull(FacebookConnection.getInstance().getService());

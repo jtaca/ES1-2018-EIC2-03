@@ -21,7 +21,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PostBox gives a visual representation of an InformationEntry in the
  * posts list.

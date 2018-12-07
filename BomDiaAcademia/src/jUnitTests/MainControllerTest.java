@@ -37,11 +37,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+/**
+ * The Class MainControllerTest.
+ */
 public class MainControllerTest {
 
+	/** The controller. */
 	private MainController controller;
+	
+	/** The cl. */
 	private Class<? extends MainController> cl;
 
+	/**
+	 * Sets the up class.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	@BeforeClass
 	public static void setUpClass() throws InterruptedException {
 		Thread t = new Thread("MainWindow Test Thread") {
@@ -55,12 +66,20 @@ public class MainControllerTest {
 		Thread.sleep(500);
 	}
 
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup() {
 		controller = MainController.getInstance();
 		cl = controller.getClass();
 	}
 
+	/**
+	 * Test set theme.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testSetTheme() throws Exception {
 		Method setTheme = cl.getDeclaredMethod("setTheme");
@@ -82,6 +101,11 @@ public class MainControllerTest {
 		assertEquals(themes.getSelectedIndex() + ".css", style);
 	}
 
+	/**
+	 * Test tweet counter color red.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testTweetCounterColorRed() throws Exception {
 		Field tweetTextArea = cl.getDeclaredField("tweetTextArea");
@@ -95,6 +119,11 @@ public class MainControllerTest {
 		tweetArea.setText(tweet);
 	}
 
+	/**
+	 * Test tweet counter color black.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testTweetCounterColorBlack() throws Exception {
 		Field tweetTextArea = cl.getDeclaredField("tweetTextArea");
@@ -106,6 +135,11 @@ public class MainControllerTest {
 		tweetArea.setText(tweet);
 	}
 
+	/**
+	 * Test write email.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testWriteEmail() throws Exception {
 		Method writeEmail = cl.getDeclaredMethod("writeEmail");
@@ -124,6 +158,11 @@ public class MainControllerTest {
 		assertEquals(email, center.getChildren().get(center.getChildren().size() - 1));
 	}
 
+	/**
+	 * Test compose tweet.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testComposeTweet() throws Exception {
 		Method composeTweet = cl.getDeclaredMethod("composeTweet");
@@ -142,6 +181,11 @@ public class MainControllerTest {
 		assertEquals(tweet, center.getChildren().get(center.getChildren().size() - 1));
 	}
 
+	/**
+	 * Test show settings.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testShowSettings() throws Exception {
 		Method showSettings = cl.getDeclaredMethod("showSettings");
@@ -160,6 +204,11 @@ public class MainControllerTest {
 		assertEquals(set, center.getChildren().get(center.getChildren().size() - 1));
 	}
 
+	/**
+	 * Test search not empty.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testSearchNotEmpty() throws Exception {
 		Method search = cl.getDeclaredMethod("search");
@@ -179,6 +228,11 @@ public class MainControllerTest {
 		assertTrue(ls.isVisible());
 	}
 
+	/**
+	 * Test search empty.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testSearchEmpty() throws Exception {
 		Method search = cl.getDeclaredMethod("search");
@@ -195,6 +249,11 @@ public class MainControllerTest {
 		assertTrue(s.getText().isEmpty());
 	}
 
+	/**
+	 * Test open post email entry.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testOpenPostEmailEntry() throws Exception {
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
@@ -223,6 +282,11 @@ public class MainControllerTest {
 		assertEquals(content, postContent.getText());
 	}
 
+	/**
+	 * Test open post twitter entry.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testOpenPostTwitterEntry() throws Exception {
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
@@ -250,6 +314,11 @@ public class MainControllerTest {
 		assertEquals(content, postContent.getText());
 	}
 
+	/**
+	 * Test open post twitter entry with image.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testOpenPostTwitterEntryWithImage() throws Exception {
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
@@ -277,6 +346,11 @@ public class MainControllerTest {
 		assertEquals(content, postContent.getText());
 	}
 
+	/**
+	 * Test open post twitter entry with video.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testOpenPostTwitterEntryWithVideo() throws Exception {
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
@@ -304,6 +378,11 @@ public class MainControllerTest {
 		assertEquals(content, postContent.getText());
 	}
 
+	/**
+	 * Test open post twitter entry with gif.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testOpenPostTwitterEntryWithGif() throws Exception {
 		Method openPost = cl.getDeclaredMethod("openPost", InformationEntry.class);
@@ -331,6 +410,11 @@ public class MainControllerTest {
 		assertEquals(content, postContent.getText());
 	}
 
+	/**
+	 * Test clear email.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testClearEmail() throws Exception {
 		Method clearEmail = cl.getDeclaredMethod("clearEmail");
@@ -358,6 +442,11 @@ public class MainControllerTest {
 		assertTrue(error.getText().isEmpty());
 	}
 
+	/**
+	 * Test add email.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testAddEmail() throws Exception {
 		Method addEmail = cl.getDeclaredMethod("addEmail");
@@ -378,6 +467,11 @@ public class MainControllerTest {
 		assertEquals(email, emails.get(emails.size() - 1));
 	}
 
+	/**
+	 * Test remove email.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testRemoveEmail() throws Exception {
 		Method removeEmail = cl.getDeclaredMethod("removeEmail");
@@ -403,6 +497,11 @@ public class MainControllerTest {
 		assertTrue(after < before);
 	}
 
+	/**
+	 * Test close post.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testClosePost() throws Exception {
 		Method closePost = cl.getDeclaredMethod("closePost");
@@ -421,6 +520,11 @@ public class MainControllerTest {
 		assertEquals(post, pane.getChildren().get(0));
 	}
 
+	/**
+	 * Test set username.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testSetUsername() throws Exception {
 		Method setUsername = cl.getDeclaredMethod("setUsername", String.class);
@@ -436,6 +540,11 @@ public class MainControllerTest {
 		assertEquals("Username", label.getText());
 	}
 
+	/**
+	 * Test get posts.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testGetPosts() throws Exception {
 		Field postList = cl.getDeclaredField("posts");
@@ -449,6 +558,13 @@ public class MainControllerTest {
 		assertEquals(expected, posts);
 	}
 
+	/**
+	 * Wait for run later.
+	 *
+	 * @param method the method
+	 * @param args the args
+	 * @throws Exception the exception
+	 */
 	public void waitForRunLater(Method method, Object... args) throws Exception {
 		Semaphore semaphore = new Semaphore(0);
 		Platform.runLater(() -> {

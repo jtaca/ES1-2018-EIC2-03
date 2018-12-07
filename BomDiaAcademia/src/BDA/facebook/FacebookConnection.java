@@ -25,43 +25,40 @@ import BDA.interfaces.ServiceInstance;
 import BDA.other.Filter;
 import BDA.other.Service;
 
-/** This class handles the Facebook connection and respective functions
- * @author Joao Aparicio
+/**
+ *  This class handles the Facebook connection and respective functions.
  *
+ * @author Joao Aparicio
  */
 public class FacebookConnection implements ServiceInstance {
 	
 	//activity going to: https://www.facebook.com/Bomdiaacademia-318510688875649/?modal=admin_todo_tour
-	/**
-	 * User Access Token
-	 */
+	/** User Access Token. */
 	private static String accessToken ;
-	/**
-	 * Access Token for the BomDiaAcademia app
-	 */
+	
+	/** Access Token for the BomDiaAcademia app. */
 	private static String accessToken2 ;
-	/**
-	 * Client used in every user connection
-	 */
+	
+	/** Client used in every user connection. */
 	private static FacebookClient fbClient;
-	/**
-	 * Client used in every app connection
-	 */
+	
+	/** Client used in every app connection. */
 	private static FacebookClient fbClient2;
-	/**
-	 * 
-	 */
+	
+	/** The me 2. */
 	private static User me2 ;
-	/**
-	 * Instance used for the singleton
-	 */
+	
+	/** Instance used for the singleton. */
 	private static FacebookConnection INSTANCE = new FacebookConnection();
+	
+	/** The me. */
 	private static User me;
 	
+	/** The Constant loginLink. */
 	private static final String loginLink = "https://developers.facebook.com/tools/access_token/";
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	private FacebookConnection() {
 		accessToken = "";
@@ -73,6 +70,8 @@ public class FacebookConnection implements ServiceInstance {
 	}
 	
 	/**
+	 * Gets the single instance of FacebookConnection.
+	 *
 	 * @return the instance of the singleton
 	 */
 	public static FacebookConnection getInstance() {
@@ -81,7 +80,10 @@ public class FacebookConnection implements ServiceInstance {
 	
 	
 	/**
-	 * Starts a connection with Facebook
+	 * Starts a connection with Facebook.
+	 *
+	 * @param s the s
+	 * @return the default facebook client
 	 */
 	@SuppressWarnings("deprecation")
 	private static DefaultFacebookClient init(String s) {
@@ -114,8 +116,11 @@ public class FacebookConnection implements ServiceInstance {
 //	}
 	
 	/**
-	 * Extends the app token
-	 */
+ * Extends the app token.
+ *
+ * @param app the app
+ * @param secret the secret
+ */
 	public static void ExtendAccessToken(String app, String secret) {
 		try {
 			fbClient2.obtainExtendedAccessToken(app, secret, accessToken2);
@@ -135,7 +140,10 @@ public class FacebookConnection implements ServiceInstance {
 	
 	
 	/**
-	 * Request for the bom dia academia page
+	 * Request for the bom dia academia page.
+	 *
+	 * @param s the s
+	 * @return the list
 	 */
 	public static List<InformationEntry> requestFacebook(String s) {
 		List<InformationEntry> list = new ArrayList<>();
@@ -193,7 +201,9 @@ public class FacebookConnection implements ServiceInstance {
 	}
 	
 	/**
-	 * Likes the post with the id given
+	 * Likes the post with the id given.
+	 *
+	 * @param id the id
 	 */
 	public static void like(String id){
 		try {
@@ -205,6 +215,11 @@ public class FacebookConnection implements ServiceInstance {
 		}
 	}
 	
+	/**
+	 * User like.
+	 *
+	 * @param id the id
+	 */
 	public static void userLike(String id){
 		try {
 			fbClient.publish(id+"/likes", Boolean.class); 
@@ -216,10 +231,20 @@ public class FacebookConnection implements ServiceInstance {
 	}
 	
 	
+	/**
+	 * Gets the loginlink.
+	 *
+	 * @return the loginlink
+	 */
 	public static String getLoginlink() {
 		return loginLink;
 	}
 
+	/**
+	 * Log in.
+	 *
+	 * @param accessToken the access token
+	 */
 	public static void logIn(String accessToken) {
 		try {
 			FacebookConnection.accessToken = accessToken;
@@ -233,6 +258,12 @@ public class FacebookConnection implements ServiceInstance {
 		}
 	}
 	
+	/**
+	 * User comment on post.
+	 *
+	 * @param id the id
+	 * @param message the message
+	 */
 	public static void userCommentOnPost(String id, String message) {
 		if(message != null && id != null) {
 			try {
@@ -246,7 +277,10 @@ public class FacebookConnection implements ServiceInstance {
 	}
 
 	/**
-	 * Posts on the bom dia academia page with the message given
+	 * Posts on the bom dia academia page with the message given.
+	 *
+	 * @param message the message
+	 * @return the graph response
 	 */
 	public static GraphResponse post(String message) {
 		if(message != null) {
@@ -268,7 +302,10 @@ public class FacebookConnection implements ServiceInstance {
 	}
 	
 	/**
-	 * comments the post with the id and message given
+	 * comments the post with the id and message given.
+	 *
+	 * @param id the id
+	 * @param message the message
 	 */
 	public static void commentOnPost(String id, String message) {
 		if(message != null && id != null) {
@@ -286,14 +323,18 @@ public class FacebookConnection implements ServiceInstance {
 	
 	
 	/**
-	 * getter for the access token 
+	 * getter for the access token.
+	 *
+	 * @return the access token 2
 	 */
 	public static String getAccessToken2() {
 		return accessToken2;
 	}
 	
 	/**
-	 * main for demonstrating how to use the methods in this function
+	 * main for demonstrating how to use the methods in this function.
+	 *
+	 * @return the service
 	 */
 //	public static void main(String[] args) {
 //		FacebookConnection fb = getInstance();

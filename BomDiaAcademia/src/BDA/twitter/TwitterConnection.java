@@ -28,6 +28,8 @@ import twitter4j.conf.ConfigurationBuilder;
  * @version 2.0
  */
 public class TwitterConnection implements ServiceInstance {
+	
+	/** The instance. */
 	private static TwitterConnection INSTANCE=null;
 
 	/** The twitter consumer key. */
@@ -70,6 +72,9 @@ public class TwitterConnection implements ServiceInstance {
 	
 	
 	
+	/**
+	 * Instantiates a new twitter connection.
+	 */
 	private TwitterConnection(){
 		this.twitter=init();
 	}
@@ -123,6 +128,12 @@ public class TwitterConnection implements ServiceInstance {
 	public boolean confirmAuth(String s){
 		return logger.inputPin(s);
 	}
+	
+	/**
+	 * Sets the user token.
+	 *
+	 * @param at the new user token
+	 */
 	public void setUserToken(AccessToken at){
 		logger.setUserToken(at);
 	}
@@ -147,7 +158,7 @@ public class TwitterConnection implements ServiceInstance {
 	 * fails if the user is not authenticated.
 	 *
 	 * @param tweet the tweet
-	 * @throws TwitterException the twitter exception
+	 * @return true, if successful
 	 */
 	public boolean retweet(Status tweet){
 		Twitter t = logger.getAuthenticatedInstance();
@@ -216,6 +227,13 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks if is favorited.
+	 *
+	 * @param tweet the tweet
+	 * @return true, if is favorited
+	 */
 	public boolean isFavorited(Status tweet){
 		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
@@ -235,6 +253,12 @@ public class TwitterConnection implements ServiceInstance {
 		return false;
 	}
 	
+	/**
+	 * Un favorite tweet.
+	 *
+	 * @param tweet the tweet
+	 * @return true, if successful
+	 */
 	public boolean unFavoriteTweet(Status tweet){
 		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
@@ -272,6 +296,13 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks if is retweetedby me.
+	 *
+	 * @param tweet the tweet
+	 * @return true, if is retweetedby me
+	 */
 	public boolean isRetweetedbyMe(Status tweet){
 		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
@@ -292,6 +323,12 @@ public class TwitterConnection implements ServiceInstance {
 	}
 	
 	
+	/**
+	 * Delete retweet.
+	 *
+	 * @param tweet the tweet
+	 * @return true, if successful
+	 */
 	public boolean deleteRetweet(Status tweet){
 			Twitter t = logger.getAuthenticatedInstance();
 			if(t!=null){
@@ -418,6 +455,12 @@ public class TwitterConnection implements ServiceInstance {
 
 		return tweets;
 	}
+	
+	/**
+	 * Gets the some status.
+	 *
+	 * @return the some status
+	 */
 	// Testing functions
 	public Status getSomeStatus(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
@@ -445,6 +488,14 @@ public class TwitterConnection implements ServiceInstance {
 		
 		return null;
 	}
+	
+	/**
+	 * Gets the user picture.
+	 *
+	 * @param user the user
+	 * @return the user picture
+	 * @throws TwitterException the twitter exception
+	 */
 	public String getUserPicture(String user) throws TwitterException{
 		User u = twitter.showUser(user);
 		return u.get400x400ProfileImageURL();
@@ -460,10 +511,21 @@ public class TwitterConnection implements ServiceInstance {
 				TWITTER_ACCESS_TOKEN_SECRET };
 	}
 
+	/**
+	 * Gets the twitter.
+	 *
+	 * @return the twitter
+	 */
 	public Twitter getTwitter() {
 		return logger.getAuthenticatedInstance();
 	}
 
+	/**
+	 * Gets the status by id.
+	 *
+	 * @param id the id
+	 * @return the status by id
+	 */
 	public Status getStatusById(Long id) {
 		try {
 			return twitter.showStatus(id);
@@ -471,6 +533,10 @@ public class TwitterConnection implements ServiceInstance {
 			return null;
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see BDA.interfaces.ServiceInstance#getService()
+	 */
 	@Override
 	public Service getService() {
 		return Service.TWITTER;

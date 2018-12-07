@@ -15,8 +15,16 @@ import BDA.gui.PostBox;
 import BDA.twitter.TwitterConnection;
 import javafx.geometry.Pos;
 
+/**
+ * The Class PostBoxTest.
+ */
 public class PostBoxTest {
 
+	/**
+	 * Sets the up class.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	@BeforeClass
 	public static void setUpClass() throws InterruptedException {
 		Thread t = new Thread("MainWindow Test Thread") {
@@ -30,6 +38,9 @@ public class PostBoxTest {
 		Thread.sleep(500);
 	}
 
+	/**
+	 * Test email post box.
+	 */
 	@Test
 	public void testEmailPostBox() {
 		EmailEntry email = new EmailEntry("Receiver", new Date(), "Writer", "Subject", "Content");
@@ -38,6 +49,9 @@ public class PostBoxTest {
 		assertTrue(postBox.getService().equals(email.getService()));
 	}
 
+	/**
+	 * Test twitter post box.
+	 */
 	@Test
 	public void testTwitterPostBox() {
 		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());
@@ -46,6 +60,9 @@ public class PostBoxTest {
 		assertTrue(postBox.getService().equals(tweet.getService()));
 	}
 
+	/**
+	 * Test loading post box.
+	 */
 	@Test
 	public void testLoadingPostBox() {
 		PostBox postBox = new PostBox(null);
@@ -53,6 +70,9 @@ public class PostBoxTest {
 		assertTrue(postBox.getAlignment().equals(Pos.CENTER));
 	}
 
+	/**
+	 * Test get date.
+	 */
 	@Test
 	public void testGetDate() {
 		EmailEntry email = new EmailEntry("Receiver", new Date(), "Writer", "Subject", "Content");
@@ -61,6 +81,9 @@ public class PostBoxTest {
 		assertEquals(postBox.getDate(), email.getDate());
 	}
 
+	/**
+	 * Test get post author.
+	 */
 	@Test
 	public void testGetPostAuthor() {
 		EmailEntry email = new EmailEntry("Receiver", new Date(), "Writer", "Subject", "Content");
@@ -69,6 +92,9 @@ public class PostBoxTest {
 		assertEquals(postBox.getPostAuthor(), email.getWriterName());
 	}
 
+	/**
+	 * Test get email receiver.
+	 */
 	@Test
 	public void testGetEmailReceiver() {
 		EmailEntry email = new EmailEntry("Receiver", new Date(), "Writer", "Subject", "Content");
@@ -77,6 +103,9 @@ public class PostBoxTest {
 		assertEquals(postBox.getEmailReceiver(), email.getReceiverEmail());
 	}
 
+	/**
+	 * Test get information entry.
+	 */
 	@Test
 	public void testGetInformationEntry() {
 		EmailEntry email = new EmailEntry("Receiver", new Date(), "Writer", "Subject", "Content");

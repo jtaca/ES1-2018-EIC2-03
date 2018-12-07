@@ -19,14 +19,27 @@ import BDA.entry_objects.EmailEntry;
 import BDA.entry_objects.InformationEntry;
 import BDA.files.ReadAndWriteFile;
 
+/**
+ * The Class ReadAndWriteFileTest.
+ */
 public class ReadAndWriteFileTest {
 	
+	/** The key words filter list. */
 	private List<String> keyWordsFilterList = null;
+	
+	/** The Constant KEY_WORDS_FILTER_FILE_NAME. */
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
+	
+	/** The Constant TEST_FILE_NAME. */
 	public static final String TEST_FILE_NAME = "key_words_filter.dat";
+	
+	/** The Constant DEFAULT_KEY_WORDS_FILTERS. */
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
 
 	
+	/**
+	 * Test save list of information entry.
+	 */
 	@Test
 	public void testSaveListOfInformationEntry() {
 
@@ -64,6 +77,11 @@ public class ReadAndWriteFileTest {
 		}
 	}
 
+	/**
+	 * Test load list of information entry.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void testLoadListOfInformationEntry() throws IOException {
 		ArrayList<InformationEntry> information_entry_list = new ArrayList<InformationEntry>();
@@ -129,6 +147,11 @@ public class ReadAndWriteFileTest {
 		
 	}
 
+	/**
+	 * Test save list of filters.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void testSaveListOfFilters() throws IOException {
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
@@ -154,6 +177,9 @@ public class ReadAndWriteFileTest {
 		
 	}
 
+	/**
+	 * Test load list of filters.
+	 */
 	@Test
 	public void testLoadListOfFilters() {
 		List<String> key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);

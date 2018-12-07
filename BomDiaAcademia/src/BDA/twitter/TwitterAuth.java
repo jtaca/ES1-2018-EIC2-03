@@ -69,8 +69,11 @@ class TwitterAuth {
 		}
 		return true;
 	}
+	
 	/**
 	 * Sets the user token.
+	 *
+	 * @param at the new user token
 	 */
 	protected void setUserToken(AccessToken at){
 		this.userToken=at;

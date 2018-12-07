@@ -14,7 +14,8 @@ import BDA.twitter.TwitterConnection;
 public class TwitterPostReaderTask implements ServiceReadTask { //
 	
 	
-	private InformationEntryGatherer barrier;
+	/** The barrier. */
+ private InformationEntryGatherer barrier;
 	
 	/*
 	private TwitterFunctions twitterConnection;
@@ -24,9 +25,15 @@ public class TwitterPostReaderTask implements ServiceReadTask { //
 	}
 	*/
 	
+	/**
+	 * Instantiates a new twitter post reader task.
+	 */
 	public TwitterPostReaderTask() {
 	}
 	
+	/* (non-Javadoc)
+	 * @see BDA.tasks.ServiceReadTask#setBarrier(BDA.threads.InformationEntryGatherer)
+	 */
 	@Override
 	public void setBarrier(InformationEntryGatherer barrier) {
 		this.barrier = barrier;

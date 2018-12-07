@@ -231,12 +231,15 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextField twitterPIN;
 
+	/** The facebook login button. */
 	@FXML
 	private JFXButton facebookLoginButton;
 
+	/** The facebook token. */
 	@FXML
 	private JFXTextField facebookToken;
 
+	/** The box token. */
 	@FXML
 	private HBox boxToken;
 
@@ -799,6 +802,9 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Facebook login.
+	 */
 	@FXML
 	private void facebookLogin() {
 		try {
@@ -822,6 +828,9 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Authenticate facebook.
+	 */
 	@FXML
 	private void authenticateFacebook() {
 //		FacebookConnection.

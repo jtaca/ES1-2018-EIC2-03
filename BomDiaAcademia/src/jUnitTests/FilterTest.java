@@ -18,22 +18,46 @@ import BDA.files.ReadAndWriteFile;
 import BDA.other.Filter;
 import BDA.other.Service;
 
+/**
+ * The Class FilterTest.
+ */
 public class FilterTest {
 	
+	/** The filter. */
 	private static Filter filter = null;
 	
+	/** The key words filter. */
 	private static List<String> key_words_filter;
+	
+	/** The twitter user filter list. */
 	private static List<String> twitterUserFilterList;
+	
+	/** The facebook filter list. */
 	private static List<String> facebookFilterList;
 	
+	/** The Constant KEY_WORDS_FILTER_FILE_NAME. */
 	private static final String KEY_WORDS_FILTER_FILE_NAME = "key_words_filter.dat";
+	
+	/** The Constant TWITTER_USER_FILTER_FILE_NAME. */
 	private static final String TWITTER_USER_FILTER_FILE_NAME = "twitter_user_filter.dat";
+	
+	/** The Constant FACEBOOK_FILTER_FILE_NAME. */
 	private static final String FACEBOOK_FILTER_FILE_NAME = "facebook_filter.dat";
 	
+	/** The Constant DEFAULT_KEY_WORDS_FILTERS. */
 	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {"iscte", "universidade", "reitoria", "ista", "biblioteca", "cominvestigar", "tesouraria"};
+	
+	/** The Constant DEFAULT_TWITTER_USER_FILTERS. */
 	private static final String[] DEFAULT_TWITTER_USER_FILTERS = {"ISCTEIUL", "INDEGISCTE", "IBSLisbon", "namiscte", "ISCTE_JC"};
+	
+	/** The Constant DEFAULT_FACEBOOK_FILTERS. */
 	private static final String[] DEFAULT_FACEBOOK_FILTERS = {"iscte"};
 
+	/**
+	 * Sets the up before class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);
@@ -52,6 +76,9 @@ public class FilterTest {
 		
 	}
 	
+	/**
+	 * Sets the up before function.
+	 */
 	@Before
 	public void setUpBeforeFunction() {
 		filter.setFilter(Service.EMAIL, new ArrayList<String>(Arrays.asList(DEFAULT_KEY_WORDS_FILTERS)));
@@ -59,6 +86,9 @@ public class FilterTest {
 		filter.setFilter(Service.FACEBOOK, new ArrayList<String>(Arrays.asList(DEFAULT_FACEBOOK_FILTERS)));
 	}
 	
+	/**
+	 * After class.
+	 */
 	@AfterClass
 	public static void afterClass() {
 		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);
@@ -67,6 +97,9 @@ public class FilterTest {
 	}
 	
 
+	/**
+	 * Test set filter email.
+	 */
 	@Test
 	public void testSetFilterEmail() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -78,6 +111,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test set filter twitter.
+	 */
 	@Test
 	public void testSetFilterTwitter() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -89,6 +125,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test set filter facebook.
+	 */
 	@Test
 	public void testSetFilterFacebook() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -100,6 +139,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter list email.
+	 */
 	@Test
 	public void testAddFilterListEmail() {
 		List<String> filterList = new ArrayList<String>();
@@ -115,6 +157,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter list twitter.
+	 */
 	@Test
 	public void testAddFilterListTwitter() {
 		List<String> filterList = new ArrayList<String>();
@@ -130,6 +175,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter list facebook.
+	 */
 	@Test
 	public void testAddFilterListFacebook() {
 		List<String> filterList = new ArrayList<String>();
@@ -145,6 +193,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter single email.
+	 */
 	@Test
 	public void testAddFilterSingleEmail() {
 		String filterToAdd = "ola";
@@ -159,6 +210,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter single twitter.
+	 */
 	@Test
 	public void testAddFilterSingleTwitter() {
 		String filterToAdd = "ola";
@@ -173,6 +227,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test add filter single facebook.
+	 */
 	@Test
 	public void testAddFilterSingleFacebook() {
 		String filterToAdd = "ola";
@@ -187,6 +244,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter list email.
+	 */
 	@Test
 	public void testRemoveFilterListEmail() {
 		String filterName = "reitoria";
@@ -203,6 +263,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter list twitter.
+	 */
 	@Test
 	public void testRemoveFilterListTwitter() {
 		String filterName = "namiscte";
@@ -219,6 +282,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter list facebook.
+	 */
 	@Test
 	public void testRemoveFilterListFacebook() {
 		String filterName = "iscte";
@@ -235,6 +301,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter single email.
+	 */
 	@Test
 	public void testRemoveFilterSingleEmail() {
 		String filterToRemove = "reitoria";
@@ -249,6 +318,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter single twitter.
+	 */
 	@Test
 	public void testRemoveFilterSingleTwitter() {
 		String filterToRemove = "namiscte";
@@ -263,6 +335,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test remove filter single facebook.
+	 */
 	@Test
 	public void testRemoveFilterSingleFacebook() {
 		String filterToRemove = "iscte";
@@ -277,6 +352,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test get filter list email.
+	 */
 	@Test
 	public void testGetFilterListEmail() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -288,6 +366,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test get filter list twitter.
+	 */
 	@Test
 	public void testGetFilterListTwitter() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -299,6 +380,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test get filter list facebook.
+	 */
 	@Test
 	public void testGetFilterListFacebook() {
 		List<String> expectedFilterList = new ArrayList<String>();
@@ -310,6 +394,9 @@ public class FilterTest {
 		assertEquals(expectedFilterList, actualFilterList);
 	}
 	
+	/**
+	 * Test positive verify if string contains any filter.
+	 */
 	@Test
 	public void testPositiveVerifyIfStringContainsAnyFilter() {
 		String testingString = "biblioteca@iscte-iul.pt";
@@ -320,6 +407,9 @@ public class FilterTest {
 		assertTrue(result);
 	}
 	
+	/**
+	 * Test negative verify if string contains any filter.
+	 */
 	@Test
 	public void testNegativeVerifyIfStringContainsAnyFilter() {
 		String testingString = "lala@gmail.com";
@@ -330,6 +420,9 @@ public class FilterTest {
 		assertFalse(result);
 	}
 	
+	/**
+	 * Test define date interval from current date greater than 1.
+	 */
 	@Test
 	public void testDefineDateIntervalFromCurrentDateGreaterThan1() {
 		int dateInterval = 2;
@@ -346,6 +439,9 @@ public class FilterTest {
 		assertEquals(expectedDateLimit, actualDateLimit);
 	}
 	
+	/**
+	 * Test define date interval from current date less than 1.
+	 */
 	@Test
 	public void testDefineDateIntervalFromCurrentDateLessThan1() {
 		int dateInterval = 0;
@@ -362,6 +458,9 @@ public class FilterTest {
 		assertEquals(expectedDateLimit, actualDateLimit);
 	}
 	
+	/**
+	 * Test verify if consider date current date.
+	 */
 	@Test
 	public void testVerifyIfConsiderDateCurrentDate() {
 		Date date = new Date();
@@ -370,6 +469,9 @@ public class FilterTest {
 		assertTrue(result);
 	}
 	
+	/**
+	 * Test verify if consider date limit.
+	 */
 	@Test
 	public void testVerifyIfConsiderDateLimit() {
 		int dateInterval = 1;
@@ -386,6 +488,9 @@ public class FilterTest {
 		assertFalse(result);
 	}
 	
+	/**
+	 * Test verify if consider date failed.
+	 */
 	@Test
 	public void testVerifyIfConsiderDateFailed() {
 		filter.defineDateIntervalFromCurrentDate(2);

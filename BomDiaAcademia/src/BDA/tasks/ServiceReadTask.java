@@ -9,6 +9,11 @@ import BDA.threads.InformationEntryGatherer;
  */
 public interface ServiceReadTask extends Task{ //
 	
-	public void setBarrier(InformationEntryGatherer barrier);
+	/**
+  * Sets the barrier.
+  *
+  * @param barrier the new barrier
+  */
+ public void setBarrier(InformationEntryGatherer barrier);
 	
 }

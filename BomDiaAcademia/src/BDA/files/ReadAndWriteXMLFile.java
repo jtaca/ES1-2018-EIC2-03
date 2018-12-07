@@ -25,7 +25,6 @@ import BDA.other.XMLUserConfiguration;
 import BDA.twitter.TwitterConnection;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ReadAndWriteXMLFile.
  * @author Alexandre Mendes
@@ -229,6 +228,12 @@ public class ReadAndWriteXMLFile { //
 		return xml_user_config_array;
 	}
 	
+	/**
+	 * Adds the service instance to XML file.
+	 *
+	 * @param serviceInstance the service instance
+	 * @throws Exception the exception
+	 */
 	public static void addServiceInstanceToXMLFile(ServiceInstance serviceInstance) throws Exception {
 		if(serviceInstance != null) {
 			List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
@@ -260,6 +265,12 @@ public class ReadAndWriteXMLFile { //
 		}
 	}
 	
+	/**
+	 * Adds the service instance to XML file.
+	 *
+	 * @param serviceInstances the service instances
+	 * @throws Exception the exception
+	 */
 	public static void addServiceInstanceToXMLFile(List<ServiceInstance> serviceInstances) throws Exception {
 		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
 		XMLUserConfiguration xml_user_configuration = null;
@@ -291,6 +302,12 @@ public class ReadAndWriteXMLFile { //
 		}
 	}
 	
+	/**
+	 * Removes the service instance from XML file.
+	 *
+	 * @param serviceInstance the service instance
+	 * @throws Exception the exception
+	 */
 	public static void removeServiceInstanceFromXMLFile(ServiceInstance serviceInstance) throws Exception {
 		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
 		List<XMLUserConfiguration> to_remove = new ArrayList<XMLUserConfiguration>();
@@ -336,6 +353,12 @@ public class ReadAndWriteXMLFile { //
 		}
 	}
 	
+	/**
+	 * Removes the service instance from XML file.
+	 *
+	 * @param serviceInstances the service instances
+	 * @throws Exception the exception
+	 */
 	public static void removeServiceInstanceFromXMLFile(List<ServiceInstance> serviceInstances) throws Exception {
 		List<XMLUserConfiguration> xml_user_configuration_list = ReadConfigXMLFile();
 		List<XMLUserConfiguration> to_remove = new ArrayList<XMLUserConfiguration>();

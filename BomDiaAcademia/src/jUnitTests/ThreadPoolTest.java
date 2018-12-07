@@ -23,10 +23,19 @@ import BDA.tasks.EmailReaderTask;
 import BDA.tasks.ServiceReadTask;
 import BDA.threads.ThreadPool;
 
+/**
+ * The Class ThreadPoolTest.
+ */
 public class ThreadPoolTest {
 	
+	/** The user. */
 	private static XMLUserConfiguration user = null;
 	
+	/**
+	 * Before class.
+	 *
+	 * @throws Exception the exception
+	 */
 	@BeforeClass
 	public static void beforeClass() throws Exception {
 		user = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);
@@ -44,6 +53,9 @@ public class ThreadPoolTest {
 		MainController.getInstance().loadPosts(new ArrayList<InformationEntry>(), true);
 	}
 
+	/**
+	 * Test start threads.
+	 */
 	@Test
 	public void testStartThreads() {
 		ThreadPool.getInstance().startThreads();
@@ -51,6 +63,9 @@ public class ThreadPoolTest {
 		assertTrue(threadsWorking);
 	}
 	
+	/**
+	 * Test stop threads.
+	 */
 	@Test
 	public void testStopThreads() {
 		ThreadPool.getInstance().startThreads();
@@ -59,6 +74,9 @@ public class ThreadPoolTest {
 		assertFalse(threadsWorking);
 	}
 	
+	/**
+	 * Test stop threads when they arent running.
+	 */
 	@Test
 	public void testStopThreadsWhenTheyArentRunning() {
 		ThreadPool.getInstance().stopThreads();
@@ -66,6 +84,11 @@ public class ThreadPoolTest {
 		assertFalse(threadsWorking);
 	}
 	
+	/**
+	 * Test refresh GUI with threads.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	@Test
 	public void testRefreshGUIWithThreads() throws InterruptedException {
 		List<ServiceReadTask> tasks = new ArrayList<ServiceReadTask>();

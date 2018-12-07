@@ -16,37 +16,69 @@ import BDA.twitter.TwitterConnection;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
+/**
+ * The Class TwitterConnectionLoggedOutTest.
+ */
 public class TwitterConnectionLoggedOutTest {
+	
+	/**
+	 * Sets the up.
+	 */
 	@BeforeClass
 	public static void setUp(){
 		TwitterConnection.getInstance().logout();
 	}
+	
+	/**
+	 * Test get auth url.
+	 */
 	//Authetication functions
 	@Test
 	public void testGetAuthUrl(){
 		String s = TwitterConnection.getInstance().getAuthUrl();
 		assert(s!="");
 	}
+	
+	/**
+	 * Test input pin.
+	 */
 	@Test
 	public void testInputPin(){
 		assert(!TwitterConnection.getInstance().confirmAuth("asdasd"));
 	}
+	
+	/**
+	 * Test is logged in.
+	 */
 	@Test
 	public void testIsLoggedIn(){
 		assert(!TwitterConnection.getInstance().isLoggedIn());
 	}
 	
+	/**
+	 * Test get username.
+	 */
 	//LoggedIn functions
 	@Test
 	public void testGetUsername(){
 		String s=TwitterConnection.getInstance().getUsername();
 		assertEquals(s,"");
 	}
+	
+	/**
+	 * Test retweet.
+	 *
+	 * @throws TwitterException the twitter exception
+	 */
 	@Test
 	public void testRetweet() throws TwitterException {
 		TwitterConnection tf = TwitterConnection.getInstance();
 		assert(!tf.retweet(tf.getSomeStatus()));
 	}
+	
+	/**
+	 * Test fail when off functions.
+	 */
 	@Test
 	public void testFailWhenOffFunctions() {
 		TwitterConnection tc= TwitterConnection.getInstance();
@@ -58,6 +90,11 @@ public class TwitterConnectionLoggedOutTest {
 		assert(!tc.deleteRetweet(status));
 	}
 
+	/**
+	 * Test request twitter.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void testRequestTwitter() throws Exception {
 		List<InformationEntry> l=new ArrayList<InformationEntry>();
@@ -66,6 +103,9 @@ public class TwitterConnectionLoggedOutTest {
 	}
 	
 
+	/**
+	 * Test get tweets from user by date.
+	 */
 	@Test
 	public void testGetTweetsFromUserByDate() {
 		Calendar c= Calendar.getInstance();
@@ -81,6 +121,9 @@ public class TwitterConnectionLoggedOutTest {
 		assertEquals(l.get(1).toString(),"ola meu.");
 	}
 
+	/**
+	 * Test get tweets from users.
+	 */
 	@Test
 	public void testGetTweetsFromUsers() {
 		List<InformationEntry> l;
@@ -100,12 +143,20 @@ public class TwitterConnectionLoggedOutTest {
 		assertEquals(l.get(0).toString(),"ola meu outra vez");
 		assertEquals(l.get(1).toString(),"ola meu.");
 	}
+	
+	/**
+	 * Test get tweets filtered.
+	 */
 	@Test 
 	public void testGetTweetsFiltered(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l=TwitterConnection.getInstance().getTweetsFiltered();
 		assert(!l.isEmpty());
 	}
+	
+	/**
+	 * Test get keys.
+	 */
 	@Test
 	public void testGetKeys() {
 		String [] l=TwitterConnection.getKeys();
