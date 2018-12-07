@@ -10,7 +10,7 @@ import files.ReadAndWriteFile;
 /**
  * The Class Filter.
  * @author Alexandre Mendes
- * @version 2.0
+ * @version 3.0
  */
 public class Filter {
 	
@@ -238,6 +238,75 @@ private synchronized void loadFilterListFromFile() {
 		case FACEBOOK:
 			if(facebookFilterList != null && !facebookFilterList.contains(filter)) {
 				facebookFilterList.add(filter);
+				saveFilterListToFile(service, facebookFilterList);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	
+	/**
+	 * Removes the filter.
+	 *
+	 * @param service the service
+	 * @param filter the filter
+	 */
+	public synchronized void removeFilter(Service service, List<String> filter) {
+		switch (service) {
+		case EMAIL:
+			if(keyWordsFilterList != null) {
+				keyWordsFilterList.removeAll(filter);
+				saveFilterListToFile(service, keyWordsFilterList);
+			}
+			break;
+			
+		case TWITTER:
+			if(twitterUserFilterList != null) {
+				twitterUserFilterList.removeAll(filter);
+				saveFilterListToFile(service, twitterUserFilterList);
+			}
+			break;
+			
+		case FACEBOOK:
+			if(facebookFilterList != null) {
+				facebookFilterList.removeAll(filter);
+				saveFilterListToFile(service, facebookFilterList);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Removes the filter.
+	 *
+	 * @param service the service
+	 * @param filter the filter
+	 */
+	public synchronized void removeFilter(Service service, String filter) {
+		switch (service) {
+		case EMAIL:
+			if(keyWordsFilterList != null && keyWordsFilterList.contains(filter)) {
+				keyWordsFilterList.remove(filter);
+				saveFilterListToFile(service, keyWordsFilterList);
+			}
+			break;
+			
+		case TWITTER:
+			if(twitterUserFilterList != null && twitterUserFilterList.contains(filter)) {
+				twitterUserFilterList.remove(filter);
+				saveFilterListToFile(service, twitterUserFilterList);
+			}
+			break;
+			
+		case FACEBOOK:
+			if(facebookFilterList != null && facebookFilterList.contains(filter)) {
+				facebookFilterList.remove(filter);
 				saveFilterListToFile(service, facebookFilterList);
 			}
 			break;
