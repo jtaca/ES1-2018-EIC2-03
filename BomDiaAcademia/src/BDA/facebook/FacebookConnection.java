@@ -86,19 +86,20 @@ public class FacebookConnection implements ServiceInstance {
 	@SuppressWarnings("deprecation")
 	private static DefaultFacebookClient init(String s) {
 	
-		try {
-			fbClient2 = new DefaultFacebookClient(accessToken2);
-			me2 = fbClient2.fetchObject(s, User.class);
-//			try {
-//				me2.getAbout();
-//			} catch (FacebookException e) {
-//				System.out.println(""+e);
-//			}
+////		try {
+////			fbClient2 = new DefaultFacebookClient(accessToken2);
+////			me2 = fbClient2.fetchObject(s, User.class);
+////			try {
+////				me2.getAbout();
+////			} catch (FacebookException e) {
+////				System.out.println(""+e);
+////			}
+//		
+////	} catch (FacebookException e) {
+////		System.out.println(e);
+////	}
 
-			
-		} catch (FacebookException e) {
-			System.out.println(e);
-		}
+		//logIn(accessToken2);
 		
 		return (DefaultFacebookClient) fbClient2;
 		
@@ -219,15 +220,17 @@ public class FacebookConnection implements ServiceInstance {
 		return loginLink;
 	}
 
-	public static void setAccessToken(String accessToken) {
-		FacebookConnection.accessToken = accessToken;
-		fbClient = new DefaultFacebookClient(accessToken);
-		me = fbClient.fetchObject("me", User.class);
-		System.out.println("Facebook User:");
-		System.out.println("Id: " + me2.getId());
-		System.out.println("Name: " + me2.getName());
-		
-		
+	public static void logIn(String accessToken) {
+		try {
+			FacebookConnection.accessToken = accessToken;
+			fbClient = new DefaultFacebookClient(accessToken);
+			me = fbClient.fetchObject("me", User.class);
+			System.out.println("Facebook User:");
+			System.out.println("Id: " + me.getId());
+			System.out.println("Name: " + me.getName());
+		} catch (FacebookException e) {
+			System.out.println(e);
+		}
 	}
 	
 	public static void userCommentOnPost(String id, String message) {
