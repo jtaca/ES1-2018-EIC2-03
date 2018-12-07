@@ -2,30 +2,15 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import entry_objects.InformationEntry;
-import other.Filter;
 import twitter.TwitterConnection;
-import twitter4j.GeoLocation;
-import twitter4j.HashtagEntity;
-import twitter4j.MediaEntity;
-import twitter4j.Place;
-import twitter4j.RateLimitStatus;
-import twitter4j.Scopes;
 import twitter4j.Status;
-import twitter4j.SymbolEntity;
 import twitter4j.TwitterException;
-import twitter4j.URLEntity;
-import twitter4j.User;
-import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
 
 public class TwitterConnectionLoggedInTest {
@@ -79,13 +64,18 @@ public class TwitterConnectionLoggedInTest {
 			List<Status> list;
 			try {
 				list = TwitterConnection.getInstance().getTwitter().getUserTimeline();
-				assert(TwitterConnection.getInstance().favoriteTweet(list.get(0)));
 				assert(TwitterConnection.getInstance().commentTweet(list.get(0), ""+((Math.random()*1000))));
 				assert(TwitterConnection.getInstance().deletePost(list.get(0)));
 			} catch (TwitterException e) {
 				fail();
 			}
 			
+		}
+		@Test
+		public void testFavorite(){
+			assert(TwitterConnection.getInstance().favoriteTweet(status));
+			assert(TwitterConnection.getInstance().isFavorited(status));
+			assert(TwitterConnection.getInstance().unFavoriteTweet(status));
 		}
 		
 }

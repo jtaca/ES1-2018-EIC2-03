@@ -29,7 +29,7 @@ class TwitterAuth {
 	private Twitter twitter = buildAuthenticationTwitter();
 	
 	/** The twitter keys. */
-	private static XMLUserConfiguration twitterKeys = null;
+//	private static XMLUserConfiguration twitterKeys = null;
 	
 	/** The request token. */
 	private RequestToken requestToken;
