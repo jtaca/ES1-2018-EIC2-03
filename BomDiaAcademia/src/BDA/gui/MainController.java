@@ -699,7 +699,14 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void commentTweet() {
-
+		if (TwitterConnection.getInstance().isLoggedIn()) {
+			TwitterEntry tweet = (TwitterEntry) currentlyOpened;
+			composeTweet();
+			tweetButton.setOnAction(e -> {
+				TwitterConnection.getInstance().commentTweet(tweet.getStatus(), tweetTextArea.getText());
+				closeComposeTweet();
+			});
+		}
 	}
 
 	/**
@@ -711,7 +718,7 @@ public class MainController implements Initializable {
 			TwitterEntry tweet = (TwitterEntry) currentlyOpened;
 			if (TwitterConnection.getInstance().isRetweetedbyMe(tweet.getStatus())) {
 				TwitterConnection.getInstance().deleteRetweet(tweet.getStatus());
-				retweetButton.setStyle("-fx-background-color: #ff3000");
+				retweetButton.setStyle("");
 			} else {
 				TwitterConnection.getInstance().retweet(tweet.getStatus());
 				retweetButton.setStyle("-fx-background-color: #34bf49");
@@ -724,7 +731,16 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void favouriteTweet() {
-
+		if (TwitterConnection.getInstance().isLoggedIn()) {
+			TwitterEntry tweet = (TwitterEntry) currentlyOpened;
+			if (TwitterConnection.getInstance().isFavorited(tweet.getStatus())) {
+				TwitterConnection.getInstance().unFavoriteTweet(tweet.getStatus());
+				favouriteButton.setStyle("");
+			} else {
+				TwitterConnection.getInstance().favoriteTweet(tweet.getStatus());
+				favouriteButton.setStyle("-fx-background-color: #34bf49");
+			}
+		}
 	}
 
 	/**
