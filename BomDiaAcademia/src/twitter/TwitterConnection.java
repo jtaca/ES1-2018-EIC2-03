@@ -234,6 +234,7 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	
 	public boolean unFavoriteTweet(Status tweet){
 		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
