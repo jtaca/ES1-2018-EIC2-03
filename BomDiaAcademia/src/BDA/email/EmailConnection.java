@@ -337,6 +337,7 @@ public class EmailConnection implements BDA.interfaces.ServiceInstance {
 //			Session mailSession = Session.getDefaultInstance(props, null);
 			mailSession.setDebug(sessionDebug);
 			Message msg = new MimeMessage(mailSession);
+			System.out.println(username);
 			msg.setFrom(new InternetAddress(username));
 			InternetAddress[] address = {new InternetAddress(sendEmailTo)};
 			msg.setRecipients(Message.RecipientType.TO, address);
@@ -345,6 +346,7 @@ public class EmailConnection implements BDA.interfaces.ServiceInstance {
 			msg.setText(message);
 			
 			transport = mailSession.getTransport("smtp");
+			System.out.println("Vou errar aqui!");
 //			Transport.send(msg, msg.getAllRecipients());
 			transport.connect(host, username, password);
 			transport.sendMessage(msg, msg.getAllRecipients());
