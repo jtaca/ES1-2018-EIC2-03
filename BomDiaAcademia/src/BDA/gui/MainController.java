@@ -476,6 +476,7 @@ public class MainController implements Initializable {
 	@FXML
 	private void applyFilter() {
 		int days = dateFilter.getSelectionModel().getSelectedIndex();
+		List<String> twitterAccounts = new ArrayList<>();
 
 		switch (days) {
 		case 0:
@@ -491,20 +492,19 @@ public class MainController implements Initializable {
 			Filter.getInstance().defineDateIntervalFromCurrentDate(365);
 			break;
 		}
+
+		ControlCenter.getInstance().setIgnoreService(Service.EMAIL, !emailFilter.isSelected());
+		ControlCenter.getInstance().setIgnoreService(Service.FACEBOOK, !facebookFilter.isSelected());
+		ControlCenter.getInstance().setIgnoreService(Service.TWITTER, !twitterFilter.isSelected());
+
+		for (TwitterAccountBox tab : twitterAccountsFilter.getItems())
+			if (tab.isSelected())
+				twitterAccounts.add(tab.getUsername());
+
+		Filter.getInstance().setFilter(Service.TWITTER, twitterAccounts);
+
 		OtherStaticFunction.refreshGUIWithThreads();
 		addLoadingBox();
-
-//		if (emailFilter.isSelected()) {
-//
-//		}
-//
-//		if (facebookFilter.isSelected()) {
-//
-//		}
-//
-//		if (twitterFilter.isSelected()) {
-//
-//		}
 	}
 
 	/**
