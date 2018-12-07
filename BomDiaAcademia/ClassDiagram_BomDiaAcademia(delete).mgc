@@ -52,7 +52,7 @@
         <Communication destinationClassName="twitter.TwitterFunctions"/>
         <Communication destinationClassName="threads.InformationEntryGatherer"/>
     </Class>
-    <Class name="email.EmailConnection" x="15" y="9">
+    <Class name="email.EmailConnection" x="490" y="-43">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -110,10 +110,12 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Association destinationClassName="email.EmailConnection"
-            endpointName="emailConnection" kind="Simple"/>
+        <Association
+            destinationClassName="entry_objects.InformationEntry"
+            endpointName="currentlyOpened" kind="Simple"/>
         <Communication destinationClassName="entry_objects.TwitterEntry"/>
         <Communication destinationClassName="email.EmailConnection"/>
+        <Communication destinationClassName="entry_objects.FacebookEntry"/>
         <Communication destinationClassName="threads.ThreadPool"/>
         <Communication destinationClassName="gui.PostBox"/>
     </Class>
@@ -144,7 +146,7 @@
         <Communication destinationClassName="threads.InformationEntryGatherer"/>
         <Communication destinationClassName="facebook.FacebookConnection"/>
     </Class>
-    <Class name="entry_objects.TwitterEntry" x="733" y="77">
+    <Class name="entry_objects.TwitterEntry" x="1306" y="-12">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -193,7 +195,7 @@
         <Communication destinationClassName="gui.MainController"/>
         <Communication destinationClassName="threads.InformationEntryGatherer"/>
     </Class>
-    <Class name="entry_objects.FacebookEntry" x="534" y="143">
+    <Class name="entry_objects.FacebookEntry" x="1532" y="-20">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -214,7 +216,7 @@
         <Association destinationClassName="tasks.Task"
             endpointName="tasks" kind="Simple"/>
     </Class>
-    <Class name="entry_objects.InformationEntry" x="584" y="11">
+    <Class name="entry_objects.InformationEntry" x="1606" y="448">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -270,7 +272,7 @@
         <Communication destinationClassName="email.EmailConnection"/>
         <Communication destinationClassName="threads.InformationEntryGatherer"/>
     </Class>
-    <Class name="threads.InformationEntryGatherer" x="587" y="1064">
+    <Class name="threads.InformationEntryGatherer" x="1201" y="898">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -314,7 +316,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Communication destinationClassName="threads.TaskTable"/>
     </Class>
-    <Class name="comparators.DateComparator" x="251" y="13">
+    <Class name="comparators.DateComparator" x="874" y="-22">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -331,7 +333,10 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="email.EmailConnection"/>
         <Communication destinationClassName="other.Service"/>
+        <Communication destinationClassName="other.XMLUserConfiguration"/>
+        <Communication destinationClassName="facebook.FacebookConnection"/>
     </Class>
     <Class name="tasks.ServiceReadTask" x="355" y="734">
         <AttributesDisplayFilter public-accepted="true"
@@ -355,7 +360,7 @@
         <Communication destinationClassName="threads.ThreadPool"/>
         <Communication destinationClassName="other.XMLUserConfiguration"/>
     </Class>
-    <Class name="other.Filter" x="596" y="543">
+    <Class name="other.Filter" x="892" y="58">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -365,7 +370,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Communication destinationClassName="files.ReadAndWriteFile"/>
     </Class>
-    <Class name="gui.PostBox" x="714" y="318">
+    <Class name="gui.PostBox" x="1530" y="1092">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -380,6 +385,7 @@
             endpointName="informationEntry" kind="Simple"/>
         <Communication destinationClassName="entry_objects.TwitterEntry"/>
         <Communication destinationClassName="entry_objects.EmailEntry"/>
+        <Communication destinationClassName="entry_objects.FacebookEntry"/>
         <Communication destinationClassName="entry_objects.InformationEntry"/>
     </Class>
 </ClassDiagram>

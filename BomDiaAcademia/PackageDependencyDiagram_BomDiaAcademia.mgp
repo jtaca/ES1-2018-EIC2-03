@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PackageAnalysis>
-    <Package name="comparators" x="470" y="306">
+    <Package name="comparators" x="1337" y="146">
         <DependencyLink destination="entry_objects"/>
     </Package>
-    <Package name="email" x="513" y="204">
+    <Package name="email" x="1414" y="353">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
         <DependencyLink destination="files"/>
         <DependencyLink destination="comparators"/>
     </Package>
-    <Package name="entry_objects" x="369" y="4">
+    <Package name="entry_objects" x="1054" y="21">
         <DependencyLink destination="other"/>
     </Package>
-    <Package name="facebook" x="369" y="356">
+    <Package name="facebook" x="487" y="409">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
     </Package>
-    <Package name="files" x="709" y="231">
+    <Package name="files" x="383" y="74">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
+        <DependencyLink destination="twitter"/>
+        <DependencyLink destination="facebook"/>
+        <DependencyLink destination="email"/>
     </Package>
-    <Package name="gui" x="232" y="248">
+    <Package name="gui" x="762" y="500">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
         <DependencyLink destination="twitter"/>
@@ -30,24 +33,27 @@
         <DependencyLink destination="email"/>
         <DependencyLink destination="tasks"/>
     </Package>
-    <Package name="jUnitTests" x="90" y="34">
+    <Package name="jUnitTests" x="664" y="254">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
         <DependencyLink destination="twitter"/>
+        <DependencyLink destination="facebook"/>
         <DependencyLink destination="files"/>
         <DependencyLink destination="threads"/>
         <DependencyLink destination="gui"/>
         <DependencyLink destination="email"/>
         <DependencyLink destination="tasks"/>
     </Package>
-    <Package name="other" x="630" y="321">
+    <Package name="other" x="617" y="21">
+        <DependencyLink destination="twitter"/>
+        <DependencyLink destination="facebook"/>
         <DependencyLink destination="files"/>
         <DependencyLink destination="threads"/>
         <DependencyLink destination="email"/>
         <DependencyLink destination="tasks"/>
     </Package>
     <Package name="res" x="10" y="8"/>
-    <Package name="tasks" x="211" y="380">
+    <Package name="tasks" x="1053" y="476">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="twitter"/>
         <DependencyLink destination="facebook"/>
@@ -55,14 +61,14 @@
         <DependencyLink destination="gui"/>
         <DependencyLink destination="email"/>
     </Package>
-    <Package name="threads" x="532" y="399">
+    <Package name="threads" x="864" y="88">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
         <DependencyLink destination="tasks"/>
         <DependencyLink destination="email"/>
         <DependencyLink destination="comparators"/>
     </Package>
-    <Package name="twitter" x="43" y="345">
+    <Package name="twitter" x="156" y="494">
         <DependencyLink destination="entry_objects"/>
         <DependencyLink destination="other"/>
         <DependencyLink destination="files"/>
