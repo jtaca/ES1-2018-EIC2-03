@@ -16,6 +16,7 @@ import BDA.email.EmailConnection;
 import BDA.facebook.FacebookConnection;
 import BDA.files.ReadAndWriteXMLFile;
 import BDA.other.ControlCenter;
+import BDA.other.Service;
 import BDA.other.XMLUserConfiguration;
 import BDA.twitter.TwitterConnection;
 
@@ -289,5 +290,25 @@ public class ControlCenterTest {
 		assertTrue(actual_list.isEmpty());
 	}
 	
+	@Test
+	public void testSetAndGetIgnoreServiceEmail() {
+		ControlCenter.getInstance().setIgnoreService(Service.EMAIL, true);
+		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.EMAIL);
+		assertTrue(actual_boolean);
+	}
+	
+	@Test
+	public void testSetAndGetIgnoreServiceTwitter() {
+		ControlCenter.getInstance().setIgnoreService(Service.TWITTER, true);
+		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.TWITTER);
+		assertTrue(actual_boolean);
+	}
+	
+	@Test
+	public void testSetAndGetIgnoreServiceFacebook() {
+		ControlCenter.getInstance().setIgnoreService(Service.FACEBOOK, true);
+		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.FACEBOOK);
+		assertTrue(actual_boolean);
+	}
 
 }

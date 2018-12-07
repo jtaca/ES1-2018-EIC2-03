@@ -345,7 +345,6 @@ public class EmailConnection implements BDA.interfaces.ServiceInstance {
 			msg.setText(message);
 			
 			transport = mailSession.getTransport("smtp");
-			System.out.println("Vou errar aqui!");
 //			Transport.send(msg, msg.getAllRecipients());
 			transport.connect(host, username, password);
 			transport.sendMessage(msg, msg.getAllRecipients());
