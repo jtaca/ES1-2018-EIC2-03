@@ -15,22 +15,54 @@ import other.Service;
  * @author Joao Aparicio
  * @version 3.0
  */
-public class FacebookEntry implements InformationEntry { //
+public class FacebookEntry implements InformationEntry { 
+ /** The post. */
+ //
 	private Post post;
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The date. */
 	private Date date;
+	
+	/** The Attachment title. */
 	private String AttachmentTitle;
+	
+	/** The Attachment url. */
 	private String AttachmentUrl;
+	
+	/** The Attachment description. */
 	private String AttachmentDescription;
+	
+	/** The Attachment media. */
 	private Media AttachmentMedia;
+	
+	/** The Message. */
 	private String Message;
+	
+	/** The id. */
 	private String id;
+	
+	/** The Description. */
 	private String Description;
+	
+	/** The Picture. */
 	private String Picture;
+	
+	/** The Like count. */
 	private Long LikeCount;
+	
+	/** The Comments. */
 	private Comments Comments;
+	
+	/** The Comment count. */
 	private Object CommentCount;
+	
+	/** The profile image url. */
 	private String profileImageUrl;
+	
+	/** The Author. */
 	private String Author; 
 	
 	
@@ -38,7 +70,12 @@ public class FacebookEntry implements InformationEntry { //
 	
 	
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @param post the post
+	 * @param date the date
+	 * @param profileImageUrl the profile image url
+	 * @param Author the author
 	 */
 	public FacebookEntry(Post post, Date date, String profileImageUrl, String Author) {
 		this.post = post;
@@ -159,8 +196,10 @@ public class FacebookEntry implements InformationEntry { //
 //	}
 
 	/**
-	 * getter for the post (it contains most of the information needed)
-	 */
+ * getter for the post (it contains most of the information needed).
+ *
+ * @return the post
+ */
 	public Post getPost() {
 		return post;
 	}
@@ -169,7 +208,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter for the profile image of the page
+	 * getter for the profile image of the page.
+	 *
+	 * @return the profile image url
 	 */
 	public String getProfileImageUrl() {
 		return profileImageUrl;
@@ -179,7 +220,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter for the post author
+	 * getter for the post author.
+	 *
+	 * @return the author
 	 */
 	public String getAuthor() {
 		return Author;
@@ -189,7 +232,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * Shows the attributes and their content
+	 * Shows the attributes and their content.
+	 *
+	 * @return the string
 	 */
 	@Override
 	public String toString() {
@@ -203,7 +248,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the title on the Attachments if there are any
+	 * getter of the title on the Attachments if there are any.
+	 *
+	 * @return the attachment title
 	 */
 	public String getAttachmentTitle() {
 		return AttachmentTitle;
@@ -212,7 +259,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the Attachments if there are any
+	 * getter of the Attachments if there are any.
+	 *
+	 * @return the attachment url
 	 */
 	public String getAttachmentUrl() {
 		return AttachmentUrl;
@@ -221,7 +270,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the description on the Attachments if there are any
+	 * getter of the description on the Attachments if there are any.
+	 *
+	 * @return the attachment description
 	 */
 	public String getAttachmentDescription() {
 		return AttachmentDescription;
@@ -230,7 +281,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the media on the Attachments if there are any
+	 * getter of the media on the Attachments if there are any.
+	 *
+	 * @return the attachment media
 	 */
 	public Media getAttachmentMedia() {
 		return AttachmentMedia;
@@ -239,7 +292,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the message on the post
+	 * getter of the message on the post.
+	 *
+	 * @return the message
 	 */
 	public String getMessage() {
 		return Message;
@@ -248,7 +303,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the id of the post
+	 * getter of the id of the post.
+	 *
+	 * @return the id
 	 */
 	public String getId() {
 		return id;
@@ -257,7 +314,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the description on the post
+	 * getter of the description on the post.
+	 *
+	 * @return the description
 	 */
 	public String getDescription() {
 		return this.Description;
@@ -266,7 +325,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the picture on the post
+	 * getter of the picture on the post.
+	 *
+	 * @return the picture
 	 */
 	public String getPicture() {
 		return this.Picture;
@@ -275,7 +336,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the number of likes on the post
+	 * getter of the number of likes on the post.
+	 *
+	 * @return the like count
 	 */
 	public Long getLikeCount() {
 		return LikeCount;
@@ -284,7 +347,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the comments on the post
+	 * getter of the comments on the post.
+	 *
+	 * @return the comments
 	 */
 	public Comments getComments() {
 		return Comments;
@@ -293,7 +358,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the number of comments on the post
+	 * getter of the number of comments on the post.
+	 *
+	 * @return the comment count
 	 */
 	public Object getCommentCount() {
 		return CommentCount;
@@ -302,7 +369,9 @@ public class FacebookEntry implements InformationEntry { //
 
 
 	/**
-	 * getter of the date on the post
+	 * getter of the date on the post.
+	 *
+	 * @return the date
 	 */
 	public Date getDate() {
 		return date;

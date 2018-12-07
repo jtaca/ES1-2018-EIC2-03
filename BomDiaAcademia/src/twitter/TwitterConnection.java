@@ -1,6 +1,5 @@
 package twitter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -8,12 +7,10 @@ import java.util.List;
 
 import entry_objects.InformationEntry;
 import entry_objects.TwitterEntry;
-import files.ReadAndWriteXMLFile;
 import interfaces.ServiceInstance;
 import other.Filter;
 import other.Service;
 import other.XMLUserConfiguration;
-import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
@@ -233,6 +230,7 @@ public class TwitterConnection implements ServiceInstance {
 				StatusUpdate statusUpdate = new StatusUpdate(comment);
 				statusUpdate.inReplyToStatusId(tweet.getId()); 
 				Status status = twitter.updateStatus(statusUpdate);
+				return true;
 			} catch (TwitterException e) {
 				return false;
 			}
@@ -288,6 +286,7 @@ public class TwitterConnection implements ServiceInstance {
 		if(t!=null){
 			try {
 				t.destroyStatus(tweet.getId());
+				return true;
 			} catch (TwitterException e) {
 				return false;
 			}
