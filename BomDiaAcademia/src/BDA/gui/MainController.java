@@ -20,10 +20,13 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.scene.control.skin.ListViewSkin;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 
+import BDA.email.EmailConnection;
 import BDA.entry_objects.EmailEntry;
 import BDA.entry_objects.FacebookEntry;
 import BDA.entry_objects.InformationEntry;
 import BDA.entry_objects.TwitterEntry;
+import BDA.facebook.FacebookConnection;
+import BDA.other.ControlCenter;
 import BDA.other.Filter;
 import BDA.other.Service;
 import BDA.threads.ThreadPool;
@@ -124,10 +127,6 @@ public class MainController implements Initializable {
 	/** The remove filter. */
 	@FXML
 	private JFXButton removeFilter;
-
-	/** The email filter configurations. */
-	@FXML
-	private TitledPane emailFilterConfigurations;
 
 	/** The twitter filter configurations. */
 	@FXML
@@ -231,6 +230,15 @@ public class MainController implements Initializable {
 	@FXML
 	private JFXTextField twitterPIN;
 
+	@FXML
+	private JFXButton facebookLoginButton;
+	
+	@FXML
+	private JFXTextField facebookToken;
+
+	@FXML
+	private HBox boxToken;
+
 	// ------------ Email writing panel ------------
 	/** The email pane. */
 	@FXML
@@ -299,12 +307,11 @@ public class MainController implements Initializable {
 		themeList.setValue("Laranja");
 		themeList.getSelectionModel().selectedItemProperty().addListener(e -> setTheme());
 
-		dateFilter.getItems().add("Última hora");
 		dateFilter.getItems().add("Hoje");
 		dateFilter.getItems().add("Esta semana");
 		dateFilter.getItems().add("Este mês");
 		dateFilter.getItems().add("Este ano");
-		dateFilter.setValue("Última hora");
+		dateFilter.setValue("Hoje");
 
 		leaveSearch.setVisible(false);
 		leaveSearch.setDisable(true);
@@ -325,8 +332,6 @@ public class MainController implements Initializable {
 		});
 		tweetCounter.textProperty().bind(tweetTextArea.lengthProperty().asString());
 		tweetButton.disableProperty().bind(tweetTextArea.lengthProperty().greaterThan(280));
-		emailFilterConfigurations.disableProperty().bind(emailFilter.selectedProperty().not());
-		twitterFilterConfigurations.disableProperty().bind(twitterFilter.selectedProperty().not());
 		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));
 		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));
 	}
@@ -469,6 +474,17 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void applyFilter() {
+		if (emailFilter.isSelected()) {
+
+		}
+
+		if (facebookFilter.isSelected()) {
+
+		}
+
+		if (twitterFilter.isSelected()) {
+
+		}
 	}
 
 	/**
@@ -695,9 +711,9 @@ public class MainController implements Initializable {
 	private void sendEmail() {
 		if (!emailReceiver.getText().isEmpty() && !emailSubject.getText().isEmpty()
 				&& !emailMessage.getText().isEmpty()) {
-		}
-//			emailConnection.sendEmail(emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
-		else {
+			EmailConnection.sendEmailWithThreads(ControlCenter.getInstance().getCurrentEmailUsed(),
+					emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());
+		} else {
 			FadeTransition errorFade = new FadeTransition(Duration.seconds(1), emailError);
 			emailError.setText("Preencha todos os campos");
 
@@ -755,6 +771,17 @@ public class MainController implements Initializable {
 
 	}
 
+	@FXML
+	private void facebookLogin() {
+		try {
+			Desktop.getDesktop().browse(new URI(FacebookConnection.getLoginlink()));
+			boxToken.setVisible(true);
+			boxToken.setDisable(false);
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Authenticate twitter.
 	 */
@@ -767,6 +794,11 @@ public class MainController implements Initializable {
 		}
 	}
 
+	@FXML
+	private void authenticateFacebook() {
+//		FacebookConnection.
+	}
+	
 	/**
 	 * Consumes event.
 	 *

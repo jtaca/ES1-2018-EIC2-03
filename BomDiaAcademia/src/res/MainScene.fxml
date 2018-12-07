@@ -201,166 +201,6 @@
                   </VBox>
                </children>
             </StackPane>
-            <VBox fx:id="postsSideBar" style="-fx-background-color: ffffff;">
-               <children>
-                  <VBox style="-fx-background-color: ffffff;">
-                     <children>
-                        <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
-                           <children>
-                              <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" promptText="Pesquisar" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="40.0" top="10.0" />
-                                 </HBox.margin>
-                              </JFXTextField>
-                              <JFXButton contentDisplay="CENTER" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#search" prefHeight="30.0" prefWidth="40.0" text=" " translateX="-40.0">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="10.0" />
-                                 </HBox.margin>
-                                 <graphic>
-                                    <FontAwesomeIconView fill="#4d4d4d" glyphName="SEARCH" size="15" />
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <StackPane alignment="TOP_RIGHT">
-                     <children>
-                        <Accordion style="-fx-background-color: ffffff;">
-                          <panes>
-                            <TitledPane id="filterMenu" style="-fx-background-color: ffffff;" text="Abrir filtro">
-                                 <content>
-                                    <VBox spacing="10.0">
-                                       <children>
-                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                             <children>
-                                                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data:" />
-                                                <ChoiceBox fx:id="dateFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" />
-                                                <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                             <children>
-                                                <Label text="Tipos de serviço:" />
-                                                <JFXCheckBox fx:id="emailFilter" text="Email" />
-                                                <JFXCheckBox fx:id="facebookFilter" text="Facebook" />
-                                                <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
-                                             </children>
-                                          </HBox>
-                                          <VBox>
-                                             <children>
-                                                <Accordion>
-                                                  <panes>
-                                                    <TitledPane fx:id="emailFilterConfigurations" text="Configurações de email">
-                                                         <content>
-                                                            <VBox spacing="5.0">
-                                                               <children>
-                                                                  <Label text="Esconder emails de:" />
-                                                                  <JFXListView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="330.0" />
-                                                                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                                                                     <children>
-                                                                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="180.0" />
-                                                                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
-                                                                        <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: e8e8e8;" text="Remover" />
-                                                                     </children>
-                                                                  </HBox>
-                                                               </children>
-                                                            </VBox>
-                                                         </content>
-                                                      </TitledPane>
-                                                    <TitledPane fx:id="twitterFilterConfigurations" text="Configurações de Twitter">
-                                                         <content>
-                                                            <VBox>
-                                                               <children>
-                                                                  <Label text="Apresentar tweets de:" />
-                                                                  <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="330.0" />
-                                                               </children>
-                                                            </VBox>
-                                                         </content>
-                                                      </TitledPane>
-                                                  </panes>
-                                                </Accordion>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </TitledPane>
-                          </panes>
-                        </Accordion>
-                        <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa">
-                           <StackPane.margin>
-                              <Insets right="6.0" />
-                           </StackPane.margin></Hyperlink>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="30.0" right="30.0" />
-                     </VBox.margin>
-                  </StackPane>
-                  <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
-               </children>
-            </VBox>
-            <ScrollPane fx:id="settings" style="-fx-background-color: transparent; -fx-background: ffffff;">
-               <content>
-                  <VBox style="-fx-background-color: ffffff;">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="20.0">
-                           <children>
-                              <Label text="Theme:" />
-                              <ChoiceBox fx:id="themeList" prefWidth="150.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets left="40.0" top="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="Emails:">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
-                              <HBox spacing="5.0">
-                                 <children>
-                                    <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
-                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="40.0" right="40.0" top="20.0" />
-                           </VBox.margin>
-                        </VBox>
-                        <VBox spacing="10.0">
-                           <children>
-                              <JFXButton fx:id="twitterLoginButton" contentDisplay="RIGHT" maxWidth="-Infinity" minWidth="-Infinity" onAction="#twitterLogin" prefWidth="200.0" style="-fx-background-color: #1da1f2;" text="Iniciar Sessão" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-                                 <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="TWITTER" size="20" />
-                                 </graphic>
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                              <HBox fx:id="boxPIN" disable="true" visible="false">
-                                 <children>
-                                    <JFXTextField fx:id="twitterPIN" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="PIN" />
-                                    <JFXButton maxWidth="-Infinity" minWidth="-Infinity" onAction="#authenticateTwitter" prefWidth="50.0" style="-fx-background-color: e8e8e8;" text="OK" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="40.0" right="40.0" top="20.0" />
-                           </VBox.margin>
-                        </VBox>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
             <StackPane fx:id="postLayer" onMouseClicked="#closePost" style="-fx-background-color: rgba(0, 0, 0, .5);">
                <children>
                   <VBox fx:id="postContainer" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#consumeEvent" prefWidth="550.0" style="-fx-background-color: ffffff;">
@@ -468,6 +308,177 @@
                   </VBox>
                </children>
             </StackPane>
+            <VBox fx:id="postsSideBar" style="-fx-background-color: ffffff;">
+               <children>
+                  <VBox style="-fx-background-color: ffffff;">
+                     <children>
+                        <HBox alignment="CENTER" style="-fx-background-color: ffffff;">
+                           <children>
+                              <JFXTextField fx:id="searchBar" focusColor="#4d4d4d" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" promptText="Pesquisar" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <JFXButton contentDisplay="CENTER" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#search" prefHeight="30.0" prefWidth="40.0" text=" " translateX="-40.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#4d4d4d" glyphName="SEARCH" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <StackPane alignment="TOP_RIGHT">
+                     <children>
+                        <Accordion style="-fx-background-color: ffffff;">
+                          <panes>
+                            <TitledPane id="filterMenu" style="-fx-background-color: ffffff;" text="Abrir filtro">
+                                 <content>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                             <children>
+                                                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Data:" />
+                                                <ChoiceBox fx:id="dateFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="120.0" />
+                                                <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#applyFilter" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: e8e8e8;" text="Aplicar filtro" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                             <children>
+                                                <Label text="Tipos de serviço:" />
+                                                <JFXCheckBox fx:id="emailFilter" text="Email" />
+                                                <JFXCheckBox fx:id="facebookFilter" text="Facebook" />
+                                                <JFXCheckBox fx:id="twitterFilter" text="Twitter" />
+                                             </children>
+                                          </HBox>
+                                          <VBox>
+                                             <children>
+                                                <Accordion>
+                                                  <panes>
+                                                    <TitledPane fx:id="twitterFilterConfigurations" text="Configurações de Twitter">
+                                                         <content>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Apresentar tweets de:" />
+                                                                  <JFXListView fx:id="twitterAccountsFilter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="330.0" />
+                                                               </children>
+                                                            </VBox>
+                                                         </content>
+                                                      </TitledPane>
+                                                  </panes>
+                                                </Accordion>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </TitledPane>
+                          </panes>
+                        </Accordion>
+                        <Hyperlink fx:id="leaveSearch" maxHeight="-Infinity" minHeight="-Infinity" onAction="#leaveSearch" prefHeight="20.0" text="Sair da pesquisa">
+                           <StackPane.margin>
+                              <Insets right="6.0" />
+                           </StackPane.margin></Hyperlink>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="30.0" right="30.0" />
+                     </VBox.margin>
+                  </StackPane>
+                  <JFXListView fx:id="posts" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <ScrollPane fx:id="settings" style="-fx-background-color: transparent; -fx-background: ffffff;">
+               <content>
+                  <VBox style="-fx-background-color: ffffff;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <children>
+                              <Label text="Theme:" />
+                              <ChoiceBox fx:id="themeList" prefWidth="150.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Emails:">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Label>
+                              <JFXListView fx:id="emailList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="410.0" />
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <TextField fx:id="newEmail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Adicionar" />
+                                    <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeEmail" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: e8e8e8;" text="Remover" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <HBox>
+                           <children>
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <JFXButton fx:id="twitterLoginButton" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#twitterLogin" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #1da1f2;" text="Iniciar Sessão" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="TWITTER" size="20" />
+                                       </graphic>
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <HBox fx:id="boxPIN" disable="true" visible="false">
+                                       <children>
+                                          <JFXTextField fx:id="twitterPIN" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="PIN" />
+                                          <JFXButton maxWidth="-Infinity" minWidth="-Infinity" onAction="#authenticateTwitter" prefWidth="50.0" style="-fx-background-color: e8e8e8;" text="OK" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="10.0">
+                                 <children>
+                                    <JFXButton fx:id="facebookLoginButton" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#facebookLogin" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #3b5998;" text="Iniciar Sessão" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" glyphName="FACEBOOK" size="16" />
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </JFXButton>
+                                    <HBox fx:id="boxToken" disable="true" prefHeight="100.0" prefWidth="200.0" visible="false">
+                                       <children>
+                                          <JFXTextField fx:id="facebookToken" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" promptText="Token" />
+                                          <JFXButton maxWidth="-Infinity" minWidth="-Infinity" onAction="#authenticateFacebook" prefWidth="50.0" style="-fx-background-color: e8e8e8;" text="OK" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="40.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="40.0" right="40.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </StackPane>
    </children>

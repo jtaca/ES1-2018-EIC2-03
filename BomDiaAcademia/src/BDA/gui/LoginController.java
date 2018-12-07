@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXTextField;
 import BDA.email.EmailConnection;
 import BDA.facebook.FacebookConnection;
 import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.ControlCenter;
 import BDA.other.OtherStaticFunction;
 import BDA.other.Service;
 import BDA.other.XMLUserConfiguration;
@@ -34,6 +35,7 @@ import javafx.util.Duration;
 
 /**
  * The Class LoginController handles the user interaction with the GUI.
+ * 
  * @author Rostislav Andreev
  * @version 2.0
  */
@@ -124,7 +126,7 @@ public class LoginController implements Initializable {
 					} catch (Exception e) {
 						System.out.println("Ficheiro sem informacao twitter");
 					}
-					
+
 					try {
 						facebook = ReadAndWriteXMLFile.ReadConfigXMLFile().get(2);
 					} catch (Exception e) {
@@ -141,9 +143,10 @@ public class LoginController implements Initializable {
 							twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
 									TwitterConnection.getKeys()[0], TwitterConnection.getKeys()[1],
 									TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);
-						
+
 						if (facebook == null)
-							facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK, FacebookConnection.getAccessToken2());
+							facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK,
+									FacebookConnection.getAccessToken2());
 
 //					if (rememberMe.isSelected()) {
 						user_config_list.add(user);
@@ -156,6 +159,8 @@ public class LoginController implements Initializable {
 
 //					outlook = new EmailConnection(user.getUsername(), user.getPassword());
 
+						ControlCenter.getInstance()
+								.setCurrentEmailUsed(new EmailConnection(user.getUsername(), user.getPassword()));
 						OtherStaticFunction.refreshGUIWithThreads();
 					} catch (IOException e) {
 						e.printStackTrace();
