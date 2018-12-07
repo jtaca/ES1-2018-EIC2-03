@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ThreadPoolTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ThreadPoolTest.java</span></div><h1>ThreadPoolTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ThreadPoolTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ThreadPoolTest.java</span></div><h1>ThreadPoolTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +12,16 @@ import org.junit.Test;
 
 import com.jfoenix.controls.JFXListView;
 
-import email.EmailConnection;
-import entry_objects.InformationEntry;
-import files.ReadAndWriteXMLFile;
-import gui.MainController;
-import gui.MainWindow;
-import gui.PostBox;
-import other.OtherStaticFunction;
-import other.XMLUserConfiguration;
-import tasks.EmailReaderTask;
-import tasks.ServiceReadTask;
-import threads.InformationEntryGatherer;
-import threads.ThreadPool;
+import BDA.email.EmailConnection;
+import BDA.entry_objects.InformationEntry;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.gui.MainController;
+import BDA.gui.MainWindow;
+import BDA.gui.PostBox;
+import BDA.other.XMLUserConfiguration;
+import BDA.tasks.EmailReaderTask;
+import BDA.tasks.ServiceReadTask;
+import BDA.threads.ThreadPool;
 
 <span class="fc" id="L26">public class ThreadPoolTest {</span>
 	
@@ -84,4 +84,4 @@ import threads.ThreadPool;
 <span class="fc" id="L84">	}</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

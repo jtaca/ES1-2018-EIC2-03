@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterPostReaderTask.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.tasks</a> &gt; <span class="el_source">TwitterPostReaderTask.java</span></div><h1>TwitterPostReaderTask.java</h1><pre class="source lang-java linenums">package BDA.tasks;
+
+import java.util.List;
+
+import BDA.entry_objects.InformationEntry;
+import BDA.threads.InformationEntryGatherer;
+import BDA.twitter.TwitterConnection;
+
+/**
+ * The Class TwitterPostReaderTask.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+public class TwitterPostReaderTask implements ServiceReadTask { //
+	
+	
+	private InformationEntryGatherer barrier;
+	
+	/*
+	private TwitterFunctions twitterConnection;
+	
+	public TwitterPostReaderTask(TwitterFunctions twitterConnection) {
+		this.twitterConnection = twitterConnection;
+	}
+	*/
+	
+<span class="fc" id="L27">	public TwitterPostReaderTask() {</span>
+<span class="fc" id="L28">	}</span>
+	
+	@Override
+	public void setBarrier(InformationEntryGatherer barrier) {
+<span class="fc" id="L32">		this.barrier = barrier;</span>
+<span class="fc" id="L33">	}</span>
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run() {
+		List&lt;InformationEntry&gt; information_entry_list; // Where the results should go to.
+//		information_entry_list = twitterConnection.getTweetsFiltered();
+<span class="fc" id="L42">		information_entry_list = TwitterConnection.getInstance().getTweetsFiltered();</span>
+		// Place the result on a simple barrier in order for the UI to load all the news at once, after organizing them by date.
+<span class="fc" id="L44">		barrier.addResult(information_entry_list);</span>
+<span class="fc" id="L45">	}</span>
+	
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

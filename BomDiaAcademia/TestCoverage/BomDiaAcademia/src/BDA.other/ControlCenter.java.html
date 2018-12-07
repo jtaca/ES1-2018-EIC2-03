@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ControlCenter.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.other</a> &gt; <span class="el_source">ControlCenter.java</span></div><h1>ControlCenter.java</h1><pre class="source lang-java linenums">package BDA.other;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import BDA.email.EmailConnection;
+import BDA.facebook.FacebookConnection;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.interfaces.ServiceInstance;
+import BDA.twitter.TwitterConnection;
+import BDA.other.Service;
+
+/**
+ * The Class ControlCenter.
+ */
+public class ControlCenter {
+	
+	/** The email list. */
+<span class="fc" id="L19">	private List&lt;EmailConnection&gt; emailList = null;</span>
+	
+	/** The current email used. */
+<span class="fc" id="L22">	private EmailConnection currentEmailUsed = null;</span>
+	
+	/** The ignore email. */
+<span class="fc" id="L25">	private boolean ignore_email = false;</span>
+	
+	/** The twitter list. */
+<span class="fc" id="L28">	private List&lt;TwitterConnection&gt; twitterList = null;</span>
+	
+	/** The ignore twitter. */
+<span class="fc" id="L31">	private boolean ignore_twitter = false;</span>
+	
+	/** The facebook list. */
+<span class="fc" id="L34">	private List&lt;FacebookConnection&gt; facebookList = null;</span>
+	
+	/** The ignore facebook. */
+<span class="fc" id="L37">	private boolean ignore_facebook = false;</span>
+	
+	/** The Constant INSTANCE. */
+<span class="fc" id="L40">	private static final ControlCenter INSTANCE = new ControlCenter();</span>
+	
+	/**
+	 * Instantiates a new control center.
+	 */
+<span class="fc" id="L45">	private ControlCenter() {</span>
+<span class="fc" id="L46">	}</span>
+	
+	/**
+	 * Gets the single instance of ControlCenter.
+	 *
+	 * @return single instance of ControlCenter
+	 */
+	public static ControlCenter getInstance() {
+<span class="fc" id="L54">		return INSTANCE;</span>
+	}
+	
+	/**
+	 * Gets the email list.
+	 *
+	 * @return the email list
+	 */
+	public List&lt;EmailConnection&gt; getEmailList() {
+<span class="fc" id="L63">		return emailList;</span>
+	}
+	
+	/**
+	 * Gets the current email used.
+	 *
+	 * @return the current email used
+	 */
+	public EmailConnection getCurrentEmailUsed() {
+<span class="fc" id="L72">		return currentEmailUsed;</span>
+	}
+	
+	
+	/**
+	 * Gets the twitter list.
+	 *
+	 * @return the twitter list
+	 */
+	public List&lt;TwitterConnection&gt; getTwitterList() {
+<span class="fc" id="L82">		return twitterList;</span>
+	}
+	
+	/**
+	 * Gets the facebook list.
+	 *
+	 * @return the facebook list
+	 */
+	public List&lt;FacebookConnection&gt; getFacebookList() {
+<span class="fc" id="L91">		return facebookList;</span>
+	}
+	
+	/**
+	 * Sets the email list.
+	 *
+	 * @param emailList the new email list
+	 */
+	public synchronized void setEmailList(List&lt;EmailConnection&gt; emailList) {
+<span class="fc" id="L100">		this.emailList = emailList;</span>
+<span class="fc" id="L101">	}</span>
+	
+	/**
+	 * Sets the current email used.
+	 *
+	 * @param currentEmailUsed the new current email used
+	 */
+	public synchronized void setCurrentEmailUsed(EmailConnection currentEmailUsed) {
+<span class="fc" id="L109">		this.currentEmailUsed = currentEmailUsed;</span>
+<span class="fc" id="L110">	}</span>
+	
+	
+	/**
+	 * Sets the twitter list.
+	 *
+	 * @param twitterList the new twitter list
+	 */
+	public synchronized void setTwitterList(List&lt;TwitterConnection&gt; twitterList) {
+<span class="fc" id="L119">		this.twitterList = twitterList;</span>
+<span class="fc" id="L120">	}</span>
+	
+	/**
+	 * Sets the facebook list.
+	 *
+	 * @param facebookList the new facebook list
+	 */
+	public synchronized void setFacebookList(List&lt;FacebookConnection&gt; facebookList) {
+<span class="fc" id="L128">		this.facebookList = facebookList;</span>
+<span class="fc" id="L129">	}</span>
+	
+	
+	/**
+	 * Adds the email connection to email list.
+	 *
+	 * @param emailConnection the email connection
+	 */
+	public synchronized void addEmailConnectionToEmailList(EmailConnection emailConnection) {
+<span class="pc bpc" id="L138" title="2 of 4 branches missed.">		if(emailList != null &amp;&amp; !emailList.contains(emailConnection)) {</span>
+			try {
+<span class="fc" id="L140">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(emailConnection);</span>
+<span class="fc" id="L141">				emailList.add(emailConnection);</span>
+<span class="pc" id="L142">			} catch (Exception e) {</span>
+<span class="nc" id="L143">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L146">	}</span>
+	
+	/**
+	 * Adds the email connections to email list.
+	 *
+	 * @param emailConnections the email connections
+	 */
+	public synchronized void addEmailConnectionsToEmailList(List&lt;EmailConnection&gt; emailConnections) {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">		if(emailList != null) {</span>
+<span class="fc" id="L155">			List&lt;ServiceInstance&gt; to_add = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">			for(EmailConnection email : emailConnections) {</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">				if(!emailList.contains(email)) {</span>
+<span class="fc" id="L158">					to_add.add(email);</span>
+				}
+			}
+			try {
+<span class="fc" id="L162">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(to_add);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">				for(ServiceInstance email : to_add) {</span>
+<span class="fc" id="L164">					emailList.add((EmailConnection) email);</span>
+				}
+<span class="pc" id="L166">			} catch (Exception e) {</span>
+<span class="nc" id="L167">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L170">	}</span>
+	
+	/**
+	 * Adds the twitter function to twitter list.
+	 *
+	 * @param twitterFunction the twitter function
+	 */
+	public synchronized void addTwitterFunctionToTwitterList(TwitterConnection twitterFunction) {
+<span class="pc bpc" id="L178" title="2 of 4 branches missed.">		if(twitterList != null &amp;&amp; !twitterList.contains(twitterFunction)) {</span>
+			try {
+<span class="fc" id="L180">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(twitterFunction);</span>
+<span class="fc" id="L181">				twitterList.add(twitterFunction);</span>
+<span class="pc" id="L182">			} catch (Exception e) {</span>
+<span class="nc" id="L183">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L186">	}</span>
+	
+	/**
+	 * Adds the twitter functions to twitter list.
+	 *
+	 * @param twitterFunctions the twitter functions
+	 */
+	public synchronized void addTwitterFunctionsToTwitterList(List&lt;TwitterConnection&gt; twitterFunctions) {
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">		if(twitterList != null) {</span>
+<span class="fc" id="L195">			List&lt;ServiceInstance&gt; to_add = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">			for(TwitterConnection twitter : twitterFunctions) {</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">				if(!twitterList.contains(twitter)) {</span>
+<span class="fc" id="L198">					to_add.add(twitter);</span>
+				}
+			}
+			try {
+<span class="fc" id="L202">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(to_add);</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">				for(ServiceInstance twitter : to_add) {</span>
+<span class="fc" id="L204">					twitterList.add((TwitterConnection) twitter);</span>
+				}
+<span class="pc" id="L206">			} catch (Exception e) {</span>
+<span class="nc" id="L207">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L210">	}</span>
+	
+	/**
+	 * Adds the facebook connection to facebook list.
+	 *
+	 * @param facebookConnection the facebook connection
+	 */
+	public synchronized void addFacebookConnectionToFacebookList(FacebookConnection facebookConnection) {
+<span class="pc bpc" id="L218" title="2 of 4 branches missed.">		if(facebookList != null &amp;&amp; !facebookList.contains(facebookConnection)) {</span>
+			try {
+<span class="fc" id="L220">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(facebookConnection);</span>
+<span class="fc" id="L221">				facebookList.add(facebookConnection);</span>
+<span class="pc" id="L222">			} catch (Exception e) {</span>
+<span class="nc" id="L223">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L226">	}</span>
+	
+	/**
+	 * Adds the facebook connections to facebook list.
+	 *
+	 * @param facebookConnection the facebook connection
+	 */
+	public synchronized void addFacebookConnectionsToFacebookList(List&lt;FacebookConnection&gt; facebookConnection) {
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">		if(facebookList != null) {</span>
+<span class="fc" id="L235">			List&lt;ServiceInstance&gt; to_add = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">			for(FacebookConnection facebook : facebookConnection) {</span>
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">				if(!facebookList.contains(facebook)) {</span>
+<span class="fc" id="L238">					to_add.add(facebook);</span>
+				}
+			}
+			try {
+<span class="fc" id="L242">				ReadAndWriteXMLFile.addServiceInstanceToXMLFile(to_add);</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">				for(ServiceInstance facebook : to_add) {</span>
+<span class="fc" id="L244">					facebookList.add((FacebookConnection) facebook);</span>
+				}
+<span class="pc" id="L246">			} catch (Exception e) {</span>
+<span class="nc" id="L247">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L250">	}</span>
+	
+	/**
+	 * Removes the email connection from email list.
+	 *
+	 * @param emailConnection the email connection
+	 */
+	public synchronized void removeEmailConnectionFromEmailList(EmailConnection emailConnection) {
+<span class="pc bpc" id="L258" title="2 of 4 branches missed.">		if(emailList != null &amp;&amp; emailList.contains(emailConnection)) {</span>
+			try {
+<span class="fc" id="L260">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(emailConnection);</span>
+<span class="fc" id="L261">				emailList.remove(emailConnection);</span>
+<span class="pc" id="L262">			} catch (Exception e) {</span>
+<span class="nc" id="L263">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L266">	}</span>
+	
+	/**
+	 * Removes the email connections from email list.
+	 *
+	 * @param emailConnections the email connections
+	 */
+	public synchronized void removeEmailConnectionsFromEmailList(List&lt;EmailConnection&gt; emailConnections) {
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">		if(emailList != null) {</span>
+<span class="fc" id="L275">			List&lt;ServiceInstance&gt; to_remove = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">			for(EmailConnection email : emailConnections) {</span>
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">				if(emailList.contains(email)) {</span>
+<span class="fc" id="L278">					to_remove.add(email);</span>
+				}
+			}
+			try {
+<span class="fc" id="L282">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(to_remove);</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">				for(ServiceInstance email : to_remove) {</span>
+<span class="fc" id="L284">					emailList.remove(email); // not sure if this works here!</span>
+				}
+<span class="pc" id="L286">			} catch (Exception e) {</span>
+<span class="nc" id="L287">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L290">	}</span>
+	
+	/**
+	 * Removes the twitter function from twitter list.
+	 *
+	 * @param twitterFunction the twitter function
+	 */
+	public synchronized void removeTwitterFunctionFromTwitterList(TwitterConnection twitterFunction) {
+<span class="pc bpc" id="L298" title="2 of 4 branches missed.">		if(twitterList != null &amp;&amp; twitterList.contains(twitterFunction)) {</span>
+			try {
+<span class="fc" id="L300">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(twitterFunction);</span>
+<span class="fc" id="L301">				twitterList.remove(twitterFunction);</span>
+<span class="pc" id="L302">			} catch (Exception e) {</span>
+<span class="nc" id="L303">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L306">	}</span>
+	
+	/**
+	 * Removes the twitter functions from twitter list.
+	 *
+	 * @param twitterFunctions the twitter functions
+	 */
+	public synchronized void removeTwitterFunctionsFromTwitterList(List&lt;TwitterConnection&gt; twitterFunctions) {
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">		if(twitterList != null) {</span>
+<span class="fc" id="L315">			List&lt;ServiceInstance&gt; to_remove = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">			for(TwitterConnection twitter : twitterFunctions) {</span>
+<span class="pc bpc" id="L317" title="1 of 2 branches missed.">				if(twitterList.contains(twitter)) {</span>
+<span class="fc" id="L318">					to_remove.add(twitter);</span>
+				}
+			}
+			try {
+<span class="fc" id="L322">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(to_remove);</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">				for(ServiceInstance twitter : to_remove) {</span>
+<span class="fc" id="L324">					twitterList.remove(twitter); // not sure if this works here!</span>
+				}
+<span class="pc" id="L326">			} catch (Exception e) {</span>
+<span class="nc" id="L327">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L330">	}</span>
+	
+	/**
+	 * Removes the facebook connection from facebook list.
+	 *
+	 * @param facebookConnection the facebook connection
+	 */
+	public synchronized void removeFacebookConnectionFromFacebookList(FacebookConnection facebookConnection) {
+<span class="pc bpc" id="L338" title="2 of 4 branches missed.">		if(facebookList != null &amp;&amp; facebookList.contains(facebookConnection)) {</span>
+			try {
+<span class="fc" id="L340">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(facebookConnection);</span>
+<span class="fc" id="L341">				facebookList.remove(facebookConnection);</span>
+<span class="pc" id="L342">			} catch (Exception e) {</span>
+<span class="nc" id="L343">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L346">	}</span>
+	
+	/**
+	 * Removes the facebook connections from facebook list.
+	 *
+	 * @param facebookConnections the facebook connections
+	 */
+	public synchronized void removeFacebookConnectionsFromFacebookList(List&lt;FacebookConnection&gt; facebookConnections) {
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">		if(facebookList != null) {</span>
+<span class="fc" id="L355">			List&lt;ServiceInstance&gt; to_remove = new ArrayList&lt;ServiceInstance&gt;();</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">			for(FacebookConnection facebook : facebookConnections) {</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">				if(facebookList.contains(facebook)) {</span>
+<span class="fc" id="L358">					to_remove.add(facebook);</span>
+				}
+			}
+			try {
+<span class="fc" id="L362">				ReadAndWriteXMLFile.removeServiceInstanceFromXMLFile(to_remove);</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">				for(ServiceInstance facebook : to_remove) {</span>
+<span class="fc" id="L364">					facebookList.remove(facebook); // not sure if this works here!</span>
+				}
+<span class="pc" id="L366">			} catch (Exception e) {</span>
+<span class="nc" id="L367">				e.printStackTrace();</span>
+			}
+		}
+<span class="fc" id="L370">	}</span>
+	
+	/**
+	 * Sets the ignore service.
+	 *
+	 * @param service the service
+	 * @param ignore the ignore
+	 */
+	public synchronized void setIgnoreService(Service service, boolean ignore) {
+<span class="pc bpc" id="L379" title="1 of 4 branches missed.">		switch (service) {</span>
+			case EMAIL:
+<span class="fc" id="L381">				ignore_email = ignore;</span>
+<span class="fc" id="L382">				break;</span>
+			case TWITTER:
+<span class="fc" id="L384">				ignore_twitter = ignore;</span>
+<span class="fc" id="L385">				break;</span>
+			case FACEBOOK:
+<span class="fc" id="L387">				ignore_facebook = ignore;</span>
+				break;
+		}
+<span class="fc" id="L390">	}</span>
+	
+	/**
+	 * Gets the ignore service.
+	 *
+	 * @param service the service
+	 * @return the ignore service
+	 */
+	public boolean getIgnoreService(Service service) {
+<span class="fc" id="L399">		boolean ignore = false;</span>
+<span class="pc bpc" id="L400" title="1 of 4 branches missed.">		switch (service) {</span>
+			case EMAIL:
+<span class="fc" id="L402">				ignore = ignore_email;</span>
+<span class="fc" id="L403">				break;</span>
+			case TWITTER:
+<span class="fc" id="L405">				ignore = ignore_twitter;</span>
+<span class="fc" id="L406">				break;</span>
+			case FACEBOOK:
+<span class="fc" id="L408">				ignore = ignore_facebook;</span>
+				break;
+		}
+<span class="fc" id="L411">		return ignore;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MainControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">MainControllerTest.java</span></div><h1>MainControllerTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.concurrent.Semaphore;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+
+import entry_objects.EmailEntry;
+import entry_objects.InformationEntry;
+import entry_objects.TwitterEntry;
+import gui.MainController;
+import gui.MainWindow;
+import gui.PostBox;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import twitter.TwitterConnection;
+
+<span class="fc" id="L40">public class MainControllerTest {</span>
+
+	private MainController controller;
+	private Class&lt;? extends MainController&gt; cl;
+
+	@BeforeClass
+	public static void setUpClass() throws InterruptedException {
+<span class="fc" id="L47">		Thread t = new Thread(&quot;MainWindow Test Thread&quot;) {</span>
+			public void run() {
+<span class="nc" id="L49">				MainWindow.main(new String[0]);</span>
+<span class="nc" id="L50">			}</span>
+		};
+
+<span class="fc" id="L53">		t.setDaemon(true);</span>
+<span class="fc" id="L54">		t.start();</span>
+<span class="fc" id="L55">		Thread.sleep(500);</span>
+<span class="fc" id="L56">	}</span>
+
+	@Before
+	public void setup() {
+<span class="fc" id="L60">		controller = MainController.getInstance();</span>
+<span class="fc" id="L61">		cl = controller.getClass();</span>
+<span class="fc" id="L62">	}</span>
+
+	@Test
+	public void testSetTheme() throws Exception {
+<span class="fc" id="L66">		Method setTheme = cl.getDeclaredMethod(&quot;setTheme&quot;);</span>
+<span class="fc" id="L67">		setTheme.setAccessible(true);</span>
+
+<span class="fc" id="L69">		Field themeList = cl.getDeclaredField(&quot;themeList&quot;);</span>
+<span class="fc" id="L70">		Field mainBox = cl.getDeclaredField(&quot;mainBox&quot;);</span>
+<span class="fc" id="L71">		themeList.setAccessible(true);</span>
+<span class="fc" id="L72">		mainBox.setAccessible(true);</span>
+
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L75">		SingleSelectionModel&lt;String&gt; themes = ((ChoiceBox&lt;String&gt;) themeList.get(controller)).getSelectionModel();</span>
+<span class="fc" id="L76">		HBox main = (HBox) mainBox.get(controller);</span>
+<span class="fc" id="L77">		String style = main.getStylesheets().get(0).split(&quot;MainScene&quot;)[1];</span>
+<span class="fc" id="L78">		themes.select(0);</span>
+
+<span class="fc" id="L80">		waitForRunLater(setTheme);</span>
+
+<span class="fc" id="L82">		assertEquals(themes.getSelectedIndex() + &quot;.css&quot;, style);</span>
+<span class="fc" id="L83">	}</span>
+
+	@Test
+	public void testTweetCounterColorRed() throws Exception {
+<span class="fc" id="L87">		Field tweetTextArea = cl.getDeclaredField(&quot;tweetTextArea&quot;);</span>
+<span class="fc" id="L88">		tweetTextArea.setAccessible(true);</span>
+
+<span class="fc" id="L90">		JFXTextArea tweetArea = (JFXTextArea) tweetTextArea.get(controller);</span>
+<span class="fc" id="L91">		String tweet = &quot;&quot;;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		for (int i = 0; i &lt; 280; i++)</span>
+<span class="fc" id="L93">			tweet += &quot;a&quot;;</span>
+
+<span class="fc" id="L95">		tweetArea.setText(tweet);</span>
+<span class="fc" id="L96">	}</span>
+
+	@Test
+	public void testTweetCounterColorBlack() throws Exception {
+<span class="fc" id="L100">		Field tweetTextArea = cl.getDeclaredField(&quot;tweetTextArea&quot;);</span>
+<span class="fc" id="L101">		tweetTextArea.setAccessible(true);</span>
+
+<span class="fc" id="L103">		JFXTextArea tweetArea = (JFXTextArea) tweetTextArea.get(controller);</span>
+<span class="fc" id="L104">		String tweet = &quot;&quot;;</span>
+
+<span class="fc" id="L106">		tweetArea.setText(tweet);</span>
+<span class="fc" id="L107">	}</span>
+
+	@Test
+	public void testWriteEmail() throws Exception {
+<span class="fc" id="L111">		Method writeEmail = cl.getDeclaredMethod(&quot;writeEmail&quot;);</span>
+<span class="fc" id="L112">		writeEmail.setAccessible(true);</span>
+
+<span class="fc" id="L114">		Field centerPane = cl.getDeclaredField(&quot;centerPane&quot;);</span>
+<span class="fc" id="L115">		Field emailPane = cl.getDeclaredField(&quot;emailPane&quot;);</span>
+<span class="fc" id="L116">		centerPane.setAccessible(true);</span>
+<span class="fc" id="L117">		emailPane.setAccessible(true);</span>
+
+<span class="fc" id="L119">		StackPane center = (StackPane) centerPane.get(controller);</span>
+<span class="fc" id="L120">		VBox email = (VBox) emailPane.get(controller);</span>
+
+<span class="fc" id="L122">		waitForRunLater(writeEmail);</span>
+
+<span class="fc" id="L124">		assertEquals(email, center.getChildren().get(center.getChildren().size() - 1));</span>
+<span class="fc" id="L125">	}</span>
+
+	@Test
+	public void testComposeTweet() throws Exception {
+<span class="fc" id="L129">		Method composeTweet = cl.getDeclaredMethod(&quot;composeTweet&quot;);</span>
+<span class="fc" id="L130">		composeTweet.setAccessible(true);</span>
+
+<span class="fc" id="L132">		Field centerPane = cl.getDeclaredField(&quot;centerPane&quot;);</span>
+<span class="fc" id="L133">		Field tweetPane = cl.getDeclaredField(&quot;composeTweet&quot;);</span>
+<span class="fc" id="L134">		centerPane.setAccessible(true);</span>
+<span class="fc" id="L135">		tweetPane.setAccessible(true);</span>
+
+<span class="fc" id="L137">		StackPane center = (StackPane) centerPane.get(controller);</span>
+<span class="fc" id="L138">		StackPane tweet = (StackPane) tweetPane.get(controller);</span>
+
+<span class="fc" id="L140">		waitForRunLater(composeTweet);</span>
+
+<span class="fc" id="L142">		assertEquals(tweet, center.getChildren().get(center.getChildren().size() - 1));</span>
+<span class="fc" id="L143">	}</span>
+
+	@Test
+	public void testShowSettings() throws Exception {
+<span class="fc" id="L147">		Method showSettings = cl.getDeclaredMethod(&quot;showSettings&quot;);</span>
+<span class="fc" id="L148">		showSettings.setAccessible(true);</span>
+
+<span class="fc" id="L150">		Field centerPane = cl.getDeclaredField(&quot;centerPane&quot;);</span>
+<span class="fc" id="L151">		Field settings = cl.getDeclaredField(&quot;settings&quot;);</span>
+<span class="fc" id="L152">		centerPane.setAccessible(true);</span>
+<span class="fc" id="L153">		settings.setAccessible(true);</span>
+
+<span class="fc" id="L155">		StackPane center = (StackPane) centerPane.get(controller);</span>
+<span class="fc" id="L156">		ScrollPane set = (ScrollPane) settings.get(controller);</span>
+
+<span class="fc" id="L158">		waitForRunLater(showSettings);</span>
+
+<span class="fc" id="L160">		assertEquals(set, center.getChildren().get(center.getChildren().size() - 1));</span>
+<span class="fc" id="L161">	}</span>
+
+	@Test
+	public void testSearchNotEmpty() throws Exception {
+<span class="fc" id="L165">		Method search = cl.getDeclaredMethod(&quot;search&quot;);</span>
+<span class="fc" id="L166">		search.setAccessible(true);</span>
+
+<span class="fc" id="L168">		Field searchBar = cl.getDeclaredField(&quot;searchBar&quot;);</span>
+<span class="fc" id="L169">		Field leaveSearch = cl.getDeclaredField(&quot;leaveSearch&quot;);</span>
+<span class="fc" id="L170">		searchBar.setAccessible(true);</span>
+<span class="fc" id="L171">		leaveSearch.setAccessible(true);</span>
+
+<span class="fc" id="L173">		JFXTextField s = (JFXTextField) searchBar.get(controller);</span>
+<span class="fc" id="L174">		Hyperlink ls = (Hyperlink) leaveSearch.get(controller);</span>
+<span class="fc" id="L175">		s.setText(&quot;&quot;);</span>
+
+<span class="fc" id="L177">		waitForRunLater(search);</span>
+
+<span class="nc" id="L179">		assertTrue(ls.isVisible());</span>
+<span class="nc" id="L180">	}</span>
+
+	@Test
+	public void testSearchEmpty() throws Exception {
+<span class="fc" id="L184">		Method search = cl.getDeclaredMethod(&quot;search&quot;);</span>
+<span class="fc" id="L185">		search.setAccessible(true);</span>
+
+<span class="fc" id="L187">		Field searchBar = cl.getDeclaredField(&quot;searchBar&quot;);</span>
+<span class="fc" id="L188">		searchBar.setAccessible(true);</span>
+
+<span class="fc" id="L190">		JFXTextField s = (JFXTextField) searchBar.get(controller);</span>
+<span class="fc" id="L191">		s.setText(&quot;&quot;);</span>
+
+<span class="fc" id="L193">		waitForRunLater(search);</span>
+
+<span class="fc" id="L195">		assertTrue(s.getText().isEmpty());</span>
+<span class="fc" id="L196">	}</span>
+
+	@Test
+	public void testOpenPostEmailEntry() throws Exception {
+<span class="fc" id="L200">		Method openPost = cl.getDeclaredMethod(&quot;openPost&quot;, InformationEntry.class);</span>
+<span class="fc" id="L201">		openPost.setAccessible(true);</span>
+
+<span class="fc" id="L203">		Field authorName = cl.getDeclaredField(&quot;authorName&quot;);</span>
+<span class="fc" id="L204">		Field authorUsername = cl.getDeclaredField(&quot;authorUsername&quot;);</span>
+<span class="fc" id="L205">		Field postText = cl.getDeclaredField(&quot;postText&quot;);</span>
+<span class="fc" id="L206">		authorName.setAccessible(true);</span>
+<span class="fc" id="L207">		authorUsername.setAccessible(true);</span>
+<span class="fc" id="L208">		postText.setAccessible(true);</span>
+
+<span class="fc" id="L210">		EmailEntry email = new EmailEntry(&quot;&quot;, new Date(), &quot;Writer Name&quot;, &quot;Subject&quot;, &quot;Content&quot;);</span>
+<span class="fc" id="L211">		String[] names = email.getWriterName().split(&quot;&lt;&quot;);</span>
+<span class="fc" id="L212">		String author = names[0].trim();</span>
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">		String user = names.length &gt; 1 ? names[1].substring(0, names[1].length() - 1) : names[0];</span>
+<span class="fc" id="L214">		String content = email.getContent().trim();</span>
+<span class="fc" id="L215">		Label name = (Label) authorName.get(controller);</span>
+<span class="fc" id="L216">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="fc" id="L217">		Text postContent = (Text) postText.get(controller);</span>
+
+<span class="fc" id="L219">		waitForRunLater(openPost, email);</span>
+
+<span class="fc" id="L221">		assertEquals(author, name.getText());</span>
+<span class="fc" id="L222">		assertEquals(user, screenName.getText());</span>
+<span class="fc" id="L223">		assertEquals(content, postContent.getText());</span>
+<span class="fc" id="L224">	}</span>
+
+	@Test
+	public void testOpenPostTwitterEntry() throws Exception {
+<span class="fc" id="L228">		Method openPost = cl.getDeclaredMethod(&quot;openPost&quot;, InformationEntry.class);</span>
+<span class="fc" id="L229">		openPost.setAccessible(true);</span>
+
+<span class="fc" id="L231">		Field authorName = cl.getDeclaredField(&quot;authorName&quot;);</span>
+<span class="fc" id="L232">		Field authorUsername = cl.getDeclaredField(&quot;authorUsername&quot;);</span>
+<span class="fc" id="L233">		Field postText = cl.getDeclaredField(&quot;postText&quot;);</span>
+<span class="fc" id="L234">		authorName.setAccessible(true);</span>
+<span class="fc" id="L235">		authorUsername.setAccessible(true);</span>
+<span class="fc" id="L236">		postText.setAccessible(true);</span>
+
+<span class="fc" id="L238">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());</span>
+<span class="fc" id="L239">		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();</span>
+<span class="fc" id="L240">		String user = &quot;@&quot; + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();</span>
+<span class="fc" id="L241">		String content = tweet.getStatus().getRetweetedStatus().getText().trim();</span>
+<span class="fc" id="L242">		Label name = (Label) authorName.get(controller);</span>
+<span class="fc" id="L243">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="fc" id="L244">		Text postContent = (Text) postText.get(controller);</span>
+
+<span class="fc" id="L246">		waitForRunLater(openPost, tweet);</span>
+
+<span class="fc" id="L248">		assertEquals(author, name.getText());</span>
+<span class="fc" id="L249">		assertEquals(user, screenName.getText());</span>
+<span class="fc" id="L250">		assertEquals(content, postContent.getText());</span>
+<span class="fc" id="L251">	}</span>
+
+	@Test
+	public void testOpenPostTwitterEntryWithImage() throws Exception {
+<span class="fc" id="L255">		Method openPost = cl.getDeclaredMethod(&quot;openPost&quot;, InformationEntry.class);</span>
+<span class="fc" id="L256">		openPost.setAccessible(true);</span>
+
+<span class="fc" id="L258">		Field authorName = cl.getDeclaredField(&quot;authorName&quot;);</span>
+<span class="fc" id="L259">		Field authorUsername = cl.getDeclaredField(&quot;authorUsername&quot;);</span>
+<span class="fc" id="L260">		Field postText = cl.getDeclaredField(&quot;postText&quot;);</span>
+<span class="fc" id="L261">		authorName.setAccessible(true);</span>
+<span class="fc" id="L262">		authorUsername.setAccessible(true);</span>
+<span class="fc" id="L263">		postText.setAccessible(true);</span>
+
+<span class="fc" id="L265">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070789437901037568l));</span>
+<span class="fc" id="L266">		String author = tweet.getStatus().getUser().getName();</span>
+<span class="fc" id="L267">		String user = &quot;@&quot; + tweet.getStatus().getUser().getScreenName();</span>
+<span class="fc" id="L268">		String content = tweet.getStatus().getText().trim();</span>
+<span class="fc" id="L269">		Label name = (Label) authorName.get(controller);</span>
+<span class="fc" id="L270">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="fc" id="L271">		Text postContent = (Text) postText.get(controller);</span>
+
+<span class="fc" id="L273">		waitForRunLater(openPost, tweet);</span>
+
+<span class="fc" id="L275">		assertEquals(author, name.getText());</span>
+<span class="fc" id="L276">		assertEquals(user, screenName.getText());</span>
+<span class="fc" id="L277">		assertEquals(content, postContent.getText());</span>
+<span class="fc" id="L278">	}</span>
+
+	@Test
+	public void testOpenPostTwitterEntryWithVideo() throws Exception {
+<span class="fc" id="L282">		Method openPost = cl.getDeclaredMethod(&quot;openPost&quot;, InformationEntry.class);</span>
+<span class="fc" id="L283">		openPost.setAccessible(true);</span>
+
+<span class="fc" id="L285">		Field authorName = cl.getDeclaredField(&quot;authorName&quot;);</span>
+<span class="fc" id="L286">		Field authorUsername = cl.getDeclaredField(&quot;authorUsername&quot;);</span>
+<span class="fc" id="L287">		Field postText = cl.getDeclaredField(&quot;postText&quot;);</span>
+<span class="fc" id="L288">		authorName.setAccessible(true);</span>
+<span class="fc" id="L289">		authorUsername.setAccessible(true);</span>
+<span class="fc" id="L290">		postText.setAccessible(true);</span>
+
+<span class="fc" id="L292">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070789789803139073l));</span>
+<span class="fc" id="L293">		String author = tweet.getStatus().getUser().getName();</span>
+<span class="fc" id="L294">		String user = &quot;@&quot; + tweet.getStatus().getUser().getScreenName();</span>
+<span class="fc" id="L295">		String content = tweet.getStatus().getText().trim();</span>
+<span class="fc" id="L296">		Label name = (Label) authorName.get(controller);</span>
+<span class="fc" id="L297">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="fc" id="L298">		Text postContent = (Text) postText.get(controller);</span>
+
+<span class="fc" id="L300">		waitForRunLater(openPost, tweet);</span>
+
+<span class="fc" id="L302">		assertEquals(author, name.getText());</span>
+<span class="fc" id="L303">		assertEquals(user, screenName.getText());</span>
+<span class="fc" id="L304">		assertEquals(content, postContent.getText());</span>
+<span class="fc" id="L305">	}</span>
+
+	@Test
+	public void testOpenPostTwitterEntryWithGif() throws Exception {
+<span class="fc" id="L309">		Method openPost = cl.getDeclaredMethod(&quot;openPost&quot;, InformationEntry.class);</span>
+<span class="fc" id="L310">		openPost.setAccessible(true);</span>
+
+<span class="fc" id="L312">		Field authorName = cl.getDeclaredField(&quot;authorName&quot;);</span>
+<span class="fc" id="L313">		Field authorUsername = cl.getDeclaredField(&quot;authorUsername&quot;);</span>
+<span class="fc" id="L314">		Field postText = cl.getDeclaredField(&quot;postText&quot;);</span>
+<span class="fc" id="L315">		authorName.setAccessible(true);</span>
+<span class="fc" id="L316">		authorUsername.setAccessible(true);</span>
+<span class="fc" id="L317">		postText.setAccessible(true);</span>
+
+<span class="fc" id="L319">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getStatusById(1070797035593498624l));</span>
+<span class="fc" id="L320">		String author = tweet.getStatus().getUser().getName();</span>
+<span class="fc" id="L321">		String user = &quot;@&quot; + tweet.getStatus().getUser().getScreenName();</span>
+<span class="fc" id="L322">		String content = tweet.getStatus().getText().trim();</span>
+<span class="fc" id="L323">		Label name = (Label) authorName.get(controller);</span>
+<span class="fc" id="L324">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="fc" id="L325">		Text postContent = (Text) postText.get(controller);</span>
+
+<span class="fc" id="L327">		waitForRunLater(openPost, tweet);</span>
+
+<span class="fc" id="L329">		assertEquals(author, name.getText());</span>
+<span class="fc" id="L330">		assertEquals(user, screenName.getText());</span>
+<span class="fc" id="L331">		assertEquals(content, postContent.getText());</span>
+<span class="fc" id="L332">	}</span>
+
+	@Test
+	public void testClearEmail() throws Exception {
+<span class="fc" id="L336">		Method clearEmail = cl.getDeclaredMethod(&quot;clearEmail&quot;);</span>
+<span class="fc" id="L337">		clearEmail.setAccessible(true);</span>
+
+<span class="fc" id="L339">		Field emailReceiver = cl.getDeclaredField(&quot;emailReceiver&quot;);</span>
+<span class="fc" id="L340">		Field emailSubject = cl.getDeclaredField(&quot;emailSubject&quot;);</span>
+<span class="fc" id="L341">		Field emailMessage = cl.getDeclaredField(&quot;emailMessage&quot;);</span>
+<span class="fc" id="L342">		Field emailError = cl.getDeclaredField(&quot;emailError&quot;);</span>
+<span class="fc" id="L343">		emailReceiver.setAccessible(true);</span>
+<span class="fc" id="L344">		emailSubject.setAccessible(true);</span>
+<span class="fc" id="L345">		emailMessage.setAccessible(true);</span>
+<span class="fc" id="L346">		emailError.setAccessible(true);</span>
+
+<span class="fc" id="L348">		waitForRunLater(clearEmail);</span>
+
+<span class="fc" id="L350">		JFXTextField receiver = (JFXTextField) emailReceiver.get(controller);</span>
+<span class="fc" id="L351">		JFXTextField subject = (JFXTextField) emailSubject.get(controller);</span>
+<span class="fc" id="L352">		JFXTextArea message = (JFXTextArea) emailMessage.get(controller);</span>
+<span class="fc" id="L353">		Label error = (Label) emailError.get(controller);</span>
+
+<span class="fc" id="L355">		assertTrue(receiver.getText().isEmpty());</span>
+<span class="fc" id="L356">		assertTrue(subject.getText().isEmpty());</span>
+<span class="fc" id="L357">		assertTrue(message.getText().isEmpty());</span>
+<span class="fc" id="L358">		assertTrue(error.getText().isEmpty());</span>
+<span class="fc" id="L359">	}</span>
+
+	@Test
+	public void testAddEmail() throws Exception {
+<span class="fc" id="L363">		Method addEmail = cl.getDeclaredMethod(&quot;addEmail&quot;);</span>
+<span class="fc" id="L364">		addEmail.setAccessible(true);</span>
+
+<span class="fc" id="L366">		Field emailList = cl.getDeclaredField(&quot;emailList&quot;);</span>
+<span class="fc" id="L367">		Field newEmail = cl.getDeclaredField(&quot;newEmail&quot;);</span>
+<span class="fc" id="L368">		emailList.setAccessible(true);</span>
+<span class="fc" id="L369">		newEmail.setAccessible(true);</span>
+
+<span class="fc" id="L371">		waitForRunLater(addEmail);</span>
+
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L374">		JFXListView&lt;String&gt; listView = (JFXListView&lt;String&gt;) emailList.get(controller);</span>
+<span class="fc" id="L375">		ObservableList&lt;String&gt; emails = listView.getItems();</span>
+<span class="fc" id="L376">		String email = ((TextField) newEmail.get(controller)).getText();</span>
+
+<span class="fc" id="L378">		assertEquals(email, emails.get(emails.size() - 1));</span>
+<span class="fc" id="L379">	}</span>
+
+	@Test
+	public void testRemoveEmail() throws Exception {
+<span class="fc" id="L383">		Method removeEmail = cl.getDeclaredMethod(&quot;removeEmail&quot;);</span>
+<span class="fc" id="L384">		Method addEmail = cl.getDeclaredMethod(&quot;addEmail&quot;);</span>
+<span class="fc" id="L385">		removeEmail.setAccessible(true);</span>
+<span class="fc" id="L386">		addEmail.setAccessible(true);</span>
+
+<span class="fc" id="L388">		Field emailList = cl.getDeclaredField(&quot;emailList&quot;);</span>
+<span class="fc" id="L389">		emailList.setAccessible(true);</span>
+
+<span class="fc" id="L391">		waitForRunLater(addEmail);</span>
+
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L394">		JFXListView&lt;String&gt; listView = (JFXListView&lt;String&gt;) emailList.get(controller);</span>
+<span class="fc" id="L395">		listView.getSelectionModel().select(0);</span>
+
+<span class="fc" id="L397">		int before = listView.getItems().size(), after;</span>
+
+<span class="fc" id="L399">		waitForRunLater(removeEmail);</span>
+
+<span class="fc" id="L401">		after = listView.getItems().size();</span>
+
+<span class="pc bpc" id="L403" title="1 of 2 branches missed.">		assertTrue(after &lt; before);</span>
+<span class="fc" id="L404">	}</span>
+
+	@Test
+	public void testClosePost() throws Exception {
+<span class="fc" id="L408">		Method closePost = cl.getDeclaredMethod(&quot;closePost&quot;);</span>
+<span class="fc" id="L409">		closePost.setAccessible(true);</span>
+
+<span class="fc" id="L411">		Field centerPane = cl.getDeclaredField(&quot;centerPane&quot;);</span>
+<span class="fc" id="L412">		Field postLayer = cl.getDeclaredField(&quot;postLayer&quot;);</span>
+<span class="fc" id="L413">		centerPane.setAccessible(true);</span>
+<span class="fc" id="L414">		postLayer.setAccessible(true);</span>
+
+<span class="fc" id="L416">		StackPane pane = (StackPane) centerPane.get(controller);</span>
+<span class="fc" id="L417">		StackPane post = (StackPane) postLayer.get(controller);</span>
+
+<span class="fc" id="L419">		waitForRunLater(closePost);</span>
+
+<span class="fc" id="L421">		assertEquals(post, pane.getChildren().get(0));</span>
+<span class="fc" id="L422">	}</span>
+
+	@Test
+	public void testSetUsername() throws Exception {
+<span class="fc" id="L426">		Method setUsername = cl.getDeclaredMethod(&quot;setUsername&quot;, String.class);</span>
+<span class="fc" id="L427">		setUsername.setAccessible(true);</span>
+
+<span class="fc" id="L429">		Field username = cl.getDeclaredField(&quot;username&quot;);</span>
+<span class="fc" id="L430">		username.setAccessible(true);</span>
+
+<span class="fc" id="L432">		Label label = (Label) username.get(controller);</span>
+
+<span class="fc" id="L434">		waitForRunLater(setUsername, &quot;Username&quot;);</span>
+
+<span class="fc" id="L436">		assertEquals(&quot;Username&quot;, label.getText());</span>
+<span class="fc" id="L437">	}</span>
+
+	@Test
+	public void testGetPosts() throws Exception {
+<span class="fc" id="L441">		Field postList = cl.getDeclaredField(&quot;posts&quot;);</span>
+<span class="fc" id="L442">		postList.setAccessible(true);</span>
+
+<span class="fc" id="L444">		JFXListView&lt;PostBox&gt; posts = controller.getPosts();</span>
+
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L447">		JFXListView&lt;PostBox&gt; expected = (JFXListView&lt;PostBox&gt;) postList.get(controller);</span>
+
+<span class="fc" id="L449">		assertEquals(expected, posts);</span>
+<span class="fc" id="L450">	}</span>
+
+	public void waitForRunLater(Method method, Object... args) throws Exception {
+<span class="fc" id="L453">		Semaphore semaphore = new Semaphore(0);</span>
+<span class="fc" id="L454">		Platform.runLater(() -&gt; {</span>
+			try {
+<span class="fc" id="L456">				method.invoke(controller, args);</span>
+<span class="pc" id="L457">			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {</span>
+<span class="nc" id="L458">				e.printStackTrace();</span>
+			}
+<span class="fc" id="L460">			semaphore.release();</span>
+<span class="fc" id="L461">		});</span>
+<span class="fc" id="L462">		semaphore.acquire();</span>
+<span class="fc" id="L463">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>

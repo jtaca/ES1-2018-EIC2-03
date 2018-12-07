@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteFileTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ReadAndWriteFileTest.java</span></div><h1>ReadAndWriteFileTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteFileTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ReadAndWriteFileTest.java</span></div><h1>ReadAndWriteFileTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -8,172 +9,182 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import files.ReadAndWriteFile;
-import other.Service;
-import twitter4j.TwitterException;
-import entry_objects.*;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.files.ReadAndWriteFile;
 
-<span class="fc" id="L25">public class ReadAndWriteFileTest {</span>
+<span class="fc" id="L22">public class ReadAndWriteFileTest {</span>
 	
-<span class="fc" id="L27">	private List&lt;String&gt; keyWordsFilterList = null;</span>
+<span class="fc" id="L24">	private List&lt;String&gt; keyWordsFilterList = null;</span>
 	private static final String KEY_WORDS_FILTER_FILE_NAME = &quot;key_words_filter.dat&quot;;
 	public static final String TEST_FILE_NAME = &quot;key_words_filter.dat&quot;;
-<span class="fc" id="L30">	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {&quot;iscte&quot;, &quot;universidade&quot;, &quot;reitoria&quot;, &quot;ista&quot;, &quot;biblioteca&quot;, &quot;cominvestigar&quot;, &quot;tesouraria&quot;};</span>
+<span class="fc" id="L27">	private static final String[] DEFAULT_KEY_WORDS_FILTERS = {&quot;iscte&quot;, &quot;universidade&quot;, &quot;reitoria&quot;, &quot;ista&quot;, &quot;biblioteca&quot;, &quot;cominvestigar&quot;, &quot;tesouraria&quot;};</span>
 
 	
 	@Test
 	public void testSaveListOfInformationEntry() {
 
-<span class="fc" id="L36">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
-<span class="fc" id="L37">		ArrayList&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
-<span class="fc" id="L38">		information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;4&quot;));</span>
+<span class="fc" id="L33">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
+<span class="fc" id="L34">		ArrayList&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
+<span class="fc" id="L35">		information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;4&quot;));</span>
 	
-<span class="fc" id="L40">		ReadAndWriteFile.saveListOfInformationEntry(null, null);</span>
-<span class="fc" id="L41">		ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);</span>
-<span class="fc" id="L42">		ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list); </span>
-<span class="fc" id="L43">		ReadAndWriteFile.saveListOfInformationEntry(&quot;@&quot;, information_entry_list);</span>
-<span class="fc" id="L44">		ReadAndWriteFile.saveListOfInformationEntry(&quot;\n&quot;,null);</span>
+<span class="fc" id="L37">		ReadAndWriteFile.saveListOfInformationEntry(null, null);</span>
+<span class="fc" id="L38">		ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, null);</span>
+<span class="fc" id="L39">		ReadAndWriteFile.saveListOfInformationEntry(null, information_entry_list); </span>
+<span class="fc" id="L40">		ReadAndWriteFile.saveListOfInformationEntry(&quot;@&quot;, information_entry_list);</span>
+<span class="fc" id="L41">		ReadAndWriteFile.saveListOfInformationEntry(&quot;\n&quot;,null);</span>
 		
 		//test sync
-<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
-<span class="fc" id="L48">			Thread tester = new Thread() {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
+<span class="fc" id="L45">			Thread tester = new Thread() {</span>
 				public void run() {
-<span class="fc" id="L50">					ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
-<span class="fc" id="L51">		         }</span>
+<span class="fc" id="L47">					ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
+<span class="fc" id="L48">		         }</span>
 			};
-<span class="fc" id="L53">			tester.start();</span>
-<span class="fc" id="L54">			information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;\n&quot;));</span>
-<span class="fc" id="L55">			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
+<span class="fc" id="L50">			tester.start();</span>
+<span class="fc" id="L51">			information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;\n&quot;));</span>
+<span class="fc" id="L52">			ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
 		}
 		
-<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
-<span class="fc" id="L59">			Thread tester1 = new Thread() {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
+<span class="fc" id="L56">			Thread tester1 = new Thread() {</span>
 				public void run() {
-<span class="fc" id="L61">					ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
-<span class="fc" id="L62">		         }</span>
+<span class="fc" id="L58">					ReadAndWriteFile.saveListOfInformationEntry(TEST_FILE_NAME, information_entry_list);</span>
+<span class="fc" id="L59">		         }</span>
 			};
-<span class="fc" id="L64">			tester1.start();</span>
-<span class="fc" id="L65">			information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;\n&quot;));</span>
-<span class="fc" id="L66">			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);</span>
+<span class="fc" id="L61">			tester1.start();</span>
+<span class="fc" id="L62">			information_entry_list.add(new EmailEntry(&quot;&quot;, new Date(1, 1, 1), &quot;2&quot;, &quot;3&quot;, &quot;\n&quot;));</span>
+<span class="fc" id="L63">			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);</span>
 		}
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L65">	}</span>
 
 	@Test
 	public void testLoadListOfInformationEntry() throws IOException {
-<span class="fc" id="L72">		ArrayList&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
+<span class="fc" id="L69">		ArrayList&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
 		
-<span class="fc" id="L74">		ReadAndWriteFile.loadListOfInformationEntry(null);</span>
-<span class="fc" id="L75">		ReadAndWriteFile.loadListOfInformationEntry(&quot;&quot;);</span>
-<span class="fc" id="L76">		ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);</span>
-<span class="fc" id="L77">		ReadAndWriteFile.loadListOfInformationEntry(&quot;\n&quot;);</span>
+<span class="fc" id="L71">		ReadAndWriteFile.loadListOfInformationEntry(null);</span>
+<span class="fc" id="L72">		ReadAndWriteFile.loadListOfInformationEntry(&quot;&quot;);</span>
+<span class="fc" id="L73">		ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);</span>
+<span class="fc" id="L74">		ReadAndWriteFile.loadListOfInformationEntry(&quot;\n&quot;);</span>
 		
-<span class="fc" id="L79">		ReadAndWriteFile.saveListOfInformationEntry(&quot;NoFile.txt&quot;, information_entry_list);</span>
-<span class="fc" id="L80">		ReadAndWriteFile.loadListOfInformationEntry(&quot;NoFile.txt&quot;);</span>
+<span class="fc" id="L76">		ReadAndWriteFile.saveListOfInformationEntry(&quot;NoFile.txt&quot;, information_entry_list);</span>
+<span class="fc" id="L77">		ReadAndWriteFile.loadListOfInformationEntry(&quot;NoFile.txt&quot;);</span>
 		//ReadAndWriteFile.loadListOfInformationEntry();
 		
-<span class="fc bfc" id="L83" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
-<span class="fc" id="L84">			Thread tester = new Thread() {</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i = 0; i &lt; 40; i++) {</span>
+<span class="fc" id="L81">			Thread tester = new Thread() {</span>
 				public void run() {
 					try {
-<span class="fc" id="L87">						FileOutputStream fos = new FileOutputStream(new File(TEST_FILE_NAME));</span>
-<span class="fc" id="L88">						BufferedOutputStream bos = new BufferedOutputStream(fos);</span>
-<span class="fc" id="L89">						bos.write((byte)797869978); </span>
-<span class="pc" id="L90">					} catch (Exception e) {</span>
-<span class="nc" id="L91">						System.err.println(e);</span>
+<span class="fc" id="L84">						FileOutputStream fos = new FileOutputStream(new File(TEST_FILE_NAME));</span>
+<span class="fc" id="L85">						BufferedOutputStream bos = new BufferedOutputStream(fos);</span>
+<span class="fc" id="L86">						bos.write((byte)797869978); </span>
+<span class="pc" id="L87">					} catch (Exception e) {</span>
+<span class="nc" id="L88">						System.err.println(e);</span>
 					}
 					
-<span class="fc" id="L94">		         }</span>
+<span class="fc" id="L91">		         }</span>
 			};
-<span class="fc" id="L96">			tester.start();</span>
-<span class="fc" id="L97">			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);	</span>
+<span class="fc" id="L93">			tester.start();</span>
+<span class="fc" id="L94">			ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME);	</span>
 		}
 		
 		
 		
-<span class="fc" id="L102">		File file = new File (TEST_FILE_NAME);</span>
-<span class="fc" id="L103">		BufferedWriter out = new BufferedWriter(new FileWriter(file)); </span>
-<span class="fc" id="L104">		out.flush();</span>
-<span class="fc" id="L105">		out.write(&quot;\n&quot;);</span>
-<span class="fc" id="L106">		System.out.println(ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME).toString());</span>
-<span class="fc" id="L107">		out.close();</span>
+<span class="fc" id="L99">		File file = new File (TEST_FILE_NAME);</span>
+<span class="fc" id="L100">		BufferedWriter out = new BufferedWriter(new FileWriter(file)); </span>
+<span class="fc" id="L101">		out.flush();</span>
+<span class="fc" id="L102">		out.write(&quot;\n&quot;);</span>
+<span class="fc" id="L103">		System.out.println(ReadAndWriteFile.loadListOfInformationEntry(TEST_FILE_NAME).toString());</span>
+<span class="fc" id="L104">		out.close();</span>
 		
 		
 		//ReadAndWriteFile.loadListOfInformationEntry((String) );
 		
 		
-<span class="fc" id="L113">		List&lt;InformationEntry&gt; information_entry_list2 = null;</span>
-<span class="fc" id="L114">		Date date = new Date();</span>
-<span class="fc" id="L115">		information_entry_list2 = new ArrayList&lt;InformationEntry&gt;();</span>
-<span class="fc" id="L116">		information_entry_list2.add(new EmailEntry(&quot;&quot;, date, &quot;Person&quot;, &quot;Subject&quot;, &quot;Content&quot;));</span>
+<span class="fc" id="L110">		List&lt;InformationEntry&gt; information_entry_list2 = null;</span>
+<span class="fc" id="L111">		Date date = new Date();</span>
+<span class="fc" id="L112">		information_entry_list2 = new ArrayList&lt;InformationEntry&gt;();</span>
+<span class="fc" id="L113">		information_entry_list2.add(new EmailEntry(&quot;&quot;, date, &quot;Person&quot;, &quot;Subject&quot;, &quot;Content&quot;));</span>
 		
-<span class="fc" id="L118">		ReadAndWriteFile.saveListOfInformationEntry(&quot;emailEntrysTest.dat&quot;, information_entry_list2);</span>
-<span class="fc" id="L119">		ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;);</span>
+<span class="fc" id="L115">		ReadAndWriteFile.saveListOfInformationEntry(&quot;emailEntrysTest.dat&quot;, information_entry_list2);</span>
+<span class="fc" id="L116">		ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;);</span>
 		
-<span class="fc" id="L121">		assertEquals(ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0).getDate(),date);</span>
+<span class="fc" id="L118">		assertEquals(ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0).getDate(),date);</span>
 		
-<span class="fc" id="L123">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getContent().contains(&quot;Content&quot;));</span>
-<span class="fc" id="L124">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getWriterName().contains(&quot;Person&quot;));</span>
-<span class="fc" id="L125">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getSubject().contains(&quot;Subject&quot;));		</span>
+<span class="fc" id="L120">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getContent().contains(&quot;Content&quot;));</span>
+<span class="fc" id="L121">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getWriterName().contains(&quot;Person&quot;));</span>
+<span class="fc" id="L122">		assertTrue(((EmailEntry)ReadAndWriteFile.loadListOfInformationEntry(&quot;emailEntrysTest.dat&quot;).get(0)).getSubject().contains(&quot;Subject&quot;));		</span>
 		
-<span class="fc" id="L127">		System.out.println(ReadAndWriteFile.loadListOfInformationEntry(&quot;nonExistingFile.dat&quot;));</span>
-<span class="fc" id="L128">		assertEquals( ReadAndWriteFile.loadListOfInformationEntry(&quot;nonExistingFile.dat&quot;),new ArrayList&lt;InformationEntry&gt;());</span>
+<span class="fc" id="L124">		System.out.println(ReadAndWriteFile.loadListOfInformationEntry(&quot;nonExistingFile.dat&quot;));</span>
+<span class="fc" id="L125">		assertEquals( ReadAndWriteFile.loadListOfInformationEntry(&quot;nonExistingFile.dat&quot;),new ArrayList&lt;InformationEntry&gt;());</span>
 		
 		
 
 		
-<span class="fc" id="L133">	}</span>
+<span class="fc" id="L130">	}</span>
 
 	@Test
 	public void testSaveListOfFilters() throws IOException {
-<span class="fc" id="L137">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
+<span class="fc" id="L134">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
 		
-<span class="fc" id="L139">		ReadAndWriteFile.saveListOfFilters(null, key_words_filter);</span>
-<span class="fc" id="L140">		File file = new File (TEST_FILE_NAME);</span>
-<span class="fc" id="L141">		BufferedWriter out = new BufferedWriter(new FileWriter(file)); </span>
-<span class="fc" id="L142">		out.write(&quot;TEST_FILE_NAME&quot;);</span>
-<span class="fc" id="L143">		ReadAndWriteFile.saveListOfFilters(TEST_FILE_NAME, key_words_filter);</span>
-<span class="fc" id="L144">		out.write(&quot;TEST_FILE_NAME&quot;);</span>
-<span class="fc" id="L145">		out.close();</span>
+<span class="fc" id="L136">		ReadAndWriteFile.saveListOfFilters(null, key_words_filter);</span>
+<span class="fc" id="L137">		File file = new File (TEST_FILE_NAME);</span>
+<span class="fc" id="L138">		BufferedWriter out = new BufferedWriter(new FileWriter(file)); </span>
+<span class="fc" id="L139">		out.write(&quot;TEST_FILE_NAME&quot;);</span>
+<span class="fc" id="L140">		ReadAndWriteFile.saveListOfFilters(TEST_FILE_NAME, key_words_filter);</span>
+<span class="fc" id="L141">		out.write(&quot;TEST_FILE_NAME&quot;);</span>
+<span class="fc" id="L142">		out.close();</span>
 		
-<span class="fc" id="L147">		FileOutputStream fos = new FileOutputStream(new File(TEST_FILE_NAME));</span>
-<span class="fc" id="L148">		BufferedOutputStream bos = new BufferedOutputStream(fos);</span>
-<span class="fc" id="L149">		bos.write((byte)1); </span>
+<span class="fc" id="L144">		FileOutputStream fos = new FileOutputStream(new File(TEST_FILE_NAME));</span>
+<span class="fc" id="L145">		BufferedOutputStream bos = new BufferedOutputStream(fos);</span>
+<span class="fc" id="L146">		bos.write((byte)1); </span>
 		
 		
-<span class="fc" id="L152">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);</span>
-<span class="fc" id="L153">		ReadAndWriteFile.saveListOfFilters(null, null);</span>
+<span class="fc" id="L149">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, null);</span>
+<span class="fc" id="L150">		ReadAndWriteFile.saveListOfFilters(null, null);</span>
 		
-<span class="fc" id="L155">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);</span>
-<span class="fc" id="L156">		ReadAndWriteFile.saveListOfFilters(&quot;\n&quot;, key_words_filter);</span>
+<span class="fc" id="L152">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);</span>
+<span class="fc" id="L153">		ReadAndWriteFile.saveListOfFilters(&quot;\n&quot;, key_words_filter);</span>
 		
-<span class="fc" id="L158">	}</span>
+<span class="fc" id="L155">	}</span>
 
 	@Test
 	public void testLoadListOfFilters() {
-<span class="fc" id="L162">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
-<span class="fc" id="L163">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);</span>
-<span class="fc" id="L164">		List&lt;String&gt; key_words_filter1 = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
-<span class="fc" id="L165">		assertEquals(key_words_filter, key_words_filter1);</span>
+<span class="fc" id="L159">		List&lt;String&gt; key_words_filter = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
+<span class="fc" id="L160">		ReadAndWriteFile.saveListOfFilters(KEY_WORDS_FILTER_FILE_NAME, key_words_filter);</span>
+<span class="fc" id="L161">		List&lt;String&gt; key_words_filter1 = ReadAndWriteFile.loadListOfFilters(KEY_WORDS_FILTER_FILE_NAME);</span>
+<span class="fc" id="L162">		assertEquals(key_words_filter, key_words_filter1);</span>
 		
-<span class="fc" id="L167">		ReadAndWriteFile.loadListOfFilters(TEST_FILE_NAME);</span>
-<span class="fc" id="L168">		ReadAndWriteFile.loadListOfFilters(&quot;&quot;);</span>
-<span class="fc" id="L169">		ReadAndWriteFile.saveListOfFilters(&quot;NoFile.txt&quot;, key_words_filter);</span>
-<span class="fc" id="L170">		ReadAndWriteFile.loadListOfFilters(&quot;NoFile.txt&quot;);</span>
-<span class="fc" id="L171">		ReadAndWriteFile.loadListOfFilters(null);</span>
+<span class="fc" id="L164">		ReadAndWriteFile.loadListOfFilters(TEST_FILE_NAME);</span>
+<span class="fc" id="L165">		ReadAndWriteFile.loadListOfFilters(&quot;&quot;);</span>
+<span class="fc" id="L166">		ReadAndWriteFile.saveListOfFilters(&quot;NoFile.txt&quot;, key_words_filter);</span>
+<span class="fc" id="L167">		ReadAndWriteFile.loadListOfFilters(&quot;NoFile.txt&quot;);</span>
+<span class="fc" id="L168">		ReadAndWriteFile.loadListOfFilters(null);</span>
 		
-<span class="fc" id="L173">	}</span>
+		try{  		
+<span class="fc" id="L171">    		File file = new File(&quot;NoFile.txt&quot;);</span>
+        	
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">    		if(file.delete()){</span>
+<span class="fc" id="L174">    			System.out.println(file.getName() + &quot; is deleted!&quot;);</span>
+<span class="fc" id="L175">    		}else{</span>
+<span class="nc" id="L176">    			System.out.println(&quot;Delete operation is failed.&quot;);</span>
+    		}   
+<span class="nc" id="L178">    	}catch(Exception e){</span>
+<span class="nc" id="L179">    		e.printStackTrace();</span>
+    		
+    	}
+<span class="fc" id="L182">	}</span>
+		
+		
 	
 	
 
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

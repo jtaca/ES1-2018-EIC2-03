@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TaskTable.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.threads</a> &gt; <span class="el_source">TaskTable.java</span></div><h1>TaskTable.java</h1><pre class="source lang-java linenums">package BDA.threads;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import BDA.tasks.Task;
+
+/**
+ * The Class TaskTable.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+public class TaskTable { //
+	
+	/** The tasks. */
+<span class="fc" id="L16">	private List&lt;Task&gt; tasks = new ArrayList&lt;Task&gt;(); // Blocking Queue</span>
+	
+	/** The Constant INSTANCE. */
+<span class="fc" id="L19">	private static final TaskTable INSTANCE = new TaskTable();</span>
+	
+	/**
+	 * Instantiates a new task table.
+	 */
+<span class="fc" id="L24">	private TaskTable() {</span>
+<span class="fc" id="L25">	}</span>
+	
+	/**
+	 * Gets the single instance of TaskTable.
+	 *
+	 * @return single instance of TaskTable
+	 */
+	public static TaskTable getInstance() {
+<span class="fc" id="L33">		return INSTANCE;</span>
+	}
+	
+	/**
+	 * Put task.
+	 *
+	 * @param task the task
+	 */
+	public synchronized void putTask(Task task) {
+<span class="fc" id="L42">		tasks.add(task);</span>
+<span class="fc" id="L43">		notify(); // Tinha notifyAll();</span>
+<span class="fc" id="L44">	}</span>
+	
+	/**
+	 * Gets the task.
+	 *
+	 * @return the task
+	 * @throws InterruptedException the interrupted exception
+	 */
+	public synchronized Task getTask() throws InterruptedException {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		while(tasks.size() == 0) {</span>
+<span class="fc" id="L54">			wait();</span>
+		}
+<span class="fc" id="L56">		Task task = tasks.remove(0);</span>
+<span class="fc" id="L57">		return task;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

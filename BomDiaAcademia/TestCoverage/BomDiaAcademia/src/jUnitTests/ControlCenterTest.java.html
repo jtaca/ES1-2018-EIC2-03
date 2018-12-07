@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ControlCenterTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ControlCenterTest.java</span></div><h1>ControlCenterTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ControlCenterTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ControlCenterTest.java</span></div><h1>ControlCenterTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,286 +12,304 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import email.EmailConnection;
-import facebook.FacebookConnection;
-import files.ReadAndWriteXMLFile;
-import other.ControlCenter;
-import other.XMLUserConfiguration;
-import tasks.EmailReaderTask;
-import tasks.FacebookPostReaderTask;
-import tasks.TwitterPostReaderTask;
-import twitter.TwitterConnection;
+import BDA.email.EmailConnection;
+import BDA.facebook.FacebookConnection;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.ControlCenter;
+import BDA.other.Service;
+import BDA.other.XMLUserConfiguration;
+import BDA.twitter.TwitterConnection;
 
-<span class="fc" id="L24">public class ControlCenterTest {</span>
+<span class="fc" id="L23">public class ControlCenterTest {</span>
 	
-<span class="fc" id="L26">	private static ControlCenter control_center = ControlCenter.getInstance();</span>
+<span class="fc" id="L25">	private static ControlCenter control_center = ControlCenter.getInstance();</span>
 	
-<span class="fc" id="L28">	private static List&lt;EmailConnection&gt; EMAIL_LIST = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L29">	private static EmailConnection CURRENT_EMAIL_USED = null;</span>
+<span class="fc" id="L27">	private static List&lt;EmailConnection&gt; EMAIL_LIST = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L28">	private static EmailConnection CURRENT_EMAIL_USED = null;</span>
 	
-<span class="fc" id="L31">	private static List&lt;TwitterConnection&gt; TWITTER_LIST = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L32">	private static List&lt;FacebookConnection&gt; FACEBOOK_LIST = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L30">	private static List&lt;TwitterConnection&gt; TWITTER_LIST = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L31">	private static List&lt;FacebookConnection&gt; FACEBOOK_LIST = new ArrayList&lt;FacebookConnection&gt;();</span>
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-<span class="fc" id="L36">		List&lt;XMLUserConfiguration&gt; xml_user_list = ReadAndWriteXMLFile.ReadConfigXMLFile();</span>
-<span class="fc" id="L37">		boolean firstEmail = true;</span>
+<span class="fc" id="L35">		List&lt;XMLUserConfiguration&gt; xml_user_list = ReadAndWriteXMLFile.ReadConfigXMLFile();</span>
+<span class="fc" id="L36">		boolean firstEmail = true;</span>
 		
 		EmailConnection email;
 		TwitterConnection twitter;
 		FacebookConnection facebook;
 		
-<span class="fc bfc" id="L43" title="All 2 branches covered.">		for(XMLUserConfiguration xml_user : xml_user_list) {</span>
-<span class="pc bpc" id="L44" title="1 of 4 branches missed.">			switch (xml_user.getService()) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		for(XMLUserConfiguration xml_user : xml_user_list) {</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">			switch (xml_user.getService()) {</span>
 			case EMAIL:
-<span class="fc" id="L46">				email = new EmailConnection(xml_user.getUsername(), xml_user.getPassword());</span>
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">				if(firstEmail == true) {</span>
-<span class="fc" id="L48">					firstEmail = false;</span>
-<span class="fc" id="L49">					CURRENT_EMAIL_USED = email;</span>
+<span class="fc" id="L45">				email = new EmailConnection(xml_user.getUsername(), xml_user.getPassword());</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">				if(firstEmail == true) {</span>
+<span class="fc" id="L47">					firstEmail = false;</span>
+<span class="fc" id="L48">					CURRENT_EMAIL_USED = email;</span>
 				}
-<span class="fc" id="L51">				EMAIL_LIST.add(email);</span>
-<span class="fc" id="L52">				break;</span>
+<span class="fc" id="L50">				EMAIL_LIST.add(email);</span>
+<span class="fc" id="L51">				break;</span>
 				
 			case TWITTER:
-<span class="fc" id="L55">				twitter = TwitterConnection.getInstance(); // Require to be implemented object oriented and not function oriented</span>
-<span class="fc" id="L56">				TWITTER_LIST.add(twitter);</span>
-<span class="fc" id="L57">				break;</span>
+<span class="fc" id="L54">				twitter = TwitterConnection.getInstance(); // Require to be implemented object oriented and not function oriented</span>
+<span class="fc" id="L55">				TWITTER_LIST.add(twitter);</span>
+<span class="fc" id="L56">				break;</span>
 				
 			case FACEBOOK:
-<span class="fc" id="L60">				facebook = FacebookConnection.getInstance(); // Require to be implemented object oriented and not function oriented</span>
-<span class="fc" id="L61">				FACEBOOK_LIST.add(facebook);</span>
+<span class="nc" id="L59">				facebook = FacebookConnection.getInstance(); // Require to be implemented object oriented and not function oriented</span>
+<span class="nc" id="L60">				FACEBOOK_LIST.add(facebook);</span>
 				break;
 			}
 			
 			
 		}
 		
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L67">	}</span>
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-<span class="fc" id="L72">		EMAIL_LIST = null;</span>
-<span class="fc" id="L73">		CURRENT_EMAIL_USED = null;</span>
-<span class="fc" id="L74">		TWITTER_LIST = null;</span>
-<span class="fc" id="L75">		FACEBOOK_LIST = null;</span>
-<span class="fc" id="L76">	}</span>
+<span class="fc" id="L71">		EMAIL_LIST = null;</span>
+<span class="fc" id="L72">		CURRENT_EMAIL_USED = null;</span>
+<span class="fc" id="L73">		TWITTER_LIST = null;</span>
+<span class="fc" id="L74">		FACEBOOK_LIST = null;</span>
+<span class="fc" id="L75">	}</span>
 
 	@Before
 	public void setUp() throws Exception {
-<span class="fc" id="L80">		control_center.setCurrentEmailUsed(CURRENT_EMAIL_USED);</span>
-<span class="fc" id="L81">		control_center.setEmailList(EMAIL_LIST);</span>
-<span class="fc" id="L82">		control_center.setTwitterList(TWITTER_LIST);</span>
-<span class="fc" id="L83">		control_center.setFacebookList(FACEBOOK_LIST);</span>
-<span class="fc" id="L84">	}</span>
+<span class="fc" id="L79">		control_center.setCurrentEmailUsed(CURRENT_EMAIL_USED);</span>
+<span class="fc" id="L80">		control_center.setEmailList(EMAIL_LIST);</span>
+<span class="fc" id="L81">		control_center.setTwitterList(TWITTER_LIST);</span>
+<span class="fc" id="L82">		control_center.setFacebookList(FACEBOOK_LIST);</span>
+<span class="fc" id="L83">	}</span>
 
 	@After
 	public void tearDown() throws Exception {
-<span class="fc" id="L88">	}</span>
+<span class="fc" id="L87">	}</span>
 
 	@Test
 	public void testGetEmailList() {
-<span class="fc" id="L92">		List&lt;EmailConnection&gt; emailList = control_center.getEmailList();</span>
-<span class="fc" id="L93">		assertEquals(EMAIL_LIST, emailList);</span>
-<span class="fc" id="L94">	}</span>
+<span class="fc" id="L91">		List&lt;EmailConnection&gt; emailList = control_center.getEmailList();</span>
+<span class="fc" id="L92">		assertEquals(EMAIL_LIST, emailList);</span>
+<span class="fc" id="L93">	}</span>
 	
 	@Test
 	public void testGetCurrentEmailUsed() {
-<span class="fc" id="L98">		EmailConnection email = control_center.getCurrentEmailUsed();</span>
-<span class="fc" id="L99">		assertEquals(CURRENT_EMAIL_USED, email);</span>
-<span class="fc" id="L100">	}</span>
+<span class="fc" id="L97">		EmailConnection email = control_center.getCurrentEmailUsed();</span>
+<span class="fc" id="L98">		assertEquals(CURRENT_EMAIL_USED, email);</span>
+<span class="fc" id="L99">	}</span>
 	
 	@Test
 	public void testGetTwitterList() {
-<span class="fc" id="L104">		List&lt;TwitterConnection&gt; twitterList = control_center.getTwitterList();</span>
-<span class="fc" id="L105">		assertEquals(TWITTER_LIST, twitterList);</span>
-<span class="fc" id="L106">	}</span>
+<span class="fc" id="L103">		List&lt;TwitterConnection&gt; twitterList = control_center.getTwitterList();</span>
+<span class="fc" id="L104">		assertEquals(TWITTER_LIST, twitterList);</span>
+<span class="fc" id="L105">	}</span>
 	
 	@Test
 	public void testGetFacebookList() {
-<span class="fc" id="L110">		List&lt;FacebookConnection&gt; facebookList = control_center.getFacebookList();</span>
-<span class="fc" id="L111">		assertEquals(FACEBOOK_LIST, facebookList);</span>
-<span class="fc" id="L112">	}</span>
+<span class="fc" id="L109">		List&lt;FacebookConnection&gt; facebookList = control_center.getFacebookList();</span>
+<span class="fc" id="L110">		assertEquals(FACEBOOK_LIST, facebookList);</span>
+<span class="fc" id="L111">	}</span>
 	
 	@Test
 	public void testSetEmailList() {
-<span class="fc" id="L116">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L117">		expected_list.add(new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;));</span>
-<span class="fc" id="L118">		control_center.setEmailList(expected_list);</span>
-<span class="fc" id="L119">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
-<span class="fc" id="L120">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L121">	}</span>
+<span class="fc" id="L115">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L116">		expected_list.add(new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;));</span>
+<span class="fc" id="L117">		control_center.setEmailList(expected_list);</span>
+<span class="fc" id="L118">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
+<span class="fc" id="L119">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L120">	}</span>
 	
 	@Test
 	public void testSetCurrentEmailUsed() {
-<span class="fc" id="L125">		EmailConnection expected = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
-<span class="fc" id="L126">		control_center.setCurrentEmailUsed(expected);</span>
-<span class="fc" id="L127">		EmailConnection actual = control_center.getCurrentEmailUsed();</span>
-<span class="fc" id="L128">		assertEquals(expected, actual);</span>
-<span class="fc" id="L129">	}</span>
+<span class="fc" id="L124">		EmailConnection expected = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
+<span class="fc" id="L125">		control_center.setCurrentEmailUsed(expected);</span>
+<span class="fc" id="L126">		EmailConnection actual = control_center.getCurrentEmailUsed();</span>
+<span class="fc" id="L127">		assertEquals(expected, actual);</span>
+<span class="fc" id="L128">	}</span>
 	
 	@Test
 	public void testSetTwitterList() {
-<span class="fc" id="L133">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L134">		expected_list.add(TwitterConnection.getInstance());</span>
-<span class="fc" id="L135">		control_center.setTwitterList(expected_list);</span>
-<span class="fc" id="L136">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
-<span class="fc" id="L137">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L138">	}</span>
+<span class="fc" id="L132">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L133">		expected_list.add(TwitterConnection.getInstance());</span>
+<span class="fc" id="L134">		control_center.setTwitterList(expected_list);</span>
+<span class="fc" id="L135">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
+<span class="fc" id="L136">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L137">	}</span>
 	
 	@Test
 	public void testSetFacebookList() {
-<span class="fc" id="L142">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L143">		expected_list.add(FacebookConnection.getInstance());</span>
-<span class="fc" id="L144">		control_center.setFacebookList(expected_list);</span>
-<span class="fc" id="L145">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
-<span class="fc" id="L146">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L147">	}</span>
+<span class="fc" id="L141">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L142">		expected_list.add(FacebookConnection.getInstance());</span>
+<span class="fc" id="L143">		control_center.setFacebookList(expected_list);</span>
+<span class="fc" id="L144">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
+<span class="fc" id="L145">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L146">	}</span>
 	
 	
 	@Test
 	public void testAddEmailConnectionToEmailList() {
-<span class="fc" id="L152">		control_center.setEmailList(new ArrayList&lt;EmailConnection&gt;());</span>
-<span class="fc" id="L153">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L154">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
-<span class="fc" id="L155">		expected_list.add(email);</span>
-<span class="fc" id="L156">		control_center.addEmailConnectionToEmailList(email);</span>
-<span class="fc" id="L157">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
-<span class="fc" id="L158">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L159">	}</span>
+<span class="fc" id="L151">		control_center.setEmailList(new ArrayList&lt;EmailConnection&gt;());</span>
+<span class="fc" id="L152">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L153">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
+<span class="fc" id="L154">		expected_list.add(email);</span>
+<span class="fc" id="L155">		control_center.addEmailConnectionToEmailList(email);</span>
+<span class="fc" id="L156">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
+<span class="fc" id="L157">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L158">	}</span>
 	
 	@Test
 	public void testAddTwitterFunctionToTwitterList() {
-<span class="fc" id="L163">		control_center.setTwitterList(new ArrayList&lt;TwitterConnection&gt;());</span>
-<span class="fc" id="L164">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L165">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
-<span class="fc" id="L166">		expected_list.add(twitter);</span>
-<span class="fc" id="L167">		control_center.addTwitterFunctionToTwitterList(twitter);</span>
-<span class="fc" id="L168">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
-<span class="fc" id="L169">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L170">	}</span>
+<span class="fc" id="L162">		control_center.setTwitterList(new ArrayList&lt;TwitterConnection&gt;());</span>
+<span class="fc" id="L163">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L164">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
+<span class="fc" id="L165">		expected_list.add(twitter);</span>
+<span class="fc" id="L166">		control_center.addTwitterFunctionToTwitterList(twitter);</span>
+<span class="fc" id="L167">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
+<span class="fc" id="L168">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L169">	}</span>
 	
 	@Test
 	public void testAddFacebookConnectionToFacebookList() {
-<span class="fc" id="L174">		control_center.setFacebookList(new ArrayList&lt;FacebookConnection&gt;());</span>
-<span class="fc" id="L175">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L176">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
-<span class="fc" id="L177">		expected_list.add(facebook);</span>
-<span class="fc" id="L178">		control_center.addFacebookConnectionToFacebookList(facebook);</span>
-<span class="fc" id="L179">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
-<span class="fc" id="L180">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L181">	}</span>
+<span class="fc" id="L173">		control_center.setFacebookList(new ArrayList&lt;FacebookConnection&gt;());</span>
+<span class="fc" id="L174">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L175">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
+<span class="fc" id="L176">		expected_list.add(facebook);</span>
+<span class="fc" id="L177">		control_center.addFacebookConnectionToFacebookList(facebook);</span>
+<span class="fc" id="L178">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
+<span class="fc" id="L179">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L180">	}</span>
 	
 	@Test
 	public void testAddEmailConnectionsToEmailList() {
-<span class="fc" id="L185">		control_center.setEmailList(new ArrayList&lt;EmailConnection&gt;());</span>
-<span class="fc" id="L186">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L187">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
-<span class="fc" id="L188">		EmailConnection email2 = new EmailConnection(&quot;dummy2&quot;, &quot;dummy2&quot;);</span>
-<span class="fc" id="L189">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L190">		emailList.add(email);</span>
-<span class="fc" id="L191">		emailList.add(email2);</span>
-<span class="fc" id="L192">		expected_list.addAll(emailList);</span>
-<span class="fc" id="L193">		control_center.addEmailConnectionsToEmailList(emailList);</span>
-<span class="fc" id="L194">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
-<span class="fc" id="L195">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L196">	}		</span>
+<span class="fc" id="L184">		control_center.setEmailList(new ArrayList&lt;EmailConnection&gt;());</span>
+<span class="fc" id="L185">		List&lt;EmailConnection&gt; expected_list = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L186">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
+<span class="fc" id="L187">		EmailConnection email2 = new EmailConnection(&quot;dummy2&quot;, &quot;dummy2&quot;);</span>
+<span class="fc" id="L188">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L189">		emailList.add(email);</span>
+<span class="fc" id="L190">		emailList.add(email2);</span>
+<span class="fc" id="L191">		expected_list.addAll(emailList);</span>
+<span class="fc" id="L192">		control_center.addEmailConnectionsToEmailList(emailList);</span>
+<span class="fc" id="L193">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
+<span class="fc" id="L194">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L195">	}		</span>
 	
 	@Test
 	public void testAddTwitterFunctionsToTwitterList() {
-<span class="fc" id="L200">		control_center.setTwitterList(new ArrayList&lt;TwitterConnection&gt;());</span>
-<span class="fc" id="L201">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L202">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
-<span class="fc" id="L203">		TwitterConnection twitter2 = TwitterConnection.getInstance();</span>
-<span class="fc" id="L204">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L205">		twitterList.add(twitter);</span>
-<span class="fc" id="L206">		twitterList.add(twitter2);</span>
-<span class="fc" id="L207">		expected_list.addAll(twitterList);</span>
-<span class="fc" id="L208">		control_center.addTwitterFunctionsToTwitterList(twitterList);</span>
-<span class="fc" id="L209">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
-<span class="fc" id="L210">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L211">	}</span>
+<span class="fc" id="L199">		control_center.setTwitterList(new ArrayList&lt;TwitterConnection&gt;());</span>
+<span class="fc" id="L200">		List&lt;TwitterConnection&gt; expected_list = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L201">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
+<span class="fc" id="L202">		TwitterConnection twitter2 = TwitterConnection.getInstance();</span>
+<span class="fc" id="L203">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L204">		twitterList.add(twitter);</span>
+<span class="fc" id="L205">		twitterList.add(twitter2);</span>
+<span class="fc" id="L206">		expected_list.addAll(twitterList);</span>
+<span class="fc" id="L207">		control_center.addTwitterFunctionsToTwitterList(twitterList);</span>
+<span class="fc" id="L208">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
+<span class="fc" id="L209">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L210">	}</span>
 	
 	@Test
 	public void testAddFacebookConnectionsToFacebookList() {
-<span class="fc" id="L215">		control_center.setFacebookList(new ArrayList&lt;FacebookConnection&gt;());</span>
-<span class="fc" id="L216">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L217">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
-<span class="fc" id="L218">		FacebookConnection facebook2 = FacebookConnection.getInstance();</span>
-<span class="fc" id="L219">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L220">		facebookList.add(facebook);</span>
-<span class="fc" id="L221">		facebookList.add(facebook2);</span>
-<span class="fc" id="L222">		expected_list.addAll(facebookList);</span>
-<span class="fc" id="L223">		control_center.addFacebookConnectionsToFacebookList(facebookList);</span>
-<span class="fc" id="L224">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
-<span class="fc" id="L225">		assertEquals(expected_list, actual_list);</span>
-<span class="fc" id="L226">	}</span>
+<span class="fc" id="L214">		control_center.setFacebookList(new ArrayList&lt;FacebookConnection&gt;());</span>
+<span class="fc" id="L215">		List&lt;FacebookConnection&gt; expected_list = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L216">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
+<span class="fc" id="L217">		FacebookConnection facebook2 = FacebookConnection.getInstance();</span>
+<span class="fc" id="L218">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L219">		facebookList.add(facebook);</span>
+<span class="fc" id="L220">		facebookList.add(facebook2);</span>
+<span class="fc" id="L221">		expected_list.addAll(facebookList);</span>
+<span class="fc" id="L222">		control_center.addFacebookConnectionsToFacebookList(facebookList);</span>
+<span class="fc" id="L223">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
+<span class="fc" id="L224">		assertEquals(expected_list, actual_list);</span>
+<span class="fc" id="L225">	}</span>
 	
 	@Test
 	public void testRemoveEmailConnectionFromEmailList() {
-<span class="fc" id="L230">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L231">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
-<span class="fc" id="L232">		emailList.add(email);</span>
-<span class="fc" id="L233">		control_center.setEmailList(emailList);</span>
-<span class="fc" id="L234">		control_center.removeEmailConnectionFromEmailList(email);</span>
-<span class="fc" id="L235">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
-<span class="fc" id="L236">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L237">	}</span>
+<span class="fc" id="L229">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L230">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
+<span class="fc" id="L231">		emailList.add(email);</span>
+<span class="fc" id="L232">		control_center.setEmailList(emailList);</span>
+<span class="fc" id="L233">		control_center.removeEmailConnectionFromEmailList(email);</span>
+<span class="fc" id="L234">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
+<span class="fc" id="L235">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L236">	}</span>
 	
 	@Test
 	public void testRemoveTwitterFunctionFromTwitterList() {
-<span class="fc" id="L241">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L242">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
-<span class="fc" id="L243">		twitterList.add(twitter);</span>
-<span class="fc" id="L244">		control_center.setTwitterList(twitterList);</span>
-<span class="fc" id="L245">		control_center.removeTwitterFunctionFromTwitterList(twitter);</span>
-<span class="fc" id="L246">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
-<span class="fc" id="L247">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L248">	}</span>
+<span class="fc" id="L240">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L241">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
+<span class="fc" id="L242">		twitterList.add(twitter);</span>
+<span class="fc" id="L243">		control_center.setTwitterList(twitterList);</span>
+<span class="fc" id="L244">		control_center.removeTwitterFunctionFromTwitterList(twitter);</span>
+<span class="fc" id="L245">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
+<span class="fc" id="L246">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L247">	}</span>
 	
 	@Test
 	public void testRemoveFacebookConnectionFromFacebookList() {
-<span class="fc" id="L252">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L253">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
-<span class="fc" id="L254">		facebookList.add(facebook);</span>
-<span class="fc" id="L255">		control_center.setFacebookList(facebookList);</span>
-<span class="fc" id="L256">		control_center.removeFacebookConnectionFromFacebookList(facebook);</span>
-<span class="fc" id="L257">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
-<span class="fc" id="L258">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L259">	}</span>
+<span class="fc" id="L251">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L252">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
+<span class="fc" id="L253">		facebookList.add(facebook);</span>
+<span class="fc" id="L254">		control_center.setFacebookList(facebookList);</span>
+<span class="fc" id="L255">		control_center.removeFacebookConnectionFromFacebookList(facebook);</span>
+<span class="fc" id="L256">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
+<span class="fc" id="L257">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L258">	}</span>
 	
 	@Test
 	public void testRemoveEmailConnectionsFromEmailList() {
-<span class="fc" id="L263">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
-<span class="fc" id="L264">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
-<span class="fc" id="L265">		emailList.add(email);</span>
-<span class="fc" id="L266">		control_center.setEmailList(emailList);</span>
-<span class="fc" id="L267">		control_center.removeEmailConnectionsFromEmailList(emailList);</span>
-<span class="fc" id="L268">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
-<span class="fc" id="L269">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L270">	}</span>
+<span class="fc" id="L262">		List&lt;EmailConnection&gt; emailList = new ArrayList&lt;EmailConnection&gt;();</span>
+<span class="fc" id="L263">		EmailConnection email = new EmailConnection(&quot;dummy&quot;, &quot;dummy&quot;);</span>
+<span class="fc" id="L264">		emailList.add(email);</span>
+<span class="fc" id="L265">		control_center.setEmailList(emailList);</span>
+<span class="fc" id="L266">		control_center.removeEmailConnectionsFromEmailList(emailList);</span>
+<span class="fc" id="L267">		List&lt;EmailConnection&gt; actual_list = control_center.getEmailList();</span>
+<span class="fc" id="L268">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L269">	}</span>
 	
 	@Test
 	public void testRemoveTwitterFunctionsFromTwitterList() {
-<span class="fc" id="L274">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
-<span class="fc" id="L275">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
-<span class="fc" id="L276">		twitterList.add(twitter);</span>
-<span class="fc" id="L277">		control_center.setTwitterList(twitterList);</span>
-<span class="fc" id="L278">		control_center.removeTwitterFunctionsFromTwitterList(twitterList);</span>
-<span class="fc" id="L279">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
-<span class="fc" id="L280">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L281">	}</span>
+<span class="fc" id="L273">		List&lt;TwitterConnection&gt; twitterList = new ArrayList&lt;TwitterConnection&gt;();</span>
+<span class="fc" id="L274">		TwitterConnection twitter = TwitterConnection.getInstance();</span>
+<span class="fc" id="L275">		twitterList.add(twitter);</span>
+<span class="fc" id="L276">		control_center.setTwitterList(twitterList);</span>
+<span class="fc" id="L277">		control_center.removeTwitterFunctionsFromTwitterList(twitterList);</span>
+<span class="fc" id="L278">		List&lt;TwitterConnection&gt; actual_list = control_center.getTwitterList();</span>
+<span class="fc" id="L279">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L280">	}</span>
 	
 	@Test
 	public void testRemoveFacebookConnectionsFromFacebookList() {
-<span class="fc" id="L285">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
-<span class="fc" id="L286">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
-<span class="fc" id="L287">		facebookList.add(facebook);</span>
-<span class="fc" id="L288">		control_center.setFacebookList(facebookList);</span>
-<span class="fc" id="L289">		control_center.removeFacebookConnectionsFromFacebookList(facebookList);</span>
-<span class="fc" id="L290">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
-<span class="fc" id="L291">		assertTrue(actual_list.isEmpty());</span>
-<span class="fc" id="L292">	}</span>
+<span class="fc" id="L284">		List&lt;FacebookConnection&gt; facebookList = new ArrayList&lt;FacebookConnection&gt;();</span>
+<span class="fc" id="L285">		FacebookConnection facebook = FacebookConnection.getInstance();</span>
+<span class="fc" id="L286">		facebookList.add(facebook);</span>
+<span class="fc" id="L287">		control_center.setFacebookList(facebookList);</span>
+<span class="fc" id="L288">		control_center.removeFacebookConnectionsFromFacebookList(facebookList);</span>
+<span class="fc" id="L289">		List&lt;FacebookConnection&gt; actual_list = control_center.getFacebookList();</span>
+<span class="fc" id="L290">		assertTrue(actual_list.isEmpty());</span>
+<span class="fc" id="L291">	}</span>
 	
+	@Test
+	public void testSetAndGetIgnoreServiceEmail() {
+<span class="fc" id="L295">		ControlCenter.getInstance().setIgnoreService(Service.EMAIL, true);</span>
+<span class="fc" id="L296">		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.EMAIL);</span>
+<span class="fc" id="L297">		assertTrue(actual_boolean);</span>
+<span class="fc" id="L298">	}</span>
+	
+	@Test
+	public void testSetAndGetIgnoreServiceTwitter() {
+<span class="fc" id="L302">		ControlCenter.getInstance().setIgnoreService(Service.TWITTER, true);</span>
+<span class="fc" id="L303">		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.TWITTER);</span>
+<span class="fc" id="L304">		assertTrue(actual_boolean);</span>
+<span class="fc" id="L305">	}</span>
+	
+	@Test
+	public void testSetAndGetIgnoreServiceFacebook() {
+<span class="fc" id="L309">		ControlCenter.getInstance().setIgnoreService(Service.FACEBOOK, true);</span>
+<span class="fc" id="L310">		boolean actual_boolean = ControlCenter.getInstance().getIgnoreService(Service.FACEBOOK);</span>
+<span class="fc" id="L311">		assertTrue(actual_boolean);</span>
+<span class="fc" id="L312">	}</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

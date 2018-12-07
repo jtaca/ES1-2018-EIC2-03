@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterAuth.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.twitter</a> &gt; <span class="el_source">TwitterAuth.java</span></div><h1>TwitterAuth.java</h1><pre class="source lang-java linenums">package BDA.twitter;
+
+import BDA.other.XMLUserConfiguration;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
+
+/**
+ * Responsible for every twitter authentication needs.
+ * @author DElfim
+ * @version 2.0
+ */
+<span class="fc" id="L17">class TwitterAuth {</span>
+	
+	/** The twitter consumer key. */
+<span class="fc" id="L20">	private static String TWITTER_CONSUMER_KEY = TwitterConnection.getKeys()[0];</span>
+	
+	/** The twitter secret key. */
+<span class="fc" id="L23">	private static String TWITTER_SECRET_KEY = TwitterConnection.getKeys()[1];</span>
+	
+	/** The user token. */
+	private AccessToken userToken;
+	
+	/** The twitter. */
+<span class="fc" id="L29">	private Twitter twitter = buildAuthenticationTwitter();</span>
+	
+	/** The twitter keys. */
+//	private static XMLUserConfiguration twitterKeys = null;
+	
+	/** The request token. */
+	private RequestToken requestToken;
+	
+	
+
+	/**
+	 * Prints out an url that the user can go to make the login an then
+	 * receives a pin from the user in order to complete authentication.
+	 *
+	 * @return the auth URL
+	 */
+	protected String getAuthURL(){
+		try {
+<span class="fc" id="L47">			requestToken = twitter.getOAuthRequestToken(&quot;oob&quot;);</span>
+<span class="fc" id="L48">		} catch (Exception e) {</span>
+<span class="fc" id="L49">			return &quot;&quot;;</span>
+		}
+<span class="fc" id="L51">		String url = requestToken.getAuthenticationURL();</span>
+<span class="fc" id="L52">		System.out.println(url);</span>
+<span class="fc" id="L53">		return url;</span>
+	}
+	
+	/**
+	 * Input pin.
+	 *
+	 * @param s the pin
+	 * @return true, if the authentication successful
+	 */
+	protected boolean inputPin(String s){
+		try {
+<span class="nc" id="L64">			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, s);</span>
+<span class="nc" id="L65">			twitter.setOAuthAccessToken(accessToken);</span>
+<span class="nc" id="L66">			userToken=accessToken;</span>
+<span class="pc" id="L67">		} catch (TwitterException e) {</span>
+<span class="fc" id="L68">			return false;</span>
+		}
+<span class="nc" id="L70">		return true;</span>
+	}
+	/**
+	 * Sets the user token.
+	 */
+	protected void setUserToken(AccessToken at){
+<span class="fc" id="L76">		this.userToken=at;</span>
+<span class="fc" id="L77">		twitter.setOAuthAccessToken(at);</span>
+<span class="fc" id="L78">	}</span>
+	
+	/**
+	 * Builds the authentication twitter.
+	 *
+	 * @return the twitter
+	 */
+	private Twitter buildAuthenticationTwitter(){
+<span class="fc" id="L86">		ConfigurationBuilder builder = new ConfigurationBuilder();</span>
+<span class="fc" id="L87">		builder.setDebugEnabled(true).setOAuthConsumerKey(TWITTER_CONSUMER_KEY);</span>
+<span class="fc" id="L88">		builder.setOAuthConsumerSecret(TWITTER_SECRET_KEY);</span>
+<span class="fc" id="L89">		Configuration configuration = builder.build();</span>
+
+<span class="fc" id="L91">		TwitterFactory factory = new TwitterFactory(configuration);</span>
+<span class="fc" id="L92">		return factory.getInstance();</span>
+	}
+	
+	
+	
+	/**
+	 * Returns an authenticated instance of the object Twitter.
+	 * @return Twitter, if not authenticated returns null
+	 */
+	protected Twitter getAuthenticatedInstance(){
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		if(userToken==null){</span>
+<span class="fc" id="L103">			System.out.println(&quot;usertokennull&quot;);</span>
+<span class="fc" id="L104">			return null;</span>
+		}
+<span class="fc" id="L106">		return twitter;</span>
+	}
+	
+	
+	/**
+	 * Verifies if there is a user logged in.
+	 *
+	 * @return true, if a user is logged in
+	 */
+	protected boolean isLoggedIn(){
+		try {
+<span class="fc" id="L117">			twitter.verifyCredentials();</span>
+<span class="fc" id="L118">			return true;</span>
+<span class="fc" id="L119">		} catch (Exception e) {</span>
+<span class="fc" id="L120">			return false;</span>
+		}
+	}
+	/**
+	 * Logout current user.
+	 */
+	protected void logout(){
+<span class="fc" id="L127">		userToken = null;</span>
+<span class="fc" id="L128">		twitter = buildAuthenticationTwitter();</span>
+<span class="fc" id="L129">	}</span>
+	
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

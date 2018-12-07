@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MainControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">MainControllerTest.java</span></div><h1>MainControllerTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MainControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">MainControllerTest.java</span></div><h1>MainControllerTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,12 +17,13 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
-import entry_objects.TwitterEntry;
-import gui.MainController;
-import gui.MainWindow;
-import gui.PostBox;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.entry_objects.TwitterEntry;
+import BDA.gui.MainController;
+import BDA.gui.MainWindow;
+import BDA.gui.PostBox;
+import BDA.twitter.TwitterConnection;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ChoiceBox;
@@ -35,7 +36,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import twitter.TwitterConnection;
 
 <span class="fc" id="L40">public class MainControllerTest {</span>
 
@@ -235,20 +235,20 @@ import twitter.TwitterConnection;
 <span class="fc" id="L235">		authorUsername.setAccessible(true);</span>
 <span class="fc" id="L236">		postText.setAccessible(true);</span>
 
-<span class="fc" id="L238">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());</span>
-<span class="fc" id="L239">		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();</span>
-<span class="fc" id="L240">		String user = &quot;@&quot; + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();</span>
-<span class="fc" id="L241">		String content = tweet.getStatus().getRetweetedStatus().getText().trim();</span>
-<span class="fc" id="L242">		Label name = (Label) authorName.get(controller);</span>
-<span class="fc" id="L243">		Label screenName = (Label) authorUsername.get(controller);</span>
-<span class="fc" id="L244">		Text postContent = (Text) postText.get(controller);</span>
+<span class="nc" id="L238">		TwitterEntry tweet = new TwitterEntry(TwitterConnection.getInstance().getSomeRetweet());</span>
+<span class="nc" id="L239">		String author = tweet.getStatus().getRetweetedStatus().getUser().getName();</span>
+<span class="nc" id="L240">		String user = &quot;@&quot; + tweet.getStatus().getRetweetedStatus().getUser().getScreenName();</span>
+<span class="nc" id="L241">		String content = tweet.getStatus().getRetweetedStatus().getText().trim();</span>
+<span class="nc" id="L242">		Label name = (Label) authorName.get(controller);</span>
+<span class="nc" id="L243">		Label screenName = (Label) authorUsername.get(controller);</span>
+<span class="nc" id="L244">		Text postContent = (Text) postText.get(controller);</span>
 
-<span class="fc" id="L246">		waitForRunLater(openPost, tweet);</span>
+<span class="nc" id="L246">		waitForRunLater(openPost, tweet);</span>
 
-<span class="fc" id="L248">		assertEquals(author, name.getText());</span>
-<span class="fc" id="L249">		assertEquals(user, screenName.getText());</span>
-<span class="fc" id="L250">		assertEquals(content, postContent.getText());</span>
-<span class="fc" id="L251">	}</span>
+<span class="nc" id="L248">		assertEquals(author, name.getText());</span>
+<span class="nc" id="L249">		assertEquals(user, screenName.getText());</span>
+<span class="nc" id="L250">		assertEquals(content, postContent.getText());</span>
+<span class="nc" id="L251">	}</span>
 
 	@Test
 	public void testOpenPostTwitterEntryWithImage() throws Exception {
@@ -462,4 +462,4 @@ import twitter.TwitterConnection;
 <span class="fc" id="L462">		semaphore.acquire();</span>
 <span class="fc" id="L463">	}</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

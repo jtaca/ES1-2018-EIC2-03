@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteFile.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.files</a> &gt; <span class="el_source">ReadAndWriteFile.java</span></div><h1>ReadAndWriteFile.java</h1><pre class="source lang-java linenums">package BDA.files;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import BDA.entry_objects.InformationEntry;
+
+/**
+ * The Class ReadAndWriteFile.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+<span class="nc" id="L19">public class ReadAndWriteFile { // </span>
+	
+	/** The Constant FOLDER_POSTS. */
+ private static final String FOLDER_POSTS = &quot;Posts/&quot;;
+	
+	
+	/**
+	 * Instantiates a new read and write file.
+	 *
+	 * @param fileName the file name
+	 * @param information_entry_list the information entry list
+	 */
+//	public ReadAndWriteFile() {	
+//	}
+//	
+	
+	/**
+	 * Save list of information entry.
+	 *
+	 * @param fileName the file name
+	 * @param information_entry_list the information entry list
+	 */
+	public static synchronized void saveListOfInformationEntry(String fileName, List&lt;InformationEntry&gt; information_entry_list) {
+		
+<span class="fc" id="L43">		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FOLDER_POSTS + fileName));) {</span>
+<span class="fc" id="L44">			out.writeObject(information_entry_list);</span>
+<span class="fc" id="L45">			out.flush();</span>
+<span class="fc" id="L46">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L47">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L48">		} catch (IOException e) {</span>
+<span class="nc" id="L49">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+		}
+		
+<span class="fc" id="L52">	}</span>
+	
+
+	/**
+	 * Load list of information entry.
+	 *
+	 * @param fileName the file name
+	 * @return the list
+	 */
+	public static synchronized List&lt;InformationEntry&gt; loadListOfInformationEntry(String fileName) {
+<span class="fc" id="L62">		ArrayList&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();</span>
+		
+<span class="fc" id="L64">		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FOLDER_POSTS + fileName));) {</span>
+<span class="fc" id="L65">			information_entry_list = (ArrayList&lt;InformationEntry&gt;) in.readObject();</span>
+<span class="fc" id="L66">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L67">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L68">		} catch (IOException e) {</span>
+<span class="nc" id="L69">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L70">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L71">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());			</span>
+		}
+		
+<span class="fc" id="L74">		return information_entry_list;</span>
+	}
+	
+	
+	/**
+	 * Save list of filters.
+	 *
+	 * @param fileName the file name
+	 * @param filters the filters
+	 */
+	public static synchronized void saveListOfFilters(String fileName, List&lt;String&gt; filters) {
+		
+<span class="fc" id="L86">		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));) {</span>
+<span class="fc" id="L87">			out.writeObject(filters);</span>
+<span class="fc" id="L88">			out.flush();</span>
+<span class="fc" id="L89">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L90">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L91">		} catch (IOException e) {</span>
+<span class="nc" id="L92">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="fc" id="L93">		}catch (NullPointerException e) {</span>
+<span class="fc" id="L94">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+		}
+<span class="fc" id="L96">	}</span>
+	
+	/**
+	 * Load list of filters.
+	 *
+	 * @param fileName the file name
+	 * @return the list
+	 */
+	public static synchronized List&lt;String&gt; loadListOfFilters(String fileName) {
+<span class="fc" id="L105">		ArrayList&lt;String&gt; filters = null;</span>
+		
+<span class="fc" id="L107">		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));) {</span>
+<span class="fc" id="L108">			filters = (ArrayList&lt;String&gt;) in.readObject();</span>
+<span class="fc" id="L109">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L110">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="fc" id="L111">		} catch (IOException e) {</span>
+<span class="fc" id="L112">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+<span class="nc" id="L113">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L114">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());			</span>
+<span class="fc" id="L115">		}catch (NullPointerException e) {</span>
+<span class="fc" id="L116">			System.err.println(e.getClass() + &quot;: &quot; + e.getMessage());</span>
+		}
+		
+<span class="fc" id="L119">		return filters;</span>
+	}
+	
+	/*
+	public static XMLUserConfiguration readUserXMLFile(String fileName) throws IOException {
+		try (Scanner scanner = new Scanner(new File(fileName + &quot;.xml&quot;))) {
+			String line = &quot;&quot;;
+			String[] lineArray = {};
+			boolean informationSaved = false;
+			String username = null;
+			String password = null;
+			XMLUserConfiguration user_config = null;
+			while(scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				lineArray = line.split(&quot;: &quot;, 2);
+				//if(line.startsWith(&quot;Save Information:&quot;)) {
+				if(lineArray.length == 2 &amp;&amp; lineArray[1] != null) {
+					switch (lineArray[0]) {
+					case &quot;Save Information&quot;:
+						if(lineArray[1] == &quot;1&quot;) {
+							informationSaved = true;
+						}
+						break;
+						
+					case &quot;Username&quot;:
+						username = lineArray[1];
+						break;
+						
+					case &quot;Password&quot;:
+						password = lineArray[1];
+						break;
+
+					default:
+						break;
+					}
+				}
+				
+			}
+			if(username == null || password == null) {
+				throw new IOException(&quot;The username or password isn't defined.&quot;);
+			}
+			user_config = new XMLUserConfiguration(informationSaved, username, password);
+			return user_config;
+		} catch (FileNotFoundException e) {
+			System.out.println(fileName + &quot;.xml not found.&quot;);
+		}
+		return null;
+	}
+	*/
+	
+	/*
+	public static InformationEntry readInformationEntryFile(String folder, String fileName) { // provavelmente precisa de se mudar para BufferedReader
+		try (Scanner scanner = new Scanner(new File(folder + &quot;/&quot; + fileName + &quot;.txt&quot;))) {
+			String line = &quot;&quot;;
+			String[] lineArray = {};
+			
+			Date date = null;
+			Service service = null;
+			String writerName = null;
+			String subject = null;
+			String content = null;
+			InformationEntry informationEntry = null;
+			
+			while(scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				lineArray = line.split(&quot;: &quot;, 2);
+				//if(line.startsWith(&quot;Save Information:&quot;)) {
+				if(lineArray.length == 2 &amp;&amp; lineArray[1] != null) {
+					switch (lineArray[0]) {
+					case &quot;Date&quot;:
+						long millisecondsOfDate = Long.valueOf(lineArray[1]).longValue();
+						date = new Date(millisecondsOfDate);
+						break;
+						
+					case &quot;Service&quot;:
+						if(lineArray[1] == &quot;Email&quot;) {
+							service = Service.EMAIL;
+						}
+						if(lineArray[1] == &quot;Facebook&quot;) {
+							service = Service.FACEBOOK;
+						}
+						if(lineArray[1] == &quot;Twitter&quot;) {
+							service = Service.TWITTER;
+						}
+						break;
+						
+					case &quot;WriterName&quot;:
+						writerName = lineArray[1];
+						break;
+						
+					case &quot;Subject&quot;:
+						subject = lineArray[1];
+						break;
+						
+					case &quot;Content&quot;:
+						content = lineArray[1];
+						while(scanner.hasNextLine()) { // ideia
+							content += scanner.nextLine();
+						}
+						break;
+
+					default:
+						break;
+					}
+				}
+				
+			}
+			//informationEntry = new InformationEntry(date, service, writerName, subject, content);
+			return informationEntry;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public List&lt;InformationEntry&gt; getInformationEntryArrayFromFolder(String folderName) throws IOException, URISyntaxException {
+		List&lt;String&gt; strlist = new ArrayList&lt;String&gt;();
+		List&lt;InformationEntry&gt; informationEntryArray = new ArrayList&lt;InformationEntry&gt;();
+		//Path path = Paths.get(ReadAndWriteFile.class.getResource(&quot;.&quot;).toURI());
+		//System.out.println(path.getParent());
+		System.out.println(&quot;Pasta: &quot; + folderName);
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(&quot;./&quot; + folderName);
+		
+		if(is == null)
+			throw new IOException(&quot;Directoria invalida ou Directoria vazia&quot;);
+		
+		InputStreamReader in = new InputStreamReader(is);
+		try(BufferedReader brdir = new BufferedReader(in);) {
+			String fileStr = &quot;&quot;;
+			while((fileStr = brdir.readLine()) != null) {
+				if(fileStr.endsWith(&quot;.txt&quot;)) {
+					strlist.add(fileStr);
+					System.out.println(fileStr);
+				}
+			}
+			in.close();
+			is.close();
+		}
+		for(String fileS : strlist) {
+			InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(folderName + &quot;/&quot; + fileS);
+			try {
+				InputStreamReader fileInput = new InputStreamReader(fileStream, &quot;UTF-8&quot;);
+				
+				String line = &quot;&quot;;
+				String[] lineArray = {};
+				
+				Date date = null;
+				Service service = null;
+				String writerName = null;
+				String subject = null;
+				StringBuilder content = new StringBuilder();
+				
+				try(BufferedReader brFile = new BufferedReader(fileInput)) {
+					while(((line = brFile.readLine()) != null)) {
+						lineArray = line.split(&quot;: &quot;, 2);
+						//if(line.startsWith(&quot;Save Information:&quot;)) {
+						if(lineArray.length == 2 &amp;&amp; lineArray[1] != null) {
+							switch (lineArray[0]) {
+							case &quot;Date&quot;:
+								long millisecondsOfDate = Long.valueOf(lineArray[1]).longValue();
+								date = new Date(millisecondsOfDate);
+								break;
+								
+							case &quot;Service&quot;:
+								if(lineArray[1] == &quot;Email&quot;) {
+									service = Service.EMAIL;
+								}
+								if(lineArray[1] == &quot;Facebook&quot;) {
+									service = Service.FACEBOOK;
+								}
+								if(lineArray[1] == &quot;Twitter&quot;) {
+									service = Service.TWITTER;
+								}
+								break;
+								
+							case &quot;WriterName&quot;:
+								writerName = lineArray[1];
+								break;
+								
+							case &quot;Subject&quot;:
+								subject = lineArray[1];
+								break;
+								
+							case &quot;Content&quot;:
+								content.append(lineArray[1] + System.getProperty(&quot;line.separator&quot;));
+								while(((line = brFile.readLine()) != null)) { // ideia
+									content.append(line + System.getProperty(&quot;line.separator&quot;));
+								}
+								break;
+
+							default:
+								break;
+							}
+						}
+						
+					}
+					//informationEntryArray.add(new InformationEntry(date, service, writerName, subject, content.toString()));
+					fileInput.close();
+					fileStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return informationEntryArray;
+	}
+	*/
+	
+	/*
+	// Requires work on to make it read all the files we will generate to display on the UI
+	private void loadNewsToList() throws IOException {
+		List&lt;String&gt; strlist = new ArrayList&lt;String&gt;();
+		System.out.println(&quot;Pasta: &quot; + folderName);
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(&quot;./&quot; + folderName);
+		
+		if(is == null)
+			throw new IOException(&quot;Directoria invalida&quot;);
+		
+		InputStreamReader in = new InputStreamReader(is);
+		try(BufferedReader brdir = new BufferedReader(in);) {
+		String fileStr = &quot;&quot;;
+		while((fileStr = brdir.readLine()) != null) {
+			if(fileStr.endsWith(&quot;.txt&quot;)) {
+				strlist.add(fileStr);
+			}
+		}
+		in.close();
+		is.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		String titulo = &quot;&quot;;
+		for(String fileS : strlist) {
+			InputStream fileStream = this.getClass().getClassLoader().getResourceAsStream(folderName + &quot;/&quot; + fileS);
+			try {
+				InputStreamReader fileInput = new InputStreamReader(fileStream, &quot;UTF-8&quot;);
+				StringBuilder contentInFile = new StringBuilder();
+				try(BufferedReader brFile = new BufferedReader(fileInput)) {
+					String fileContent = brFile.readLine();
+					if(fileContent != null) {
+						titulo = fileContent;
+					}
+					while(((fileContent = brFile.readLine()) != null)) {
+						contentInFile.append(fileContent + &quot;\n&quot;);
+					}
+					noticias.add(new Noticia(titulo, contentInFile.toString()));
+					fileInput.close();
+					fileStream.close();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	*/
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

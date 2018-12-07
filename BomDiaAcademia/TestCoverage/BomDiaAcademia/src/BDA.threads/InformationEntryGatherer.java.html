@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>InformationEntryGatherer.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.threads</a> &gt; <span class="el_source">InformationEntryGatherer.java</span></div><h1>InformationEntryGatherer.java</h1><pre class="source lang-java linenums">package BDA.threads;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import BDA.comparators.DateComparator;
+import BDA.entry_objects.InformationEntry;
+
+/**
+ * The Class InformationEntryGatherer.
+ * @author Alexandre Mendes
+ * @version 2.0
+ */
+public class InformationEntryGatherer { //
+
+	/** The list. */
+	private List&lt;InformationEntry&gt; list;
+	
+	/** The barrier. */
+	private SingleBarrier barrier;
+	// Should add GUI here if it isnt static
+	
+	/**
+	 * Instantiates a new information entry gatherer.
+	 *
+	 * @param size the size
+	 */
+<span class="fc" id="L28">	public InformationEntryGatherer(int size) { // Should add the GUI here or make the GUI static in order for this class to access it</span>
+<span class="fc" id="L29">		list = new ArrayList&lt;InformationEntry&gt;();</span>
+<span class="fc" id="L30">		barrier = new SingleBarrier(size);</span>
+<span class="fc" id="L31">	}</span>
+	
+	/**
+	 * Wait for every ocurrence.
+	 */
+	public void waitForEveryOcurrence() {
+<span class="fc" id="L37">		barrier.barrierWait();</span>
+<span class="fc" id="L38">		list.sort(new DateComparator()); // O comparator pode estar a dar uma ordem crescente e n�o decrescente como queremos, tem de ser testado</span>
+		// Give the list to the GUI for it to show in the window
+<span class="fc" id="L40">	}</span>
+	
+	/**
+	 * Gets the list.
+	 *
+	 * @return the list
+	 */
+	public List&lt;InformationEntry&gt; getList() {
+<span class="fc" id="L48">		return list;</span>
+	}
+	
+	/**
+	 * Adds the result.
+	 *
+	 * @param list_of_entrys the list of entrys
+	 */
+	public synchronized void addResult(List&lt;InformationEntry&gt; list_of_entrys) {
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">		if(list_of_entrys != null) {</span>
+<span class="fc" id="L58">			list.addAll(list_of_entrys);</span>
+		}
+<span class="fc" id="L60">		barrier.barrierPost();</span>
+<span class="fc" id="L61">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

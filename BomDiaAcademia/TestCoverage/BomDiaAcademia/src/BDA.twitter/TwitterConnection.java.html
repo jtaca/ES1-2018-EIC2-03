@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterConnection.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.twitter</a> &gt; <span class="el_source">TwitterConnection.java</span></div><h1>TwitterConnection.java</h1><pre class="source lang-java linenums">package BDA.twitter;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
+import BDA.entry_objects.InformationEntry;
+import BDA.entry_objects.TwitterEntry;
+import BDA.interfaces.ServiceInstance;
+import BDA.other.Filter;
+import BDA.other.Service;
+import BDA.other.XMLUserConfiguration;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.ConfigurationBuilder;
+
+/**
+ * Used to execute every twitter interaction.
+ * @author DElfim
+ * @version 2.0
+ */
+public class TwitterConnection implements ServiceInstance {
+<span class="fc" id="L31">	private static TwitterConnection INSTANCE=null;</span>
+
+	/** The twitter consumer key. */
+	private static final String TWITTER_CONSUMER_KEY = &quot;k4a4y5Wcq3UqdGKs9R6CufWoA&quot;;
+	
+	/** The twitter secret key. */
+	private static final String TWITTER_SECRET_KEY = &quot;WTSpB0qE4IS1EpeHA2mAhC5C8wD3iUYqihg5AIBVeIhplHgR8w&quot;;
+	
+	/** The twitter access token. */
+	private static final String TWITTER_ACCESS_TOKEN = &quot;2389545732-VxLp2gwOAuv2hV7cHXV96uYT7LNDPiFTLFf5MRi&quot;;
+	
+	/** The twitter access token secret. */
+	private static final String TWITTER_ACCESS_TOKEN_SECRET = &quot;6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn&quot;;
+
+	/** The twitter. */
+	private Twitter twitter;
+	
+	/** The twitter keys. */
+<span class="fc" id="L49">	private static XMLUserConfiguration twitterKeys = null;</span>
+	
+	/** The logger. */
+<span class="fc" id="L52">	private final TwitterAuth logger= new TwitterAuth();</span>
+	
+	//Initialization
+	/**
+	 * Gets the instance of TwitterConnection since it is a Singleton.
+	 *
+	 * @return the TwitterConnection
+	 */
+	public static TwitterConnection getInstance() {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">	      if(INSTANCE == null) {</span>
+<span class="fc" id="L62">	    	  synchronized (TwitterConnection.class){</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">	    		  if(INSTANCE == null) {</span>
+<span class="fc" id="L64">	    			  INSTANCE = new TwitterConnection();</span>
+	    		  }
+	    	  }
+	      }
+<span class="fc" id="L68">	      return INSTANCE;</span>
+	   }
+	
+	
+	
+<span class="fc" id="L73">	private TwitterConnection(){</span>
+<span class="fc" id="L74">		this.twitter=init();</span>
+<span class="fc" id="L75">	}</span>
+	
+	
+	
+	/**
+	 * Inits the twitter object with the base keys.
+	 *
+	 * @return the twitter
+	 */
+	private Twitter init() {
+//		try {
+//			twitterKeys = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		TWITTER_CONSUMER_KEY = twitterKeys.getTWITTER_CONSUMER_KEY();
+//		TWITTER_SECRET_KEY = twitterKeys.getTWITTER_SECRET_KEY();
+//		TWITTER_ACCESS_TOKEN = twitterKeys.getTWITTER_ACCESS_TOKEN();
+//		TWITTER_ACCESS_TOKEN_SECRET = twitterKeys.getTWITTER_ACCESS_TOKEN_SECRET();
+		
+<span class="fc" id="L96">			ConfigurationBuilder cb = new ConfigurationBuilder();</span>
+<span class="fc" id="L97">			cb.setDebugEnabled(true);</span>
+<span class="fc" id="L98">			cb.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);</span>
+<span class="fc" id="L99">			cb.setOAuthConsumerSecret(TWITTER_SECRET_KEY);</span>
+<span class="fc" id="L100">			cb.setOAuthAccessToken(TWITTER_ACCESS_TOKEN);</span>
+<span class="fc" id="L101">			cb.setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET);</span>
+<span class="fc" id="L102">			TwitterFactory tf = new TwitterFactory(cb.build());</span>
+<span class="fc" id="L103">			twitter = tf.getInstance();</span>
+		
+<span class="fc" id="L105">		return twitter;</span>
+	}
+	//Authentication
+	/**
+	 * Prints out an url that the user can go to make the login an then
+	 * receives a pin from the user in order to complete authentication.
+	 *
+	 * @return the auth URL
+	 */
+	public String getAuthUrl(){
+<span class="fc" id="L115">		return logger.getAuthURL();</span>
+	}
+	/**
+	 * Input pin, to confirm the user authentication.
+	 *
+	 * @param s the pin
+	 * @return true, if the authentication successful
+	 */
+	public boolean confirmAuth(String s){
+<span class="fc" id="L124">		return logger.inputPin(s);</span>
+	}
+	public void setUserToken(AccessToken at){
+<span class="fc" id="L127">		logger.setUserToken(at);</span>
+<span class="fc" id="L128">	}</span>
+	/**
+	 * Verifies if there is a user logged in.
+	 *
+	 * @return true, if a user is logged in
+	 */
+	public boolean isLoggedIn(){
+<span class="fc" id="L135">		return logger.isLoggedIn();</span>
+	}
+	/**
+	 * Logout current user.
+	 */
+	public void logout(){
+<span class="fc" id="L141">		logger.logout();</span>
+<span class="fc" id="L142">	}</span>
+	
+	//Auth Only Operations
+	/**
+	 * Receives the Status object equivalent to the tweet the user wants to retweet
+	 * fails if the user is not authenticated.
+	 *
+	 * @param tweet the tweet
+	 * @throws TwitterException the twitter exception
+	 */
+	public boolean retweet(Status tweet){
+<span class="fc" id="L153">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L156">				t.retweetStatus(tweet.getId());</span>
+<span class="fc" id="L157">				return true;</span>
+<span class="nc" id="L158">			} catch (TwitterException e) {</span>
+<span class="nc" id="L159">				return false;</span>
+			}
+		}else{
+<span class="fc" id="L162">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="fc" id="L164">		return false;</span>
+	}
+	/**
+	 * Posts a tweet as the logged user with a designated string.
+	 *
+	 * @param s the tweet content
+	 * @return true, if sucessful
+	 */
+	public boolean tweet(String s) {
+<span class="fc" id="L173">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L176">				t.updateStatus(s);</span>
+<span class="fc" id="L177">				return true;</span>
+<span class="nc" id="L178">			} catch (TwitterException e) {</span>
+<span class="nc" id="L179">				return false;</span>
+			}
+		}else{
+<span class="fc" id="L182">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="fc" id="L184">		return false;</span>
+	}
+	/**
+	 * Gets the username of the currently loggeg in user.
+	 *
+	 * @return the username, if sucessful else returns an empty string
+	 */
+	public String getUsername(){
+		try {
+<span class="fc" id="L193">			return logger.getAuthenticatedInstance().getScreenName();</span>
+<span class="fc" id="L194">		} catch (Exception e ) {</span>
+<span class="fc" id="L195">			return &quot;&quot;;</span>
+		} 
+		
+	}	
+	/**
+	 * tags a tweet as favorite.
+	 *
+	 * @param tweet the target tweet
+	 * @return true, if sucessful
+	 */
+	public boolean favoriteTweet(Status tweet){
+<span class="fc" id="L206">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L209">				t.createFavorite(tweet.getId());</span>
+<span class="fc" id="L210">				return true;</span>
+<span class="nc" id="L211">			} catch (TwitterException e) {</span>
+<span class="nc" id="L212">				return false;</span>
+			}
+		}else{
+<span class="fc" id="L215">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="fc" id="L217">		return false;</span>
+	}
+	public boolean isFavorited(Status tweet){
+<span class="fc" id="L220">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L223">				List&lt;Status&gt; list = t.getFavorites();</span>
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">				for(Status status : list){</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">					if(tweet.getId()==(status.getId())){</span>
+<span class="fc" id="L226">						return true;</span>
+					}
+				}
+<span class="nc" id="L229">			} catch (TwitterException e) {</span>
+<span class="nc" id="L230">				return false;</span>
+			}
+		}else{
+<span class="nc" id="L233">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="nc" id="L235">		return false;</span>
+	}
+	
+	public boolean unFavoriteTweet(Status tweet){
+<span class="fc" id="L239">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L242">				t.destroyFavorite(tweet.getId());</span>
+<span class="fc" id="L243">				return true;</span>
+<span class="nc" id="L244">			} catch (TwitterException e) {</span>
+<span class="nc" id="L245">				return false;</span>
+			}
+		}else{
+<span class="nc" id="L248">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="nc" id="L250">		return false;</span>
+	}
+	/**
+	 * adds a comment to a tweet.
+	 *
+	 * @param tweet the target tweet
+	 * @param comment the comment being made
+	 * @return true, if sucessful
+	 */
+	public boolean commentTweet(Status tweet,String comment){
+<span class="fc" id="L260">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L263">				StatusUpdate statusUpdate = new StatusUpdate(&quot;replying to @&quot; +tweet.getUser().getScreenName()+ &quot;: &quot; +comment);</span>
+<span class="fc" id="L264">				statusUpdate.setInReplyToStatusId(tweet.getId());</span>
+<span class="fc" id="L265">				Status status = twitter.updateStatus(statusUpdate);</span>
+<span class="fc" id="L266">				return true;</span>
+<span class="nc" id="L267">			} catch (TwitterException e) {</span>
+<span class="nc" id="L268">				return false;</span>
+			}
+		}else{
+<span class="fc" id="L271">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="fc" id="L273">		return false;</span>
+	}
+	public boolean isRetweetedbyMe(Status tweet){
+<span class="fc" id="L276">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L279">				List&lt;Status&gt; l = t.getRetweets(tweet.getId());</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">				for(Status s : l){</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">					if(s.getUser().getScreenName().equals(t.getScreenName()))	</span>
+<span class="fc" id="L282">						return true;</span>
+				}
+				
+<span class="nc" id="L285">			} catch (Exception e) {</span>
+<span class="nc" id="L286">				return false;</span>
+			}
+		}else{
+<span class="fc" id="L289">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="fc" id="L291">		return false;</span>
+	}
+	
+	
+	public boolean deleteRetweet(Status tweet){
+<span class="fc" id="L296">			Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">			if(t!=null){</span>
+				try {
+<span class="fc" id="L299">					twitter.unRetweetStatus(tweet.getId());	</span>
+<span class="fc" id="L300">					return true;</span>
+						
+<span class="nc" id="L302">				} catch (Exception e) {</span>
+<span class="nc" id="L303">					e.printStackTrace();</span>
+<span class="nc" id="L304">					return false;</span>
+				}
+			}else{
+<span class="fc" id="L307">				System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+			}
+<span class="fc" id="L309">			return false;</span>
+	}
+	/**
+	 * deletes a post made by the user.
+	 *
+	 * @param tweet the target tweet
+	 * @return true, if sucessful
+	 */
+	public boolean deletePost(Status tweet){
+<span class="fc" id="L318">		Twitter t = logger.getAuthenticatedInstance();</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">		if(t!=null){</span>
+			try {
+<span class="fc" id="L321">				t.destroyStatus(tweet.getId());</span>
+<span class="fc" id="L322">				return true;</span>
+<span class="nc" id="L323">			} catch (TwitterException e) {</span>
+<span class="nc" id="L324">				return false;</span>
+			}
+		}else{
+<span class="nc" id="L327">			System.out.println(&quot;E nessessario efetuar login para utilizar esta funcao&quot;);</span>
+		}
+<span class="nc" id="L329">		return false;</span>
+	}
+
+	//Querys
+	/**
+	 * Returns a List with a basic query from twitter with the String &quot;ISCTE&quot;.
+	 *
+	 * @return List&lt;InformationEntry&gt;
+	 * @throws Exception the exception
+	 */
+	public List&lt;InformationEntry&gt; requestTwitter() throws Exception {
+<span class="fc" id="L340">		List&lt;InformationEntry&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L342">			init();</span>
+
+		try {
+<span class="fc" id="L345">			Query query = new Query(&quot;ISCTE&quot;);</span>
+			QueryResult result;
+			do {
+<span class="fc" id="L348">				result = twitter.search(query);</span>
+<span class="fc" id="L349">				List&lt;Status&gt; tweets = result.getTweets();</span>
+<span class="fc" id="L350">				tweets.sort(Comparator.comparing(Status::getCreatedAt).reversed());</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">				for (Status tweet : tweets) {</span>
+<span class="fc" id="L352">					list.add(new TwitterEntry(tweet));</span>
+<span class="fc" id="L353">					System.out.println(&quot;@&quot; + tweet.getUser().getScreenName() + &quot; - &quot; + tweet.getCreatedAt() + &quot; - &quot;</span>
+<span class="fc" id="L354">							+ tweet.getText());</span>
+				}
+<span class="fc bfc" id="L356" title="All 2 branches covered.">			} while ((query = result.nextQuery()) != null);</span>
+<span class="fc" id="L357">			return list;</span>
+<span class="nc" id="L358">		} catch (TwitterException te) {</span>
+<span class="nc" id="L359">			te.printStackTrace();</span>
+<span class="nc" id="L360">			System.out.println(&quot;Failed to search tweets: &quot; + te.getMessage());</span>
+<span class="nc" id="L361">			return null;</span>
+		}
+	}
+	
+	/**
+	 * Gets the tweets filtered.
+	 *
+	 * @return the tweets filtered
+	 */
+	public List&lt;InformationEntry&gt; getTweetsFiltered(){
+<span class="fc" id="L371">		init();</span>
+<span class="fc" id="L372">		Filter f = Filter.getInstance();</span>
+<span class="fc" id="L373">		List&lt;InformationEntry&gt; l=null;</span>
+		try {
+<span class="fc" id="L375">			l=getTweetsFromUsers(f.getDate(), f.getFilterList(Service.TWITTER).toArray(new String[0]));</span>
+<span class="pc" id="L376">		} catch (Exception e) {</span>
+<span class="nc" id="L377">			System.out.println(&quot;getFilterList retorna lista com objetos do tipo errado ou retorna null&quot;);</span>
+<span class="nc" id="L378">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L380">		return l;</span>
+	}
+
+	/**
+	 * Returns a List of all tweets done by the user referred, after the designated date.
+	 *
+	 * @param date the date
+	 * @param user the user
+	 * @return List&lt;InformationEntry&gt;
+	 */
+	public List&lt;InformationEntry&gt; getTweetsFromUserByDate(Date date, String user) {
+<span class="fc" id="L391">		List&lt;InformationEntry&gt; tweets = new ArrayList&lt;&gt;();</span>
+		try {
+<span class="fc" id="L393">			twitter.getUserTimeline(user).forEach(s -&gt; {</span>
+<span class="fc bfc" id="L394" title="All 2 branches covered.">			if(s.getCreatedAt().after(date))</span>
+<span class="fc" id="L395">			tweets.add(new TwitterEntry(s));</span>
+<span class="fc" id="L396">			});</span>
+<span class="pc" id="L397">		} catch (TwitterException e) {</span>
+<span class="nc" id="L398">			e.printStackTrace();</span>
+		}
+
+<span class="fc" id="L401">		return tweets;</span>
+	}
+
+	/**
+	 * Returns a List of all tweets done by the users referred, after the designated date.
+	 *
+	 * @param date the date
+	 * @param users the users
+	 * @return List&lt;InformationEntry&gt;
+	 */
+	public List&lt;InformationEntry&gt; getTweetsFromUsers(Date date, String... users) {
+<span class="fc" id="L412">		List&lt;InformationEntry&gt; tweets = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L413" title="All 2 branches covered.">		if(users!=null)</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">		for (String user : users)</span>
+<span class="fc" id="L415">			tweets.addAll(getTweetsFromUserByDate(date, user));</span>
+
+<span class="fc" id="L417">		tweets.sort(Comparator.comparing(InformationEntry::getDate).reversed());</span>
+
+<span class="fc" id="L419">		return tweets;</span>
+	}
+	// Testing functions
+	public Status getSomeStatus(){
+<span class="fc" id="L423">		Filter.getInstance().defineDateIntervalFromCurrentDate(24);</span>
+<span class="fc" id="L424">		List&lt;InformationEntry&gt; l = TwitterConnection.getInstance().getTweetsFiltered();</span>
+<span class="fc" id="L425">		TwitterEntry te = (TwitterEntry) l.get(0);</span>
+<span class="fc" id="L426">		return te.getStatus();</span>
+	}
+/**
+ * Gets the some retweet.
+ *
+ * @return the some retweet
+ */
+//	}
+	public Status getSomeRetweet(){
+		List&lt;Status&gt; list;
+		try {
+<span class="fc" id="L437">			list = twitter.getUserTimeline();</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">			for(Status elem : list){</span>
+<span class="pc bpc" id="L439" title="1 of 2 branches missed.">				if(elem.isRetweet())return elem;</span>
+			}
+<span class="pc" id="L441">		} catch (TwitterException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L443">			e.printStackTrace();</span>
+		}
+		
+<span class="fc" id="L446">		return null;</span>
+	}
+	public String getUserPicture(String user) throws TwitterException{
+<span class="fc" id="L449">		User u = twitter.showUser(user);</span>
+<span class="fc" id="L450">		return u.get400x400ProfileImageURL();</span>
+	}
+
+	/**
+	 * Gets the keys.
+	 *
+	 * @return the keys
+	 */
+	public static String[] getKeys() {
+<span class="fc" id="L459">		return new String[] { TWITTER_CONSUMER_KEY, TWITTER_SECRET_KEY, TWITTER_ACCESS_TOKEN,</span>
+<span class="fc" id="L460">				TWITTER_ACCESS_TOKEN_SECRET };</span>
+	}
+
+	public Twitter getTwitter() {
+<span class="fc" id="L464">		return logger.getAuthenticatedInstance();</span>
+	}
+
+	public Status getStatusById(Long id) {
+		try {
+<span class="fc" id="L469">			return twitter.showStatus(id);</span>
+<span class="nc" id="L470">		} catch (TwitterException e) {</span>
+<span class="nc" id="L471">			return null;</span>
+		}
+	}
+	@Override
+	public Service getService() {
+<span class="fc" id="L476">		return Service.TWITTER;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

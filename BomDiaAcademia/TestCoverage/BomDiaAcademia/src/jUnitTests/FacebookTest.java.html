@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">FacebookTest.java</span></div><h1>FacebookTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">FacebookTest.java</span></div><h1>FacebookTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
 import static org.junit.Assert.*;
 
@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import com.restfb.types.GraphResponse;
 
-import entry_objects.InformationEntry;
-import facebook.FacebookConnection;
-import other.Service;
-import entry_objects.FacebookEntry;
+import BDA.entry_objects.FacebookEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.facebook.FacebookConnection;
+import BDA.other.Service;
 
 <span class="fc" id="L17">public class FacebookTest {</span>
 	List&lt;InformationEntry&gt; in;
@@ -134,18 +134,20 @@ import entry_objects.FacebookEntry;
 		
 		
 <span class="fc" id="L136">	}</span>
-
+	
+	
+	
 	@Test
 	public final void testGetAccessToken2() {
-<span class="fc" id="L140">		assertNotNull(FacebookConnection.getAccessToken2());</span>
-<span class="fc" id="L141">	}</span>
+<span class="fc" id="L142">		assertNotNull(FacebookConnection.getAccessToken2());</span>
+<span class="fc" id="L143">	}</span>
 
 
 	@Test
 	public final void testGetService() {
-<span class="fc" id="L146">		assertNotNull(FacebookConnection.getInstance().getService());</span>
-<span class="fc" id="L147">		assertEquals(Service.FACEBOOK, FacebookConnection.getInstance().getService());</span>
-<span class="fc" id="L148">	}</span>
+<span class="fc" id="L148">		assertNotNull(FacebookConnection.getInstance().getService());</span>
+<span class="fc" id="L149">		assertEquals(Service.FACEBOOK, FacebookConnection.getInstance().getService());</span>
+<span class="fc" id="L150">	}</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

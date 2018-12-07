@@ -1,69 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteXMLFileTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ReadAndWriteXMLFileTest.java</span></div><h1>ReadAndWriteXMLFileTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteXMLFileTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">ReadAndWriteXMLFileTest.java</span></div><h1>ReadAndWriteXMLFileTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import email.EmailConnection;
-import entry_objects.EmailEntry;
-import entry_objects.InformationEntry;
-import files.ReadAndWriteFile;
-import files.ReadAndWriteXMLFile;
-import junit.framework.Assert;
-import other.Service;
-import other.XMLUserConfiguration;
+import BDA.files.ReadAndWriteXMLFile;
+import BDA.other.Service;
+import BDA.other.XMLUserConfiguration;
 
-<span class="fc" id="L26">public class ReadAndWriteXMLFileTest {</span>
+<span class="fc" id="L16">public class ReadAndWriteXMLFileTest {</span>
 
-<span class="fc" id="L28">	private static List&lt;XMLUserConfiguration&gt; user_config_list = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
-<span class="fc" id="L29">	private static XMLUserConfiguration config = null;</span>
-<span class="fc" id="L30">	private static XMLUserConfiguration config1 = null;</span>
+<span class="fc" id="L18">	private static List&lt;XMLUserConfiguration&gt; user_config_list = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
+<span class="fc" id="L19">	private static XMLUserConfiguration config = null;</span>
+<span class="fc" id="L20">	private static XMLUserConfiguration config1 = null;</span>
 
 	
 	@BeforeClass
 	public static void startInstance() throws Exception {
-<span class="fc" id="L35">		config = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);</span>
-<span class="fc" id="L36">		config1 = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);</span>
-<span class="fc" id="L37">		assertNotNull( config);</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L25">		config = ReadAndWriteXMLFile.ReadConfigXMLFile().get(0);</span>
+<span class="fc" id="L26">		config1 = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);</span>
+<span class="fc" id="L27">		assertNotNull( config);</span>
+<span class="fc" id="L28">	}</span>
 	@Test
 	public void testCreateConfigXMLFile() throws Exception {
-<span class="fc" id="L41">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
+<span class="fc" id="L31">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
 		
-<span class="nc" id="L43">		ReadAndWriteXMLFile.CreateConfigXMLFile(null);</span>
+<span class="nc" id="L33">		ReadAndWriteXMLFile.CreateConfigXMLFile(null);</span>
 		
-<span class="nc" id="L45">		ReadAndWriteXMLFile.CreateConfigXMLFile(new ArrayList&lt;XMLUserConfiguration&gt;());</span>
-<span class="nc" id="L46">	}</span>
+<span class="nc" id="L35">		ReadAndWriteXMLFile.CreateConfigXMLFile(new ArrayList&lt;XMLUserConfiguration&gt;());</span>
+<span class="nc" id="L36">	}</span>
 
 	@Test
 	public void testReadConfigXMLFile() throws Exception {
-<span class="fc" id="L50">		XMLUserConfiguration user = new XMLUserConfiguration(true, Service.EMAIL, &quot;username&quot;, &quot;password&quot;);</span>
-<span class="fc" id="L51">		user_config_list.add(user);</span>
-<span class="fc" id="L52">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
+<span class="fc" id="L40">		XMLUserConfiguration user = new XMLUserConfiguration(true, Service.EMAIL, &quot;username&quot;, &quot;password&quot;);</span>
+<span class="fc" id="L41">		user_config_list.add(user);</span>
+<span class="fc" id="L42">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
 		
-<span class="fc" id="L54">		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getPassword(),&quot;password&quot;);</span>
-<span class="fc" id="L55">		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getUsername(),&quot;username&quot;);</span>
+<span class="fc" id="L44">		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getPassword(),&quot;password&quot;);</span>
+<span class="fc" id="L45">		assertEquals(ReadAndWriteXMLFile.ReadConfigXMLFile().get(0).getUsername(),&quot;username&quot;);</span>
 		
-<span class="fc" id="L57">		user_config_list.remove(user);</span>
-<span class="fc" id="L58">		user_config_list.add(config);</span>
-<span class="fc" id="L59">		user_config_list.add(config1);</span>
-<span class="fc" id="L60">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
-<span class="fc" id="L61">	}</span>
+<span class="fc" id="L47">		user_config_list.remove(user);</span>
+<span class="fc" id="L48">		user_config_list.add(config);</span>
+<span class="fc" id="L49">		user_config_list.add(config1);</span>
+<span class="fc" id="L50">		ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);</span>
+<span class="fc" id="L51">	}</span>
 
 	@Test
 	public void testGetTwitterUsers() throws Exception {
-<span class="fc" id="L65">		assertNotNull(ReadAndWriteXMLFile.getTwitterUsers());</span>
-<span class="fc" id="L66">	}</span>
+<span class="fc" id="L55">		assertNotNull(ReadAndWriteXMLFile.getTwitterUsers());</span>
+<span class="fc" id="L56">	}</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

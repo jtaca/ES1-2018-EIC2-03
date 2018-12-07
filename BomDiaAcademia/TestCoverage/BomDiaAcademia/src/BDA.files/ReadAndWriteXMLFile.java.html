@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadAndWriteXMLFile.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.files</a> &gt; <span class="el_source">ReadAndWriteXMLFile.java</span></div><h1>ReadAndWriteXMLFile.java</h1><pre class="source lang-java linenums">package BDA.files;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import BDA.email.EmailConnection;
+import BDA.facebook.FacebookConnection;
+import BDA.interfaces.ServiceInstance;
+import BDA.other.Service;
+import BDA.other.XMLUserConfiguration;
+import BDA.twitter.TwitterConnection;
+
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReadAndWriteXMLFile.
+ * @author Alexandre Mendes
+ * @version 1.0
+ */
+<span class="nc" id="L34">public class ReadAndWriteXMLFile { //</span>
+	
+	/** The Constant CONFIG_FILE_NAME. */
+	private final static String CONFIG_FILE_NAME = &quot;config.xml&quot;;
+	
+	/** The Constant TWITTER_CONFIG. */
+	private final static String TWITTER_CONFIG = &quot;twitter.xml&quot;;
+	
+	/**
+	 * Creates the config XML file.
+	 *
+	 * @param user_config_list the user config list
+	 * @throws Exception the exception
+	 */
+	public synchronized static void CreateConfigXMLFile(List&lt;XMLUserConfiguration&gt; user_config_list) throws Exception {
+<span class="fc" id="L49">		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="fc" id="L50">		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();</span>
+<span class="fc" id="L51">		Document document = documentBuilder.newDocument();</span>
+		
+<span class="fc" id="L53">		Element configurationList = document.createElement(&quot;XMLUserConfigurationList&quot;);</span>
+<span class="fc" id="L54">		document.appendChild(configurationList);</span>
+		
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		for(int i = 0 ; i &lt; user_config_list.size() ; i++) { </span>
+<span class="fc" id="L57">			Element element = document.createElement(&quot;XMLUserConfiguration&quot;);</span>
+<span class="fc" id="L58">			configurationList.appendChild(element);</span>
+			
+<span class="fc" id="L60">			Attr attr = document.createAttribute(&quot;Id&quot;);</span>
+<span class="fc" id="L61">			attr.setValue(&quot;&quot; + i);</span>
+<span class="fc" id="L62">			element.setAttributeNode(attr);</span>
+			
+<span class="fc" id="L64">			Element saveInformation = document.createElement(&quot;SaveInformation&quot;);</span>
+<span class="fc" id="L65">			saveInformation.appendChild(document.createTextNode(&quot;&quot; + user_config_list.get(i).isInformationSaved()));</span>
+<span class="fc" id="L66">			element.appendChild(saveInformation);</span>
+			
+<span class="fc" id="L68">			Element typeOfService = document.createElement(&quot;TypeOfService&quot;);</span>
+<span class="fc" id="L69">			typeOfService.appendChild(document.createTextNode(&quot;&quot; + user_config_list.get(i).getTypeOfServiceNumber()));</span>
+<span class="fc" id="L70">			element.appendChild(typeOfService);</span>
+			
+<span class="fc" id="L72">			Element username = document.createElement(&quot;Username&quot;);</span>
+<span class="fc" id="L73">			username.appendChild(document.createTextNode(user_config_list.get(i).getUsername()));</span>
+<span class="fc" id="L74">			element.appendChild(username);</span>
+			
+<span class="fc" id="L76">			Element password = document.createElement(&quot;Password&quot;);</span>
+<span class="fc" id="L77">			password.appendChild(document.createTextNode(user_config_list.get(i).getPassword()));</span>
+<span class="fc" id="L78">			element.appendChild(password);</span>
+			
+<span class="fc" id="L80">			Element twitterConsumerKey = document.createElement(&quot;TwitterConsumerKey&quot;);</span>
+<span class="fc" id="L81">			twitterConsumerKey.appendChild(document.createTextNode(user_config_list.get(i).getTwitterConsumerKey()));</span>
+<span class="fc" id="L82">			element.appendChild(twitterConsumerKey);</span>
+			
+<span class="fc" id="L84">			Element twitterSecretKey = document.createElement(&quot;TwitterSecretKey&quot;);</span>
+<span class="fc" id="L85">			twitterSecretKey.appendChild(document.createTextNode(user_config_list.get(i).getTwitterSecretKey()));</span>
+<span class="fc" id="L86">			element.appendChild(twitterSecretKey);</span>
+			
+<span class="fc" id="L88">			Element twitterAccessToken = document.createElement(&quot;TwitterAccessToken&quot;);</span>
+<span class="fc" id="L89">			twitterAccessToken.appendChild(document.createTextNode(user_config_list.get(i).getTwitterAccessToken()));</span>
+<span class="fc" id="L90">			element.appendChild(twitterAccessToken);</span>
+			
+<span class="fc" id="L92">			Element twitterAccessTokenSecret = document.createElement(&quot;TwitterAccessTokenSecret&quot;);</span>
+<span class="fc" id="L93">			twitterAccessTokenSecret.appendChild(document.createTextNode(user_config_list.get(i).getTwitterAccessTokenSecret()));</span>
+<span class="fc" id="L94">			element.appendChild(twitterAccessTokenSecret);	</span>
+		}
+		
+<span class="fc" id="L97">		TransformerFactory transformerFactory = TransformerFactory.newInstance();</span>
+<span class="fc" id="L98">		Transformer transformer = transformerFactory.newTransformer();</span>
+<span class="fc" id="L99">		DOMSource source = new DOMSource(document);</span>
+		
+<span class="fc" id="L101">		StreamResult streamResult = new StreamResult(new File(CONFIG_FILE_NAME));</span>
+		
+<span class="fc" id="L103">		transformer.transform(source, streamResult);</span>
+<span class="fc" id="L104">	}</span>
+	
+	/*
+	public static void CreateInformationEntryXMLFile(List&lt;InformationEntry&gt; information_entry_list) throws Exception { // ainda n�o foi testado
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		
+		Document document = documentBuilder.newDocument();
+		
+		for(int i = 0 ; i &lt; information_entry_list.size() ; i++) {
+			//Element element = document.createElement(&quot;XMLUserConfiguration&quot;);
+			Element element = document.createElement(&quot;InformationEntry&quot;);
+			document.appendChild(element); // contem um problema que n�o sei resolver
+			
+			Attr attr = document.createAttribute(&quot;Id&quot;);
+			attr.setValue(&quot;&quot; + i);
+			element.setAttributeNode(attr);
+			
+			/*Element date = document.createElement(&quot;Date&quot;);
+			date.appendChild(document.createTextNode(&quot;&quot; + information_entry_list.get(i).getDate().getTime()));
+			element.appendChild(date);
+			
+			Element service = document.createElement(&quot;Service&quot;);
+			service.appendChild(document.createTextNode(&quot;&quot; + information_entry_list.get(i).getService().stringFormat()));
+			element.appendChild(service);
+			
+			Element writerName = document.createElement(&quot;WriterName&quot;);
+			writerName.appendChild(document.createTextNode(information_entry_list.get(i).getWriterName()));
+			element.appendChild(writerName);
+			
+			Element subject = document.createElement(&quot;Subject&quot;);
+			subject.appendChild(document.createTextNode(information_entry_list.get(i).getSubject()));
+			element.appendChild(subject);
+			
+			/*Element content = document.createElement(&quot;Content&quot;);
+			content.appendChild(document.createTextNode(information_entry_list.get(i).getContent()));
+			element.appendChild(content);
+			
+		}
+		
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(document);
+		
+		StreamResult streamResult = new StreamResult(new File(&quot;posts.xml&quot;));
+		
+		transformer.transform(source, streamResult);
+		
+	}
+	*/
+	
+	/**
+	 * Read config XML file.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
+	 */
+	public synchronized static List&lt;XMLUserConfiguration&gt; ReadConfigXMLFile() throws Exception {
+<span class="fc" id="L162">		File xmlFile = new File(CONFIG_FILE_NAME);</span>
+<span class="fc" id="L163">		List&lt;XMLUserConfiguration&gt; xml_user_config_array = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
+		
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">		if(xmlFile.exists()) {</span>
+<span class="fc" id="L166">			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="fc" id="L167">			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();</span>
+<span class="fc" id="L168">			Document document = documentBuilder.parse(xmlFile.toURI().toString());</span>
+		
+<span class="fc" id="L170">			NodeList list = document.getElementsByTagName(&quot;XMLUserConfigurationList&quot;);</span>
+		
+			boolean saveInformation;
+			int typeOfService;
+			String username; 
+			String password;
+			
+			String twitterConsumerKey;
+			String twitterSecretKey;
+			String twitterAccessToken;
+			String twitterAccessTokenSecret;
+			
+			XMLUserConfiguration xmlUserConfiguration;
+		
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			for(int i = 0 ; i &lt; list.getLength() ; i++) {</span>
+<span class="fc" id="L185">				Node node = list.item(i);</span>
+			
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">				if(node.getNodeType() == Node.ELEMENT_NODE) {</span>
+<span class="fc" id="L188">					Element element = (Element) node;</span>
+					
+<span class="fc" id="L190">					NodeList listUserConfiguration = element.getElementsByTagName(&quot;XMLUserConfiguration&quot;);</span>
+					
+					
+<span class="fc bfc" id="L193" title="All 2 branches covered.">					for(int x = 0 ; x &lt; listUserConfiguration.getLength() ; x++) {</span>
+<span class="fc" id="L194">						Node nodeUserConfig = listUserConfiguration.item(x);</span>
+						
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">						if(node.getNodeType() == Node.ELEMENT_NODE) {</span>
+<span class="fc" id="L197">							Element elementUserConfig = (Element) nodeUserConfig;</span>
+							
+							
+<span class="fc" id="L200">							saveInformation = Boolean.parseBoolean(elementUserConfig.getElementsByTagName(&quot;SaveInformation&quot;).item(0).getTextContent());</span>
+<span class="fc" id="L201">							typeOfService = Integer.parseInt(elementUserConfig.getElementsByTagName(&quot;TypeOfService&quot;).item(0).getTextContent());</span>
+<span class="fc" id="L202">							username = elementUserConfig.getElementsByTagName(&quot;Username&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L203">							password = elementUserConfig.getElementsByTagName(&quot;Password&quot;).item(0).getTextContent();</span>
+							
+							
+<span class="fc bfc" id="L206" title="All 2 branches covered.">							if(typeOfService == Service.TWITTER.getTypeOfServiceNumber()) {</span>
+<span class="fc" id="L207">								twitterConsumerKey = elementUserConfig.getElementsByTagName(&quot;TwitterConsumerKey&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L208">								twitterSecretKey = elementUserConfig.getElementsByTagName(&quot;TwitterSecretKey&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L209">								twitterAccessToken = elementUserConfig.getElementsByTagName(&quot;TwitterAccessToken&quot;).item(0).getTextContent();</span>
+<span class="fc" id="L210">								twitterAccessTokenSecret = elementUserConfig.getElementsByTagName(&quot;TwitterAccessTokenSecret&quot;).item(0).getTextContent();</span>
+								
+								
+<span class="fc" id="L213">								xmlUserConfiguration = new XMLUserConfiguration(saveInformation, typeOfService, twitterConsumerKey, twitterSecretKey, twitterAccessToken, twitterAccessTokenSecret);</span>
+<span class="fc" id="L214">							} else {</span>
+<span class="fc" id="L215">								xmlUserConfiguration = new XMLUserConfiguration(saveInformation, typeOfService, username, password);</span>
+							}
+							
+						
+//							System.out.println(&quot;ID: &quot; + element.getAttribute(&quot;Id&quot;));
+						
+<span class="fc" id="L221">							xml_user_config_array.add(xmlUserConfiguration);</span>
+						}
+						//System.out.println(xml_user_config_array);
+					}
+				}
+			}
+		}
+		
+<span class="fc" id="L229">		return xml_user_config_array;</span>
+	}
+	
+	public static void addServiceInstanceToXMLFile(ServiceInstance serviceInstance) throws Exception {
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">		if(serviceInstance != null) {</span>
+<span class="fc" id="L234">			List&lt;XMLUserConfiguration&gt; xml_user_configuration_list = ReadConfigXMLFile();</span>
+<span class="fc" id="L235">			XMLUserConfiguration xml_user_configuration = null;</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">			if(xml_user_configuration_list != null) {</span>
+<span class="pc bpc" id="L237" title="1 of 4 branches missed.">				switch (serviceInstance.getService()) {</span>
+					case EMAIL:
+<span class="fc" id="L239">						EmailConnection email_connection = (EmailConnection) serviceInstance;</span>
+<span class="fc" id="L240">						xml_user_configuration = new XMLUserConfiguration(true, Service.EMAIL, email_connection.getUsername(), email_connection.getPassword());</span>
+<span class="fc" id="L241">						break;</span>
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L244">						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;</span>
+<span class="fc" id="L245">						String[] keys = TwitterConnection.getKeys();</span>
+<span class="fc" id="L246">						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem</span>
+<span class="fc" id="L247">						break;</span>
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L250">						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;</span>
+<span class="fc" id="L251">						xml_user_configuration = new XMLUserConfiguration(true, Service.FACEBOOK, FacebookConnection.getAccessToken2()); // isto esta feito para coisas estaticas apenas</span>
+<span class="fc" id="L252">						break;</span>
+	
+					default:
+						break;
+				}
+<span class="fc" id="L257">				xml_user_configuration_list.add(xml_user_configuration);</span>
+<span class="fc" id="L258">				CreateConfigXMLFile(xml_user_configuration_list);</span>
+			}
+		}
+<span class="fc" id="L261">	}</span>
+	
+	public static void addServiceInstanceToXMLFile(List&lt;ServiceInstance&gt; serviceInstances) throws Exception {
+<span class="fc" id="L264">		List&lt;XMLUserConfiguration&gt; xml_user_configuration_list = ReadConfigXMLFile();</span>
+<span class="fc" id="L265">		XMLUserConfiguration xml_user_configuration = null;</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">		if(xml_user_configuration_list != null) {</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">			for(ServiceInstance serviceInstance : serviceInstances) {</span>
+<span class="pc bpc" id="L268" title="1 of 4 branches missed.">				switch (serviceInstance.getService()) {</span>
+					case EMAIL:
+<span class="fc" id="L270">						EmailConnection email_connection = (EmailConnection) serviceInstance;</span>
+<span class="fc" id="L271">						xml_user_configuration = new XMLUserConfiguration(true, Service.EMAIL, email_connection.getUsername(), email_connection.getPassword());</span>
+<span class="fc" id="L272">						break;</span>
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L275">						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;</span>
+<span class="fc" id="L276">						String[] keys = TwitterConnection.getKeys();</span>
+<span class="fc" id="L277">						xml_user_configuration = new XMLUserConfiguration(true, Service.TWITTER, keys[0], keys[1], keys[2], keys[3]); // nao tenho a certeza se esta bem</span>
+<span class="fc" id="L278">						break;</span>
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L281">						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;</span>
+<span class="fc" id="L282">						xml_user_configuration = new XMLUserConfiguration(true, Service.FACEBOOK, FacebookConnection.getAccessToken2()); // isto esta feito para coisas estaticas apenas</span>
+<span class="fc" id="L283">						break;</span>
+	
+					default:
+						break;
+				}
+<span class="fc" id="L288">				xml_user_configuration_list.add(xml_user_configuration);</span>
+			}
+<span class="fc" id="L290">			CreateConfigXMLFile(xml_user_configuration_list);</span>
+		}
+<span class="fc" id="L292">	}</span>
+	
+	public static void removeServiceInstanceFromXMLFile(ServiceInstance serviceInstance) throws Exception {
+<span class="fc" id="L295">		List&lt;XMLUserConfiguration&gt; xml_user_configuration_list = ReadConfigXMLFile();</span>
+<span class="fc" id="L296">		List&lt;XMLUserConfiguration&gt; to_remove = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
+<span class="pc bpc" id="L297" title="1 of 2 branches missed.">		if(xml_user_configuration_list != null) {</span>
+<span class="pc bpc" id="L298" title="1 of 4 branches missed.">			switch (serviceInstance.getService()) {</span>
+				case EMAIL:
+<span class="fc" id="L300">					EmailConnection email_connection = (EmailConnection) serviceInstance;</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L302" title="3 of 6 branches missed.">						if(xml_user.getService() == Service.EMAIL &amp;&amp; xml_user.getUsername().equals(email_connection.getUsername()) &amp;&amp; xml_user.getPassword().equals(email_connection.getPassword())) {</span>
+<span class="nc" id="L303">							to_remove.add(xml_user);</span>
+<span class="nc" id="L304">							break;</span>
+						}
+					}
+<span class="fc" id="L307">					break;</span>
+			
+				case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L310">					TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;</span>
+<span class="fc" id="L311">					String[] keys = TwitterConnection.getKeys();</span>
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L313" title="1 of 6 branches missed.">						if(xml_user.getService() == Service.TWITTER &amp;&amp; xml_user.getTwitterConsumerKey().equals(keys[0]) &amp;&amp; xml_user.getTwitterSecretKey().equals(keys[1]) </span>
+<span class="pc bpc" id="L314" title="2 of 4 branches missed.">								&amp;&amp; xml_user.getTwitterAccessToken().equals(keys[2]) &amp;&amp; xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {</span>
+<span class="fc" id="L315">							to_remove.add(xml_user);</span>
+<span class="fc" id="L316">							break;</span>
+						}
+					}
+<span class="nc" id="L319">					break;</span>
+				
+				case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L322">					FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">					for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L324" title="1 of 4 branches missed.">						if(xml_user.getService() == Service.FACEBOOK &amp;&amp; xml_user.getAccessToken2().equals(FacebookConnection.getAccessToken2())) {</span>
+<span class="nc" id="L325">							to_remove.add(xml_user);</span>
+<span class="nc" id="L326">							break;</span>
+						}
+					}
+<span class="fc" id="L329">					break;</span>
+	
+				default:
+					break;
+			}
+<span class="fc" id="L334">			xml_user_configuration_list.removeAll(to_remove);</span>
+<span class="fc" id="L335">			CreateConfigXMLFile(xml_user_configuration_list);</span>
+		}
+<span class="fc" id="L337">	}</span>
+	
+	public static void removeServiceInstanceFromXMLFile(List&lt;ServiceInstance&gt; serviceInstances) throws Exception {
+<span class="fc" id="L340">		List&lt;XMLUserConfiguration&gt; xml_user_configuration_list = ReadConfigXMLFile();</span>
+<span class="fc" id="L341">		List&lt;XMLUserConfiguration&gt; to_remove = new ArrayList&lt;XMLUserConfiguration&gt;();</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">		if(xml_user_configuration_list != null) {</span>
+<span class="fc bfc" id="L343" title="All 2 branches covered.">			for(ServiceInstance serviceInstance : serviceInstances) {</span>
+<span class="pc bpc" id="L344" title="1 of 4 branches missed.">				switch (serviceInstance.getService()) {</span>
+					case EMAIL:
+<span class="fc" id="L346">						EmailConnection email_connection = (EmailConnection) serviceInstance;</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L348" title="3 of 6 branches missed.">							if(xml_user.getService() == Service.EMAIL &amp;&amp; xml_user.getUsername().equals(email_connection.getUsername()) &amp;&amp; xml_user.getPassword().equals(email_connection.getPassword())) {</span>
+<span class="nc" id="L349">								to_remove.add(xml_user);</span>
+<span class="nc" id="L350">								break;</span>
+							}
+						}
+<span class="fc" id="L353">						break;</span>
+				
+					case TWITTER: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L356">						TwitterConnection twitter_functions = (TwitterConnection) serviceInstance;</span>
+<span class="fc" id="L357">						String[] keys = TwitterConnection.getKeys();</span>
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L359" title="1 of 6 branches missed.">							if(xml_user.getService() == Service.TWITTER &amp;&amp; xml_user.getTwitterConsumerKey().equals(keys[0]) &amp;&amp; xml_user.getTwitterSecretKey().equals(keys[1]) </span>
+<span class="pc bpc" id="L360" title="2 of 4 branches missed.">									&amp;&amp; xml_user.getTwitterAccessToken().equals(keys[2]) &amp;&amp; xml_user.getTwitterAccessTokenSecret().equals(keys[3])) {</span>
+<span class="fc" id="L361">								to_remove.add(xml_user);</span>
+<span class="fc" id="L362">								break;</span>
+							}
+						}
+<span class="nc" id="L365">						break;</span>
+					
+					case FACEBOOK: // da forma como esta implementado se chamarmos isto so irá trazer duplicados
+<span class="fc" id="L368">						FacebookConnection facebook_connection = (FacebookConnection) serviceInstance;</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">						for(XMLUserConfiguration xml_user : xml_user_configuration_list) {</span>
+<span class="pc bpc" id="L370" title="1 of 4 branches missed.">							if(xml_user.getService() == Service.FACEBOOK &amp;&amp; xml_user.getAccessToken2().equals(FacebookConnection.getAccessToken2())) {</span>
+<span class="nc" id="L371">								to_remove.add(xml_user);</span>
+<span class="nc" id="L372">								break;</span>
+							}
+						}
+<span class="fc" id="L375">						break;</span>
+		
+					default:
+						break;
+				}
+<span class="fc" id="L380">				xml_user_configuration_list.removeAll(to_remove);</span>
+			}
+<span class="fc" id="L382">			CreateConfigXMLFile(xml_user_configuration_list);</span>
+		}
+<span class="fc" id="L384">	}</span>
+	
+	
+	
+	/**
+	 * Gets the twitter users.
+	 *
+	 * @return the twitter users
+	 * @throws Exception the exception
+	 */
+	public static List&lt;String&gt; getTwitterUsers() throws Exception {
+<span class="fc" id="L395">		File xmlFile = new File(TWITTER_CONFIG);</span>
+<span class="fc" id="L396">		List&lt;String&gt; users = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc" id="L398">		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="fc" id="L399">		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();</span>
+		Document document;
+		
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">		if(xmlFile.exists()) {</span>
+<span class="fc" id="L403">			document = documentBuilder.parse(xmlFile.toURI().toString());</span>
+<span class="fc" id="L404">			NodeList list = document.getElementsByTagName(&quot;TwitterUser&quot;);</span>
+		
+<span class="fc bfc" id="L406" title="All 2 branches covered.">			for(int i = 0 ; i &lt; list.getLength() ; i++) {</span>
+<span class="fc" id="L407">				Node node = list.item(i);</span>
+			
+<span class="pc bpc" id="L409" title="1 of 2 branches missed.">				if(node.getNodeType() == Node.ELEMENT_NODE) {</span>
+<span class="fc" id="L410">					Element element = (Element) node;</span>
+					
+<span class="fc" id="L412">					users.add(element.getElementsByTagName(&quot;Username&quot;).item(0).getTextContent());</span>
+				}
+			}
+<span class="fc" id="L415">		} else {</span>
+<span class="nc" id="L416">			document = documentBuilder.newDocument();</span>
+<span class="nc" id="L417">			String usernames[] = {&quot;iscteiul&quot;, &quot;istar_iul&quot;};</span>
+<span class="nc" id="L418">			Element configurationList = document.createElement(&quot;TwitterUserList&quot;);</span>
+			
+<span class="nc" id="L420">			document.appendChild(configurationList);</span>
+
+<span class="nc bnc" id="L422" title="All 2 branches missed.">			for(String username : usernames) { </span>
+<span class="nc" id="L423">				Element element = document.createElement(&quot;TwitterUser&quot;);</span>
+<span class="nc" id="L424">				configurationList.appendChild(element);</span>
+				
+<span class="nc" id="L426">				Element user = document.createElement(&quot;Username&quot;);</span>
+<span class="nc" id="L427">				user.appendChild(document.createTextNode(username));</span>
+<span class="nc" id="L428">				element.appendChild(user);</span>
+				
+<span class="nc" id="L430">				users.add(username);</span>
+			}
+			
+<span class="nc" id="L433">			TransformerFactory transformerFactory = TransformerFactory.newInstance();</span>
+<span class="nc" id="L434">			Transformer transformer = transformerFactory.newTransformer();</span>
+<span class="nc" id="L435">			DOMSource source = new DOMSource(document);</span>
+			
+<span class="nc" id="L437">			StreamResult streamResult = new StreamResult(new File(TWITTER_CONFIG));</span>
+			
+<span class="nc" id="L439">			transformer.transform(source, streamResult);</span>
+		}
+		
+<span class="fc" id="L442">		return users;</span>
+	}
+	
+	/*
+	public static List&lt;InformationEntry&gt; ReadInformationEntryXMLFile() throws Exception { // ainda n�o foi testado // acho que n�o vai ser usado
+		File xmlFile = new File(&quot;posts.xml&quot;);
+		List&lt;InformationEntry&gt; information_entry_list = new ArrayList&lt;InformationEntry&gt;();
+		
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document document = documentBuilder.parse(xmlFile);
+		
+		NodeList list = document.getElementsByTagName(&quot;InformationEntry&quot;);
+		
+		Date date;
+		Service service;
+		String writerName;
+		String subject;
+		String content;
+		
+		for(int i = 0 ; i &lt; list.getLength() ; i++) {
+			Node node = list.item(i);
+			
+			if(node.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) node;
+				
+				date = new Date(Long.valueOf(element.getElementsByTagName(&quot;Date&quot;).item(0).getTextContent()).longValue());
+				switch (element.getElementsByTagName(&quot;TypeOfService&quot;).item(0).getTextContent()) {
+				case &quot;Email&quot;:
+					service = Service.EMAIL;
+					break;
+					
+				case &quot;Facebook&quot;:
+					service = Service.FACEBOOK;
+					break;
+					
+				case &quot;Twitter&quot;:
+					service = Service.TWITTER;
+					break;
+
+				default:
+					service = null;
+					break;
+				}
+				
+				writerName = element.getElementsByTagName(&quot;WriterName&quot;).item(0).getTextContent();
+				subject = element.getElementsByTagName(&quot;Subject&quot;).item(0).getTextContent();
+				content = element.getElementsByTagName(&quot;Content&quot;).item(0).getTextContent();
+				
+				System.out.println(&quot;ID: &quot; + element.getAttribute(&quot;Id&quot;));
+				
+				//information_entry_list.add(new InformationEntry(date, service, writerName, subject, content));
+				
+			}
+		}
+		return information_entry_list;
+	}
+	*/
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

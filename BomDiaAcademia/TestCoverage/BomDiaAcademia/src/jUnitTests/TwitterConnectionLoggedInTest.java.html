@@ -1,92 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterConnectionLoggedInTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 10:25:25)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">TwitterConnectionLoggedInTest.java</span></div><h1>TwitterConnectionLoggedInTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TwitterConnectionLoggedInTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">jUnitTests</a> &gt; <span class="el_source">TwitterConnectionLoggedInTest.java</span></div><h1>TwitterConnectionLoggedInTest.java</h1><pre class="source lang-java linenums">package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import entry_objects.InformationEntry;
-import other.Filter;
-import twitter.TwitterConnection;
-import twitter4j.GeoLocation;
-import twitter4j.HashtagEntity;
-import twitter4j.MediaEntity;
-import twitter4j.Place;
-import twitter4j.RateLimitStatus;
-import twitter4j.Scopes;
+import BDA.twitter.TwitterConnection;
 import twitter4j.Status;
-import twitter4j.SymbolEntity;
 import twitter4j.TwitterException;
-import twitter4j.URLEntity;
-import twitter4j.User;
-import twitter4j.UserMentionEntity;
 import twitter4j.auth.AccessToken;
 
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">public class TwitterConnectionLoggedInTest {</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">public class TwitterConnectionLoggedInTest {</span>
 		
-<span class="fc" id="L33">		public static final AccessToken at= new AccessToken(TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);</span>
-<span class="fc" id="L34">		public static final Status status = TwitterConnection.getInstance().getSomeStatus();</span>
+<span class="fc" id="L18">		public static final AccessToken at= new AccessToken(TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);</span>
+<span class="fc" id="L19">		public static final Status status = TwitterConnection.getInstance().getSomeStatus();</span>
 		@BeforeClass
 		public static void presetUp(){
-<span class="fc" id="L37">			TwitterConnection tf = TwitterConnection.getInstance();</span>
-<span class="fc" id="L38">			tf.setUserToken(at);</span>
-<span class="fc" id="L39">			tf.deleteRetweet(status);</span>
-<span class="fc" id="L40">		}</span>
+<span class="fc" id="L22">			TwitterConnection tf = TwitterConnection.getInstance();</span>
+<span class="fc" id="L23">			tf.setUserToken(at);</span>
+<span class="fc" id="L24">			tf.deleteRetweet(status);</span>
+<span class="fc" id="L25">		}</span>
 		@Before
 		public void setUp(){
-<span class="fc" id="L43">			TwitterConnection.getInstance().setUserToken(at);</span>
-<span class="fc" id="L44">		}</span>
+<span class="fc" id="L28">			TwitterConnection.getInstance().setUserToken(at);</span>
+<span class="fc" id="L29">		}</span>
 	//Authetication functions
 		@Test
 		public void testGetAuthUrl(){
-<span class="fc" id="L48">			String s = TwitterConnection.getInstance().getAuthUrl();</span>
-<span class="pc bpc" id="L49" title="2 of 4 branches missed.">			assert(s==&quot;&quot;);</span>
-<span class="fc" id="L50">		}</span>
+<span class="fc" id="L33">			String s = TwitterConnection.getInstance().getAuthUrl();</span>
+<span class="pc bpc" id="L34" title="2 of 4 branches missed.">			assert(s==&quot;&quot;);</span>
+<span class="fc" id="L35">		}</span>
 		@Test
 		public void testIsLoggedIn(){
-<span class="pc bpc" id="L53" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().isLoggedIn());</span>
-<span class="fc" id="L54">		}</span>
+<span class="pc bpc" id="L38" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().isLoggedIn());</span>
+<span class="fc" id="L39">		}</span>
 		@Test
 		public void testLogout(){
-<span class="fc" id="L57">			TwitterConnection.getInstance().logout();</span>
-<span class="pc bpc" id="L58" title="2 of 4 branches missed.">			assert(!TwitterConnection.getInstance().isLoggedIn());</span>
-<span class="fc" id="L59">		}</span>
+<span class="fc" id="L42">			TwitterConnection.getInstance().logout();</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">			assert(!TwitterConnection.getInstance().isLoggedIn());</span>
+<span class="fc" id="L44">		}</span>
 		
 		//LoggedIn functions
 		@Test
 		public void testGetUsername(){
-<span class="fc" id="L64">			String s=TwitterConnection.getInstance().getUsername();</span>
-<span class="fc" id="L65">			assertEquals(s,&quot;delfim75524641&quot;);</span>
-<span class="fc" id="L66">		}</span>
+<span class="fc" id="L49">			String s=TwitterConnection.getInstance().getUsername();</span>
+<span class="fc" id="L50">			assertEquals(s,&quot;delfim75524641&quot;);</span>
+<span class="fc" id="L51">		}</span>
 		@Test
 		public void testRetweet() throws TwitterException {
 			
-<span class="fc" id="L70">			TwitterConnection tf = TwitterConnection.getInstance();</span>
-<span class="pc bpc" id="L71" title="2 of 4 branches missed.">			assert(tf.retweet(status));</span>
-<span class="pc bpc" id="L72" title="2 of 4 branches missed.">			assert(tf.isRetweetedbyMe(status));</span>
-<span class="pc bpc" id="L73" title="2 of 4 branches missed.">			assert(tf.deleteRetweet(status));</span>
-<span class="fc" id="L74">		}</span>
+<span class="fc" id="L55">			TwitterConnection tf = TwitterConnection.getInstance();</span>
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">			assert(tf.retweet(status));</span>
+<span class="pc bpc" id="L57" title="2 of 4 branches missed.">			assert(tf.isRetweetedbyMe(status));</span>
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">			assert(tf.deleteRetweet(status));</span>
+<span class="fc" id="L59">		}</span>
 		
 		@Test
 		public void testTweetnComment() {
-<span class="pc bpc" id="L78" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().tweet(&quot;&quot;+((Math.random()*1000))));</span>
+<span class="pc bpc" id="L63" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().tweet(&quot;&quot;+((Math.random()*1000))));</span>
 			List&lt;Status&gt; list;
 			try {
-<span class="fc" id="L81">				list = TwitterConnection.getInstance().getTwitter().getUserTimeline();</span>
-<span class="pc bpc" id="L82" title="2 of 4 branches missed.">				assert(TwitterConnection.getInstance().favoriteTweet(list.get(0)));</span>
-<span class="pc bpc" id="L83" title="2 of 4 branches missed.">				assert(TwitterConnection.getInstance().commentTweet(list.get(0), &quot;&quot;+((Math.random()*1000))));</span>
-<span class="pc bpc" id="L84" title="2 of 4 branches missed.">				assert(TwitterConnection.getInstance().deletePost(list.get(0)));</span>
-<span class="nc" id="L85">			} catch (TwitterException e) {</span>
-<span class="nc" id="L86">				fail();</span>
+<span class="fc" id="L66">				list = TwitterConnection.getInstance().getTwitter().getUserTimeline();</span>
+<span class="pc bpc" id="L67" title="2 of 4 branches missed.">				assert(TwitterConnection.getInstance().commentTweet(list.get(0), &quot;&quot;+((Math.random()*1000))));</span>
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">				assert(TwitterConnection.getInstance().deletePost(list.get(0)));</span>
+<span class="nc" id="L69">			} catch (TwitterException e) {</span>
+<span class="nc" id="L70">				fail();</span>
 			}
 			
-<span class="fc" id="L89">		}</span>
+<span class="fc" id="L73">		}</span>
+		@Test
+		public void testFavorite(){
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().favoriteTweet(status));</span>
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().isFavorited(status));</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">			assert(TwitterConnection.getInstance().unFavoriteTweet(status));</span>
+<span class="fc" id="L79">		}</span>
 		
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 10:25:25)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>

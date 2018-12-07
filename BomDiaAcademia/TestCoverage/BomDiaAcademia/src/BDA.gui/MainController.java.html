@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MainController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BomDiaAcademia (07-Dec-2018 22:14:52)</a> &gt; <a href="../../index.html" class="el_group">BomDiaAcademia</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">BDA.gui</a> &gt; <span class="el_source">MainController.java</span></div><h1>MainController.java</h1><pre class="source lang-java linenums">package BDA.gui;
+
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.IntStream;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+import com.sun.javafx.scene.control.skin.ListViewSkin;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+
+import BDA.email.EmailConnection;
+import BDA.entry_objects.EmailEntry;
+import BDA.entry_objects.FacebookEntry;
+import BDA.entry_objects.InformationEntry;
+import BDA.entry_objects.TwitterEntry;
+import BDA.facebook.FacebookConnection;
+import BDA.other.ControlCenter;
+import BDA.other.Filter;
+import BDA.other.OtherStaticFunction;
+import BDA.other.Service;
+import BDA.threads.ThreadPool;
+import BDA.twitter.TwitterConnection;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
+import javafx.scene.media.MediaView;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+/**
+ * The Class MainController handles the user interaction with the GUI.
+ * 
+ * @author Rostislav Andreev
+ * @version 2.0
+ */
+public class MainController implements Initializable {
+
+	/** The Constant INSTANCE. */
+<span class="fc" id="L75">	private static final MainController INSTANCE = new MainController();</span>
+
+	// ------------ Main window ------------
+	/** The main box. */
+	@FXML
+	private HBox mainBox;
+
+	/** The center pane. */
+	@FXML
+	private StackPane centerPane;
+
+	// ------------ Side bar ------------
+	/** The side menu. */
+	@FXML
+	private ToggleGroup sideMenu;
+
+	/** The username. */
+	@FXML
+	private Label username;
+
+	// ------------ Posts list ------------
+	/** The posts side bar. */
+	@FXML
+	private VBox postsSideBar;
+
+	/** The search bar. */
+	@FXML
+	private JFXTextField searchBar;
+
+	/** The leave search. */
+	@FXML
+	private Hyperlink leaveSearch;
+
+	/** The twitter accounts filter. */
+	@FXML
+	private JFXListView&lt;TwitterAccountBox&gt; twitterAccountsFilter;
+
+	/** The date filter. */
+	@FXML
+	private ChoiceBox&lt;String&gt; dateFilter;
+
+	/** The email filter. */
+	@FXML
+	private JFXCheckBox emailFilter;
+
+	/** The facebook filter. */
+	@FXML
+	private JFXCheckBox facebookFilter;
+
+	/** The twitter filter. */
+	@FXML
+	private JFXCheckBox twitterFilter;
+
+	/** The remove filter. */
+	@FXML
+	private JFXButton removeFilter;
+
+	/** The twitter filter configurations. */
+	@FXML
+	private TitledPane twitterFilterConfigurations;
+
+	/** The posts. */
+	@FXML
+	private JFXListView&lt;PostBox&gt; posts;
+
+	// ------------ Open post ------------
+	/** The post layer. */
+	@FXML
+	private StackPane postLayer;
+
+	/** The post author container. */
+	@FXML
+	private VBox postContainer;
+
+	/** The post scroll pane. */
+	@FXML
+	private ScrollPane postScrollPane;
+
+	/** The post content. */
+	@FXML
+	private VBox postContent;
+
+	/** The post text. */
+	@FXML
+	private Text postText;
+
+	/** The post author info. */
+	@FXML
+	private VBox postAuthorInfo;
+
+	/** The author name. */
+	@FXML
+	private Label authorName;
+
+	/** The author username. */
+	@FXML
+	private Label authorUsername;
+
+	/** The retweet label. */
+	@FXML
+	private Label retweetLabel;
+
+	/** The profile pic. */
+	@FXML
+	private ImageView profilePic;
+
+	/** The post footer. */
+	@FXML
+	private StackPane postFooter;
+
+	/** The email footer. */
+	@FXML
+	private HBox emailFooter;
+
+	/** The facebook footer. */
+	@FXML
+	private HBox facebookFooter;
+
+	/** The twitter footer. */
+	@FXML
+	private HBox twitterFooter;
+
+	/** The retweet button. */
+	@FXML
+	private JFXButton retweetButton;
+
+	/** The favourite button. */
+	@FXML
+	private JFXButton favouriteButton;
+
+	// ------------ Settings ------------
+	/** The settings. */
+	@FXML
+	private ScrollPane settings;
+
+	/** The email list. */
+	@FXML
+	private JFXListView&lt;String&gt; emailList;
+
+	/** The theme list. */
+	@FXML
+	private ChoiceBox&lt;String&gt; themeList;
+
+	/** The new email. */
+	@FXML
+	private TextField newEmail;
+
+	/** The twitter login button. */
+	@FXML
+	private JFXButton twitterLoginButton;
+
+	/** The box PIN. */
+	@FXML
+	private HBox boxPIN;
+
+	/** The twitter PIN. */
+	@FXML
+	private JFXTextField twitterPIN;
+
+	@FXML
+	private JFXButton facebookLoginButton;
+
+	@FXML
+	private JFXTextField facebookToken;
+
+	@FXML
+	private HBox boxToken;
+
+	// ------------ Email writing panel ------------
+	/** The email pane. */
+	@FXML
+	private VBox emailPane;
+
+	/** The email receiver. */
+	@FXML
+	private JFXTextField emailReceiver;
+
+	/** The email subject. */
+	@FXML
+	private JFXTextField emailSubject;
+
+	/** The email error. */
+	@FXML
+	private Label emailError;
+
+	/** The email message. */
+	@FXML
+	private JFXTextArea emailMessage;
+
+	// ------------ Tweet composing panel ------------
+	/** The compose tweet. */
+	@FXML
+	private StackPane composeTweet;
+
+	/** The tweet text area. */
+	@FXML
+	private JFXTextArea tweetTextArea;
+
+	/** The tweet counter. */
+	@FXML
+	private Label tweetCounter;
+
+	/** The tweet button. */
+	@FXML
+	private JFXButton tweetButton;
+
+	// ------------ Other attributes ------------
+	/** The original list. */
+	private ObservableList&lt;PostBox&gt; originalList;
+
+	/** The currently opened. */
+	private InformationEntry currentlyOpened;
+
+	/**
+	 * Instantiates a new main controller.
+	 */
+	private MainController() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+<span class="fc" id="L302">		showHomePage();</span>
+<span class="fc" id="L303">		originalList = FXCollections.observableArrayList();</span>
+
+<span class="fc" id="L305">		themeList.getItems().add(&quot;Laranja&quot;);</span>
+<span class="fc" id="L306">		themeList.getItems().add(&quot;Azul&quot;);</span>
+<span class="fc" id="L307">		themeList.getItems().add(&quot;Azul Invertido&quot;);</span>
+<span class="fc" id="L308">		themeList.setValue(&quot;Laranja&quot;);</span>
+<span class="pc" id="L309">		themeList.getSelectionModel().selectedItemProperty().addListener(e -&gt; setTheme());</span>
+
+<span class="fc" id="L311">		dateFilter.getItems().add(&quot;Hoje&quot;);</span>
+<span class="fc" id="L312">		dateFilter.getItems().add(&quot;Esta semana&quot;);</span>
+<span class="fc" id="L313">		dateFilter.getItems().add(&quot;Este mês&quot;);</span>
+<span class="fc" id="L314">		dateFilter.getItems().add(&quot;Este ano&quot;);</span>
+<span class="fc" id="L315">		dateFilter.setValue(&quot;Hoje&quot;);</span>
+
+<span class="fc" id="L317">		leaveSearch.setVisible(false);</span>
+<span class="fc" id="L318">		leaveSearch.setDisable(true);</span>
+
+<span class="fc" id="L320">		List&lt;String&gt; twitterAccounts = Arrays.asList(Filter.DEFAULT_TWITTER_USER_FILTERS);</span>
+<span class="fc" id="L321">		Collections.sort(twitterAccounts);</span>
+
+<span class="fc bfc" id="L323" title="All 2 branches covered.">		for (String account : twitterAccounts)</span>
+<span class="fc" id="L324">			twitterAccountsFilter.getItems().add(new TwitterAccountBox(account, true));</span>
+
+<span class="fc" id="L326">		addLoadingBox();</span>
+
+<span class="fc" id="L328">		tweetTextArea.lengthProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="pc bpc" id="L329" title="2 of 4 branches missed.">			if (oldValue.intValue() &lt;= 280 &amp;&amp; newValue.intValue() &gt; 280)</span>
+<span class="nc" id="L330">				tweetCounter.setTextFill(Paint.valueOf(&quot;red&quot;));</span>
+<span class="pc bpc" id="L331" title="3 of 4 branches missed.">			if (oldValue.intValue() &gt; 280 &amp;&amp; newValue.intValue() &lt;= 280)</span>
+<span class="nc" id="L332">				tweetCounter.setTextFill(Paint.valueOf(&quot;black&quot;));</span>
+<span class="fc" id="L333">		});</span>
+<span class="fc" id="L334">		tweetCounter.textProperty().bind(tweetTextArea.lengthProperty().asString());</span>
+<span class="fc" id="L335">		tweetButton.disableProperty().bind(tweetTextArea.lengthProperty().greaterThan(280));</span>
+<span class="fc" id="L336">		centerPane.prefWidthProperty().bind(mainBox.widthProperty().subtract(250));</span>
+<span class="fc" id="L337">		postScrollPane.maxHeightProperty().bind(postLayer.heightProperty().subtract(150));</span>
+<span class="fc" id="L338">	}</span>
+
+	/**
+	 * Adds the loading box.
+	 */
+	private void addLoadingBox() {
+<span class="fc" id="L344">		posts.getItems().clear();</span>
+<span class="fc" id="L345">		posts.setMouseTransparent(true);</span>
+<span class="fc" id="L346">		posts.setFocusTraversable(false);</span>
+<span class="fc" id="L347">		PostBox loading = new PostBox(null);</span>
+<span class="fc" id="L348">		loading.prefHeightProperty().bind(posts.heightProperty().subtract(50));</span>
+<span class="fc" id="L349">		posts.getItems().add(loading);</span>
+<span class="fc" id="L350">	}</span>
+
+	/**
+	 * Adds posts to the posts list and displays them on screen. If reload is true
+	 * then it deletes all the posts from the posts lists and displays only the new
+	 * ones.
+	 * 
+	 * @param entries the entries
+	 * @param reload  the reload
+	 */
+	public void loadPosts(List&lt;InformationEntry&gt; entries, boolean reload) {
+<span class="fc" id="L361">		Platform.runLater(() -&gt; {</span>
+<span class="fc" id="L362">			posts.setMouseTransparent(false);</span>
+<span class="fc" id="L363">			posts.setFocusTraversable(true);</span>
+
+<span class="pc bpc" id="L365" title="1 of 2 branches missed.">			if (reload)</span>
+<span class="fc" id="L366">				posts.getItems().clear();</span>
+
+<span class="fc bfc" id="L368" title="All 2 branches covered.">			for (InformationEntry entry : entries) {</span>
+<span class="fc" id="L369">				PostBox postBox = new PostBox(entry);</span>
+
+<span class="fc" id="L371">				postBox.prefWidthProperty().bind(posts.widthProperty().subtract(110));</span>
+<span class="pc" id="L372">				postBox.setOnMouseClicked(e -&gt; openPost(entry));</span>
+
+<span class="fc" id="L374">				posts.getItems().add(postBox);</span>
+			}
+
+<span class="fc" id="L377">			originalList.addAll(posts.getItems());</span>
+<span class="fc" id="L378">		});</span>
+<span class="fc" id="L379">	}</span>
+
+	/**
+	 * Sets the theme.
+	 */
+	private void setTheme() {
+<span class="fc" id="L385">		int cssIndex = themeList.getSelectionModel().getSelectedIndex();</span>
+<span class="fc" id="L386">		String css = getClass().getResource(&quot;/res/MainScene&quot; + cssIndex + &quot;.css&quot;).toExternalForm();</span>
+<span class="fc" id="L387">		mainBox.getStylesheets().clear();</span>
+<span class="fc" id="L388">		mainBox.getStylesheets().add(css);</span>
+<span class="fc" id="L389">	}</span>
+
+	/**
+	 * Shows home page.
+	 */
+	@FXML
+	private void showHomePage() {
+<span class="fc" id="L396">		postsSideBar.toFront();</span>
+<span class="fc" id="L397">	}</span>
+
+	/**
+	 * Shows the email writing panel.
+	 */
+	@FXML
+	private void writeEmail() {
+<span class="fc" id="L404">		emailPane.toFront();</span>
+<span class="fc" id="L405">	}</span>
+
+	/**
+	 * Shows the tweet composing panel.
+	 */
+	@FXML
+	private void composeTweet() {
+<span class="fc" id="L412">		composeTweet.toFront();</span>
+<span class="fc" id="L413">	}</span>
+
+	/**
+	 * Shows settings.
+	 */
+	@FXML
+	private void showSettings() {
+<span class="fc" id="L420">		settings.toFront();</span>
+<span class="fc" id="L421">	}</span>
+
+	/**
+	 * Logs out and closes the program.
+	 *
+	 * @param event the event
+	 */
+	@FXML
+	private void logOut(ActionEvent event) {
+<span class="nc" id="L430">		ThreadPool.getInstance().stopThreads();</span>
+<span class="nc" id="L431">		((Stage) ((Node) event.getSource()).getScene().getWindow()).close();</span>
+<span class="nc" id="L432">	}</span>
+
+	/**
+	 * Searches posts with the given keyword.
+	 */
+	@FXML
+	private void search() {
+<span class="pc bpc" id="L439" title="1 of 2 branches missed.">		if (!searchBar.getText().isEmpty()) {</span>
+<span class="nc" id="L440">			String search = searchBar.getText().toLowerCase();</span>
+<span class="nc" id="L441">			List&lt;PostBox&gt; results = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L443" title="All 2 branches missed.">			for (PostBox post : originalList)</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">				if (post.getService().equals(Service.EMAIL)) {</span>
+<span class="nc" id="L445">					EmailEntry email = (EmailEntry) post.getInformationEntry();</span>
+<span class="nc" id="L446">					String writer = email.getWriterName().toLowerCase();</span>
+<span class="nc" id="L447">					String subject = email.getSubject().toLowerCase();</span>
+<span class="nc" id="L448">					String content = email.getContent().toLowerCase();</span>
+
+<span class="nc bnc" id="L450" title="All 6 branches missed.">					if (writer.contains(search) || subject.contains(search) || content.contains(search))</span>
+<span class="nc" id="L451">						results.add(post);</span>
+<span class="nc bnc" id="L452" title="All 2 branches missed.">				} else if (post.getService().equals(Service.TWITTER)) {</span>
+<span class="nc" id="L453">					TwitterEntry tweet = (TwitterEntry) post.getInformationEntry();</span>
+<span class="nc" id="L454">					String name = tweet.getStatus().getUser().getName().toLowerCase();</span>
+<span class="nc" id="L455">					String username = tweet.getStatus().getUser().getScreenName().toLowerCase();</span>
+<span class="nc" id="L456">					String content = tweet.getStatus().getText().toLowerCase();</span>
+
+<span class="nc bnc" id="L458" title="All 6 branches missed.">					if (name.contains(search) || username.contains(search) || content.contains(search))</span>
+<span class="nc" id="L459">						results.add(post);</span>
+				}
+
+<span class="nc bnc" id="L462" title="All 2 branches missed.">			if (!results.isEmpty()) {</span>
+<span class="nc" id="L463">				posts.getItems().clear();</span>
+<span class="nc" id="L464">				posts.getItems().addAll(results);</span>
+
+<span class="nc" id="L466">				leaveSearch.setVisible(true);</span>
+<span class="nc" id="L467">				leaveSearch.setDisable(false);</span>
+			}
+<span class="nc" id="L469">		} else</span>
+<span class="fc" id="L470">			leaveSearch();</span>
+<span class="fc" id="L471">	}</span>
+
+	/**
+	 * Apply filter.
+	 */
+	@FXML
+	private void applyFilter() {
+<span class="nc" id="L478">		int days = dateFilter.getSelectionModel().getSelectedIndex();</span>
+<span class="nc" id="L479">		List&lt;String&gt; twitterAccounts = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L481" title="All 5 branches missed.">		switch (days) {</span>
+		case 0:
+<span class="nc" id="L483">			Filter.getInstance().defineDateIntervalFromCurrentDate(1);</span>
+<span class="nc" id="L484">			break;</span>
+		case 1:
+<span class="nc" id="L486">			Filter.getInstance().defineDateIntervalFromCurrentDate(7);</span>
+<span class="nc" id="L487">			break;</span>
+		case 2:
+<span class="nc" id="L489">			Filter.getInstance().defineDateIntervalFromCurrentDate(31);</span>
+<span class="nc" id="L490">			break;</span>
+		case 3:
+<span class="nc" id="L492">			Filter.getInstance().defineDateIntervalFromCurrentDate(365);</span>
+			break;
+		}
+
+<span class="nc bnc" id="L496" title="All 2 branches missed.">		ControlCenter.getInstance().setIgnoreService(Service.EMAIL, !emailFilter.isSelected());</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">		ControlCenter.getInstance().setIgnoreService(Service.FACEBOOK, !facebookFilter.isSelected());</span>
+<span class="nc bnc" id="L498" title="All 2 branches missed.">		ControlCenter.getInstance().setIgnoreService(Service.TWITTER, !twitterFilter.isSelected());</span>
+
+<span class="nc bnc" id="L500" title="All 2 branches missed.">		for (TwitterAccountBox tab : twitterAccountsFilter.getItems())</span>
+<span class="nc bnc" id="L501" title="All 2 branches missed.">			if (tab.isSelected())</span>
+<span class="nc" id="L502">				twitterAccounts.add(tab.getUsername());</span>
+
+<span class="nc" id="L504">		Filter.getInstance().setFilter(Service.TWITTER, twitterAccounts);</span>
+
+<span class="nc" id="L506">		OtherStaticFunction.refreshGUIWithThreads();</span>
+<span class="nc" id="L507">		addLoadingBox();</span>
+<span class="nc" id="L508">	}</span>
+
+	/**
+	 * Leave search.
+	 */
+	@FXML
+	private void leaveSearch() {
+<span class="fc" id="L515">		posts.getItems().clear();</span>
+<span class="fc" id="L516">		posts.getItems().addAll(originalList);</span>
+<span class="fc" id="L517">		System.out.println(posts.getItems().size());</span>
+
+<span class="fc" id="L519">		searchBar.clear();</span>
+
+<span class="fc" id="L521">		leaveSearch.setVisible(false);</span>
+<span class="fc" id="L522">		leaveSearch.setDisable(true);</span>
+<span class="fc" id="L523">		leaveSearch.setVisited(false);</span>
+<span class="fc" id="L524">	}</span>
+
+	/**
+	 * Opens the post in more detail.
+	 *
+	 * @param informationEntry the information entry
+	 */
+	private void openPost(InformationEntry informationEntry) {
+<span class="fc" id="L532">		currentlyOpened = informationEntry;</span>
+<span class="fc" id="L533">		postContent.getChildren().clear();</span>
+<span class="fc" id="L534">		postText.setText(&quot;&quot;);</span>
+<span class="fc" id="L535">		postContent.getChildren().add(postText);</span>
+<span class="fc" id="L536">		retweetLabel.setVisible(false);</span>
+<span class="fc" id="L537">		retweetLabel.setMaxHeight(0);</span>
+
+<span class="fc bfc" id="L539" title="All 2 branches covered.">		if (informationEntry.getService().equals(Service.EMAIL)) {</span>
+<span class="fc" id="L540">			EmailEntry email = (EmailEntry) informationEntry;</span>
+
+<span class="fc" id="L542">			String names[] = email.getWriterName().split(&quot;&lt;&quot;);</span>
+<span class="fc" id="L543">			profilePic.setFitWidth(0);</span>
+<span class="fc" id="L544">			profilePic.setFitHeight(0);</span>
+<span class="fc" id="L545">			profilePic.setImage(null);</span>
+
+<span class="fc" id="L547">			HBox.setMargin(profilePic, new Insets(0, 0, 0, 0));</span>
+
+<span class="fc" id="L549">			authorName.setText(names[0].trim());</span>
+<span class="pc bpc" id="L550" title="1 of 2 branches missed.">			authorUsername.setText(names.length &gt; 1 ? names[1].substring(0, names[1].length() - 1) : names[0]);</span>
+
+<span class="fc" id="L552">			postText.setText(email.getContent().trim());</span>
+
+<span class="fc" id="L554">			emailFooter.toFront();</span>
+<span class="pc bpc" id="L555" title="1 of 2 branches missed.">		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {</span>
+<span class="nc" id="L556">			FacebookEntry post = (FacebookEntry) informationEntry;</span>
+<span class="nc" id="L557">			StringBuilder text = new StringBuilder();</span>
+
+<span class="nc bnc" id="L559" title="All 2 branches missed.">			text.append(post.getMessage() == null ? &quot;&quot; : post.getMessage() + &quot;\n&quot;);</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">			text.append(post.getDescription() == null ? &quot;&quot; : post.getDescription() + &quot;\n&quot;);</span>
+<span class="nc bnc" id="L561" title="All 2 branches missed.">			text.append(post.getAttachmentDescription() == null ? &quot;&quot; : post.getAttachmentDescription() + &quot;\n&quot;);</span>
+<span class="nc bnc" id="L562" title="All 2 branches missed.">			text.append(post.getAttachmentUrl() == null ? &quot;&quot; : post.getAttachmentUrl() + &quot;\n&quot;);</span>
+
+<span class="nc" id="L564">			Image pic = new Image(post.getProfileImageUrl(), 50, 50, true, true);</span>
+
+<span class="nc" id="L566">			profilePic.setFitWidth(50);</span>
+<span class="nc" id="L567">			profilePic.setFitHeight(50);</span>
+<span class="nc" id="L568">			profilePic.setImage(pic);</span>
+
+<span class="nc" id="L570">			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));</span>
+
+<span class="nc" id="L572">			authorName.setText(post.getAuthor());</span>
+<span class="nc" id="L573">			authorUsername.setText(post.getAttachmentTitle());</span>
+
+<span class="nc" id="L575">			postText.setText(text.toString());</span>
+
+<span class="nc bnc" id="L577" title="All 2 branches missed.">			if (post.getAttachmentMedia().getImage() != null) {</span>
+<span class="nc" id="L578">				String url = post.getAttachmentMedia().getImage().getSrc();</span>
+<span class="nc" id="L579">				Image image = new Image(url, 450, 0, true, true);</span>
+
+<span class="nc" id="L581">				postContent.getChildren().add(new ImageView(image));</span>
+			}
+
+<span class="nc" id="L584">			facebookFooter.toFront();</span>
+<span class="pc bpc" id="L585" title="1 of 2 branches missed.">		} else if (informationEntry.getService().equals(Service.TWITTER)) {</span>
+<span class="fc" id="L586">			TwitterEntry tweet = (TwitterEntry) informationEntry;</span>
+
+<span class="fc" id="L588">			Image pic = new Image(tweet.getProfilePictureURL(), 50, 50, true, true);</span>
+
+<span class="fc" id="L590">			profilePic.setFitWidth(50);</span>
+<span class="fc" id="L591">			profilePic.setFitHeight(50);</span>
+<span class="fc" id="L592">			profilePic.setImage(pic);</span>
+
+<span class="fc" id="L594">			HBox.setMargin(profilePic, new Insets(0, 10, 0, 0));</span>
+
+<span class="fc" id="L596">			authorName.setText(tweet.getName());</span>
+<span class="fc" id="L597">			authorUsername.setText(&quot;@&quot; + tweet.getUsername());</span>
+
+<span class="pc bpc" id="L599" title="1 of 2 branches missed.">			if (tweet.isRetweet()) {</span>
+<span class="nc" id="L600">				retweetLabel.setText(tweet.getRetweeter() + &quot; retweeted&quot;);</span>
+<span class="nc" id="L601">				retweetLabel.setVisible(true);</span>
+			}
+
+<span class="fc" id="L604">			postText.setText(tweet.getContent());</span>
+
+<span class="fc" id="L606">			retweetButton.setStyle(</span>
+<span class="pc bpc" id="L607" title="1 of 2 branches missed.">					TwitterConnection.getInstance().isRetweetedbyMe(tweet.getStatus()) ? &quot;-fx-background-color: #34bf49&quot;</span>
+<span class="fc" id="L608">							: &quot;&quot;);</span>
+
+<span class="pc bpc" id="L610" title="1 of 2 branches missed.">			if (tweet.getStatus().isFavorited())</span>
+<span class="nc" id="L611">				favouriteButton.setStyle(&quot;-fx-background-color: #34bf49&quot;);</span>
+
+<span class="fc bfc" id="L613" title="All 2 branches covered.">			for (String media : tweet.getMediaURL()) {</span>
+<span class="fc" id="L614">				String url = media.split(&quot;!;!&quot;)[0], type = media.split(&quot;!;!&quot;)[1];</span>
+
+<span class="fc bfc" id="L616" title="All 2 branches covered.">				if (type.equals(&quot;photo&quot;))</span>
+<span class="fc" id="L617">					postContent.getChildren().add(new ImageView(new Image(url, 450, 0, true, true)));</span>
+<span class="fc bfc" id="L618" title="All 2 branches covered.">				else if (type.equals(&quot;animated_gif&quot;)) {</span>
+<span class="fc" id="L619">					MediaPlayer player = new MediaPlayer(new Media(url));</span>
+<span class="fc" id="L620">					MediaView view = new MediaView(player);</span>
+<span class="fc" id="L621">					player.setAutoPlay(true);</span>
+<span class="fc" id="L622">					player.setOnEndOfMedia(() -&gt; player.seek(Duration.ZERO));</span>
+<span class="fc" id="L623">					view.setFitWidth(450);</span>
+<span class="fc" id="L624">					view.setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L625" title="All 2 branches missed.">						if (player.getStatus().equals(Status.PLAYING))</span>
+<span class="nc" id="L626">							player.pause();</span>
+						else
+<span class="nc" id="L628">							player.play();</span>
+<span class="nc" id="L629">					});</span>
+<span class="fc" id="L630">					postContent.getChildren().add(view);</span>
+<span class="pc bpc" id="L631" title="1 of 2 branches missed.">				} else if (type.equals(&quot;video&quot;)) {</span>
+<span class="fc" id="L632">					MediaPlayer player = new MediaPlayer(new Media(url));</span>
+<span class="fc" id="L633">					MediaView view = new MediaView(player);</span>
+<span class="fc" id="L634">					player.setOnEndOfMedia(() -&gt; {</span>
+<span class="nc" id="L635">						player.seek(Duration.ZERO);</span>
+<span class="nc" id="L636">						player.stop();</span>
+<span class="nc" id="L637">					});</span>
+<span class="fc" id="L638">					view.setFitWidth(450);</span>
+<span class="fc" id="L639">					view.setOnMouseClicked(e -&gt; {</span>
+<span class="nc bnc" id="L640" title="All 2 branches missed.">						if (player.getStatus().equals(Status.PLAYING))</span>
+<span class="nc" id="L641">							player.pause();</span>
+						else
+<span class="nc" id="L643">							player.play();</span>
+<span class="nc" id="L644">					});</span>
+<span class="fc" id="L645">					postContent.getChildren().add(view);</span>
+				}
+			}
+
+<span class="fc" id="L649">			twitterFooter.toFront();</span>
+		}
+
+<span class="fc" id="L652">		postLayer.toFront();</span>
+<span class="fc" id="L653">	}</span>
+
+	/**
+	 * Opens the previous post.
+	 */
+	@FXML
+	private void openPreviousPost() {
+<span class="nc bnc" id="L660" title="All 2 branches missed.">		if (posts.getSelectionModel().getSelectedIndex() - 1 &gt;= 0) {</span>
+<span class="nc" id="L661">			posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() - 1);</span>
+<span class="nc" id="L662">			posts.scrollTo(posts.getSelectionModel().getSelectedIndex());</span>
+<span class="nc" id="L663">			openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());</span>
+		}
+<span class="nc" id="L665">	}</span>
+
+	/**
+	 * Opens the next post.
+	 */
+	@FXML
+	private void openNextPost() {
+<span class="nc" id="L672">		posts.getSelectionModel().select(posts.getSelectionModel().getSelectedIndex() + 1);</span>
+
+<span class="nc" id="L674">		ListViewSkin&lt;?&gt; ts = (ListViewSkin&lt;?&gt;) posts.getSkin();</span>
+<span class="nc" id="L675">		VirtualFlow&lt;?&gt; vf = (VirtualFlow&lt;?&gt;) ts.getChildren().get(0);</span>
+<span class="nc" id="L676">		int first = vf.getFirstVisibleCellWithinViewPort().getIndex();</span>
+<span class="nc" id="L677">		int last = vf.getLastVisibleCellWithinViewPort().getIndex();</span>
+<span class="nc" id="L678">		int[] view = IntStream.rangeClosed(first, last).toArray();</span>
+
+<span class="nc bnc" id="L680" title="All 2 branches missed.">		if (posts.getSelectionModel().getSelectedIndex() &gt; view[view.length - 1])</span>
+<span class="nc" id="L681">			posts.scrollTo(view[2]);</span>
+
+<span class="nc" id="L683">		openPost(posts.getSelectionModel().getSelectedItem().getInformationEntry());</span>
+<span class="nc" id="L684">	}</span>
+
+	/**
+	 * Closes the currently open post.
+	 */
+	@FXML
+	private void closePost() {
+<span class="fc" id="L691">		postLayer.toBack();</span>
+<span class="fc" id="L692">	}</span>
+
+	/**
+	 * Comment tweet.
+	 */
+	@FXML
+	private void commentTweet() {
+
+<span class="nc" id="L700">	}</span>
+
+	/**
+	 * Retweet.
+	 */
+	@FXML
+	private void retweet() {
+<span class="nc bnc" id="L707" title="All 2 branches missed.">		if (TwitterConnection.getInstance().isLoggedIn()) {</span>
+<span class="nc" id="L708">			TwitterEntry tweet = (TwitterEntry) currentlyOpened;</span>
+<span class="nc bnc" id="L709" title="All 2 branches missed.">			if (TwitterConnection.getInstance().isRetweetedbyMe(tweet.getStatus())) {</span>
+<span class="nc" id="L710">				TwitterConnection.getInstance().deleteRetweet(tweet.getStatus());</span>
+<span class="nc" id="L711">				retweetButton.setStyle(&quot;-fx-background-color: #ff3000&quot;);</span>
+<span class="nc" id="L712">			} else {</span>
+<span class="nc" id="L713">				TwitterConnection.getInstance().retweet(tweet.getStatus());</span>
+<span class="nc" id="L714">				retweetButton.setStyle(&quot;-fx-background-color: #34bf49&quot;);</span>
+			}
+		}
+<span class="nc" id="L717">	}</span>
+
+	/**
+	 * Favourite tweet.
+	 */
+	@FXML
+	private void favouriteTweet() {
+
+<span class="nc" id="L725">	}</span>
+
+	/**
+	 * Closes the tweet composing panel.
+	 */
+	@FXML
+	private void closeComposeTweet() {
+<span class="nc" id="L732">		composeTweet.toBack();</span>
+<span class="nc" id="L733">	}</span>
+
+	/**
+	 * Sends email.
+	 */
+	@FXML
+	private void sendEmail() {
+<span class="nc bnc" id="L740" title="All 4 branches missed.">		if (!emailReceiver.getText().isEmpty() &amp;&amp; !emailSubject.getText().isEmpty()</span>
+<span class="nc bnc" id="L741" title="All 2 branches missed.">				&amp;&amp; !emailMessage.getText().isEmpty()) {</span>
+<span class="nc" id="L742">			EmailConnection.sendEmailWithThreads(ControlCenter.getInstance().getCurrentEmailUsed(),</span>
+<span class="nc" id="L743">					emailReceiver.getText(), emailSubject.getText(), emailMessage.getText());</span>
+<span class="nc" id="L744">		} else {</span>
+<span class="nc" id="L745">			FadeTransition errorFade = new FadeTransition(Duration.seconds(1), emailError);</span>
+<span class="nc" id="L746">			emailError.setText(&quot;Preencha todos os campos&quot;);</span>
+
+<span class="nc" id="L748">			errorFade.setFromValue(0);</span>
+<span class="nc" id="L749">			errorFade.setToValue(1);</span>
+
+<span class="nc" id="L751">			errorFade.play();</span>
+		}
+<span class="nc" id="L753">	}</span>
+
+	/**
+	 * Clears all fields in the email writing panel.
+	 */
+	@FXML
+	private void clearEmail() {
+<span class="fc" id="L760">		emailReceiver.clear();</span>
+<span class="fc" id="L761">		emailSubject.clear();</span>
+<span class="fc" id="L762">		emailMessage.clear();</span>
+<span class="fc" id="L763">		emailError.setText(&quot;&quot;);</span>
+<span class="fc" id="L764">	}</span>
+
+	/**
+	 * Adds an email to the email list.
+	 */
+	@FXML
+	private void addEmail() {
+<span class="fc" id="L771">		emailList.getItems().add(newEmail.getText());</span>
+<span class="fc" id="L772">		newEmail.setText(&quot;&quot;);</span>
+<span class="fc" id="L773">	}</span>
+
+	/**
+	 * Removes the selected email from the email list.
+	 */
+	@FXML
+	private void removeEmail() {
+<span class="fc" id="L780">		emailList.getItems().remove(emailList.getSelectionModel().getSelectedIndex());</span>
+<span class="fc" id="L781">	}</span>
+
+	/**
+	 * Twitter login.
+	 */
+	@FXML
+	private void twitterLogin() {
+<span class="nc bnc" id="L788" title="All 2 branches missed.">		if (TwitterConnection.getInstance().isLoggedIn()) {</span>
+<span class="nc" id="L789">			TwitterConnection.getInstance().logout();</span>
+<span class="nc" id="L790">			twitterLoginButton.setText(&quot;Iniciar Sessão&quot;);</span>
+<span class="nc" id="L791">		} else</span>
+			try {
+<span class="nc" id="L793">				Desktop.getDesktop().browse(new URI(TwitterConnection.getInstance().getAuthUrl()));</span>
+<span class="nc" id="L794">				boxPIN.setVisible(true);</span>
+<span class="nc" id="L795">				boxPIN.setDisable(false);</span>
+<span class="nc" id="L796">			} catch (IOException | URISyntaxException e) {</span>
+<span class="nc" id="L797">				e.printStackTrace();</span>
+			}
+
+<span class="nc" id="L800">	}</span>
+
+	@FXML
+	private void facebookLogin() {
+		try {
+<span class="nc" id="L805">			Desktop.getDesktop().browse(new URI(FacebookConnection.getLoginlink()));</span>
+<span class="nc" id="L806">			boxToken.setVisible(true);</span>
+<span class="nc" id="L807">			boxToken.setDisable(false);</span>
+<span class="nc" id="L808">		} catch (IOException | URISyntaxException e) {</span>
+<span class="nc" id="L809">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L811">	}</span>
+
+	/**
+	 * Authenticate twitter.
+	 */
+	@FXML
+	private void authenticateTwitter() {
+<span class="nc bnc" id="L818" title="All 2 branches missed.">		if (TwitterConnection.getInstance().confirmAuth(twitterPIN.getText())) {</span>
+<span class="nc" id="L819">			boxPIN.setDisable(true);</span>
+<span class="nc" id="L820">			boxPIN.setVisible(false);</span>
+<span class="nc" id="L821">			twitterLoginButton.setText(&quot;Terminar sessão: &quot; + TwitterConnection.getInstance().getUsername());</span>
+		}
+<span class="nc" id="L823">	}</span>
+
+	@FXML
+	private void authenticateFacebook() {
+//		FacebookConnection.
+<span class="nc" id="L828">	}</span>
+
+	/**
+	 * Consumes event.
+	 *
+	 * @param e the e
+	 */
+	@FXML
+	private void consumeEvent(MouseEvent e) {
+<span class="nc" id="L837">		e.consume();</span>
+<span class="nc" id="L838">	}</span>
+
+	/**
+	 * Sets the username on the sidebar.
+	 *
+	 * @param username the new username
+	 */
+	protected void setUsername(String username) {
+<span class="fc" id="L846">		this.username.setText(username);</span>
+<span class="fc" id="L847">	}</span>
+
+	/**
+	 * Returns the JFXListView containing all posts currently being displayed on
+	 * screen.
+	 *
+	 * @return the posts
+	 */
+	public JFXListView&lt;PostBox&gt; getPosts() {
+<span class="fc" id="L856">		return posts;</span>
+	}
+
+	/**
+	 * Gets the single instance of MainController.
+	 *
+	 * @return single instance of MainController
+	 */
+	public static MainController getInstance() {
+<span class="fc" id="L865">		return INSTANCE;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>BomDiaAcademia (07-Dec-2018 22:14:52)</div></body></html>
