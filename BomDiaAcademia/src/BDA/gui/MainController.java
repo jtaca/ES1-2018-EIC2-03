@@ -232,7 +232,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private JFXButton facebookLoginButton;
-	
+
 	@FXML
 	private JFXTextField facebookToken;
 
@@ -534,6 +534,12 @@ public class MainController implements Initializable {
 			emailFooter.toFront();
 		} else if (informationEntry.getService().equals(Service.FACEBOOK)) {
 			FacebookEntry post = (FacebookEntry) informationEntry;
+			StringBuilder text = new StringBuilder();
+
+			text.append(post.getMessage() == null ? "" : post.getMessage() + "\n");
+			text.append(post.getDescription() == null ? "" : post.getDescription() + "\n");
+			text.append(post.getAttachmentDescription() == null ? "" : post.getAttachmentDescription() + "\n");
+			text.append(post.getAttachmentUrl() == null ? "" : post.getAttachmentUrl() + "\n");
 
 			Image pic = new Image(post.getProfileImageUrl(), 50, 50, true, true);
 
@@ -546,12 +552,14 @@ public class MainController implements Initializable {
 			authorName.setText(post.getAuthor());
 			authorUsername.setText(post.getAttachmentTitle());
 
-			postText.setText(post.getAttachmentDescription());
+			postText.setText(text.toString());
 
-			String url = post.getAttachmentMedia().getImage().getSrc();
-			Image image = new Image(url, 450, 0, true, true);
+			if (post.getAttachmentMedia().getImage() != null) {
+				String url = post.getAttachmentMedia().getImage().getSrc();
+				Image image = new Image(url, 450, 0, true, true);
 
-			postContent.getChildren().add(new ImageView(image));
+				postContent.getChildren().add(new ImageView(image));
+			}
 
 			facebookFooter.toFront();
 		} else if (informationEntry.getService().equals(Service.TWITTER)) {
@@ -798,7 +806,7 @@ public class MainController implements Initializable {
 	private void authenticateFacebook() {
 //		FacebookConnection.
 	}
-	
+
 	/**
 	 * Consumes event.
 	 *
