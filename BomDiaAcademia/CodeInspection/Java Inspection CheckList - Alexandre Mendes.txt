@@ -1,8 +1,8 @@
-Code Inspection on Rostislav Andreev Sarmento code.
-Packages Associated: gui.
-Classes Associated: Login, LoginController, MainController, MainWindow, PostBox, TwitterAccountBox.
+Code Inspection on Diogo Delfim Sarmento code.
+Packages Associated: twitter.
+Classes Associated: TwitterAuth and TwitterConnection.
 
-Inspection made by: Joao Aparicio
+Inspection made by: Alexandre Mendes
 
 
 --- 1 --- 
