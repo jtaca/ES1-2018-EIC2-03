@@ -260,8 +260,8 @@ public class TwitterConnection implements ServiceInstance {
 		Twitter t = logger.getAuthenticatedInstance();
 		if(t!=null){
 			try {
-				StatusUpdate statusUpdate = new StatusUpdate(comment);
-				statusUpdate.inReplyToStatusId(tweet.getId()); 
+				StatusUpdate statusUpdate = new StatusUpdate("replying to @" +tweet.getUser().getScreenName()+ ": " +comment);
+				statusUpdate.setInReplyToStatusId(tweet.getId());
 				Status status = twitter.updateStatus(statusUpdate);
 				return true;
 			} catch (TwitterException e) {

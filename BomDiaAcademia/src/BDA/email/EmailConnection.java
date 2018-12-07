@@ -36,7 +36,7 @@ public class EmailConnection implements ServiceInstance {
 	private String password;
 	
 	/** The connected. */
-	private boolean connected = false;
+	private boolean isConnected = false;
 	
 	/** The Constant EMAIL_FILE_NAME. */
 	private static final String EMAIL_FILE_NAME = "emailEntrys.dat";
@@ -141,7 +141,7 @@ public class EmailConnection implements ServiceInstance {
 		//ReadAndWriteFile readAndWriteFiles = new ReadAndWriteFile();
 		Store emailStore = null;
 		Folder emailFolder = null;
-		connected = false;
+		isConnected = false;
 		boolean correctLoginInfo = true;
 		try {
 			Properties properties = new Properties();
@@ -149,7 +149,7 @@ public class EmailConnection implements ServiceInstance {
 			Session emailSession = Session.getDefaultInstance(properties);
 			emailStore = emailSession.getStore("imaps");
 			emailStore.connect("outlook.office365.com", username, password); // outlook.office365.com // imap.gmail.com
-			connected = true;
+			isConnected = true;
 			// getting the inbox folder
 			emailFolder = emailStore.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
@@ -222,7 +222,7 @@ public class EmailConnection implements ServiceInstance {
 					emailStore.close();
 			} catch (MessagingException me) {
 				me.printStackTrace();
-				connected = false;
+				isConnected = false;
 			}
 			
 		}
@@ -276,7 +276,7 @@ public class EmailConnection implements ServiceInstance {
 	 * @return true, if is connected
 	 */
 	public boolean isConnected() {
-		return connected;
+		return isConnected;
 	}
 	
 	/**
