@@ -50,6 +50,8 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private static FacebookConnection INSTANCE = new FacebookConnection();
 	
+	private static final String loginLink = "https://developers.facebook.com/tools/debug/accesstoken/?access_token=";
+	
 	/**
 	 * Constructor
 	 */
@@ -194,6 +196,14 @@ public class FacebookConnection implements ServiceInstance {
 	}
 	
 	
+	public static String getLoginlink() {
+		return loginLink;
+	}
+
+	public static void setAccessToken2(String accessToken2) {
+		FacebookConnection.accessToken2 = accessToken2;
+	}
+
 	/**
 	 * Posts on the bom dia academia page with the message given
 	 */
