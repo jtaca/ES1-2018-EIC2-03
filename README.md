@@ -7,8 +7,8 @@ The constituents of the group are:
 Alexandre Mendes Nº 78178  
 João Tiago Aparício da Costa Nº 77812  
 Rostislav Andreev Nº 77689  
-Diogo Delfim Sarmento Nº 75463 
+Diogo Delfim Sarmento Nº 78463 
   
 The Facebook  Posts, likes and comments are being added in the following page:   
-https://www.facebook.com/Bomdiaacademia-318510688875649   
+https://www.facebook.com/Bomdiaacademia_iscte-2300129043550153/ 
 

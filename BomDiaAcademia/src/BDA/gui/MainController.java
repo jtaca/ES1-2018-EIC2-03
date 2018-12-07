@@ -28,6 +28,7 @@ import BDA.entry_objects.TwitterEntry;
 import BDA.facebook.FacebookConnection;
 import BDA.other.ControlCenter;
 import BDA.other.Filter;
+import BDA.other.OtherStaticFunction;
 import BDA.other.Service;
 import BDA.threads.ThreadPool;
 import BDA.twitter.TwitterConnection;
@@ -474,17 +475,36 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void applyFilter() {
-		if (emailFilter.isSelected()) {
+		int days = dateFilter.getSelectionModel().getSelectedIndex();
 
+		switch (days) {
+		case 0:
+			Filter.getInstance().defineDateIntervalFromCurrentDate(1);
+			break;
+		case 1:
+			Filter.getInstance().defineDateIntervalFromCurrentDate(7);
+			break;
+		case 2:
+			Filter.getInstance().defineDateIntervalFromCurrentDate(31);
+			break;
+		case 3:
+			Filter.getInstance().defineDateIntervalFromCurrentDate(365);
+			break;
 		}
+		OtherStaticFunction.refreshGUIWithThreads();
+		addLoadingBox();
 
-		if (facebookFilter.isSelected()) {
-
-		}
-
-		if (twitterFilter.isSelected()) {
-
-		}
+//		if (emailFilter.isSelected()) {
+//
+//		}
+//
+//		if (facebookFilter.isSelected()) {
+//
+//		}
+//
+//		if (twitterFilter.isSelected()) {
+//
+//		}
 	}
 
 	/**
