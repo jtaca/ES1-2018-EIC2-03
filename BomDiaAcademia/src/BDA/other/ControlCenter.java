@@ -8,14 +8,19 @@ import BDA.facebook.FacebookConnection;
 import BDA.files.ReadAndWriteXMLFile;
 import BDA.interfaces.ServiceInstance;
 import BDA.twitter.TwitterConnection;
+import BDA.other.Service;
 
 public class ControlCenter {
 	
 	private List<EmailConnection> emailList = null;
 	private EmailConnection currentEmailUsed = null;
+	private boolean ignore_email = false;
 	
 	private List<TwitterConnection> twitterList = null;
+	private boolean ignore_twitter = false;
+	
 	private List<FacebookConnection> facebookList = null;
+	private boolean ignore_facebook = false;
 	
 	private static final ControlCenter INSTANCE = new ControlCenter();
 	
@@ -238,6 +243,20 @@ public class ControlCenter {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public synchronized void setIgnoreService(Service service, boolean ignore) {
+		switch (service) {
+			case EMAIL:
+				ignore_email = ignore;
+				break;
+			case TWITTER:
+				ignore_twitter = ignore;
+				break;
+			case FACEBOOK:
+				ignore_facebook = ignore;
+				break;
 		}
 	}
 
