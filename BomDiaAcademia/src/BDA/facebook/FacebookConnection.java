@@ -32,13 +32,20 @@ import BDA.other.Service;
 public class FacebookConnection implements ServiceInstance {
 	
 	//activity going to: https://www.facebook.com/Bomdiaacademia-318510688875649/?modal=admin_todo_tour
-	
+	/**
+	 * User Access Token
+	 */
+	private static String accessToken ;
 	/**
 	 * Access Token for the BomDiaAcademia app
 	 */
 	private static String accessToken2 ;
 	/**
-	 * Client used in every connection
+	 * Client used in every user connection
+	 */
+	private static FacebookClient fbClient;
+	/**
+	 * Client used in every app connection
 	 */
 	private static FacebookClient fbClient2;
 	/**
@@ -49,6 +56,7 @@ public class FacebookConnection implements ServiceInstance {
 	 * Instance used for the singleton
 	 */
 	private static FacebookConnection INSTANCE = new FacebookConnection();
+	private static User me;
 	
 	private static final String loginLink = "https://developers.facebook.com/tools/access_token/";
 	
@@ -56,6 +64,7 @@ public class FacebookConnection implements ServiceInstance {
 	 * Constructor
 	 */
 	private FacebookConnection() {
+		accessToken = "";
 		accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
 		fbClient2 = init("me");
 		System.out.println("Facebook:");
@@ -110,6 +119,8 @@ public class FacebookConnection implements ServiceInstance {
 		try {
 			fbClient2.obtainExtendedAccessToken(app, secret, accessToken2);
 			
+			
+			
 		} catch (FacebookException e) {
 			System.out.println("FB exception: "+e);
 		}catch (Exception e) {
@@ -149,7 +160,7 @@ public class FacebookConnection implements ServiceInstance {
 				try {
 					String linkurl = post1.getAttachments().getData().get(0).getUrl();
 					//String name = linkurl.split("/")[3];
-					System.out.println(linkurl.split("/")[3]);
+					//System.out.println(linkurl.split("/")[3]);
 					if (!linkurl.split("/")[3].contains("l.php")) {
 						author = linkurl.split("/")[3];
 						jsonObject = fbClient2.fetchObject("/"+author+"/picture", JsonObject.class,
@@ -191,8 +202,16 @@ public class FacebookConnection implements ServiceInstance {
 		}catch (NullPointerException e) {
 			System.out.println("invalid id: "+e);
 		}
-		
-		
+	}
+	
+	public static void userLike(String id){
+		try {
+			fbClient.publish(id+"/likes", Boolean.class); 
+		} catch (FacebookException e) {
+			System.out.println("invalid id (user): "+e);
+		}catch (NullPointerException e) {
+			System.out.println("invalid id (user): "+e);
+		}
 	}
 	
 	
@@ -200,8 +219,27 @@ public class FacebookConnection implements ServiceInstance {
 		return loginLink;
 	}
 
-	public static void setAccessToken2(String accessToken2) {
-		FacebookConnection.accessToken2 = accessToken2;
+	public static void setAccessToken(String accessToken) {
+		FacebookConnection.accessToken = accessToken;
+		fbClient = new DefaultFacebookClient(accessToken);
+		me = fbClient.fetchObject("me", User.class);
+		System.out.println("Facebook User:");
+		System.out.println("Id: " + me2.getId());
+		System.out.println("Name: " + me2.getName());
+		
+		
+	}
+	
+	public static void userCommentOnPost(String id, String message) {
+		if(message != null && id != null) {
+			try {
+				fbClient.publish(id+"/comments", String.class, Parameter.with("message",message));
+			} catch (FacebookException e) {
+				System.out.println("userCommentOnPost: "+e);
+			}
+		}else{
+			System.out.println("Invalid ID or message:(Maybe login needed?):");
+		}
 	}
 
 	/**
@@ -236,7 +274,7 @@ public class FacebookConnection implements ServiceInstance {
 			} catch (FacebookException e) {
 				System.out.println("commentOnPost: "+e);
 			}
-//		}else{
+		}else{
 			System.out.println("Invalid ID or message");
 		}
 	}
