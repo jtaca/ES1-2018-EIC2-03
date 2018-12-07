@@ -86,6 +86,7 @@ public class EmailConnectionTest {
 	@Test
 	public void testSendEmailWithThreads() {
 		EmailConnection.sendEmailWithThreads(email, user.getUsername(), "Testing Subject", "Testing Message");
+		assertTrue(true);
 	}
 
 }

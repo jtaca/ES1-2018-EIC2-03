@@ -35,7 +35,9 @@ public class Worker extends Thread { //
 		while(!stop) {
 			try {
 				task = TaskTable.getInstance().getTask();
-				task.run();
+				if(task != null) {
+					task.run();
+				}
 			} catch (InterruptedException e) {
 				stop = true;
 			}
