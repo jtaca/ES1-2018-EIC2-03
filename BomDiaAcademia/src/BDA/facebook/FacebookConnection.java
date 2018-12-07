@@ -65,7 +65,7 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private FacebookConnection() {
 		accessToken = "";
-		accessToken2 = "EAAePp5MZAcE4BANuO4pcvl7kWxeagvcvJ2rPVVmlBLeoljRRg0UEcRrFrZAqKA18bMfxBI2Viv6TXtA8ZBSPdHwQl3pioifUrUvTXZADJTb3tJUPHO8nhZA2X2ATEAn7qfQ0Ks5sr5gMTiS2CaZAX57DeI6rSOmx1sx6cqaZBuFqAtXokKvp3ZBC";
+		accessToken2 = "EAAePp5MZAcE4BADGRT7QF3msZBmOnJAjnYwOZBlEGBhUTqOKzxZBj6NQrsOeJqrDf2bOxEPWf6MzujHp48XY4VnGRZBrnEzZBhM4zjq8kBEZBJm9lVYiebAhzW2AmGmubzWl8t2iFfZCLQrvjg5ZCAIkdc411EgPabvC2W2xEbRDDIwZDZD";
 		fbClient2 = init("me");
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
