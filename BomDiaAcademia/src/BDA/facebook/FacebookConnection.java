@@ -86,18 +86,18 @@ public class FacebookConnection implements ServiceInstance {
 	@SuppressWarnings("deprecation")
 	private static DefaultFacebookClient init(String s) {
 	
-////		try {
-////			fbClient2 = new DefaultFacebookClient(accessToken2);
-////			me2 = fbClient2.fetchObject(s, User.class);
-////			try {
-////				me2.getAbout();
-////			} catch (FacebookException e) {
-////				System.out.println(""+e);
-////			}
-//		
-////	} catch (FacebookException e) {
-////		System.out.println(e);
-////	}
+		try {
+			fbClient2 = new DefaultFacebookClient(accessToken2);
+			me2 = fbClient2.fetchObject(s, User.class);
+			try {
+				me2.getAbout();
+			} catch (FacebookException e) {
+				System.out.println(""+e);
+			}
+		
+	} catch (FacebookException e) {
+		System.out.println(e);
+	}
 
 		//logIn(accessToken2);
 		
