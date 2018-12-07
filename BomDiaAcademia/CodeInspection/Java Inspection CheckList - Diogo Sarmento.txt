@@ -1,6 +1,6 @@
 Code Inspection on Alexandre Mendes code.
-Packages Associated: email and files.
-Classes Associated: EmailConnection,SimpleMailAuthenticator,ReadAndWriteFile,ReadAndWriteXMLFile.
+Packages Associated: BDA.email,BDA.files and BDA.other.
+Classes Associated: EmailConnection,SimpleMailAuthenticator,ReadAndWriteFile,ReadAndWriteXMLFile,ControlCenter,Filter,OtherStaticFuntion,Service,XMLUserConfiguration.
 
 Inspection made by: Diogo Sarmento
 
