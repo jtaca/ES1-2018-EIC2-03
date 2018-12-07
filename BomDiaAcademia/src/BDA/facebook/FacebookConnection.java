@@ -65,7 +65,7 @@ public class FacebookConnection implements ServiceInstance {
 	 */
 	private FacebookConnection() {
 		accessToken = "";
-		accessToken2 = "EAAePp5MZAcE4BADGRT7QF3msZBmOnJAjnYwOZBlEGBhUTqOKzxZBj6NQrsOeJqrDf2bOxEPWf6MzujHp48XY4VnGRZBrnEzZBhM4zjq8kBEZBJm9lVYiebAhzW2AmGmubzWl8t2iFfZCLQrvjg5ZCAIkdc411EgPabvC2W2xEbRDDIwZDZD";
+		accessToken2 = "EAAC3MdcjZCi4BAFlxRJNNCLENmMDiV0PO2EWhJ2VcC8cwZBg0PQkn0CV9ZCKKykYsyNf5I8FTEvne9WXe6CnadTxUtCiE6oTZCZC7op8uIeHeVlCqL2sZCXLlKT5G4WB2Qx94HLbc3tMoOypig53bs1dEIXIRVtczGscAkoHFZCgDk2hy01W2hnm1iIwSRtdfvwQECvckjwrgZDZD";
 		fbClient2 = init("me");
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
@@ -306,7 +306,7 @@ public class FacebookConnection implements ServiceInstance {
 //		
 //		//GraphResponse b = post("FaceId");
 //		//like(b.getId());
-//		//commentOnPost(b.getId(),"Grateful Comment :P");
+//		//commentOnPost(b.getId(),"Grateful Comment 😛");
 //		ExtendAccessToken();
 //		
 //		

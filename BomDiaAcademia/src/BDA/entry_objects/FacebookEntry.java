@@ -84,26 +84,26 @@ public class FacebookEntry implements InformationEntry {
 		try {
 			this.Message = this.post.getMessage();
 		} catch (NullPointerException e) {
-			System.out.println("no Message: "+e);
+			//System.out.println("no Message: "+e);
 			this.Message = "";
 		}
 		try {
 			this.id = this.post.getId();
 		} catch (NullPointerException e) {
-			System.out.println("ID error: "+e);
+			//System.out.println("ID error: "+e);
 			this.id = "";
 		}
 		
 		try {
 			this.Description = this.post.getDescription();
 		} catch (Exception e) {
-			System.out.println("no Description: "+e);
+			//System.out.println("no Description: "+e);
 			this.Description = "";
 		}
 		try {
 			this.Picture = this.post.getPicture();
 		} catch (NullPointerException e) {
-			System.out.println("no Picture: "+e);
+			//System.out.println("no Picture: "+e);
 			this.Picture = "";
 		}
 
@@ -113,20 +113,20 @@ public class FacebookEntry implements InformationEntry {
 		try {
 			this.LikeCount = this.post.getLikes().getTotalCount();
 		} catch (NullPointerException e) {
-			System.out.println("no Likes Record: "+e);
+			//System.out.println("no Likes Record: "+e);
 			this.LikeCount = (long) 0;
 		}
 		try {
 			this.Comments = this.post.getComments();
 		} catch (NullPointerException e) {
-			System.out.println("no Comments: "+e);
+			//System.out.println("no Comments: "+e);
 			this.Comments = new Comments();
 		}	
 		
 		try {
 			this.CommentCount = this.post.getCommentsCount();
 		} catch (NullPointerException e) {
-			System.out.println("no CommentsCount: "+e);
+			//System.out.println("no CommentsCount: "+e);
 			this.CommentCount = 0;
 		}			
 		
@@ -134,26 +134,26 @@ public class FacebookEntry implements InformationEntry {
 		try {
 			this.AttachmentTitle = this.post.getAttachments().getData().get(0).getTitle();
 		} catch (NullPointerException e) {
-			System.out.println("no Attachments Title: "+e);
+			//System.out.println("no Attachments Title: "+e);
 			this.AttachmentTitle = "";
 		}
 		try {
 			this.AttachmentUrl = this.post.getAttachments().getData().get(0).getUrl();
 		} catch (NullPointerException e) {
-			System.out.println("no Attachments Url: "+e);
+			//System.out.println("no Attachments Url: "+e);
 			this.AttachmentUrl ="";
 		}
 		
 		try {
 			this.AttachmentDescription = this.post.getAttachments().getData().get(0).getDescription();
 		} catch (NullPointerException e) {
-			System.out.println("no Attachments Description: "+e);
+			//System.out.println("no Attachments Description: "+e);
 			this.AttachmentDescription ="";
 		}
 		try {
 			this.AttachmentMedia = this.post.getAttachments().getData().get(0).getMedia();
 		} catch (NullPointerException e) {
-			System.out.println("no Attachments Media: "+e);
+			//System.out.println("no Attachments Media: "+e);
 			this.AttachmentMedia =new Media();
 		}
 		
