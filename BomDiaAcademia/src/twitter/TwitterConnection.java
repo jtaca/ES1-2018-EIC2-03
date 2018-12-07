@@ -216,6 +216,39 @@ public class TwitterConnection implements ServiceInstance {
 		}
 		return false;
 	}
+	public boolean isFavorited(Status tweet){
+		Twitter t = logger.getAuthenticatedInstance();
+		if(t!=null){
+			try {
+				List<Status> list = t.getFavorites();
+				for(Status status : list){
+					if(tweet.getId()==(status.getId())){
+						return true;
+					}
+				}
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
+	
+	public boolean unFavoriteTweet(Status tweet){
+		Twitter t = logger.getAuthenticatedInstance();
+		if(t!=null){
+			try {
+				t.destroyFavorite(tweet.getId());
+				return true;
+			} catch (TwitterException e) {
+				return false;
+			}
+		}else{
+			System.out.println("E nessessario efetuar login para utilizar esta funcao");
+		}
+		return false;
+	}
 	/**
 	 * adds a comment to a tweet.
 	 *
@@ -385,7 +418,7 @@ public class TwitterConnection implements ServiceInstance {
 
 		return tweets;
 	}
-	
+	// Testing functions
 	public Status getSomeStatus(){
 		Filter.getInstance().defineDateIntervalFromCurrentDate(24);
 		List<InformationEntry> l = TwitterConnection.getInstance().getTweetsFiltered();
