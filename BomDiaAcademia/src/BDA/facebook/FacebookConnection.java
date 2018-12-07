@@ -220,30 +220,30 @@ public class FacebookConnection implements ServiceInstance {
 		return loginLink;
 	}
 
-	public static void logIn(String accessToken) {
-		try {
-			FacebookConnection.accessToken = accessToken;
-			fbClient = new DefaultFacebookClient(accessToken);
-			me = fbClient.fetchObject("me", User.class);
-			System.out.println("Facebook User:");
-			System.out.println("Id: " + me.getId());
-			System.out.println("Name: " + me.getName());
-		} catch (FacebookException e) {
-			System.out.println(e);
-		}
-	}
-	
-	public static void userCommentOnPost(String id, String message) {
-		if(message != null && id != null) {
-			try {
-				fbClient.publish(id+"/comments", String.class, Parameter.with("message",message));
-			} catch (FacebookException e) {
-				System.out.println("userCommentOnPost: "+e);
-			}
-		}else{
-			System.out.println("Invalid ID or message:(Maybe login needed?):");
-		}
-	}
+//	public static void logIn(String accessToken) {
+//		try {
+//			FacebookConnection.accessToken = accessToken;
+//			fbClient = new DefaultFacebookClient(accessToken);
+//			me = fbClient.fetchObject("me", User.class);
+//			System.out.println("Facebook User:");
+//			System.out.println("Id: " + me.getId());
+//			System.out.println("Name: " + me.getName());
+//		} catch (FacebookException e) {
+//			System.out.println(e);
+//		}
+//	}
+//	
+//	public static void userCommentOnPost(String id, String message) {
+//		if(message != null && id != null) {
+//			try {
+//				fbClient.publish(id+"/comments", String.class, Parameter.with("message",message));
+//			} catch (FacebookException e) {
+//				System.out.println("userCommentOnPost: "+e);
+//			}
+//		}else{
+//			System.out.println("Invalid ID or message:(Maybe login needed?):");
+//		}
+//	}
 
 	/**
 	 * Posts on the bom dia academia page with the message given

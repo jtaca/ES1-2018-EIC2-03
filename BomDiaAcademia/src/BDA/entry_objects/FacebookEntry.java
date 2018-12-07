@@ -106,10 +106,6 @@ public class FacebookEntry implements InformationEntry {
 			//System.out.println("no Picture: "+e);
 			this.Picture = "";
 		}
-
-		
-		
-		
 		try {
 			this.LikeCount = this.post.getLikes().getTotalCount();
 		} catch (NullPointerException e) {
@@ -122,7 +118,6 @@ public class FacebookEntry implements InformationEntry {
 			//System.out.println("no Comments: "+e);
 			this.Comments = new Comments();
 		}	
-		
 		try {
 			this.CommentCount = this.post.getCommentsCount();
 		} catch (NullPointerException e) {
@@ -199,6 +194,7 @@ public class FacebookEntry implements InformationEntry {
  * @return the post
  */
 	public Post getPost() {
+		
 		return post;
 	}
 
@@ -211,6 +207,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the profile image url
 	 */
 	public String getProfileImageUrl() {
+		if(profileImageUrl == null)
+			return " ";
 		return profileImageUrl;
 	}
 	
@@ -223,6 +221,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the author
 	 */
 	public String getAuthor() {
+		if(Author == null)
+			return " ";
 		return Author;
 	}
 
@@ -251,6 +251,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the attachment title
 	 */
 	public String getAttachmentTitle() {
+		if(AttachmentTitle == null)
+			return " ";
 		return AttachmentTitle;
 	}
 
@@ -262,6 +264,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the attachment url
 	 */
 	public String getAttachmentUrl() {
+		if(AttachmentUrl == null)
+			return " ";
 		return AttachmentUrl;
 	}
 
@@ -273,6 +277,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the attachment description
 	 */
 	public String getAttachmentDescription() {
+		if(AttachmentDescription == null)
+			return " ";
 		return AttachmentDescription;
 	}
 
@@ -284,6 +290,7 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the attachment media
 	 */
 	public Media getAttachmentMedia() {
+		
 		return AttachmentMedia;
 	}
 
@@ -295,6 +302,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the message
 	 */
 	public String getMessage() {
+		if(Message == null)
+			return " ";
 		return Message;
 	}
 
@@ -306,6 +315,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the id
 	 */
 	public String getId() {
+		if(id == null)
+			return " ";
 		return id;
 	}
 
@@ -317,6 +328,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the description
 	 */
 	public String getDescription() {
+		if(Description == null)
+			return " ";
 		return this.Description;
 	}
 
@@ -328,6 +341,8 @@ public class FacebookEntry implements InformationEntry {
 	 * @return the picture
 	 */
 	public String getPicture() {
+		if(Picture == null)
+			return " ";
 		return this.Picture;
 	}
 

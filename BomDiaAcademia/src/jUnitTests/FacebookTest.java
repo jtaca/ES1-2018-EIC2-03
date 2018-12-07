@@ -134,7 +134,9 @@ public class FacebookTest {
 		
 		
 	}
-
+	
+	
+	
 	@Test
 	public final void testGetAccessToken2() {
 		assertNotNull(FacebookConnection.getAccessToken2());
