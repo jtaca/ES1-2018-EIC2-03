@@ -1,5 +1,6 @@
 package BDA.gui;
 
+import java.io.File;
 import java.util.List;
 
 import BDA.files.ReadAndWriteXMLFile;
@@ -34,6 +35,7 @@ public class Login extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		ThreadPool.getInstance().startThreads();
+		new File("Posts").mkdir();
 
 		List<XMLUserConfiguration> userConfiguration = ReadAndWriteXMLFile.ReadConfigXMLFile();
 		FXMLLoader loader = new FXMLLoader();
