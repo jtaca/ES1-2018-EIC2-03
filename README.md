@@ -12,3 +12,6 @@ Diogo Delfim Sarmento Nº 78463
 The Facebook  Posts, likes and comments are being added in the following page:   
 https://www.facebook.com/Bomdiaacademia_iscte-2300129043550153/ 
 
+Link da playlist com os videos de demonstração:    
+https://www.youtube.com/playlist?list=PLpPyYiZd8AjJ0uqlk3QAL6p3ti4NZcuus    
+
