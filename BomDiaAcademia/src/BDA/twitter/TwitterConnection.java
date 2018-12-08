@@ -419,7 +419,7 @@ public class TwitterConnection implements ServiceInstance {
 			e.printStackTrace();
 		}
 		
-		if(l.isEmpty()) {
+		if(l == null || (l != null && l.isEmpty())) {
 			l = ReadAndWriteFile.loadListOfInformationEntry(TWITTER_FILE_NAME);
 			//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
 			if(l != null) {
