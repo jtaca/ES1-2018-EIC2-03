@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import BDA.comparators.DateComparator;
 import BDA.entry_objects.InformationEntry;
 import BDA.entry_objects.TwitterEntry;
+import BDA.files.ReadAndWriteFile;
 import BDA.interfaces.ServiceInstance;
 import BDA.other.Filter;
 import BDA.other.Service;
@@ -43,6 +45,8 @@ public class TwitterConnection implements ServiceInstance {
 	
 	/** The twitter access token secret. */
 	private static final String TWITTER_ACCESS_TOKEN_SECRET = "6c0V85yaqaSo5kvLll4tZxDdneQWOhfU78HMucmUM8VZn";
+
+	private static final String TWITTER_FILE_NAME = "twitterEntrys.dat";
 
 	/** The twitter. */
 	private Twitter twitter;
@@ -414,6 +418,20 @@ public class TwitterConnection implements ServiceInstance {
 			System.out.println("getFilterList retorna lista com objetos do tipo errado ou retorna null");
 			e.printStackTrace();
 		}
+		
+		if(l.isEmpty()) {
+			l = ReadAndWriteFile.loadListOfInformationEntry(TWITTER_FILE_NAME);
+			//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
+			if(l != null) {
+				System.out.println("Loaded the Information Entrys from the file.");
+			}
+			//System.out.println(information_entry_list);
+		} else {
+			l.sort(new DateComparator());
+			ReadAndWriteFile.saveListOfInformationEntry(TWITTER_FILE_NAME, l);
+			System.out.println("Twitter saved.");
+		}
+		
 		return l;
 	}
 

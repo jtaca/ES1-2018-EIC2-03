@@ -114,17 +114,17 @@ public class EmailConnection implements BDA.interfaces.ServiceInstance {
 	 * @param password the password
 	 * @return true, if successful
 	 */
-	public static int verifyLogin(String username, String password) {
+	public static boolean verifyLogin(String username, String password) {
 		Store emailStore = null;
 		//Folder emailFolder = null;
-		int connected = 1;
+		boolean connected = false;
 		try {
 			Properties properties = new Properties();
 			properties.setProperty("mail.store.protocol", "imaps");
 			Session emailSession = Session.getDefaultInstance(properties);
 			emailStore = emailSession.getStore("imaps");
 			emailStore.connect("outlook.office365.com", username, password); // outlook.office365.com // imap.gmail.com
-			connected = 0;
+			connected = true;
 			/*// getting the inbox folder
 			emailFolder = emailStore.getFolder("INBOX");
 			emailFolder.open(Folder.READ_ONLY);
@@ -134,7 +134,6 @@ public class EmailConnection implements BDA.interfaces.ServiceInstance {
 			*/
 		} catch (NoSuchProviderException e) {
 			e.printStackTrace();
-			connected = 2;
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

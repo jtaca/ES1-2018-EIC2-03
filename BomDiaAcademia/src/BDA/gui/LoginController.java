@@ -186,7 +186,94 @@ public class LoginController implements Initializable {
 					((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 					stage.show();
 					root.requestFocus();
-				} else
+				} else {
+					List<XMLUserConfiguration> xml_list = null;
+					XMLUserConfiguration email = null;
+					try {
+						xml_list = ReadAndWriteXMLFile.ReadConfigXMLFile();
+						for(XMLUserConfiguration xml : xml_list) {
+							if(xml.getService() == Service.EMAIL) {
+								email = xml;
+								break;
+							}
+						}
+						if(username.getText().equals(email.getUsername()) && password.getText().equals(email.getPassword())) {
+							EmailConnection outlook = null;
+							XMLUserConfiguration twitter = null;
+							XMLUserConfiguration facebook = null;
+							List<XMLUserConfiguration> user_config_list = new ArrayList<XMLUserConfiguration>();
+
+							try {
+								twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+							} catch (Exception e) {
+								System.out.println("Ficheiro sem informacao twitter");
+							}
+
+							try {
+								facebook = ReadAndWriteXMLFile.ReadConfigXMLFile().get(2);
+							} catch (Exception e) {
+								System.out.println("Ficheiro sem informacao facebook");
+							}
+
+							try {
+								if (user == null || (user != null && user.isInformationSaved() == false))
+									user = new XMLUserConfiguration(rememberMe.isSelected(), Service.EMAIL, username.getText(),
+											password.getText());
+
+//								if (rememberMe.isSelected()) {}
+								if (twitter == null)
+									twitter = new XMLUserConfiguration(rememberMe.isSelected(), Service.TWITTER,
+											TwitterConnection.getKeys()[0], TwitterConnection.getKeys()[1],
+											TwitterConnection.getKeys()[2], TwitterConnection.getKeys()[3]);
+
+								if (facebook == null)
+									facebook = new XMLUserConfiguration(rememberMe.isSelected(), Service.FACEBOOK,
+											FacebookConnection.getAccessToken2());
+
+//							if (rememberMe.isSelected()) {
+								user_config_list.add(user);
+								user_config_list.add(twitter);
+								user_config_list.add(facebook);
+								ReadAndWriteXMLFile.CreateConfigXMLFile(user_config_list);
+//							}
+
+								// twitter = ReadAndWriteXMLFile.ReadConfigXMLFile().get(1);
+
+//							outlook = new EmailConnection(user.getUsername(), user.getPassword());
+
+								ControlCenter.getInstance()
+										.setCurrentEmailUsed(new EmailConnection(user.getUsername(), user.getPassword()));
+								OtherStaticFunction.refreshGUIWithThreads();
+							} catch (IOException e) {
+								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							Stage stage = new Stage();
+							FXMLLoader loader = new FXMLLoader();
+							loader.setController(MainController.getInstance());
+							loader.setLocation(getClass().getResource("/res/MainScene.fxml"));
+							Parent root = loader.load();
+							Image icon = new Image(getClass().getResource("/res/logo0.png").toString());
+							MainController.getInstance().setUsername(username.getText().split("@")[0]);
+
+							stage.getIcons().add(icon);
+							stage.setTitle("Bom Dia Academia");
+							stage.setMinHeight(540);
+							stage.setMinWidth(820);
+							stage.setOnCloseRequest(e -> ThreadPool.getInstance().stopThreads());
+
+							stage.setScene(new Scene(root));
+							((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+							stage.show();
+							root.requestFocus();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
 					errorMessage.setText("A palavra-passe introduzida é incorreta");
 			}
 		}

@@ -18,9 +18,11 @@ import com.restfb.types.GraphResponse;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
+import BDA.comparators.DateComparator;
 import BDA.entry_objects.FacebookEntry;
 import BDA.entry_objects.InformationEntry;
 import BDA.entry_objects.TwitterEntry;
+import BDA.files.ReadAndWriteFile;
 import BDA.interfaces.ServiceInstance;
 import BDA.other.Filter;
 import BDA.other.Service;
@@ -56,6 +58,8 @@ public class FacebookConnection implements ServiceInstance {
 	
 	/** The Constant loginLink. */
 	private static final String loginLink = "https://developers.facebook.com/tools/access_token/";
+
+	private static final String FACEBOOK_FILE_NAME = "facebookEntrys.dat";
 	
 	/**
 	 * Constructor.
@@ -194,6 +198,18 @@ public class FacebookConnection implements ServiceInstance {
 			FacebookConnection.ExtendAccessToken("2128274727202894", "5b08263178f3db9cbd189e2100f0ee54");
 		} catch (Exception te) {
 			System.out.println("unexpected :"+te);
+		}
+		if(list.isEmpty()) {
+			list = ReadAndWriteFile.loadListOfInformationEntry(FACEBOOK_FILE_NAME);
+			//information_entry_list = ReadAndWriteXMLFile.ReadInformationEntryXMLFile();
+			if(list != null) {
+				System.out.println("Loaded the Information Entrys from the file.");
+			}
+			//System.out.println(information_entry_list);
+		} else {
+			list.sort(new DateComparator());
+			ReadAndWriteFile.saveListOfInformationEntry(FACEBOOK_FILE_NAME, list);
+			System.out.println("Facebook saved.");
 		}
 		return list;
 	

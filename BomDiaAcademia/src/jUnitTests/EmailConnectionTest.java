@@ -44,8 +44,8 @@ public class EmailConnectionTest {
 	 */
 	@Test
 	public void testEmailConnection() {
-		int canConnectEmail = EmailConnection.verifyLogin(user.getUsername(), user.getPassword());
-		assertEquals(0, canConnectEmail);
+		boolean canConnectEmail = EmailConnection.verifyLogin(user.getUsername(), user.getPassword());
+		assertTrue(canConnectEmail);
 	}
 	
 	/**
@@ -53,8 +53,8 @@ public class EmailConnectionTest {
 	 */
 	@Test
 	public void testFailEmailConnection() {
-		int canConnectEmail = EmailConnection.verifyLogin("NotTheEmail", "NotThePassword");
-		assertEquals(1, canConnectEmail);
+		boolean canConnectEmail = EmailConnection.verifyLogin("NotTheEmail", "NotThePassword");
+		assertFalse(canConnectEmail);
 	}
 
 	/**

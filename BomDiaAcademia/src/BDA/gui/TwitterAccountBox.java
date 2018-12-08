@@ -39,7 +39,8 @@ public class TwitterAccountBox extends HBox {
 		try {
 			pic = new ImageView(new Image(TwitterConnection.getInstance().getUserPicture(username), 20, 0, true, true));
 		} catch (TwitterException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			pic = new ImageView();
 		}
 
 		setAlignment(Pos.CENTER);
