@@ -411,7 +411,7 @@ public class TwitterConnection implements ServiceInstance {
 	public List<InformationEntry> getTweetsFiltered(){
 		init();
 		Filter f = Filter.getInstance();
-		List<InformationEntry> l=null;
+		List<InformationEntry> l= new ArrayList<InformationEntry>();
 		try {
 			l=getTweetsFromUsers(f.getDate(), f.getFilterList(Service.TWITTER).toArray(new String[0]));
 		} catch (Exception e) {
@@ -466,8 +466,8 @@ public class TwitterConnection implements ServiceInstance {
 	public List<InformationEntry> getTweetsFromUsers(Date date, String... users) {
 		List<InformationEntry> tweets = new ArrayList<>();
 		if(users!=null)
-		for (String user : users)
-			tweets.addAll(getTweetsFromUserByDate(date, user));
+			for (String user : users)
+				tweets.addAll(getTweetsFromUserByDate(date, user));
 
 		tweets.sort(Comparator.comparing(InformationEntry::getDate).reversed());
 
